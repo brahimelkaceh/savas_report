@@ -1,0 +1,226 @@
+.form {
+  /* position: fixed; */
+  border-radius: 20px;
+  box-sizing: border-box;
+  height: auto;
+  /* padding: 20px; */
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+.input-container {
+  height: 40px;
+  position: relative;
+  width: 100%;
+}
+.input__container-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+.observ {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.4s ease-in-out;
+  border-radius: 8px;
+}
+
+.ic1 {
+  margin-top: 40px;
+}
+
+.ic2 {
+  margin-top: 8px;
+}
+
+.input {
+  background-color: #ecfcff;
+  border-radius: 8px;
+  border: 1px solid #287bff;
+  box-sizing: border-box;
+  color: #080b12;
+  font-size: 18px;
+  height: 100%;
+  outline: 0;
+  padding: 4px 10px 0;
+  width: 100%;
+}
+.input:disabled {
+  border: 1px solid var(--primary-grey);
+  cursor: not-allowed;
+}
+input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+}
+.input option {
+  background: url(../assets/like.png);
+  background-position: center;
+  background-size: contain;
+}
+.options {
+  color: #727681;
+}
+.remove {
+  visibility: hidden;
+}
+.cut {
+  /* background-color: #e0e0e0; */
+  border-radius: 10px;
+  height: 20px;
+  left: 20px;
+  position: absolute;
+  top: -20px;
+  transform: translateY(0);
+  transition: transform 200ms;
+  width: 90px;
+}
+
+.cut-short {
+  width: 50px;
+}
+.lumiere {
+  display: flex;
+}
+.lumiere .input {
+  width: 98%;
+}
+.input:focus ~ .cut,
+.input:not(:placeholder-shown) ~ .cut {
+  transform: translateY(8px);
+}
+.observation-placeholder {
+  color: #727681;
+  font-family: sans-serif;
+  left: 10px;
+  line-height: 14px;
+  pointer-events: none;
+  transform-origin: 0 50%;
+  transition: transform 200ms, color 200ms;
+  top: 10px;
+  background-color: #ecfcff;
+  padding: 3px 5px;
+  border-radius: 10px;
+}
+
+.placeholder {
+  color: #727681;
+  left: 3px;
+  line-height: 14px;
+  pointer-events: none;
+  position: absolute;
+  transform-origin: 0 50%;
+  transition: transform 200ms, color 200ms;
+  top: 10px;
+  background-color: #ecfcff;
+  padding: 3px 5px;
+  border-radius: 10px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.input:focus ~ .placeholder,
+.input:not(:placeholder-shown) ~ .placeholder {
+  transform: translateY(-20px) translateX(10px) scale(0.75);
+}
+
+.input:not(:placeholder-shown) ~ .placeholder {
+  color: #808097;
+}
+
+.input:focus ~ .placeholder {
+  color: #287bff;
+}
+
+.ajouter {
+  /* background-color: #2ab930; */
+  border-radius: 5px;
+  border: 0;
+  box-sizing: border-box;
+  color: #2ab930;
+  cursor: pointer;
+  font-size: 18px;
+  height: 40px;
+  /* margin-top: 30px; */
+  text-align: center;
+  width: 10%;
+  transition: 0.4s ease-in-out;
+}
+.ajouter:hover {
+  width: 12%;
+}
+.delete {
+  margin: 0;
+  border: 0;
+  color: #cc0000;
+  cursor: pointer;
+  font-size: 40px;
+  transition: 0.4s ease-in-out;
+}
+.delete:hover {
+  font-size: 45px;
+}
+/* .ajouter:active {
+  background-color: #1f8b24;
+} */
+
+@media screen and (max-width: 550px) {
+  .form {
+    padding: 0;
+  }
+  .input__container-box {
+    display: block;
+  }
+}
+
+.input-disabled {
+  /* display: none; */
+  pointer-events: none;
+  border: 1px solid var(--primary-grey);
+  color: var(--primary-grey);
+
+  /* visibility: hidden; */
+}
+/*
+=============== 
+Checkbox input
+===============
+*/
+
+.check-input-container {
+  height: 40px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #287bff;
+  /* display: grid; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.checkbox-input-container-disabled {
+  border: 1px solid var(--primary-grey);
+  pointer-events: none;
+  color: var(--primary-grey);
+  height: 40px;
+  width: 100%;
+  border-radius: 8px;
+  /* display: grid; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkbox-input {
+  /* position: relative; */
+  width: 10%;
+  height: 60%;
+  margin: 4px 5px;
+  cursor: pointer;
+}
+
+.placehold {
+  color: #727681;
+  line-height: 14px;
+  padding: 3px 5px;
+}

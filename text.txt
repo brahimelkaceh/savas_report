@@ -1,0 +1,279 @@
+<div
+        // display="flex"
+        // flexDirection="column"
+        // marginX="15px"
+        >
+          <div className="report">
+            <div className="table-static">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Batiment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>Age (SEM)</th>
+                  </tr>
+                  <tr>
+                    <th>Souche</th>
+                  </tr>
+                  <tr>
+                    <th>Effectif Présent</th>
+                  </tr>
+                  <tr>
+                    <th>Performances</th>
+                  </tr>
+                  <tr>
+                    <th>Mortalité % Sem</th>
+                  </tr>
+                  <tr>
+                    <th>Mortalité Cumulée (%)</th>
+                  </tr>
+                  <tr>
+                    <th>Ponte (%)</th>
+                  </tr>
+                  <tr>
+                    <th>Aliment (g)/j/Sujet</th>
+                  </tr>
+                  <tr>
+                    <th>Nbre Oeufs Cuml (PD)</th>
+                  </tr>
+                  <tr>
+                    <th>Poids Vif (g)</th>
+                  </tr>
+                  <tr>
+                    <th>Homogénéité (%)</th>
+                  </tr>
+                  <tr>
+                    <th>Poids Oeufs (g)</th>
+                  </tr>
+                  <tr>
+                    <th>Aliment Cumule (kg)</th>
+                  </tr>
+                  <tr>
+                    <th>Aliment/Oeufs Cum (g/PD)</th>
+                  </tr>
+                  <tr>
+                    <th>Mass d’Oeufs Cumlée (kg)</th>
+                  </tr>
+                  <tr>
+                    <th>Mass d’Oeufs cuml/Sem (g)</th>
+                  </tr>
+                  <tr>
+                    <th>Indice de Conversion</th>
+                  </tr>
+                  <tr>
+                    <th>Eau (ml/sujet) | Ratio(Eau/Alt)</th>
+                  </tr>
+                  <tr>
+                    <th>Lumiére / Flash</th>
+                  </tr>
+                  <tr>
+                    <th>Formule en Place</th>
+                  </tr>
+                  <tr>
+                    <th style={{ padding: "4px" }}>Qualité de Coquille</th>
+                  </tr>
+                  <tr>
+                    <th style={{ padding: "36.5px" }}>Coloration oeuf</th>
+                  </tr>
+                  <tr>
+                    <th style={{ padding: "8px", borderBottom: "none" }}>
+                      Observation
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            {reports.map((report, i) => {
+              return (
+                <div className="table-dynamic" key={i}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th colSpan="2">{report.batiment}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {/* !age */}
+                      <tr>
+                        <th colSpan="2">{report.age}</th>
+                      </tr>
+                      {/* souche */}
+                      <tr>
+                        <th colSpan="2">{report.souche}</th>
+                      </tr>
+                      {/* effectif present */}
+                      <tr>
+                        <th colSpan="2">{report.effectifPresent}</th>
+                      </tr>
+                      {/* performances */}
+                      <tr className="static-element">
+                        <th>Réel</th>
+                        <th>Ecart</th>
+                      </tr>
+                      {/*Mortalité % Sem  */}
+                      <tr>
+                        <th>0.11</th>
+                        <th style={{ backgroundColor: "#F7716E" }}>
+                          {report.mortSem}
+                        </th>
+                      </tr>
+                      {/* Mortalité Cumulée (%) */}
+                      <tr>
+                        <th>0.11</th>
+                        <th style={{ backgroundColor: "#F7716E" }}>
+                          {report.mortCum}
+                        </th>
+                      </tr>
+                      {/* Ponte (%) */}
+                      <tr>
+                        <th>4.3</th>
+                        <th
+                          style={{ backgroundColor: "#49A949", color: "#fff" }}
+                        >
+                          {report.pont}
+                        </th>
+                      </tr>
+                      <tr>
+                        {/* !Aliment (g)/j/Sujet */}
+                        <th>83.6</th>
+                        <th>
+                          <FaAngleDoubleUp
+                            sx={{ color: "#F5413D", fontSize: 16 }}
+                          />
+                        </th>
+                      </tr>
+                      {/*  Nbr Oeufs Cuml (PD)*/}
+                      <tr>
+                        <th>112</th>
+                        <th style={{ backgroundColor: "#F7716E" }}>
+                          {report.nbrOeufsCum}
+                        </th>
+                      </tr>
+                      {/* Poids Vif (g) */}
+                      <tr>
+                        <th>--</th>
+                        <th>{report.poidVif}</th>
+                      </tr>
+                      {/* Homogénéité (%) */}
+                      <tr>
+                        <th>--</th>
+                        <th>{report.homogeneite}</th>
+                      </tr>
+                      {/* Poids Oeufs (g) */}
+                      <tr>
+                        <th>63.1</th>
+                        <th style={{ backgroundColor: "#F7716E" }}>
+                          {report.poidsOeuf}
+                        </th>
+                      </tr>
+                      {/* Aliment Cumule (kg) */}
+                      <tr>
+                        <th>4.64</th>
+                        <th style={{ backgroundColor: "#F7716E" }}>
+                          {report.almCum}
+                        </th>
+                      </tr>
+                      {/* Aliment/Oeufs Cum (g/PD) */}
+                      <tr>
+                        <th>139.0</th>
+                        <th style={{ backgroundColor: "#F7716E" }}>
+                          {report.almSjt}
+                        </th>
+                      </tr>
+                      {/* Mass d’Oeufs Cumlée (kg) */}
+                      <tr>
+                        <th>367.9</th>
+                        <th
+                          style={{ backgroundColor: "#49A949", color: "#fff" }}
+                        >
+                          {report.masOeufCum}
+                        </th>
+                      </tr>
+                      {/* Mass d’Oeufs cuml/Sem (g) */}
+                      <tr>
+                        <th>18.60</th>
+                        <th style={{ backgroundColor: "#F7716E" }}>-0.10</th>
+                      </tr>
+                      {/* Indice de Conversion */}
+                      <tr>
+                        <th>4.64</th>
+                        <th style={{ backgroundColor: "#ED9526" }}>+2.73</th>
+                      </tr>
+                      {/* Eau (ml/sujet) | Ratio(Eau/Alt */}
+                      <tr>
+                        <th>464</th>
+                        <th style={{ backgroundColor: "#49A949" }}>
+                          {report.eau}
+                        </th>
+                      </tr>
+                      {/* Lumiére / Flash */}
+                      <tr>
+                        <th
+                          style={{
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {report.lumH}h {report.lumM}m
+                        </th>
+                        <th
+                          style={{
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {report.flashH}h {report.flashM}m
+                        </th>
+                      </tr>
+                      {/* Formule en Place */}
+                      <tr>
+                        <th colSpan="2">{report.formPlc}</th>
+                      </tr>
+                      {/* Qualité de Coquille */}
+                      <tr>
+                        <th colSpan="2" style={{ padding: "0%" }}>
+                          {qltCoqIcon(report.qltCoq)}
+                        </th>
+                      </tr>
+                      {/* Coloration oeuf */}
+                      <tr>
+                        <th colSpan="2">
+                          <img
+                            src={report.coloration === "90" ? egge90 : egge100}
+                            alt="Egge100"
+                          />
+                        </th>
+                      </tr>
+                      {/* Observation */}
+                      <tr>
+                        <th colSpan="2" style={{ borderBottom: "none" }}>
+                          {report.observation.map((observ, i) => {
+                            return (
+                              <li
+                                style={{
+                                  textAlign: "left",
+                                  wordWrap: "break-word",
+                                  listStyle: "none",
+                                  fontSize: "12px",
+                                }}
+                                key={i}
+                              >
+                                <TbCornerDownRightDouble fontSize="smallX" />{" "}
+                                {observ}
+                              </li>
+                            );
+                          })}
+                        </th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              );
+            })}
+          </div>
+        </div>

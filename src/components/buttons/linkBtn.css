@@ -1,0 +1,42 @@
+.btn {
+  width: 100px;
+  height: 45px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--dark-blue);
+  font-weight: 700;
+  position: relative;
+  transition: all 0.5s;
+  z-index: 1;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: var(--dark-blue);
+  z-index: -1;
+  transition: all 0.5s;
+}
+
+.btn:hover::before {
+  width: 100%;
+}
+
+.btn:hover {
+  color: var(--hover-blue);
+}
+
+.btn:active:before {
+  background: var(--hover-blue);
+}
