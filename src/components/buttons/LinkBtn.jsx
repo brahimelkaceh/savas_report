@@ -1,9 +1,14 @@
+import { useContext } from "react";
 import "./linkBtn.css";
-const LinkBtn = ({ name, icon }) => {
+import { FiLogOut } from "react-icons/fi";
+import AuthContext from "../../context/AuthContext";
+
+const LinkBtn = () => {
+  let { logOut } = useContext(AuthContext);
   return (
-    <button className="btn">
-      {/* {icon} */}
-      {name}
+    <button className="logout-btn" onClick={logOut}>
+      <FiLogOut />
+      Logout
     </button>
   );
 };

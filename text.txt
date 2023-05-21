@@ -277,3 +277,131 @@
             })}
           </div>
         </div>
+
+    
+    {
+    "date": "07/05/2022",
+    "semCivil": "18",
+    "age": 18,
+    "effectif": 99972,
+    "mort_sem": {
+        "reel": 0.03,
+        "guide": 0.1,
+        "ecart": -0.07,
+        "color": "green"
+    },
+    "mort_cuml": {
+        "reel": 0.03,
+        "guide": 0.05,
+        "ecart": -0.02,
+        "color": "green"
+    },
+    "reformed": 0,
+    "reformed_cuml": 0,
+    "ponte": {
+        "reel": 100.03,
+        "guide": 4.4,
+        "ecart": 95.63,
+        "color": "green"
+    },
+    "nbre_o_declass_sem": 100,
+    "nbre_o_declass_cuml": 580,
+    "cent_o_declass_sem": 0.1,
+    "cent_o_declass_cuml": 0.08,
+    "nopppSem": {
+        "reel": 7,
+        "guide": 0.31,
+        "ecart": 6.69,
+        "color": "green"
+    },
+    "noppdCuml": {
+        "reel": 7,
+        "guide": 0.3,
+        "ecart": 6.7,
+        "color": "green"
+    },
+    "poidVif": {
+        "reel": 1500,
+        "guide": 1610,
+        "ecart": -110,
+        "color": "red"
+    },
+    "homog": {
+        "reel": 50,
+        "guide": 80,
+        "ecart": -30,
+        "color": null
+    },
+    "pmo": {
+        "reel": 59.43,
+        "guide": 46.5,
+        "ecart": 12.93,
+        "color": "green"
+    },
+    "aps": {
+        "reel": 120.03,
+        "guide": 81,
+        "ecart": 39.03,
+        "color": "red"
+    },
+    "eau": {
+        "reel": 394.4,
+        "guide": 0,
+        "ecart": 394.4,
+        "color": null
+    },
+    "ratio": {
+        "reel": 3.29,
+        "guide": null,
+        "ecart": null,
+        "color": ""
+    },
+    "altCumlPD": {
+        "reel": 0.84,
+        "guide": 0.56,
+        "ecart": 0.28,
+        "color": "red"
+    },
+    "altCumlParOeufPD": {
+        "reel": 120,
+        "guide": 1878.33,
+        "ecart": -1758.33,
+        "color": "green"
+    },
+    "massOeParSemPP": {
+        "reel": 416,
+        "guide": 14.32,
+        "ecart": 401.68,
+        "color": "green"
+    },
+    "massOeCumlPPD": {
+        "reel": 416,
+        "guide": 14.3,
+        "ecart": 401.7,
+        "color": "green"
+    },
+    "icCuml": {
+        "reel": 0,
+        "guide": 39.36,
+        "ecart": -39.36,
+        "color": "green"
+    },
+    "lumiere": {
+        "starts_at": "00:20",
+        "ends_at": "01:20",
+        "period": "01:00"
+    },
+    "flash": {
+        "starts_at": "00:20",
+        "ends_at": "01:20",
+        "period": "01:00"
+    },
+    "observ": [
+        "observation 1"
+    ],
+    "formule_ep": "450",
+    "shell_qty": "4",
+    "fientes": "sanglant",
+    "coloration_o": "80",
+    "deletable": false
+}

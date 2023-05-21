@@ -1,26 +1,67 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import "../styles/report.css";
 import { AiFillSetting } from "react-icons/ai";
 import { BsPersonCircle } from "react-icons/bs";
-import batiments from "../data/Site";
+
 import Modal from "../components/modals/Modal";
 import Batiment from "../components/Batiment";
 import Topbar from "../components/Topbar";
-import { showModal } from "../slices/ShowModal";
 import { useDispatch, useSelector } from "react-redux";
 import { closeDrop } from "../slices/UserDrop";
 import Sidebar from "../components/Sidebar";
+import SitesBar from "../components/sitesBar/SitesBar";
+import BatimentCat from "../components/batimentCat/BatimentCat";
+import AuthContext from "../context/AuthContext";
+import { dark } from "@mui/material/styles/createPalette";
+import { isArray } from "@vue/shared";
+import BatimentBox from "../components/batiment/BatimentBox";
+import BatimentForms from "../components/batiment/BatimentForms";
+import Form from "../components/Form";
 
-const Report = ({ CreateReports, lots }) => {
-  const [bats, setSite] = useState(batiments);
-  const [currentBat, setCurrent] = useState("");
+const Report = ({ lots, base_url, CreateReports }) => {
+  // console.log(base_url);
+
+  const [site, setSites] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const dropState = useSelector((state) => state.userDrop.dropState);
-  const modalState = useSelector((state) => state.showModal.modalState);
   const status = useSelector((state) => state.toggleLeftBar.status);
   const isVisualize = useSelector((state) => state.openSearchBar.isVisualize);
+  const data = useSelector((state) => state.ShowBatimentCat.data);
+  const formState = useSelector((state) => state.ShowBatimentCat.formState);
+
+  let [ShowSites, setShowSites] = useState();
 
   const dispatch = useDispatch();
+  let siteData;
+
+  const FetchData = async () => {
+    setLoading(true);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+    try {
+      const response = await fetch(`${base_url}site-data/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        setLoading(false);
+        // console.log(JSON.parse(data))
+        setSites(JSON.parse(data));
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    FetchData();
+  }, []);
 
   return (
     <>
@@ -30,35 +71,26 @@ const Report = ({ CreateReports, lots }) => {
           onClick={() => dropState && dispatch(closeDrop())}
         />
         <Sidebar />
+
         <div className="site">
-          {bats.map((bat) => {
-            return (
-              <div key={bat.id} className="batiment">
-                <div>
-                  <AiFillSetting
-                    className="setting-icon"
-                    onClick={() => {
-                      setCurrent(bat.batiment);
-                      dispatch(showModal(true));
-                    }}
-                  />
-                </div>
-                <Batiment {...bat} CreateReports={CreateReports} />
-                {modalState && (
-                  <Modal
-                    CreateReports={CreateReports}
-                    currentBat={currentBat}
-                    lots={lots}
-                  />
-                )}
-              </div>
-            );
-          })}
+          {site !== null
+            ? (siteData = site[0].sites) && (
+                <BatimentBox
+                  CreateReports={CreateReports}
+                  siteData={siteData}
+                />
+              )
+            : site}
         </div>
 
-        {/* <button className="btn" onClick={openModal}>
-        Show Modal
-      </button> */}
+        {loading && (
+          <div className="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        )}
       </main>
     </>
   );

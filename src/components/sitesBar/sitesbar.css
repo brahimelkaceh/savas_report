@@ -1,0 +1,89 @@
+.sites-bar {
+  /* background-color: var(--bar-blue); */
+  background-color: rgb(25, 118, 210, 0.3);
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.site-button {
+  font-size: 18px;
+  color: var(--dark-blue);
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  text-transform: uppercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+  padding: 14px;
+  width: 100%;
+  text-align: center;
+}
+.site-button:disabled {
+  background-color: #e6e8e8;
+  cursor: not-allowed;
+  color: #888;
+}
+.site-button:disabled:hover {
+  color: #888;
+}
+.site-button:disabled::after {
+  color: #888;
+  height: 0;
+}
+.btn-clicked {
+  font-size: 18px;
+  color: #ff6000;
+  font-family: inherit;
+  background-color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+  padding: 14px;
+  width: 100%;
+  text-align: center;
+  border: none;
+  border-bottom: 3px solid var(--dark-blue);
+}
+
+.site-button:focus,
+.site-button:hover {
+  color: var(--dark-blue);
+}
+
+.site-button:focus:after,
+.site-button:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.site-button:after {
+  content: "";
+  pointer-events: none;
+  bottom: 0px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: var(--dark-blue);
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
+}
+
+@media screen and (max-width: 767px) {
+  .site-button {
+    font-size: 12px;
+    padding: 8px;
+  }
+  .btn-clicked {
+    font-size: 15px;
+    padding: 8px;
+  }
+}

@@ -1,6 +1,13 @@
-import React from "react";
+import { useState } from "react";
 import SendBtn from "../buttons/SendBtn";
 const FirstModalForm = () => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+  setIsChecked(e.target.checked);  
+  }
+
+  // un nouveau Lot
   return (
     <form className="form">
       <div className="input-container ic2">
@@ -17,6 +24,19 @@ const FirstModalForm = () => {
       </div>
       <div className="input-container ic2">
         <input
+          id="lotCode"
+          className="input"
+          type="text"
+          placeholder=" "
+          name="lotCode"
+        />
+        <div className="cut"></div>
+        <label htmlFor="lotCode" className="placeholder">
+          Lot Code
+        </label>
+      </div>
+      <div className="input-container ic2">
+        <input
           id="effectif"
           className="input"
           type="number"
@@ -28,19 +48,7 @@ const FirstModalForm = () => {
           Effectif
         </label>
       </div>
-      <div className="input-container ic2">
-        <input
-          name="age"
-          id="age"
-          className="input"
-          type="number"
-          placeholder=" "
-        />
-        <div className="cut"></div>
-        <label htmlFor="age" className="placeholder">
-          Age en jour
-        </label>
-      </div>
+     
       <div className="input-container ic2">
         <input
           name="dateNaissance"
@@ -78,6 +86,13 @@ const FirstModalForm = () => {
         <div className="cut"></div>
         <label htmlFor="date-transfert" className="placeholder">
           Date de transfert
+        </label>
+      </div>
+      <div className="input-container ic2">      
+        <div className="cut"></div>
+        <label className="switch">
+        <input type="checkbox" checked={isChecked} onChange={handleCheckboxChange}/>
+        <span className="slider"></span>
         </label>
       </div>
       <div

@@ -5,6 +5,7 @@ const SendBtn = ({ disabled }) => {
     <button
       // className={`${disabled ? "disabled-btn" : "send-btn"}`}
       className="send-btn"
+      type="submit"
       disabled={disabled}
       onClick={(e) => {
         e.preventDefault();

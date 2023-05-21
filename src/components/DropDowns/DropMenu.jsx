@@ -3,24 +3,10 @@ import Menu from "@mui/material/Menu";
 import LinkBtn from "../buttons/LinkBtn";
 import { useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
-import { FiLogOut } from "react-icons/fi";
 import { FaUser } from "react-icons/fa";
 import "./userDrop.css";
 
-const data = [
-  {
-    id: 1,
-    name: "Profile",
-    icon: <FaUser />,
-  },
-  {
-    id: 2,
-    name: "Logout",
-    icon: <FiLogOut />,
-  },
-];
 const DropMenu = () => {
-  const [menu, setMenu] = useState(data);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -52,9 +38,7 @@ const DropMenu = () => {
         }}
       >
         <div className="user__drop-container_btns">
-          {menu.map((m) => {
-            return <LinkBtn key={m.id} {...m} />;
-          })}
+          <LinkBtn />
         </div>
       </Menu>
     </div>

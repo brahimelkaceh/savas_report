@@ -13,6 +13,7 @@ import { openSearchBar } from "../slices/SearchBar";
 import { toggleLeftBar } from "../slices/LeftBar";
 
 const Visualize = ({ reports }) => {
+  // console.log(reports);
   const isVisualize = useSelector((state) => state.openSearchBar.isVisualize);
 
   const dispatch = useDispatch();

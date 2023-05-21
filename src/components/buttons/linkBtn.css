@@ -1,4 +1,4 @@
-.btn {
+.logout-btn {
   width: 100px;
   height: 45px;
   font-size: 18px;
@@ -17,7 +17,7 @@
   justify-content: space-around;
 }
 
-.btn::before {
+.logout-btn::before {
   content: "";
   position: absolute;
   top: 0;
@@ -29,14 +29,14 @@
   transition: all 0.5s;
 }
 
-.btn:hover::before {
+.logout-btn:hover::before {
   width: 100%;
 }
 
-.btn:hover {
+.logout-btn:hover {
   color: var(--hover-blue);
 }
 
-.btn:active:before {
+.logout-btn:active:before {
   background: var(--hover-blue);
 }

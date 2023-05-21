@@ -1,0 +1,393 @@
+.container {
+  margin: 25px;
+  padding: 10px;
+  padding-bottom: 0;
+  /* box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 4fr 0fr;
+  gap: 15px 15px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "card-item card-item2 card-item3 right-bar"
+    "box-container box-container box-container right-bar"
+    ". . . .";
+  /* height: calc(90vh - 60px); */
+  /* background: #fff; */
+}
+
+.card-item2 {
+  grid-area: card-item2;
+  background: #fff;
+  border-radius: 12px;
+  /* box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px; */
+}
+
+.card-item3 {
+  grid-area: card-item3;
+  background: #fff;
+  border-radius: 12px;
+  /* box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px; */
+}
+
+.right-bar {
+  grid-area: right-bar;
+  background: #fff;
+  border-radius: 12px;
+  /* box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px; */
+  height: 92vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.right-bar-content {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  background: var(--light-blue);
+  border-radius: 12px;
+  margin: 8px;
+  padding: 5px;
+  color: #1f2937;
+  font-size: 16px;
+}
+.right-bar-content .avatar {
+  background: #dcdbdb;
+  border-radius: 50px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.right-bar-content .avatar img {
+  width: 20px;
+  height: 20px;
+}
+.right-bar-content:nth-child(even) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: #e5e7eb;
+  border-radius: 12px;
+  margin: 8px;
+  padding: 5px;
+  color: #4b5563;
+}
+.right-bar-content p {
+  margin-top: 0;
+  margin-left: 35px;
+  font-size: 12px;
+  color: #555;
+}
+.right-bar-content .user-time {
+  display: flex;
+  justify-content: flex-end;
+  color: #6b7280;
+  width: 100%;
+  font-size: 12px;
+}
+.right-bar-content-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* width: 30%; */
+}
+.right-bar-content-header .user-name {
+  font-size: 12px;
+  margin-left: 5px;
+  color: #6b7280;
+}
+.right-bar-title {
+  font-size: 19px;
+  font-weight: 500;
+  padding: 8px;
+  padding-bottom: 0;
+  cursor: default;
+}
+
+.right-bar-icon {
+  padding: 4px;
+  font-size: 48px;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    /* background: #000; */
+    grid-template-columns: 1fr 1fr 1fr;
+    /* grid-template-rows: 2fr fr 0.1fr 1fr; */
+    grid-template-areas:
+      "card-item card-item2 card-item3"
+      "box-container box-container box-container";
+    padding-bottom: 10px;
+    height: auto;
+    /* overflow-y: scroll; */
+  }
+  .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+    width: 50%;
+  }
+  .right-bar-content {
+    font-size: 15px;
+    overflow: -moz-hidden-unscrollable;
+  }
+
+  .rightButton button {
+    height: 60px;
+    width: 30px;
+    border: none;
+
+    position: absolute;
+    padding: 0;
+    left: 96.3%;
+    top: 20%;
+    border-radius: 8px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #ff6000;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    z-index: 1;
+  }
+}
+.box-container {
+  grid-area: box-container;
+  /* background: #eee; */
+  border-radius: 12px;
+  /* box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px; */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-wrap: wrap;
+  height: auto;
+}
+.first-row {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* background: #eee; */
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 12px;
+}
+
+.box-1 {
+  width: 33%;
+  height: 49%;
+  left: 0;
+  background: #fff;
+  transition: 0.3s linear;
+
+  z-index: 100;
+  position: absolute;
+  border-radius: 12px;
+}
+.box-2 {
+  width: 32%;
+  height: 49%;
+  background: #fff;
+  transition: 0.3s linear;
+  z-index: 100;
+  position: absolute;
+  border-radius: 12px;
+}
+.box-3 {
+  width: 32%;
+  height: 49%;
+  right: 0;
+  background: #fff;
+  transition: 0.3s linear;
+  z-index: 100;
+  position: absolute;
+  border-radius: 12px;
+}
+.second-row {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  display: flex;
+  justify-content: space-evenly;
+
+  border-radius: 12px;
+}
+.box-4 {
+  width: 49%;
+  height: 49%;
+  background: #ffff;
+  position: absolute;
+  border-radius: 12px;
+  transition: 0.3s linear;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  position: absolute;
+  border-radius: 12px;
+}
+.box-5 {
+  width: 49%;
+  height: 49%;
+  background: #ffff;
+  position: absolute;
+  border-radius: 12px;
+  transition: 0.3s linear;
+  right: 0;
+  bottom: 0;
+}
+.zoom-box {
+  width: 100%;
+  height: 100%;
+  z-index: 10000000;
+  /* background: #000; */
+}
+@media screen and (max-width: 500px) {
+  .container {
+    margin: 0;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.15fr 0.15fr 0.1fr 0.1fr 2fr 2fr 2fr 2fr 2fr;
+    gap: 15px;
+    grid-template-areas:
+      "card-item card-item card-item"
+      "card-item2 card-item2 card-item2"
+      "card-item3 card-item3 card-item3"
+      "right-bar right-bar right-bar"
+      "box-container box-container box-container"
+      "box-container2 box-container2 box-container2"
+      "box-container3 box-container3 box-container3"
+      "box-container4 box-container4 box-container4"
+      "box-container5 box-container5 box-container5";
+    padding-bottom: 10px;
+    height: auto;
+
+    /* overflow-y: scroll; */
+  }
+  .box-container {
+    grid-area: box-container;
+    background: #eee;
+    border-radius: 12px;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-wrap: wrap;
+    height: auto;
+  }
+  .box-container2 {
+    grid-area: box-container2;
+    background: #eee;
+    border-radius: 12px;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-wrap: wrap;
+    height: auto;
+  }
+  .box-container3 {
+    grid-area: box-container3;
+    background: #eee;
+    border-radius: 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-wrap: wrap;
+    height: auto;
+  }
+  .box-container4 {
+    grid-area: box-container4;
+    background: #eee;
+    border-radius: 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-wrap: wrap;
+    height: auto;
+  }
+  .box-container5 {
+    grid-area: box-container5;
+    background: #eee;
+    border-radius: 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-wrap: wrap;
+    height: auto;
+  }
+  .box-1 {
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .box-2 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .box-3 {
+    width: 100%;
+    height: 100%;
+  }
+  .box-4 {
+    width: 100%;
+    height: 100%;
+  }
+  .box-5 {
+    width: 100%;
+    height: 100%;
+  }
+  .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+    width: 100%;
+  }
+  .rightButton button {
+    height: 60px;
+    width: 30px;
+    border: none;
+
+    position: absolute;
+    padding: 0;
+    left: 90.3%;
+    top: 20%;
+    border-radius: 8px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #ff6000;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    z-index: 1;
+  }
+}
+
+.box-container .btn-icon {
+  position: absolute;
+  z-index: 1000;
+  background: none;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s linear;
+}
+
+.box-container .btn-icon:hover {
+  color: #f59e0b;
+}
+
+.zoom-box .btn-icon {
+  color: #2563eb;
+}
+.zoom-box .btn-icon:hover {
+  color: #2563eb;
+}

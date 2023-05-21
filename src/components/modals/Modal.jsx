@@ -6,7 +6,7 @@ import { showModal } from "../../slices/ShowModal";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
-const Modal = ({ CreateReports, currentBat, lots }) => {
+const Modal = ({ currentBat }) => {
   const modalState = useSelector((state) => state.showModal.modalState);
   const dispatch = useDispatch();
   const [className, setClassName] = useState("modal-content scale-up-top");
@@ -18,7 +18,7 @@ const Modal = ({ CreateReports, currentBat, lots }) => {
     <div
       className="show-modal modal"
       onClick={() => {
-        dispatch(showModal(false));
+        // dispatch(showModal(false));
       }}
     >
       <div className={className}>
@@ -31,9 +31,10 @@ const Modal = ({ CreateReports, currentBat, lots }) => {
         >
           <FaTimes />
         </button>
-        <h2>Créer un nouveau Lot </h2>
         {/* <FirstModalForm /> */}
         <SecondModalForm />
+        {/* <h2>{currentBat?.full ? `${currentBat.name} Lot déja existe  `:`Créer un nouveau Lot` } </h2>
+        {currentBat.full ? <SecondModalForm currentBat={currentBat} /> : <FirstModalForm />} */}
       </div>
     </div>
   );

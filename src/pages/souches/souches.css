@@ -1,0 +1,193 @@
+.souche-container {
+  margin: 0 25px;
+}
+.guide-table {
+  background: #fff;
+  border-radius: 12px;
+  padding-top: 0;
+  height: 200px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin: 15px auto;
+}
+
+.souche-table {
+  /* position: absolute; */
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+
+.guide-table table,
+.souche-table table {
+  width: 100%;
+  height: 15px;
+  border-collapse: collapse;
+}
+.souche-table th {
+  font-size: 12px;
+  text-align: center;
+  border-right: 0.5px solid #000;
+  border-left: 0.5px solid #000;
+  padding: 4px;
+}
+.guide-table th {
+  border-bottom: 1px solid #1f2937;
+  padding: 6px 10px;
+  font-size: 20px;
+}
+.souche-table td {
+  border-left: 0.5px solid #000;
+  border-right: 0.5px solid #000;
+  font-size: 13px !important;
+}
+.souche-table tr:nth-child(even) {
+  background: #dcfce7;
+}
+.guide-table td,
+.souche-table td {
+  border-bottom: 1px solid #1f2937;
+  border-collapse: separate;
+  text-align: center;
+  padding: 4px 10px;
+  color: #111827;
+  cursor: default;
+  font-size: 18px;
+}
+.guide-table .fixed-header,
+.souche-table .fixed-header {
+  background: #dbeafe;
+}
+.guide-table tbody tr,
+.souche-table tbody tr {
+  background: #fff;
+}
+.guide-table tr.active {
+  background: #86efac;
+}
+
+.switch-guide {
+  --false: #e81b1b;
+  --true: #009068;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  height: 20px;
+  width: 40px;
+  background-color: #fef;
+  position: relative;
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  display: block;
+  height: 15px;
+  width: 15px;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 75%;
+  background-color: var(--false);
+  border-radius: 40px;
+  transition: 0.3s ease;
+}
+
+input[type="checkbox"]:checked::before {
+  background-color: var(--true);
+  left: 25%;
+}
+input[type="checkbox"]:default::before {
+  background-color: var(--true);
+  left: 25%;
+}
+
+.eye-icon {
+  color: #2563eb;
+  font-size: 27px;
+  margin: 0 8px;
+  cursor: pointer;
+  /* margin: 3px; */
+}
+.edit-icon {
+  color: #f1962f;
+  font-size: 27px;
+  cursor: pointer;
+  margin: 3px;
+}
+
+.guide-action {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.souche-header {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-btn {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #86efac;
+  border-radius: 50%;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.13);
+  border: none;
+}
+
+.bell {
+  width: 38px;
+  font-size: 30px;
+}
+
+.add-btn:hover {
+  background-color: #15803d;
+}
+
+.add-btn:hover .bell {
+  animation: bellRing 0.9s both;
+}
+
+/* bell ringing animation keyframes*/
+@keyframes bellRing {
+  0%,
+  100% {
+    transform-origin: top;
+  }
+
+  15% {
+    transform: rotateZ(10deg);
+  }
+
+  30% {
+    transform: rotateZ(-10deg);
+  }
+
+  45% {
+    transform: rotateZ(5deg);
+  }
+
+  60% {
+    transform: rotateZ(-5deg);
+  }
+
+  75% {
+    transform: rotateZ(2deg);
+  }
+}
+
+.add-btn:active {
+  transform: scale(0.8);
+}
