@@ -24,14 +24,56 @@
   border-radius: 12px;
   /* box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
     rgba(9, 30, 66, 0.08) 0px 0px 0px 1px; */
+  position: relative;
 }
+.card-item2::after {
+  content: "";
+  /* color: red; */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #6a6e779d;
+  border-radius: 12px;
 
+  /* filter: blur(2px); */
+}
+.card-item2 .card-item-icon {
+  background: #bbf7d0;
+  color: #14532d;
+}
+.card-item2 .card-title span {
+  color: #14532d;
+}
 .card-item3 {
   grid-area: card-item3;
   background: #fff;
   border-radius: 12px;
   /* box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
     rgba(9, 30, 66, 0.08) 0px 0px 0px 1px; */
+  position: relative;
+}
+.card-item3::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+
+  background: #6a6e779d;
+  /* filter: blur(2px); */
+}
+.card-item3 .card-item-icon {
+  background: #fef3c7;
+  color: #854d0e;
+}
+.card-item3 .card-title span {
+  color: #854d0e;
 }
 
 .right-bar {

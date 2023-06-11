@@ -2,6 +2,25 @@ import React from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { Avatar } from "@mui/material";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  userId,
+  userData,
+  userEmail,
+  userFirstName,
+  userLastName,
+  userPhone,
+  userIsAdmin,
+  userSite,
+  userSiteId,
+  handleCloseEditModal,
+} from "../../../slices/LeftBar";
+import EditUsersModal from "./EditUsersModal";
+import DeleteUsersModal from "./DeleteUsersModal";
+let base_url = "https://pouliprod.savas.ma/api/";
+
+// get-users
 function stringToColor(string) {
   let hash = 0;
   let i;
@@ -30,9 +49,62 @@ function stringAvatar(name) {
     children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
   };
 }
-function UsersTable() {
+
+function UsersTable({
+  UpdateUserData,
+  siteName,
+  setAlert,
+  openEditModal,
+  setOpenEditModal,
+}) {
+  const [loading, setLoading] = useState(false);
+  const [usersData, setUsersData] = useState();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [siteNames, setSiteNames] = useState(siteName);
+
+  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
+  let siteId = useSelector((state) => state.toggleLeftBar.siteId);
+  let editModal = useSelector((state) => state.toggleLeftBar.editModal);
+
+  const handleEditOpen = () => setOpenEditModal(true);
+  const handleDeleteModal = () => setOpenDeleteModal(true);
+
+  const dispatch = useDispatch();
+
+  const GetUsersData = async () => {
+    setLoading(true);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+    try {
+      const response = await fetch(`${base_url}get-users/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        setLoading(false);
+        // console.log(JSON.parse(data));
+        setUsersData(JSON.parse(data));
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    GetUsersData();
+  }, [inputs]);
   return (
     <div className="user-table slit-in-horizontal">
+      {openDeleteModal && (
+        <DeleteUsersModal
+          openDeleteModal={openDeleteModal}
+          setOpenDeleteModal={setOpenDeleteModal}
+        />
+      )}
       <table className="">
         <thead className="fixed-header">
           <tr>
@@ -47,263 +119,48 @@ function UsersTable() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Jenny Wilson")} />
-            </td>
-            <td>Jenny Wilson</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Brooklyn Simmons")} />
-            </td>
-            <td>Brooklyn Simmons</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Wade Warren")} />
-            </td>
-            <td>Wade Warren</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Esther Howard")} />
-            </td>
-            <td>Esther Howard</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Carol Manning")} />
-            </td>
-            <td>Carol Manning</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Jenny Wilson")} />
-            </td>
-            <td>Jenny Wilson</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Brooklyn Simmons")} />
-            </td>
-            <td>Brooklyn Simmons</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Wade Warren")} />
-            </td>
-            <td>Wade Warren</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Esther Howard")} />
-            </td>
-            <td>Esther Howard</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Carol Manning")} />
-            </td>
-            <td>Carol Manning</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Jenny Wilson")} />
-            </td>
-            <td>Jenny Wilson</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Brooklyn Simmons")} />
-            </td>
-            <td>Brooklyn Simmons</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Wade Warren")} />
-            </td>
-            <td>Wade Warren</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Esther Howard")} />
-            </td>
-            <td>Esther Howard</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <Avatar {...stringAvatar("Carol Manning")} />
-            </td>
-            <td>Carol Manning</td>
-            <td>name@email.com</td>
-            <td>06 75 55 65 33</td>
-            <td>Carol</td>
-            <td>Manning</td>
-            <td>KAMOUNI</td>
-            <td>
-              <DeleteForeverIcon
-                style={{ color: "#dc2626", cursor: "pointer" }}
-              />
-              <EditIcon style={{ color: "#fbbf24", cursor: "pointer" }} />
-            </td>
-          </tr>
+          {usersData !== undefined &&
+            usersData.map((user) => (
+              <tr key={user.user_id} className="slit-in-horizontal">
+                <td>
+                  <Avatar
+                    {...stringAvatar(`${user.last_name} ${user.first_name} `)}
+                  />
+                </td>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>{user.phone}</td>
+                <td>{user.last_name}</td>
+                <td>{user.first_name}</td>
+                <td>{user.site_name}</td>
+                <td>
+                  <DeleteForeverIcon
+                    onClick={handleDeleteModal}
+                    style={{ color: "#dc2626", cursor: "pointer" }}
+                  />
+                  <EditIcon
+                    // onClick={handleEditOpen}
+                    onClick={() => {
+                      handleEditOpen();
+                      dispatch(userId(user.user_id));
+                      dispatch(userData(user.username));
+                      dispatch(userEmail(user.email));
+                      dispatch(userFirstName(user.first_name));
+                      dispatch(userLastName(user.last_name));
+                      dispatch(userIsAdmin(user.is_admin));
+                      dispatch(userSite(user.site_name));
+                      dispatch(userPhone(user.phone));
+                      dispatch(userSiteId(user.site_id));
+                      dispatch(handleCloseEditModal(openEditModal));
+                    }}
+                    style={{ color: "#fbbf24", cursor: "pointer" }}
+                  />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
+      {loading && <div className="custom-loader"></div>}
     </div>
   );
 }

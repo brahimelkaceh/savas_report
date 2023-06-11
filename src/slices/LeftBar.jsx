@@ -5,6 +5,19 @@ const LeftBarSlice = createSlice({
   initialState: {
     status: false,
     showing: 0,
+    guideid: 0,
+    siteName: [],
+    inputs: false,
+    id: "",
+    userName: "",
+    email: "",
+    phone: "",
+    firstName: "",
+    lastName: "",
+    isAdmin: "",
+    site: "",
+    siteId: "",
+    editModal: false,
   },
   reducers: {
     toggleLeftBar: (state, action) => {
@@ -13,7 +26,62 @@ const LeftBarSlice = createSlice({
     showingColmun: (state, action) => {
       state.showing = action.payload;
     },
+    getguideId: (state, action) => {
+      state.guideid = action.payload;
+    },
+    getSites: (state, action) => {
+      state.siteName = action.payload;
+    },
+    clearInputs: (state, action) => {
+      state.inputs = action.payload;
+    },
+    userId: (state, action) => {
+      state.id = action.payload;
+    },
+    userData: (state, action) => {
+      state.userName = action.payload;
+    },
+    userEmail: (state, action) => {
+      state.email = action.payload;
+    },
+    userPhone: (state, action) => {
+      state.phone = action.payload;
+    },
+    userFirstName: (state, action) => {
+      state.firstName = action.payload;
+    },
+    userLastName: (state, action) => {
+      state.lastName = action.payload;
+    },
+    userIsAdmin: (state, action) => {
+      state.isAdmin = action.payload;
+    },
+    userSite: (state, action) => {
+      state.site = action.payload;
+    },
+    userSiteId: (state, action) => {
+      state.siteId = action.payload;
+    },
+    handleCloseEditModal: (state, action) => {
+      state.editModal = action.payload;
+    },
   },
 });
-export const { toggleLeftBar, showingColmun } = LeftBarSlice.actions;
+export const {
+  showingColmun,
+  toggleLeftBar,
+  getguideId,
+  getSites,
+  clearInputs,
+  userId,
+  userData,
+  userEmail,
+  userPhone,
+  userFirstName,
+  userLastName,
+  userIsAdmin,
+  userSite,
+  userSiteId,
+  handleCloseEditModal,
+} = LeftBarSlice.actions;
 export default LeftBarSlice.reducer;

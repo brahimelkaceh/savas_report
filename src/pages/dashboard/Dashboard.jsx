@@ -68,11 +68,11 @@ function Dashboard() {
             <div className="card-item-content">
               <div>
                 <p className="card-title">
-                  <span> Zoo-Tech</span>
+                  <span>Économique</span>
                 </p>
               </div>
               <div className="card-item-icon">
-                <VscSettings style={{ fontSize: "25px" }} />
+                <TrendingUpIcon style={{ fontSize: "25px" }} />
               </div>
             </div>
             <div className="card-item-footer">
@@ -81,7 +81,7 @@ function Dashboard() {
                 <TrendingUpIcon fontSize="small" sx={{ color: "#15803d" }} />
                 45%
               </p> */}
-              <p className="moy-production">
+              {/* <p className="moy-production">
                 <span>Production Total:</span> 1450000
               </p>
               <p className="moy-age">
@@ -89,18 +89,18 @@ function Dashboard() {
               </p>
               <p className="total-eff">
                 <span>Total Effectif:</span> 1500000
-              </p>
+              </p> */}
             </div>
           </div>
           <div className="card-item3">
             <div className="card-item-content">
               <div>
                 <p className="card-title">
-                  <span> Zoo-Tech</span>
+                  <span> Nutrition & FA</span>
                 </p>
               </div>
               <div className="card-item-icon">
-                <VscSettings style={{ fontSize: "25px" }} />
+                <GiGrain style={{ fontSize: "25px" }} />
               </div>
             </div>
             <div className="card-item-footer">
@@ -109,7 +109,7 @@ function Dashboard() {
                 <TrendingUpIcon fontSize="small" sx={{ color: "#15803d" }} />
                 45%
               </p> */}
-              <p className="moy-production">
+              {/* <p className="moy-production">
                 <span>Production Total:</span> 1450000
               </p>
               <p className="moy-age">
@@ -117,7 +117,7 @@ function Dashboard() {
               </p>
               <p className="total-eff">
                 <span>Total Effectif:</span> 1500000
-              </p>
+              </p> */}
             </div>
           </div>
 

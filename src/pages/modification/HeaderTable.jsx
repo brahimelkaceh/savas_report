@@ -44,7 +44,7 @@ function HeaderTable({
         </th>
       )}
       {enabledViabilite.length > 0 && (
-        <th className="table-header" colSpan={enabledViabilite.length}>
+        <th className="table-header" colSpan={enabledViabilite.length + 1}>
           <HeaderMenu
             title={"Viabilite"}
             viabiliteHeader={viabiliteHeader}
@@ -73,7 +73,7 @@ function HeaderTable({
         </th>
       )}
       {enabledObservation.length > 0 && (
-        <th className="table-header" colSpan={enabledObservation.length}>
+        <th className="table-header" colSpan={enabledObservation.length + 2}>
           <HeaderMenu
             title={"Observations"}
             observationHeader={observationHeader}

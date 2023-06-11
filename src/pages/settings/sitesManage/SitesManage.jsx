@@ -1,145 +1,118 @@
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { useState } from "react";
-function SitesManage() {
-  const [sites, setSites] = useState([]);
-  const [newSite, setNewSite] = useState("");
+import { useRef, useState } from "react";
+import ConfirmModal from "../modals/ConfirmModal";
+import { AiOutlineSend } from "react-icons/ai";
+import { useSelector, useDispatch } from "react-redux";
+import { clearInputs } from "../../../slices/LeftBar";
 
-  const handleInputChange = (e) => {
-    setNewSite(e.target.value);
-  };
+function SitesManage({ CreateSite, setAlert }) {
+  const [open, setOpen] = useState(false);
 
-  const handelToAddSite = () => {
-    if (newSite.trim() !== "") {
-      const site = {
-        id: Date.now(),
-        site: newSite,
-        completed: false,
-      };
+  let siteRef = useRef();
+  let regionRef = useRef();
+  let phoneRef = useRef();
+  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
+  const dispatch = useDispatch();
 
-      setSites([...sites, site]);
-      setNewSite("");
+  if (inputs) {
+    siteRef.current.value = "";
+    regionRef.current.value = "";
+    phoneRef.current.value = "";
+  }
+  const sendData = () => {
+    let siteData = {
+      name: siteRef.current.value,
+      region: regionRef.current.value,
+      phone: phoneRef.current.value,
+    };
+
+    if (
+      siteData.name.trim() &&
+      siteData.region.trim() &&
+      siteData.phone.trim()
+    ) {
+      CreateSite(siteData);
+    } else {
+      setAlert(true);
     }
   };
 
-  const handelToEditSite = (id) => {
-    const updateSites = sites.map((site) => {
-      if (site.id === id) {
-        return { ...site, site: "Updated item" };
-      }
-      return site;
-    });
-
-    setSites(updateSites);
-  };
-
-  const handleToggleComplete = (id) => {
-    const updateSites = sites.map((site) => {
-      if (site.id === id) {
-        return { ...site, completed: !site.completed };
-      }
-      return site;
-    });
-
-    setSites(updateSites);
-  };
-
-  const handleToDeleteSite = (id) => {
-    const updateSites = sites.filter((site) => site.id !== id);
-    setSites(updateSites);
-  };
   return (
     <div className="create-site slit-in-horizontal">
       <h3>Gestion des sites</h3>
-      <div className="input-container ic2">
-        <input
-          id="siteName"
-          className="input"
-          type="text"
-          placeholder=" "
-          value={newSite}
-          onChange={handleInputChange}
-        />
-        <div className="cut"></div>
-        <label htmlFor="siteName" className="placeholder">
-          Site
-        </label>
-
-        <button type="button" className="add__button" onClick={handelToAddSite}>
-          Ajouter <AddIcon />
-        </button>
-      </div>
-      <div className="create-site-box">
-        <table className="create-site-table">
-          {sites.map((site, i) => (
-            <tbody key={site.id}>
-              <tr>
-                <td className={i % 2 === 0 ? "" : "even"}>
-                  {site.site}
-                  <div>
-                    <DeleteIcon
-                      onClick={() => handleToDeleteSite(site.id)}
-                      className="delete-icon"
-                    />
-                    <EditIcon
-                      className="edit-icon"
-                      onClick={() => handelToEditSite(site.id)}
-                    />
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          ))}
-        </table>
-      </div>
-      {/* <form action="">
-        
+      <ConfirmModal setOpen={setOpen} open={open} />
+      <form action="">
         <div className="input-container ic2">
           <input
-            id="production"
+            ref={siteRef}
+            id="siteName"
             className="input"
             type="text"
             placeholder=" "
+            onFocus={() => dispatch(clearInputs(false))}
           />
           <div className="cut"></div>
-          <label htmlFor="production" className="placeholder">
-            Production
-          </label>
-        </div>
-        <div className="input-container ic2">
-          <input id="proNum" className="input" type="number" placeholder=" " />
-          <div className="cut"></div>
-          <label htmlFor="proNum" className="placeholder">
-            Nombre
+          <label htmlFor="siteName" className="placeholder">
+            Site*
           </label>
         </div>
         <div className="input-container ic2">
           <input
-            id="poussinier"
+            ref={phoneRef}
+            id="sitePhone"
             className="input"
             type="text"
             placeholder=" "
+            onFocus={() => dispatch(clearInputs(false))}
           />
           <div className="cut"></div>
-          <label htmlFor="poussinier" className="placeholder">
-            Poussiniere
-          </label>
-        </div>
-        <div className="input-container ic2">
-          <input
-            id="poussNum"
-            className="input"
-            type="number"
-            placeholder=" "
-          />
-          <div className="cut"></div>
-          <label htmlFor="poussNum" className="placeholder">
-            Nombre
+          <label htmlFor="sitePhone" className="placeholder">
+            Télephone*
           </label>
         </div>
 
-        <button type="submit" className="send-btn">
+        <div className="input-container ic2">
+          <select
+            ref={regionRef}
+            id="siteSities"
+            className="input"
+            onFocus={() => dispatch(clearInputs(false))}
+          >
+            <option value="">--</option>
+            <option value="Tanger - Tétouan - Al Hoceima">
+              Tanger - Tétouan - Al Hoceima
+            </option>
+            <option value="L'Oriental">L'Oriental</option>
+            <option value="Fès - Meknès">Fès - Meknès</option>
+            <option value="Rabat - Salé - Kénitra">
+              Rabat - Salé - Kénitra
+            </option>
+            <option value="Beni Mellal - Khénifra">
+              Beni Mellal - Khénifra
+            </option>
+            <option value="Casablanca - Settat">Casablanca - Settat</option>
+            <option value="Marrakech - Safi">Marrakech - Safi</option>
+            <option value="Drâa - Tafilalet">Drâa - Tafilalet</option>
+            <option value="Souss -Massa">Souss -Massa</option>
+            <option value="Guelmim - Oued Noun">Guelmim - Oued Noun</option>
+            <option value="Laâyoune - Saguia al Hamra">
+              Laâyoune - Saguia al Hamra
+            </option>
+            <option value="Dakhla - Oued Ed-Dahab">
+              Dakhla - Oued Ed-Dahab
+            </option>
+          </select>
+          <label htmlFor="siteSities" className="placeholder">
+            Region*
+          </label>
+        </div>
+        <button
+          type="submit"
+          className="send-btn"
+          onClick={(e) => {
+            e.preventDefault();
+            sendData();
+          }}
+        >
           <div className="svg-wrapper-1">
             <div className="svg-wrapper">
               <AiOutlineSend />
@@ -147,7 +120,7 @@ function SitesManage() {
           </div>
           <span>Send</span>
         </button>
-      </form> */}
+      </form>
     </div>
   );
 }

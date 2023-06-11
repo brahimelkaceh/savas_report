@@ -40,12 +40,12 @@
   letter-spacing: 0.09em;
   text-transform: uppercase;
 
-  color: #0072cf;
+  /* color: #0072cf; */
 }
 .card-title span {
   font-size: 17px !important;
   letter-spacing: 1px;
-  color: var(--dark-blue) !important;
+  /* color: var(--dark-blue) !important; */
   font-weight: 600;
 }
 /* .card-item-footer .total-eff {

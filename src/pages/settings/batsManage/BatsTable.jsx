@@ -2,27 +2,26 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import EditSitesModal from "./EditSitesModal";
-import DeleteSiteModal from "./DeletesitesModal";
-// import EditeSy
+import EditBatsModal from "./EditBatsModal";
+import DeleteBatsModal from "./DeleteBatsModal";
 let base_url = "https://pouliprod.savas.ma/api/";
-
-function SitesTable() {
+function BatsTable() {
   const [loading, setLoading] = useState(false);
-  const [siteData, setSiteData] = useState();
+  const [batsData, setBatsData] = useState();
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   let inputs = useSelector((state) => state.toggleLeftBar.inputs);
   const handleOpen = () => setOpen(true);
-  const handleDeleteModal = () => setOpenDeleteModal(true);
 
-  const GetSiteData = async () => {
+  const handleModalOpen = () => setOpenDeleteModal(true);
+
+  const GetBatsData = async () => {
     setLoading(true);
     const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
     try {
-      const response = await fetch(`${base_url}get-sites/`, {
+      const response = await fetch(`${base_url}get-bats/`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -31,8 +30,7 @@ function SitesTable() {
       const data = await response.json();
       if (response.status === 200) {
         setLoading(false);
-        // console.log(JSON.parse(data));
-        setSiteData(JSON.parse(data));
+        setBatsData(JSON.parse(data));
       }
     } catch (error) {
       console.error(error);
@@ -41,38 +39,49 @@ function SitesTable() {
   };
 
   useEffect(() => {
-    GetSiteData();
+    GetBatsData();
   }, [inputs]);
   return (
-    <div className="site-table slit-in-horizontal">
-      {open && <EditSitesModal open={open} setOpen={setOpen} />}
+    <div className="bats-table slit-in-horizontal">
+      {open && <EditBatsModal open={open} setOpen={setOpen} />}
       {openDeleteModal && (
-        <DeleteSiteModal
+        <DeleteBatsModal
           openDeleteModal={openDeleteModal}
           setOpenDeleteModal={setOpenDeleteModal}
         />
       )}
+      {/* {openModal && <Dele} */}
 
       <table className="">
         <thead className="fixed-header">
           <tr>
             <th>Sites</th>
-            <th>Phone</th>
-            <th>Region</th>
+            <th>Bâtiment</th>
+            <th>Type</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {siteData !== undefined &&
-            siteData.map((site) => (
-              <tr key={site.id}>
-                <td>{site.name}</td>
-                <td>{site.phone}</td>
-                <td>{site.region}</td>
+          {batsData !== undefined &&
+            batsData.map((bats) => (
+              <tr key={bats.id}>
+                <td>{bats.site_name}</td>
+                <td>{bats.name}</td>
+                <td>
+                  <span
+                    className={
+                      bats.type === "production"
+                        ? "production-color"
+                        : "poussiniere-color"
+                    }
+                  >
+                    {bats.type}
+                  </span>
+                </td>
                 <td>
                   <DeleteForeverIcon
                     style={{ color: "#dc2626", cursor: "pointer" }}
-                    onClick={handleDeleteModal}
+                    onClick={handleModalOpen}
                   />
                   <EditIcon
                     style={{ color: "#fbbf24", cursor: "pointer" }}
@@ -88,4 +97,4 @@ function SitesTable() {
   );
 }
 
-export default SitesTable;
+export default BatsTable;

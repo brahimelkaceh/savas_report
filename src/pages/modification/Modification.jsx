@@ -22,6 +22,7 @@ import DayDataTable from "./dayTable/DayDataTable";
 const Modification = ({ base_url }) => {
   const tableRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [lotTitle, setLotTitle] = useState();
   const [data, setData] = useState(null);
   const [clicked, setClicked] = useState(false);
 
@@ -69,17 +70,17 @@ const Modification = ({ base_url }) => {
     },
     {
       id: 2,
-      name: "Effectif Present",
+      name: "EP",
       isActive: true,
     },
     {
       id: 3,
-      name: "Mortailité / Sem",
+      name: "Mort/Sem",
       isActive: true,
     },
     {
       id: 4,
-      name: "∑ mortalité  /PD(%)",
+      name: "∑ MortPD (%)",
       isActive: true,
     },
     {
@@ -120,7 +121,7 @@ const Modification = ({ base_url }) => {
     },
     {
       id: 2,
-      name: " ∑ d'oeufs /PD",
+      name: "∑ d'oeufs /PD",
       isActive: true,
     },
     {
@@ -130,12 +131,12 @@ const Modification = ({ base_url }) => {
     },
     {
       id: 4,
-      name: "MOPPC (g)",
+      name: "∑ MOPP (g)",
       isActive: true,
     },
     {
       id: 5,
-      name: "MOPDC (Kg)",
+      name: "∑ MOPD (Kg)",
       isActive: true,
     },
     {
@@ -157,7 +158,7 @@ const Modification = ({ base_url }) => {
   const [consommationeHeader, setconsommationHeader] = useState([
     {
       id: 1,
-      name: " Aliment cummulé PD (Kg)",
+      name: "∑ Alt PD (kg)",
       isActive: true,
     },
     {
@@ -177,7 +178,7 @@ const Modification = ({ base_url }) => {
     },
     {
       id: 5,
-      name: "Formule En place",
+      name: "F.E.P",
       isActive: true,
     },
   ]);
@@ -189,12 +190,12 @@ const Modification = ({ base_url }) => {
   const [observationHeader, setObservationHeader] = useState([
     {
       id: 1,
-      name: "Qualité de coquille",
+      name: "Coquille",
       isActive: true,
     },
     {
       id: 2,
-      name: "État de Fientes",
+      name: "Fientes",
       isActive: true,
     },
     {
@@ -253,7 +254,7 @@ const Modification = ({ base_url }) => {
       if (response.status === 200) {
         setLoading(false);
         setData(JSON.parse(data));
-        console.log(JSON.parse(data));
+        // console.log(JSON.parse(data));
       } else {
         setLoading(false);
         setData([]);
@@ -264,12 +265,42 @@ const Modification = ({ base_url }) => {
     }
   };
 
+  const GetLotTitle = async () => {
+    setLoading(true);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+    try {
+      const response = await fetch(`${base_url}get-lots-titles/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        setLoading(false);
+        console.log(JSON.parse(data));
+        setLotTitle(JSON.parse(data));
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    GetLotTitle();
+  }, []);
+
   // useEffect(() => {
   //   FetchData();
   // }, []);
   // console.log(data);
   // console.log(data?.performance);
   // console.log(data?.identifcation);
+  // 11 = days ,
+  // 13 = weeks,
+  // get-lot-titles/
 
   return (
     <main className={statusbar === true ? "page page-with-sidebar " : "page"}>
@@ -292,10 +323,11 @@ const Modification = ({ base_url }) => {
                   required
                 >
                   <option value="">--</option>
-                  <option value={0}>0</option>
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
+                  {lotTitle?.map((title) => (
+                    <option key={title.id} value={title.id}>
+                      {title.code}
+                    </option>
+                  ))}
                 </select>
                 <label htmlFor="coloration" className="placeholder">
                   Lot (bâtiment)
@@ -353,15 +385,11 @@ const Modification = ({ base_url }) => {
               )}
             </div>
           </div>
-
-          {/* <ModifHeader data={data} FetchData={FetchData} /> */}
           <div className="modification-table">
             <div className="modification-body">
-              {/* <table ref={tableRef} className="slide-in-blurred-right"> */}
-
               {data !== null && (
                 <DataTable
-                  data={data.performance}
+                  data={data}
                   enabledItems={enabledItems}
                   enabledConsommation={enabledConsommation}
                   enabledObservation={enabledObservation}
@@ -371,11 +399,13 @@ const Modification = ({ base_url }) => {
                   viabiliteHeader={viabiliteHeader}
                   setAgendaHeader={setAgendaHeader}
                   setViabiliteHeader={setViabiliteHeader}
+                  productionseHeader={productionseHeader}
+                  consommationeHeader={consommationeHeader}
+                  observationHeader={observationHeader}
                 />
               )}
-              {/* </table> */}
             </div>
-            <ModificationFooter msg={data?.identifaction?.msg} />
+            <ModificationFooter msg={data?.identification?.msg} />
           </div>
         </div>
         {loading && (

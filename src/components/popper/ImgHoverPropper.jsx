@@ -49,8 +49,16 @@ const ImgHoverPropper = ({ data }) => {
 
   return (
     <div>
-      <div aria-describedby={id} variant="contained" onClick={handleClick}>
-        {data ? data : 200}
+      <div
+        aria-describedby={id}
+        variant="contained"
+        onClick={handleClick}
+        style={{
+          color: " blue",
+          textDecoration: " underline ",
+        }}
+      >
+        {data ? data : "-"}
       </div>
       <Popover
         id={id}

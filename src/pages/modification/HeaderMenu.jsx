@@ -47,7 +47,7 @@ export default function HeaderMenu({
     setProductionsHeader(updateProduction);
   };
   const handleCheckboxChange = (event, id) => {
-    // console.log(id, event.target.checked);
+    console.log(id, event.target.checked);
     const updatedAgenda = agendaHeader.map((agenda) => {
       if (agenda.id === id) {
         return { ...agenda, isActive: event.target.checked };
@@ -103,14 +103,15 @@ export default function HeaderMenu({
           padding: 0,
           color: "white",
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "center",
           fontSize: "14px",
           width: "100%",
           textTransform: "capitalize",
           // fontFamily: ,
         }}
       >
-        {title} <MdArrowDropDownCircle />
+        {title}
+        {/* <MdArrowDropDownCircle /> */}
       </Button>
       <Menu
         id="basic-menu"

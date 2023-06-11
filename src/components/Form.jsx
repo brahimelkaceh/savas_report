@@ -260,7 +260,6 @@ const Form = (props) => {
                 dispatch(inputStatus(true));
               } else {
                 let text = "Press a button!\nEither OK or Cancel.";
-                console.log(oldBatimentValue);
                 if (confirm(text) == true) {
                   text = "You pressed OK!";
                   clearAllInputs();

@@ -143,7 +143,7 @@ ul .sub-links {
 } */
 
 .sidebar-icon {
-  background-color: #598ef0de;
+  background-color: var(--dark-blue);
   padding: 10px;
   border-radius: 8px;
   font-size: 18px;
