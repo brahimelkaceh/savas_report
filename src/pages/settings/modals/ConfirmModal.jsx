@@ -31,7 +31,7 @@ export default function ConfirmModal({ setOpen, open, message }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         className=""
-        onClose={handleClose}
+        // onClose={handleClose}
       >
         <Box sx={style} className="confirm-modal ">
           <Typography id="modal-modal-title" variant="h6" component="h2">

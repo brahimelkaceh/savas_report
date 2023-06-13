@@ -3,8 +3,9 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300;400;500;600&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 * {
-  --dark-blue: #0072cf;
-  --background-color: #fff;
+  --dark-blue: #004e86;
+  /* --dark-blue: #0072cf; */
+  --background-color: #efefef;
   --light-blue: #e1f7ff;
   --hover-blue: #13c0ff;
   --secondary-hover-blue: #04a8e4;
@@ -14,6 +15,9 @@
   --hover-background: #004370;
   --primary-grey: rgb(116, 116, 116);
   --secondary-grey: rgb(180, 180, 180);
+  --red-color: #dc2626;
+  --green-color: #22c55e;
+  --border-radius: 4px;
 }
 html,
 body,
@@ -30,12 +34,13 @@ body,
   /* background-color: var(--background-color); */
   /* background-image: url("https://img.freepik.com/free-photo/white-https://img.freepik.com/free-vector/hand-painted-watercolor-abstract-watercolor-background_23-2149009911.jpg?w=1060&t=st=1684515726~exp=1684516326~hmac=ab6a9f0a497aee81a19caab5b2f8ac3be48c8aac103a0d6392f6aacfdd0c8163painted-wall-texture-background_53876-138197.jpg?w=1060&t=st=1684515579~exp=1684516179~hmac=3cf3edccd4be6d69dc9a8307b1583f8c0de4f60caf2bf7c01452ffeefaaaa9a6") !important; */
   color: var(--dark-blue);
-  background-image: linear-gradient(
+  background-color: var(--background-color);
+  /* background-image: linear-gradient(
       rgba(243, 243, 243, 0.149),
       rgba(243, 243, 243, 0.197)
-    ),
-    /* url("https://img.freepik.com/free-photo/colorful-abstract-textured-background-design_53876-108265.jpg?w=1060&t=st=1684517079~exp=1684517679~hmac=383dcdf7c62f6358fcd4b12661c9bfa660a9cf5d22aeb7975e402f3bacfeb4ed"); */
-      url("https://img.freepik.com/free-vector/realistic-white-golden-geometric-background_79603-2032.jpg?w=1060&t=st=1685281655~exp=1685282255~hmac=8eebe9430cbbe91ffb82cb81881c7006d7a4c1c0ed92eec00a7dcd6f59581f77");
+    ), */
+  /* url("https://img.freepik.com/free-photo/colorful-abstract-textured-background-design_53876-108265.jpg?w=1060&t=st=1684517079~exp=1684517679~hmac=383dcdf7c62f6358fcd4b12661c9bfa660a9cf5d22aeb7975e402f3bacfeb4ed"); */
+  /* url("https://img.freepik.com/free-vector/realistic-white-golden-geometric-background_79603-2032.jpg?w=1060&t=st=1685281655~exp=1685282255~hmac=8eebe9430cbbe91ffb82cb81881c7006d7a4c1c0ed92eec00a7dcd6f59581f77"); */
   /* url("https://img.freepik.com/free-vector/banner-with-low-poly-design_1048-12618.jpg?w=1380&t=st=1685282360~exp=1685282960~hmac=7b59cc7ec2d3496a9099a42615b75f2c5c26ff3aa2d23ef769f3a7d3f4204695"); */
   /* url("https://img.freepik.com/free-photo/stylish-soft-blue-curve-lines-abstract-background_1017-19950.jpg?w=1380&t=st=1685972215~exp=1685972815~hmac=d70272dc042b6cb2366ade2f8ffce86623c54c3007863397f6b12f52c2b3e1b1"); */
   background-repeat: no-repeat;

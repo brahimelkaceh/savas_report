@@ -1,16 +1,16 @@
 .edit-modal {
   margin: 5px;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   /* border: 5px solid #f45df4; */
 }
 .delete-modal {
   /* background: linear-gradient(147.74deg, #323232 -9.84%, #151515 97.2%); */
-  padding: 12px;
+  padding: 10px;
   background: #fff;
-  background: linear-gradient(0deg, #cfd9df 0%, #e2ebf0 100%);
+  /* background: linear-gradient(0deg, #cfd9df 0%, #e2ebf0 100%); */
   /* color: #b91c1c; */
   grid-area: create-user;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   text-align: center;
 }
@@ -19,6 +19,7 @@
   text-transform: uppercase;
 }
 .delete-modal p {
+  font-size: 15px;
   margin: 10px 0;
   word-spacing: 2px;
   line-height: 22px;
@@ -38,7 +39,7 @@
   display: flex;
   align-items: center;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   overflow: hidden;
   transition: all 0.2s;
   cursor: pointer;
@@ -100,7 +101,7 @@
   display: flex;
   align-items: center;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   overflow: hidden;
   transition: all 0.2s;
   cursor: pointer;
@@ -123,7 +124,7 @@
   display: flex;
   align-items: center;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   overflow: hidden;
   transition: all 0.2s;
   cursor: pointer;

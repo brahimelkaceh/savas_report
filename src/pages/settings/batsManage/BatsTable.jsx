@@ -1,17 +1,26 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import EditBatsModal from "./EditBatsModal";
 import DeleteBatsModal from "./DeleteBatsModal";
+import {
+  getBatId,
+  getBatSite,
+  getBatType,
+  getBatName,
+} from "../../../slices/SiteData";
 let base_url = "https://pouliprod.savas.ma/api/";
-function BatsTable() {
+function BatsTable({ UpdateBatimentData, siteName }) {
   const [loading, setLoading] = useState(false);
   const [batsData, setBatsData] = useState();
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   let inputs = useSelector((state) => state.toggleLeftBar.inputs);
+
+  const dispatch = useDispatch();
+
   const handleOpen = () => setOpen(true);
 
   const handleModalOpen = () => setOpenDeleteModal(true);
@@ -30,6 +39,7 @@ function BatsTable() {
       const data = await response.json();
       if (response.status === 200) {
         setLoading(false);
+        // console.log(JSON.parse(data));
         setBatsData(JSON.parse(data));
       }
     } catch (error) {
@@ -43,7 +53,14 @@ function BatsTable() {
   }, [inputs]);
   return (
     <div className="bats-table slit-in-horizontal">
-      {open && <EditBatsModal open={open} setOpen={setOpen} />}
+      {open && (
+        <EditBatsModal
+          open={open}
+          setOpen={setOpen}
+          siteName={siteName}
+          UpdateBatimentData={UpdateBatimentData}
+        />
+      )}
       {openDeleteModal && (
         <DeleteBatsModal
           openDeleteModal={openDeleteModal}
@@ -85,7 +102,13 @@ function BatsTable() {
                   />
                   <EditIcon
                     style={{ color: "#fbbf24", cursor: "pointer" }}
-                    onClick={handleOpen}
+                    onClick={() => {
+                      handleOpen();
+                      dispatch(getBatId(bats.id));
+                      dispatch(getBatName(bats.name));
+                      dispatch(getBatType(bats.type));
+                      dispatch(getBatSite(bats.site_id));
+                    }}
                   />
                 </td>
               </tr>

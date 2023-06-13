@@ -2,6 +2,12 @@ import Topbar from "../../components/Topbar";
 
 import Sidebar from "../../components/Sidebar";
 import { closeDrop } from "../../slices/UserDrop";
+import grow from "../../assets/growth.svg";
+import decrease from "../../assets/decrease.svg";
+import injection from "../../assets/injection.svg";
+import OfflineBoltIcon from "@mui/icons-material/OfflineBolt";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
 import { GiGrain } from "react-icons/gi";
 import { GrTechnology, GrMoney } from "react-icons/gr";
 import PriceChangeIcon from "@mui/icons-material/PriceChange";
@@ -35,237 +41,207 @@ function Dashboard() {
           onClick={() => dropState && dispatch(closeDrop())}
         />
         <Sidebar />
-        <div className="container">
-          <div className="card-item">
+        <div class="container">
+          <Cards className={"card-1"} />
+          <div class="card-2">
             <div className="card-item-content">
-              <div>
-                <p className="card-title">
-                  <span> Zoo-Tech</span>
+              <div className="card-item-footer">
+                <p className="moy-production">
+                  <span>Ponte:</span> 85.6%
+                </p>
+                <p className="moy-age">
+                  <span>Viabilité:</span> 98.02%
+                </p>
+                <p className="total-eff">
+                  <span>Nombre d’oeufs:</span> 420500
+                </p>
+                <p className="total-eff">
+                  <span>Mass d’oeufs :</span> 5.6%
                 </p>
               </div>
               <div className="card-item-icon">
-                <VscSettings style={{ fontSize: "25px" }} />
+                <img className="card-item-icon" src={grow} alt="" />
               </div>
             </div>
-            <div className="card-item-footer">
-              {/* <p className="ponte">
-                <span>Ponte: </span>
-                <TrendingUpIcon fontSize="small" sx={{ color: "#15803d" }} />
-                45%
-              </p> */}
-              <p className="moy-production">
-                <span>Production Total:</span> 1450000
-              </p>
-              <p className="moy-age">
-                <span>Age Moyen:</span> 35 Sem
-              </p>
-              <p className="total-eff">
-                <span>Total Effectif:</span> 1500000
-              </p>
-            </div>
           </div>
-          <div className="card-item2">
+          <div class="card-3">
             <div className="card-item-content">
-              <div>
-                <p className="card-title">
-                  <span>Économique</span>
+              <div className="card-item-footer">
+                <p className="moy-production">
+                  <span>Ponte:</span> 85.6%
+                </p>
+                <p className="moy-age">
+                  <span>Mortalité:</span> 98.02%
+                </p>
+                <p className="total-eff">
+                  <span>Mass d’oeufs ∑ :</span> 420500
+                </p>
+                <p className="total-eff">
+                  <span>Homogénéité :</span> 5.6%
                 </p>
               </div>
               <div className="card-item-icon">
-                <TrendingUpIcon style={{ fontSize: "25px" }} />
+                <img className="card-item-icon" src={decrease} alt="" />
               </div>
-            </div>
-            <div className="card-item-footer">
-              {/* <p className="ponte">
-                <span>Ponte: </span>
-                <TrendingUpIcon fontSize="small" sx={{ color: "#15803d" }} />
-                45%
-              </p> */}
-              {/* <p className="moy-production">
-                <span>Production Total:</span> 1450000
-              </p>
-              <p className="moy-age">
-                <span>Age Moyen:</span> 35 Sem
-              </p>
-              <p className="total-eff">
-                <span>Total Effectif:</span> 1500000
-              </p> */}
             </div>
           </div>
-          <div className="card-item3">
-            <div className="card-item-content">
-              <div>
-                <p className="card-title">
-                  <span> Nutrition & FA</span>
-                </p>
+          <div class="card-4">
+            <div class="prophylaxie">
+              <h1 className="title">Rappels de prophilaction</h1>
+              <div className="card-item">
+                <div className="card-icon">
+                  <img src={injection} alt="" />
+                </div>
+                <div className="card-content">
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
+                </div>
               </div>
-              <div className="card-item-icon">
-                <GiGrain style={{ fontSize: "25px" }} />
+              <div className="card-item">
+                <div className="card-icon">
+                  <img src={injection} alt="" />
+                </div>
+                <div className="card-content">
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
+                </div>
+              </div>
+              <div className="card-item">
+                <div className="card-icon">
+                  <img src={injection} alt="" />
+                </div>
+                <div className="card-content">
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
+                </div>
+              </div>
+              <div className="card-item">
+                <div className="card-icon">
+                  <img src={injection} alt="" />
+                </div>
+                <div className="card-content">
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
+                </div>
+              </div>
+              <div className="card-item">
+                <div className="card-icon">
+                  <img src={injection} alt="" />
+                </div>
+                <div className="card-content">
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
+                </div>
               </div>
             </div>
-            <div className="card-item-footer">
-              {/* <p className="ponte">
-                <span>Ponte: </span>
-                <TrendingUpIcon fontSize="small" sx={{ color: "#15803d" }} />
-                45%
-              </p> */}
-              {/* <p className="moy-production">
-                <span>Production Total:</span> 1450000
-              </p>
-              <p className="moy-age">
-                <span>Age Moyen:</span> 35 Sem
-              </p>
-              <p className="total-eff">
-                <span>Total Effectif:</span> 1500000
-              </p> */}
-            </div>
-          </div>
+            <div class="observations">
+              <h1 className="title">Observations</h1>
+              <div className="card-item ">
+                <div>
+                  <OfflineBoltIcon className="card-icon" />
+                </div>
+                <div className="card-content">
+                  <div className="card-title">Site (bâtiment)</div>
 
-          {/* <Cards /> */}
-          {/* <Cards /> */}
-          {/* <Cards /> */}
-          {/* <div className="card-item2 blocked">
-            <div className="card-item-content">
-              <GrMoney className="card-item-icon icon3" />
-              <div>
-                <p className="card-title">
-                  <span> Économique</span>
-                </p>
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="card-item3">
-            <div className="card-item-content">
-              <GiGrain className="card-item-icon icon4" />
-              <div>
-                <p className="card-title">
-                  PERFORMANCE <span> Nutrition & FA</span>
-                </p>
-              </div>
-            </div>
-          </div> */}
-          {dashboardWidth <= 768 ? (
-            <RightBar />
-          ) : (
-            <div className="right-bar">
-              <div className="right-bar-title">Fils d'actualité</div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
                 </div>
               </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
+              <div className="card-item good">
+                <div>
+                  <CheckCircleIcon className="card-icon good" />
                 </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
-                </div>
-              </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
+                <div className="card-content">
+                  <div className="card-title">Site (bâtiment)</div>
+
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
                 </div>
               </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
+              <div className="card-item danger">
+                <div>
+                  <ErrorIcon className="card-icon danger" />
                 </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
-                </div>
-              </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
+                <div className="card-content">
+                  <div className="card-title">Site (bâtiment)</div>
+
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
                 </div>
               </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
+              <div className="card-item ">
+                <div>
+                  <OfflineBoltIcon className="card-icon" />
                 </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
+                <div className="card-content">
+                  <div className="card-title">Site (bâtiment)</div>
+
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
                 </div>
               </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
+              <div className="card-item good">
+                <div>
+                  <CheckCircleIcon className="card-icon good" />
                 </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
+                <div className="card-content">
+                  <div className="card-title">Site (bâtiment)</div>
+
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
+                </div>
+              </div>
+              <div className="card-item danger">
+                <div>
+                  <ErrorIcon className="card-icon danger" />
+                </div>
+                <div className="card-content">
+                  <div className="card-title">Site (bâtiment)</div>
+
+                  <p>
+                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
+                    elit. Blanditiis, voluptatem?
+                  </p>
+                  <div className="card-date">15 May 2020 9:00 am</div>
                 </div>
               </div>
             </div>
-          )}
-          {dashboardWidth <= 500 ? (
-            <MobileCharts />
-          ) : (
-            <>
-              <Charts /> <Charts />
-            </>
-          )}
+          </div>
+          <div class="div5">
+            <div class="div51">div51</div>
+            <div class="div52">div52</div>
+          </div>
         </div>
-
-        {/* <Cards /> */}
       </main>
     </>
   );

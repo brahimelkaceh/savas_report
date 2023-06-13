@@ -4,10 +4,12 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { AiOutlineSend } from "react-icons/ai";
-
+import { useSelector } from "react-redux";
+import { useRef } from "react";
 import Typography from "@mui/material/Typography";
 import "../modals/style.css";
 import { Padding } from "@mui/icons-material";
+import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -15,12 +17,55 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  // border: "2px solid transparent",
   boxShadow: 24,
-  // p: 1,
 };
 
-export default function EditBatsModal({ open, setOpen }) {
+export default function EditBatsModal({
+  UpdateBatimentData,
+  siteName,
+  open,
+  setOpen,
+}) {
+  let batId = useSelector((state) => state.getSiteData.batId);
+  let batName = useSelector((state) => state.getSiteData.batName);
+  let batType = useSelector((state) => state.getSiteData.batType);
+  let batSite = useSelector((state) => state.getSiteData.batSite);
+
+  const [batimentType, setBatimentType] = useState("");
+  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
+
+  const newSiteName = siteName.filter((site) => site.id !== batSite);
+  const currentSiteName = siteName.filter((site) => site.id === batSite);
+
+  let batmntRef = useRef();
+  let siteNameRef = useRef();
+  let typeRef = useRef();
+
+  // if (inputs) {
+  //   batmntRef.current.value = "";
+  //   siteNameRef.current.value = "";
+  //   typeRef.current.value = "";
+  // }
+  const sendData = () => {
+    let batimentData = {
+      bat_id: batId,
+      name: batmntRef.current.value,
+      site_id: siteNameRef.current.value,
+      type: typeRef.current.value,
+    };
+
+    if (
+      batimentData.name.trim() &&
+      batimentData.site_id &&
+      batimentData.type.trim()
+    ) {
+      UpdateBatimentData(batimentData);
+      // console.log(batimentData);
+    } else {
+      setAlert(true);
+    }
+  };
+
   const handleClose = () => setOpen(false);
 
   return (
@@ -46,11 +91,12 @@ export default function EditBatsModal({ open, setOpen }) {
               <form action="">
                 <div className="input-container ic2">
                   <input
-                    // ref={batmntRef}
+                    ref={batmntRef}
                     id="batiment"
                     className="input"
                     type="text"
                     placeholder=" "
+                    defaultValue={batName}
                     // onFocus={() => dispatch(clearInputs(false))}
                   />
                   <div className="cut"></div>
@@ -61,14 +107,19 @@ export default function EditBatsModal({ open, setOpen }) {
 
                 <div className="input-container ic2">
                   <select
-                    // ref={typeRef}
+                    ref={typeRef}
                     id="production"
                     className="input"
+                    // defaultValue={batimentType}
+                    onChange={(e) => setBatimentType(e.target.value)}
                     // onFocus={() => dispatch(clearInputs(false))}
                   >
-                    <option value="">--</option>
-                    <option value="production">Production</option>
-                    <option value="poussiniere">Poussiniere</option>
+                    <option value={"Production"}>
+                      {batType == "production" ? "Production" : "Poussiniere"}
+                    </option>
+                    <option value={"poussiniere"}>
+                      {!batType == "production" ? "Production" : "Poussiniere"}
+                    </option>
                   </select>
                   <label htmlFor="production  " className="placeholder">
                     Production/Poussiniere*
@@ -76,18 +127,22 @@ export default function EditBatsModal({ open, setOpen }) {
                 </div>
                 <div className="input-container ic2">
                   <select
-                    // ref={siteNameRef}
+                    ref={siteNameRef}
                     id="siteNames"
                     className="input"
                     // onFocus={() => dispatch(clearInputs(false))}
                     // onChange={(e) => SetSite(e.target.value)}
                   >
-                    <option value="">--</option>
-                    {/* {siteName?.map((site) => (
+                    {currentSiteName.map((site) => (
                       <option key={site.id} value={site.id}>
                         {site.name}
                       </option>
-                    ))} */}
+                    ))}
+                    {newSiteName.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
+                    ))}
                   </select>
                   <label htmlFor="site" className="placeholder">
                     Sites*
@@ -97,10 +152,10 @@ export default function EditBatsModal({ open, setOpen }) {
                   <button
                     type=""
                     className="edit-btn"
-                    // onClick={(e) => {
-                    //   e.preventDefault();
-                    //   sendData();
-                    // }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      sendData();
+                    }}
                   >
                     <div className="svg-wrapper-1">
                       <div className="svg-wrapper">
@@ -115,7 +170,6 @@ export default function EditBatsModal({ open, setOpen }) {
                     onClick={(e) => {
                       e.preventDefault();
                       handleClose();
-                      // sendData();
                     }}
                   >
                     <span>Cancel</span>

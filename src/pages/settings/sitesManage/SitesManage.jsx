@@ -6,6 +6,26 @@ import { clearInputs } from "../../../slices/LeftBar";
 
 function SitesManage({ CreateSite, setAlert }) {
   const [open, setOpen] = useState(false);
+  const [regions, setRegions] = useState([
+    {
+      id: "Tanger - Tétouan - Al Hoceima",
+      name: "Tanger - Tétouan - Al Hoceima",
+    },
+    {
+      id: "L'Oriental",
+      name: "L'Oriental",
+    },
+    { id: "Fès - Meknès", name: "Fès - Meknès" },
+    { id: "Rabat - Salé - Kénitra", name: "Rabat - Salé - Kénitra" },
+    { id: "Beni Mellal - Khénifra", name: "Beni Mellal - Khénifra" },
+    { id: "Casablanca - Settat", name: "Casablanca - Settat" },
+    { id: "Marrakech - Safi", name: "Marrakech - Safi" },
+    { id: "Drâa - Tafilalet", name: "Drâa - Tafilalet" },
+    { id: "Souss -Massa", name: "Souss -Massa" },
+    { id: "Guelmim - Oued Noun", name: "Guelmim - Oued Noun" },
+    { id: "Laâyoune - Saguia al Hamra", name: "Laâyoune - Saguia al Hamra" },
+    { id: "Dakhla - Oued Ed-Dahab", name: "Dakhla - Oued Ed-Dahab" },
+  ]);
 
   let siteRef = useRef();
   let regionRef = useRef();
@@ -78,28 +98,11 @@ function SitesManage({ CreateSite, setAlert }) {
             onFocus={() => dispatch(clearInputs(false))}
           >
             <option value="">--</option>
-            <option value="Tanger - Tétouan - Al Hoceima">
-              Tanger - Tétouan - Al Hoceima
-            </option>
-            <option value="L'Oriental">L'Oriental</option>
-            <option value="Fès - Meknès">Fès - Meknès</option>
-            <option value="Rabat - Salé - Kénitra">
-              Rabat - Salé - Kénitra
-            </option>
-            <option value="Beni Mellal - Khénifra">
-              Beni Mellal - Khénifra
-            </option>
-            <option value="Casablanca - Settat">Casablanca - Settat</option>
-            <option value="Marrakech - Safi">Marrakech - Safi</option>
-            <option value="Drâa - Tafilalet">Drâa - Tafilalet</option>
-            <option value="Souss -Massa">Souss -Massa</option>
-            <option value="Guelmim - Oued Noun">Guelmim - Oued Noun</option>
-            <option value="Laâyoune - Saguia al Hamra">
-              Laâyoune - Saguia al Hamra
-            </option>
-            <option value="Dakhla - Oued Ed-Dahab">
-              Dakhla - Oued Ed-Dahab
-            </option>
+            {regions.map((region) => (
+              <option key={region.id} value={region.id}>
+                {region.name}
+              </option>
+            ))}
           </select>
           <label htmlFor="siteSities" className="placeholder">
             Region*

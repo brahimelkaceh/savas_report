@@ -34,7 +34,7 @@ const Settings = () => {
   let inputs = useSelector((state) => state.toggleLeftBar.inputs);
 
   const dispatch = useDispatch();
-  // ! Users Manage
+  // ! Users Management
   // * Creating new users
   const CreateUsers = async (data) => {
     setLoading(true);
@@ -105,6 +105,8 @@ const Settings = () => {
       setLoading(false);
     }
   };
+  // ! Sites Management
+  // * Creating new Sites
   const CreateSite = async (data) => {
     setLoading(true);
     const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -137,7 +139,44 @@ const Settings = () => {
       setLoading(false);
     }
   };
+  // * updating Sites
+  const UpdateSiteData = async (data) => {
+    setLoading(true);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
+    try {
+      const response = await fetch(`${base_url}update-site/`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (!response.ok) {
+        data = {};
+      }
+
+      const datas = await response.json();
+      console.log(datas);
+      if (response.ok) {
+        setMessage("Vos modifications ont été enregistrées.");
+        handleOpen();
+        setTimeout(() => {
+          setOpenEditModal(false);
+        }, 1000);
+      } else {
+        setLoading(false);
+        const errorMessage = "Site existe déjà";
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+  // ! Bâtiments Management
+  // * Creating Bâtiments
   const CreateBatiments = async (data) => {
     setLoading(true);
     const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -162,6 +201,43 @@ const Settings = () => {
       } else {
         setLoading(false);
         const errorMessage = response.status;
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+  // * Updating Bâtiments
+  const UpdateBatimentData = async (data) => {
+    console.log(data);
+    setLoading(true);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+    try {
+      const response = await fetch(`${base_url}update-batmnt/`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (!response.ok) {
+        data = {};
+      }
+
+      const datas = await response.json();
+      console.log(datas);
+      if (response.ok) {
+        setMessage("Vos modifications ont été enregistrées.");
+        handleOpen();
+        setTimeout(() => {
+          setOpenEditModal(false);
+        }, 1000);
+      } else {
+        setLoading(false);
+        const errorMessage = "Bâtiment existe déjà";
         throw new Error(errorMessage);
       }
     } catch (error) {
@@ -231,9 +307,14 @@ const Settings = () => {
             message={message}
             siteName={siteName}
           />
-          <Sites CreateSite={CreateSite} setAlert={setAlert} />
+          <Sites
+            CreateSite={CreateSite}
+            setAlert={setAlert}
+            UpdateSiteData={UpdateSiteData}
+          />
           <Bats
             CreateBatiments={CreateBatiments}
+            UpdateBatimentData={UpdateBatimentData}
             setAlert={setAlert}
             siteName={siteName}
           />

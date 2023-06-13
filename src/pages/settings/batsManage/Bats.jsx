@@ -1,7 +1,7 @@
 import BatsManage from "./BatsManage";
 import BatsTable from "./BatsTable";
 
-function Bats({ CreateBatiments, setAlert, siteName }) {
+function Bats({ CreateBatiments, UpdateBatimentData, setAlert, siteName }) {
   return (
     <div className="manage-bats slit-in-horizontal">
       <BatsManage
@@ -9,7 +9,7 @@ function Bats({ CreateBatiments, setAlert, siteName }) {
         setAlert={setAlert}
         siteName={siteName}
       />
-      <BatsTable />
+      <BatsTable UpdateBatimentData={UpdateBatimentData} siteName={siteName} />
     </div>
   );
 }

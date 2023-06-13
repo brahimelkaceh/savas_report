@@ -44,12 +44,9 @@ export default function DeleteSiteModal({
         <Fade in={openDeleteModal}>
           <Box sx={style} className="edit-modal ">
             <div style={{}} className="delete-modal slit-in-horizontal">
-              <h1> Attention</h1>
               <p>
-                La suppression de cet élément le supprimera définitivement de
-                votre compte. Êtes-vous certain(e) de vouloir continuer ?
-                Cliquez sur 'Supprimer' pour confirmer ou sur 'Annuler' pour
-                conserver l'élément.
+                La suppression de cet élément le supprimera définitivement du
+                système. Voulez-vous vraiment continuer ?
               </p>
               <div className="btns">
                 <button

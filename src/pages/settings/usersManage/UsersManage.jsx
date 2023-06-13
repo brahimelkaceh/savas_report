@@ -43,9 +43,7 @@ function UsersManage({ CreateUsers, setAlert, siteName }) {
     };
     if (
       userData.username.trim() &&
-      emailRegex.test(userData.email) &&
       userData.password.trim() &&
-      userData.phone.trim() &&
       userData.first_name.trim() &&
       userData.last_name.trim() &&
       (userData.isAdmin === true || userData.isAdmin === false) &&

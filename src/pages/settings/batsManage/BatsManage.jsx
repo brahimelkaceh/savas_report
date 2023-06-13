@@ -29,6 +29,7 @@ export default function BatsManage({ CreateBatiments, setAlert, siteName }) {
 
     if (batmntData.name.trim() && batmntData.site && batmntData.typeOf.trim()) {
       CreateBatiments(batmntData);
+      console.log(batmntData);
     } else {
       setAlert(true);
     }

@@ -1,19 +1,29 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EditSitesModal from "./EditSitesModal";
 import DeleteSiteModal from "./DeletesitesModal";
+import {
+  getSiteData,
+  getSiteName,
+  getSiteRegion,
+  getSitePhone,
+} from "../../../slices/SiteData";
+
 // import EditeSy
 let base_url = "https://pouliprod.savas.ma/api/";
 
-function SitesTable() {
+function SitesTable({ setAlert, UpdateSiteData }) {
   const [loading, setLoading] = useState(false);
   const [siteData, setSiteData] = useState();
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   let inputs = useSelector((state) => state.toggleLeftBar.inputs);
+
+  const dispatch = useDispatch();
+
   const handleOpen = () => setOpen(true);
   const handleDeleteModal = () => setOpenDeleteModal(true);
 
@@ -45,7 +55,14 @@ function SitesTable() {
   }, [inputs]);
   return (
     <div className="site-table slit-in-horizontal">
-      {open && <EditSitesModal open={open} setOpen={setOpen} />}
+      {open && (
+        <EditSitesModal
+          open={open}
+          setOpen={setOpen}
+          setAlert={setAlert}
+          UpdateSiteData={UpdateSiteData}
+        />
+      )}
       {openDeleteModal && (
         <DeleteSiteModal
           openDeleteModal={openDeleteModal}
@@ -76,7 +93,13 @@ function SitesTable() {
                   />
                   <EditIcon
                     style={{ color: "#fbbf24", cursor: "pointer" }}
-                    onClick={handleOpen}
+                    onClick={() => {
+                      handleOpen();
+                      dispatch(getSiteData(site.id));
+                      dispatch(getSiteName(site.name));
+                      dispatch(getSitePhone(site.phone));
+                      dispatch(getSiteRegion(site.region));
+                    }}
                   />
                 </td>
               </tr>

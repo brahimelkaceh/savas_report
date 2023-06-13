@@ -8,6 +8,9 @@ import { AiOutlineSend } from "react-icons/ai";
 import Typography from "@mui/material/Typography";
 import "../modals/style.css";
 import { Padding } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { useRef } from "react";
+import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -20,8 +23,73 @@ const style = {
   // p: 1,
 };
 
-export default function EditSitesModal({ open, setOpen }) {
+export default function EditSitesModal({
+  open,
+  setOpen,
+  setAlert,
+  UpdateSiteData,
+}) {
+  const [regions, setRegions] = useState([
+    {
+      id: "Tanger - Tétouan - Al Hoceima",
+      name: "Tanger - Tétouan - Al Hoceima",
+    },
+    {
+      id: "L'Oriental",
+      name: "L'Oriental",
+    },
+    { id: "Fès - Meknès", name: "Fès - Meknès" },
+    { id: "Rabat - Salé - Kénitra", name: "Rabat - Salé - Kénitra" },
+    { id: "Beni Mellal - Khénifra", name: "Beni Mellal - Khénifra" },
+    { id: "Casablanca - Settat", name: "Casablanca - Settat" },
+    { id: "Marrakech - Safi", name: "Marrakech - Safi" },
+    { id: "Drâa - Tafilalet", name: "Drâa - Tafilalet" },
+    { id: "Souss -Massa", name: "Souss -Massa" },
+    { id: "Guelmim - Oued Noun", name: "Guelmim - Oued Noun" },
+    { id: "Laâyoune - Saguia al Hamra", name: "Laâyoune - Saguia al Hamra" },
+    { id: "Dakhla - Oued Ed-Dahab", name: "Dakhla - Oued Ed-Dahab" },
+  ]);
+
+  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
+
+  let siteId = useSelector((state) => state.getSiteData.siteId);
+  let siteName = useSelector((state) => state.getSiteData.siteName);
+  let sitePhone = useSelector((state) => state.getSiteData.sitePhone);
+  let region = useSelector((state) => state.getSiteData.region);
+
+  const newRegions = regions.filter((reg) => reg.id !== region);
+  const currentRegion = regions.filter((reg) => reg.id === region);
+
   const handleClose = () => setOpen(false);
+
+  let siteNameRef = useRef();
+  let sitePhoneRef = useRef();
+  let regionRef = useRef();
+
+  if (inputs) {
+    siteNameRef.current.value = "";
+    sitePhoneRef.current.value = "";
+    regionRef.current.value = "";
+  }
+  const sendData = () => {
+    let siteData = {
+      id: siteId,
+      name: siteNameRef.current.value,
+      region: sitePhoneRef.current.value,
+      phone: regionRef.current.value,
+    };
+
+    if (
+      siteData.name.trim() &&
+      siteData.region.trim() &&
+      siteData.phone.trim()
+    ) {
+      UpdateSiteData(siteData);
+      // console.log(siteData);
+    } else {
+      setAlert(true);
+    }
+  };
 
   return (
     <div>
@@ -46,11 +114,12 @@ export default function EditSitesModal({ open, setOpen }) {
               <form action="">
                 <div className="input-container ic2">
                   <input
-                    // ref={siteRef}
+                    ref={siteNameRef}
                     id="siteName"
                     className="input"
                     type="text"
                     placeholder=" "
+                    defaultValue={siteName}
                     // onFocus={() => dispatch(clearInputs(false))}
                   />
                   <div className="cut"></div>
@@ -60,11 +129,12 @@ export default function EditSitesModal({ open, setOpen }) {
                 </div>
                 <div className="input-container ic2">
                   <input
-                    // ref={phoneRef}
+                    ref={sitePhoneRef}
                     id="sitePhone"
                     className="input"
                     type="text"
                     placeholder=" "
+                    defaultValue={sitePhone}
                     // onFocus={() => dispatch(clearInputs(false))}
                   />
                   <div className="cut"></div>
@@ -75,38 +145,21 @@ export default function EditSitesModal({ open, setOpen }) {
 
                 <div className="input-container ic2">
                   <select
-                    // ref={regionRef}
+                    ref={regionRef}
                     id="siteSities"
                     className="input"
                     // onFocus={() => dispatch(clearInputs(false))}
                   >
-                    <option value="">--</option>
-                    <option value="Tanger - Tétouan - Al Hoceima">
-                      Tanger - Tétouan - Al Hoceima
-                    </option>
-                    <option value="L'Oriental">L'Oriental</option>
-                    <option value="Fès - Meknès">Fès - Meknès</option>
-                    <option value="Rabat - Salé - Kénitra">
-                      Rabat - Salé - Kénitra
-                    </option>
-                    <option value="Beni Mellal - Khénifra">
-                      Beni Mellal - Khénifra
-                    </option>
-                    <option value="Casablanca - Settat">
-                      Casablanca - Settat
-                    </option>
-                    <option value="Marrakech - Safi">Marrakech - Safi</option>
-                    <option value="Drâa - Tafilalet">Drâa - Tafilalet</option>
-                    <option value="Souss -Massa">Souss -Massa</option>
-                    <option value="Guelmim - Oued Noun">
-                      Guelmim - Oued Noun
-                    </option>
-                    <option value="Laâyoune - Saguia al Hamra">
-                      Laâyoune - Saguia al Hamra
-                    </option>
-                    <option value="Dakhla - Oued Ed-Dahab">
-                      Dakhla - Oued Ed-Dahab
-                    </option>
+                    {currentRegion.map((region) => (
+                      <option key={region.id} value={region.id}>
+                        {region.name}
+                      </option>
+                    ))}
+                    {newRegions.map((region) => (
+                      <option key={region.id} value={region.id}>
+                        {region.name}
+                      </option>
+                    ))}
                   </select>
                   <label htmlFor="siteSities" className="placeholder">
                     Region*
@@ -116,10 +169,10 @@ export default function EditSitesModal({ open, setOpen }) {
                   <button
                     type=""
                     className="edit-btn"
-                    // onClick={(e) => {
-                    //   e.preventDefault();
-                    //   sendData();
-                    // }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      sendData();
+                    }}
                   >
                     <div className="svg-wrapper-1">
                       <div className="svg-wrapper">
@@ -134,7 +187,7 @@ export default function EditSitesModal({ open, setOpen }) {
                     onClick={(e) => {
                       e.preventDefault();
                       handleClose();
-                      // sendData();
+                      sendData();
                     }}
                   >
                     <span>Cancel</span>

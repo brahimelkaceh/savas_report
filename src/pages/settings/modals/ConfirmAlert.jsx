@@ -33,13 +33,14 @@ export default function ConfirmAlert({ alert, setAlert }) {
               onClick={() => {
                 setAlert(false);
               }}
+              // sx={{ mb: 2, bgcolor: "#FCD0CF" }}
             >
               <CloseIcon fontSize="inherit" />
             </IconButton>
           }
-          sx={{ mb: 2, bgcolor: "#EC6F66" }}
+          sx={{ mb: 2, bgcolor: "#FCD0CF" }}
         >
-          <AlertTitle>Error</AlertTitle>
+          {/* <AlertTitle>Error</AlertTitle> */}
           <strong>Veuillez compléter tous les champs obligatoires.</strong>
         </Alert>
       </Collapse>

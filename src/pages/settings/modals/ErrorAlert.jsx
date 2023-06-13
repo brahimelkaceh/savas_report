@@ -42,9 +42,9 @@ export default function ErrorAlert({ error, setError }) {
                   <CloseIcon fontSize="inherit" />
                 </IconButton>
               }
-              sx={{ mb: 2, bgcolor: "#EC6F66" }}
+              sx={{ mb: 2, bgcolor: "#FCD0CF" }}
             >
-              <AlertTitle>Error</AlertTitle>
+              {/* <AlertTitle>Error</AlertTitle> */}
 
               <strong>{error}</strong>
               {/* ) : ( */}

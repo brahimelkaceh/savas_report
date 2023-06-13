@@ -1,11 +1,11 @@
 import SitesTable from "./SitesTable";
 import SitesManage from "./SitesManage";
 import "./style.css";
-function Sites({ CreateSite, setAlert }) {
+function Sites({ CreateSite, UpdateSiteData, setAlert }) {
   return (
     <div className="sites-settings">
       <SitesManage CreateSite={CreateSite} setAlert={setAlert} />
-      <SitesTable />
+      <SitesTable setAlert={setAlert} UpdateSiteData={UpdateSiteData} />
     </div>
   );
 }
