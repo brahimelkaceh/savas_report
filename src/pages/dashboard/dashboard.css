@@ -1,94 +1,233 @@
 .container {
   margin: 10px;
-  height: calc(90vh - 20px);
+  /* margin-bottom: 0; */
+  height: 110vh;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 0.5fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 0.9fr;
+  grid-template-rows: 0.3fr 1fr 1fr 0.5fr;
   gap: 10px 10px;
   grid-auto-flow: row;
   grid-template-areas:
     "card-1 card-2 card-3 card-4"
-    "div5 div5 div5 card-4"
-    "div5 div5 div5 card-4";
+    "card-5 card-5 card-5 card-4"
+    "card-5 card-5 card-5 card-4"
+    "card-5 card-5 card-5 card-4";
 }
 
 .card-1 {
   grid-area: card-1;
-  border-top: 4px solid var(--dark-blue);
-  background: #f5f5f5;
+  border-left: 4px solid var(--dark-blue);
+  background: #fff;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: var(--border-radius);
 }
 
+.card-2 .card-item-footer,
+.card-3 .card-item-footer {
+  /* margin: 10; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-1 .card-item-footer {
+  /* margin: 10; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 100%;
+  transform: translate(-100%, 20%);
+}
+.card-1 .card-item-footer .card-item-icon {
+  margin-left: 10px;
+}
+.card-1 .moy-age,
+.card-2 .moy-age {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 25px;
+  margin-inline: 10px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.card-1 .moy-age span,
+.card-2 .moy-age span {
+  font-weight: 500;
+  font-size: 14px;
+
+  color: var(--light-blue);
+
+  letter-spacing: -0.02em;
+}
+.card-2 .card-item-footer .lot {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 24px;
+  /* or 171% */
+  color: #3a4d63;
+  letter-spacing: -0.02em;
+  /* margin-left: 25px; */
+  position: absolute;
+  top: 100%;
+}
 .card-2 {
   grid-area: card-2;
-  border-top: 4px solid var(--green-color);
+  border-left: 4px solid var(--green-color);
+  background: #fff;
+  background-image: url("../../assets/grow.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
 
-  background: #f5f5f5;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: var(--border-radius);
+}
+.card-2 .moy-age {
+  color: var(--green-color);
 }
 
 .card-3 {
   grid-area: card-3;
-  border-top: 4px solid var(--red-color);
-
-  background: #f5f5f5;
+  border-left: 4px solid var(--red-color);
+  background: #fff;
+  background-image: url("../../assets/bad-graph.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: var(--border-radius);
 }
+.card-3 .moy-age {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 25px;
+  margin-inline: 10px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--red-color);
+}
 
+.card-3 .moy-age span {
+  font-weight: 500;
+  font-size: 14px;
+
+  color: var(--light-blue);
+
+  letter-spacing: -0.02em;
+}
+.card-3 .card-item-footer .lot {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 24px;
+  /* or 171% */
+  color: #3a4d63;
+  letter-spacing: -0.02em;
+  /* margin-left: 25px; */
+  position: absolute;
+  top: 100%;
+}
 .card-4 {
   grid-area: card-4;
   border-radius: var(--border-radius);
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1.5fr 1.5fr;
+  grid-template-rows: 1fr 1fr;
   gap: 10px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "prophylaxie prophylaxie "
-    "observations observations   ";
-  /* ". .  . . "; */
+  /* grid-auto-flow: row; */
+  grid-template-areas: "observations observations" "prophylaxie prophylaxie ";
 }
 .prophylaxie {
   grid-area: prophylaxie;
-  background: #f5f5f5;
+  grid-row: auto;
+  background: #ffff;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: var(--border-radius);
+  min-height: 300px;
   overflow-y: scroll;
 }
 .observations {
   grid-area: observations;
-  background: #f5f5f5;
+  background: #fff;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: var(--border-radius);
+  overflow-y: scroll;
 }
 
-.div5 {
-  grid-area: div5;
+.card-5 {
+  grid-area: card-5;
   border-radius: var(--border-radius);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   gap: 10px 10px;
   grid-auto-flow: row;
   grid-template-areas:
-    "div51 div52 "
-    "div51 div52   "
-    "div51 div52  ";
+    "chart-box1 chart-box2 "
+    /* "chart-box1 chart-box2 " */
+    "chart-box1 chart-box2 ";
 }
-.div51 {
-  grid-area: div51;
-  background: #f5f5f5;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+.chart-box1 {
+  grid-area: chart-box1;
   border-radius: var(--border-radius);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 100%;
+  gap: 10px 10px;
+  /* grid-auto-flow: row; */
+  grid-template-areas: "chart-1 chart-1" "chart-2 chart-2";
 }
-.div52 {
-  grid-area: div52;
-  background: #f5f5f5;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+.chart-box1 .chart-1 {
+  background: #fff;
   border-radius: var(--border-radius);
+  /* background: #f5f5f5; */
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+
+  grid-area: chart-1;
+}
+.chart-box1 .chart-2 {
+  border-radius: var(--border-radius);
+  grid-area: chart-2;
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  position: relative;
+}
+.chart-box2 {
+  grid-area: chart-box2;
+  border-radius: var(--border-radius);
+  grid-area: chart-box2;
+  /* background: #505050; */
+  border-radius: var(--border-radius);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 100%;
+  gap: 10px 10px;
+  /* grid-auto-flow: row; */
+  grid-template-areas: "chart-3 chart-3" "chart-4 chart-4";
+}
+.chart-box2 .chart-3 {
+  background: #fff;
+  border-radius: var(--border-radius);
+  /* background: #efa1a1; */
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+
+  grid-area: chart-3;
+  /* height: 100%; */
+}
+.chart-box2 .chart-4 {
+  border-radius: var(--border-radius);
+  grid-area: chart-4;
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
 .prophylaxie .title,
@@ -141,7 +280,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(252, 208, 207, 0.6);
+  background: var(--background-color);
   margin: 4px;
   padding: 2px;
   border-radius: var(--border-radius);
@@ -164,9 +303,18 @@
   padding: 2px;
   border-radius: var(--border-radius);
 }
+.observations .info {
+  background: #69b4ff54;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px;
+  padding: 2px;
+  border-radius: var(--border-radius);
+}
 .observations .card-title {
   padding-left: 8px;
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 500;
   align-self: flex-start;
   color: #2d2d2d;
@@ -174,8 +322,8 @@
 .observations .card-icon {
   color: var(--red-color);
   /* background: #bfe6f4; */
-  width: 35px;
-  height: 35px;
+  width: 18px;
+  height: 18px;
   /* padding: 4px; */
 }
 /* .observations .danger {
@@ -185,20 +333,27 @@
 }
 .observations .card-item .danger {
   color: #ed9526;
+  background: none;
+}
+.observations .card-item .card-info {
+  color: var(--dark-blue);
+  /* background: none; */
 }
 
 .observations .card-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 .observations .card-content p {
-  color: var(--red-color);
+  color: var(--dark-blue);
   font-size: 14px;
   white-space: pre-wrap;
   line-height: 22px;
   padding-left: 8px;
-  margin: 0;
+  margin: 4px;
+  display: flex;
+  align-items: center;
 }
 .observations .good p {
   color: #1f8b24;
@@ -206,9 +361,203 @@
 .observations .danger p {
   color: #ff4800;
 }
+.observations .info p {
+  color: #3b5998;
+}
 
 .observations .card-date {
+  align-self: flex-end;
   font-size: 10px;
   line-height: 22px;
   color: #7d7b7b;
+}
+
+.card-loader {
+  width: 100%;
+  /* height: 190px; */
+  padding: 1rem;
+  text-align: center;
+  border-radius: var(--border-radius);
+  background-color: rgb(255, 255, 255);
+}
+
+.card__skeleton {
+  background-image: linear-gradient(
+    90deg,
+    #ccc 0px,
+    rgb(229 229 229 / 90%) 40px,
+    #ccc 80px
+  );
+  background-size: 300%;
+  background-position: 100% 0;
+  border-radius: inherit;
+  animation: shimmer 3.5s infinite;
+}
+
+.card__title {
+  height: 15px;
+  margin-bottom: 15px;
+}
+
+.card__description {
+  height: 100px;
+  /* height: auto; */
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.css-1hfxt33-MuiButtonBase-root-MuiTab-root {
+  padding: 8px 12px !important;
+}
+.css-69z67c-MuiTabs-scroller {
+  height: 30px;
+}
+.css-1ujnqem-MuiTabs-root {
+  min-height: 30px !important;
+}
+
+.css-1x4din0-MuiPaper-root {
+  box-shadow: none !important;
+  background: #fff;
+  margin: 0 !important;
+
+  /* background: #443a3a !important; */
+}
+
+/* !media queries */
+@media screen and (max-width: 1024px) {
+  .container {
+    margin: 10px;
+    /* margin-bottom: 0; */
+    height: 178vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.6fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px 10px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "card-1 card-2 card-3"
+      "card-5 card-5 card-4 "
+      "card-5 card-5 card-4 "
+      "card-5 card-5 card-4 "
+      "card-5 card-5 card-4 "
+      "card-5 card-5 card-4 "
+      "card-5 card-5 ."
+      "card-5 card-5 ."
+      "card-5 card-5 .";
+  }
+  .card-1 .moy-age,
+  .card-2 .moy-age {
+    font-size: 18px;
+    margin-inline: 7px;
+  }
+  .card-1 .card-item-footer .card-item-icon {
+    margin-left: 3px;
+  }
+  .card-2 .card-item-footer .lot,
+  .card-3 .card-item-footer .lot {
+    font-size: 10px;
+  }
+  .card-2 .moy-age,
+  .card-3 .moy-age {
+    font-size: 18px;
+    line-height: 20px;
+  }
+  .observations .card-content p,
+  .prophylaxie .card-content p {
+    font-size: 12px;
+    line-height: 18px;
+    padding-left: 5px;
+  }
+
+  .card-4 {
+    grid-area: card-4;
+    border-radius: var(--border-radius);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    /* grid-auto-flow: dense; */
+    grid-template-areas: "observations observations " "prophylaxie prophylaxie" "prophylaxie prophylaxie";
+  }
+
+  .prophylaxie {
+    grid-area: prophylaxie;
+    grid-row: auto;
+    background: #ffff;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border-radius: var(--border-radius);
+    /* min-height: 00px; */
+    /* overflow-y: visible; */
+  }
+  .observations {
+    grid-area: observations;
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border-radius: var(--border-radius);
+    /* overflow-y: scroll; */
+  }
+  .card-5 {
+    grid-area: card-5;
+    /* height: max-content; */
+    border-radius: var(--border-radius);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "chart-box1 "
+      "chart-box1 "
+      "chart-box1 "
+      "chart-box2 "
+      "chart-box2 ";
+  }
+  .chart-box1 {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "chart-1" " chart-2";
+  }
+  .chart-box2 {
+    grid-area: chart-box2;
+    border-radius: var(--border-radius);
+    border-radius: var(--border-radius);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: 100%;
+    gap: 10px 10px;
+    /* grid-auto-flow: row; */
+    grid-template-areas: "chart-3" "chart-4";
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    margin: 10px;
+    /* margin-bottom: 0; */
+    height: 178vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.6fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px 10px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "card-1 card-2 card-3"
+      "card-5 card-5 card-4 "
+      "card-5 card-5 card-4 "
+      "card-5 card-5 card-4 "
+      "card-5 card-5 card-4 "
+      "card-5 card-5 card-4 "
+      "card-5 card-5 ."
+      "card-5 card-5 ."
+      "card-5 card-5 .";
+  }
+}
+.css-1nr4wcy {
+  /* box-shadow: none !important; */
 }

@@ -17,7 +17,6 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
   // border: "2px solid transparent",
   boxShadow: 24,
   // p: 1,
@@ -115,8 +114,8 @@ export default function EditModal({
       >
         <Fade in={openEditModal}>
           <Box sx={style} className="edit-modal">
-            <div className="create-user slit-in-horizontal">
-              <h3>Modifier l'utilisateur {id}</h3>
+            <div className="edit-user slit-in-horizontal">
+              <h3>Modifier l'utilisateur </h3>
 
               <form action="">
                 <div className="input-container ic2">

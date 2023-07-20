@@ -1,12 +1,14 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;500;700&display=swap"); */
 /* @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"); */
 /* @import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300;400;500;600&display=swap"); */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"); */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap");
 * {
   --dark-blue: #004e86;
   /* --dark-blue: #0072cf; */
   --background-color: #efefef;
-  --light-blue: #e1f7ff;
+  --light-blue: #a3aed0;
   --hover-blue: #13c0ff;
   --secondary-hover-blue: #04a8e4;
   --bar-blue: #97deff;
@@ -28,7 +30,7 @@ body,
   /* font-family: "Oxanium", cursive;
   font-family: Helvetica, sans-serif; */
 
-  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-family: "DM Sans", Helvetica, Arial, sans-serif;
   /* font-family: "Lato", sans-serif;
   font-family: "Montserrat Alternates", sans-serif; */
   /* background-color: var(--background-color); */

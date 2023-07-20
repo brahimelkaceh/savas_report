@@ -9,6 +9,7 @@ const ShowBatimentCatSlice = createSlice({
     sites: [],
     formState: false,
     typeOfBatiment: "production",
+    lotNextDate: "hello",
   },
   reducers: {
     ShowBatimentCat: (state, action) => {
@@ -29,6 +30,9 @@ const ShowBatimentCatSlice = createSlice({
     toggleTypeOf: (state, action) => {
       state.typeOfBatiment = action.payload;
     },
+    getNextDate: (state, action) => {
+      state.lotNextDate = action.payload;
+    },
   },
 });
 
@@ -39,5 +43,6 @@ export const {
   SitesDate,
   toggleBatimentForm,
   toggleTypeOf,
+  getNextDate,
 } = ShowBatimentCatSlice.actions;
 export default ShowBatimentCatSlice.reducer;

@@ -8,6 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { AlertTitle } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
+import { BorderLeft } from "@mui/icons-material";
 
 export default function ErrorAlert({ error, setError }) {
   const [alert, setAlert] = useState(true);
@@ -42,7 +43,11 @@ export default function ErrorAlert({ error, setError }) {
                   <CloseIcon fontSize="inherit" />
                 </IconButton>
               }
-              sx={{ mb: 2, bgcolor: "#FCD0CF" }}
+              sx={{
+                mb: 2,
+                bgcolor: "#FCD0CF",
+                borderLeft: "4px solid #dc2626",
+              }}
             >
               {/* <AlertTitle>Error</AlertTitle> */}
 

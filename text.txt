@@ -1407,3 +1407,125 @@
             </>
           )}
         </div>
+
+        data = {
+    'prod_normal': 20000,
+    'prod_dj': '',
+    'prod_blanc': 30,
+    'prod_casse': 40,
+    'prod_feles': 50,
+    'prod_elimne': 60,
+    'mort': 22,
+    'hensEliminated': 0,
+    'alimentDist': 5000,
+    'eauDist': 9000,
+    'pmo': 47.4,
+    'poidVif': 1800,
+    'homog': 80,
+    'lightOn': '05:30',
+    'lightOff': '19:30',
+    'flashOn': '23:30',
+    'flashOff': '01:30',
+    'formule': 'EEP',
+    'intensite': 60,
+    'temperatureMin': 20,
+    'temperatureMax': 28,
+    'temperatureMinExt': 17,
+    'temperatureMaxExt': 32,
+    'aspectPoulette': 'calme',
+    'coloration': 100,
+    'fientes': 'Normal',
+    'observ': 'Lorem ipsum dolor sit amet consectetur adipisicing elit.|@| Voluptas reiciendis molestiae pariatur|@| dolorem laborum optio aperiam, cupiditate ullam maiores illo',
+    'observ_urg': 1,
+    'qty_shell': '1',
+    'batiment': 1
+  }
+
+
+  
+      const [selectedTab, setSelectedTab] = useState(0);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleConfirm = () => {
+    // Perform confirmation action here
+    setOpenDialog(false);
+  };
+  const [clicked, setClicked] = useState(null);
+  // const [open, setOpen] = useState(false);
+
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+  const handleConfirmChange = (sName) => {
+    dispatch(ProductionData(sName));
+    // console.log(sName);
+    // setOpen(false);
+  };
+  // const disabled = useSelector((state) => state.setDisabled.disabled);
+  const inputV = useSelector((state) => state.toggleFieldStatus.inputV);
+  const lotNextDate = useSelector((state) => state.ShowBatimentCat.lotNextDate);
+  // console.log(lotNextDate);
+  // console.log(inputV);
+  const [className, setClassName] = useState("site-button");
+  const dispatch = useDispatch();
+  // const [value, setValue] = useState(0);
+
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
+  const [value, setValue] = useState(0);
+
+  const handleClick = (id) => {
+    // console.log(id);
+    if (clicked === id) {
+      setClicked(clicked);
+      // console.log(clicked, id);
+    } else {
+      setClicked(id);
+    }
+  };
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+
+    <Tabs
+        className="sites-bar"
+        value={selectedTab}
+        onChange={handleTabChange}
+        variant="scrollable"
+        scrollButtons
+        allowScrollButtonsMobile
+        aria-label="scrollable force example"
+      >
+        {siteData.map((sName) => (
+          <Tab
+            key={sName.site_id}
+            label={sName.name}
+            // disabled={inputV}
+            className="site-button"
+            onClick={() => {
+              GetBatimentData(sName.site_id);
+              dispatch(ShowBatimentCat());
+              handleConfirmChange(sName);
+              handleClick(sName.site_id);
+            }}
+          />
+        ))}
+      </Tabs>
+      aliment/oeuf: altoeuf-chart/
+      temperature: temp-chart/

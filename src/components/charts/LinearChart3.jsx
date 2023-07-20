@@ -1,10 +1,8 @@
-import React from "react";
 import { ResponsiveLine } from "@nivo/line";
 
-function LinearChart({ prodChart }) {
-  // console.log(prodChart?.slice(1));
-  let data = prodChart?.slice(1);
-  // console.log(data);
+function LinearChart3({ tempData }) {
+  let data = tempData;
+  // console.log()
   return (
     <ResponsiveLine
       data={data}
@@ -33,7 +31,7 @@ function LinearChart({ prodChart }) {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 45,
-        legend: "Production",
+        legend: "Témperature",
         legendOffset: -50,
         legendPosition: "middle",
       }}
@@ -75,4 +73,4 @@ function LinearChart({ prodChart }) {
   );
 }
 
-export default LinearChart;
+export default LinearChart3;

@@ -16,7 +16,6 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
   boxShadow: 24,
 };
 
@@ -85,7 +84,7 @@ export default function EditBatsModal({
       >
         <Fade in={open}>
           <Box sx={style} className="edit-modal">
-            <div className="create-site slit-in-horizontal">
+            <div className="edit-site slit-in-horizontal">
               <h3>Modifier bâtiment</h3>
               {/* <ConfirmModal setOpen={setOpen} open={open} /> */}
               <form action="">

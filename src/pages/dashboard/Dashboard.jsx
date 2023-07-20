@@ -1,29 +1,27 @@
 import Topbar from "../../components/Topbar";
-
 import Sidebar from "../../components/Sidebar";
 import { closeDrop } from "../../slices/UserDrop";
-import grow from "../../assets/growth.svg";
-import decrease from "../../assets/decrease.svg";
-import injection from "../../assets/injection.svg";
-import OfflineBoltIcon from "@mui/icons-material/OfflineBolt";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ErrorIcon from "@mui/icons-material/Error";
-import { GiGrain } from "react-icons/gi";
-import { GrTechnology, GrMoney } from "react-icons/gr";
-import PriceChangeIcon from "@mui/icons-material/PriceChange";
-import { VscSettings } from "react-icons/vsc";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import avatar from "../../assets/avatar.png";
-
 import "./dashboard.css";
 import { useSelector, useDispatch } from "react-redux";
-
+import { useState, useEffect } from "react";
+let base_url = "https://pouliprod.savas.ma/api/";
 import Cards from "./Cards";
-import RightBar from "./RightBar";
-import Charts from "./Charts";
-import MobileCharts from "./MobileCharts";
+import SkeletonBlock from "./skeletons/SkeletonBlock";
+import FirstChart from "./Charts/FirstChart";
+import SecondChart from "./Charts/SecondChart";
+import ThirdChart from "./Charts/ThirdChart";
+import FourthChart from "./Charts/FourthChart";
+import Observation from "./widgets/Observation";
+import Profylax from "./widgets/Profylax";
 
 function Dashboard() {
+  const [loading, setLoading] = useState(false);
+  const [boxData, setBoxData] = useState("");
+  const [upDownData, setUpDownData] = useState([]);
+  const [upData, setUpData] = useState([]);
+  const [downDownData, setDownDownData] = useState("");
+  const [alignment, setAlignment] = useState("left");
+
   const status = useSelector((state) => state.toggleLeftBar.status);
 
   const isVisualize = useSelector((state) => state.openSearchBar.isVisualize);
@@ -31,7 +29,62 @@ function Dashboard() {
 
   const dispatch = useDispatch();
 
-  const dashboardWidth = document.body.clientWidth;
+  const handleAlignment = (event, newAlignment) => {
+    if (newAlignment !== null) {
+      setAlignment(newAlignment);
+    }
+  };
+  const getFirstBox = async () => {
+    setLoading(true);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+    try {
+      const response = await fetch(`${base_url}first-block/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        setLoading(false);
+        // console.log(JSON.parse(data));
+        setBoxData(JSON.parse(data));
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  const getUpsDowns = async () => {
+    setLoading(true);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+    try {
+      const response = await fetch(`${base_url}ups-downs/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        setLoading(false);
+        setUpDownData(JSON.parse(data));
+        // console.log(JSON.parse(data));
+        // setUpData(upDownData.best);
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getUpsDowns();
+    getFirstBox();
+  }, []);
 
   return (
     <>
@@ -41,205 +94,79 @@ function Dashboard() {
           onClick={() => dropState && dispatch(closeDrop())}
         />
         <Sidebar />
-        <div class="container">
-          <Cards className={"card-1"} />
-          <div class="card-2">
-            <div className="card-item-content">
-              <div className="card-item-footer">
-                <p className="moy-production">
-                  <span>Ponte:</span> 85.6%
-                </p>
-                <p className="moy-age">
-                  <span>Viabilité:</span> 98.02%
-                </p>
-                <p className="total-eff">
-                  <span>Nombre d’oeufs:</span> 420500
-                </p>
-                <p className="total-eff">
-                  <span>Mass d’oeufs :</span> 5.6%
-                </p>
+        <div className="container">
+          <Cards className={"card-1"} data={boxData} loading={loading} />
+          {/* <Cards className={"card-2"} data={upDownData} loading={loading} />
+          <Cards className={"card-3"} /> */}
+          <div className="card-2">
+            {upDownData?.best && (
+              <div className="card-item-content">
+                <div className="card-item-footer">
+                  {upDownData?.best?.map((data, i) => (
+                    <div key={i}>
+                      <p className="moy-age">
+                        <span>{data.param}</span>
+                        {data[data.param]?.toFixed(2)
+                          ? data[data.param]?.toFixed(2)
+                          : " --"}
+                        <span className="lot">
+                          {data.lot ? data.lot : "B1"}
+                        </span>
+                      </p>
+                      {/* <span></span> */}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="card-item-icon">
-                <img className="card-item-icon" src={grow} alt="" />
-              </div>
-            </div>
+            )}
+            {loading && <SkeletonBlock />}
           </div>
-          <div class="card-3">
-            <div className="card-item-content">
-              <div className="card-item-footer">
-                <p className="moy-production">
-                  <span>Ponte:</span> 85.6%
-                </p>
-                <p className="moy-age">
-                  <span>Mortalité:</span> 98.02%
-                </p>
-                <p className="total-eff">
-                  <span>Mass d’oeufs ∑ :</span> 420500
-                </p>
-                <p className="total-eff">
-                  <span>Homogénéité :</span> 5.6%
-                </p>
+          <div className="card-3">
+            {upDownData?.worst && (
+              <div className="card-item-content">
+                <div className="card-item-footer">
+                  {upDownData?.worst?.map((data, i) => (
+                    <div key={i}>
+                      <p className="moy-age">
+                        <span>{data.param}</span>
+                        {data[data.param]?.toFixed(2)
+                          ? data[data.param]?.toFixed(2)
+                          : " --"}
+                        <span className="lot">{data.lot} </span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="card-item-icon">
-                <img className="card-item-icon" src={decrease} alt="" />
-              </div>
-            </div>
+            )}
+            {loading && <SkeletonBlock />}
           </div>
-          <div class="card-4">
-            <div class="prophylaxie">
-              <h1 className="title">Rappels de prophilaction</h1>
-              <div className="card-item">
-                <div className="card-icon">
-                  <img src={injection} alt="" />
-                </div>
-                <div className="card-content">
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-              <div className="card-item">
-                <div className="card-icon">
-                  <img src={injection} alt="" />
-                </div>
-                <div className="card-content">
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-              <div className="card-item">
-                <div className="card-icon">
-                  <img src={injection} alt="" />
-                </div>
-                <div className="card-content">
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-              <div className="card-item">
-                <div className="card-icon">
-                  <img src={injection} alt="" />
-                </div>
-                <div className="card-content">
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-              <div className="card-item">
-                <div className="card-icon">
-                  <img src={injection} alt="" />
-                </div>
-                <div className="card-content">
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-            </div>
-            <div class="observations">
-              <h1 className="title">Observations</h1>
-              <div className="card-item ">
-                <div>
-                  <OfflineBoltIcon className="card-icon" />
-                </div>
-                <div className="card-content">
-                  <div className="card-title">Site (bâtiment)</div>
-
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-              <div className="card-item good">
-                <div>
-                  <CheckCircleIcon className="card-icon good" />
-                </div>
-                <div className="card-content">
-                  <div className="card-title">Site (bâtiment)</div>
-
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-              <div className="card-item danger">
-                <div>
-                  <ErrorIcon className="card-icon danger" />
-                </div>
-                <div className="card-content">
-                  <div className="card-title">Site (bâtiment)</div>
-
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-              <div className="card-item ">
-                <div>
-                  <OfflineBoltIcon className="card-icon" />
-                </div>
-                <div className="card-content">
-                  <div className="card-title">Site (bâtiment)</div>
-
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-              <div className="card-item good">
-                <div>
-                  <CheckCircleIcon className="card-icon good" />
-                </div>
-                <div className="card-content">
-                  <div className="card-title">Site (bâtiment)</div>
-
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-              <div className="card-item danger">
-                <div>
-                  <ErrorIcon className="card-icon danger" />
-                </div>
-                <div className="card-content">
-                  <div className="card-title">Site (bâtiment)</div>
-
-                  <p>
-                    Lorem ipsum dolor sit amet conse vctetur ctetur adipisi cing
-                    elit. Blanditiis, voluptatem?
-                  </p>
-                  <div className="card-date">15 May 2020 9:00 am</div>
-                </div>
-              </div>
-            </div>
+          <div className="card-4">
+            {/* !observations */}
+            <Observation />
+            {/* !Prophylaxies */}
+            <Profylax />
           </div>
-          <div class="div5">
-            <div class="div51">div51</div>
-            <div class="div52">div52</div>
+          <div className="card-5">
+            <div className="chart-box1">
+              <div className="chart-1">
+                <FirstChart />
+                {/* <SkeletonChart /> */}
+              </div>
+              <div className="chart-2">
+                <SecondChart />
+                {/* <FirstChart /> */}
+              </div>
+            </div>
+            <div className="chart-box2">
+              <div className="chart-3">
+                <ThirdChart />
+              </div>
+              <div className="chart-4">
+                <FourthChart />
+                {/* <SecondChart /> */}
+              </div>
+            </div>
           </div>
         </div>
       </main>

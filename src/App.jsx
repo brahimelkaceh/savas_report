@@ -1,5 +1,6 @@
 import Login from "./components/login/Login";
-import Report from "./pages/Report";
+// import Report from "./pages/Report";
+import Report from "./pages/reports/Report";
 import Visualize from "./pages/Visualize";
 import Settings from "./pages/settings/Settings";
 import Error from "./pages/Error";

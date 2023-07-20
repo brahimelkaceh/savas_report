@@ -1,0 +1,12 @@
+.sites-tab {
+  width: 100%;
+  background: #a4a4a4;
+  height: 100%;
+}
+.css-69z67c-MuiTabs-scroller {
+  height: 100% !important;
+}
+.css-heg063-MuiTabs-flexContainer {
+  display: flex;
+  justify-content: space-between;
+}

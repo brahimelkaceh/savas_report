@@ -1,14 +1,13 @@
 .edit-modal {
   margin: 5px;
   border-radius: var(--border-radius);
-  /* border: 5px solid #f45df4; */
+  width: 400px;
 }
 .delete-modal {
-  /* background: linear-gradient(147.74deg, #323232 -9.84%, #151515 97.2%); */
+  /* width: 100%; */
   padding: 10px;
-  background: #fff;
-  /* background: linear-gradient(0deg, #cfd9df 0%, #e2ebf0 100%); */
-  /* color: #b91c1c; */
+  border-top: 6px solid var(--red-color);
+  background: #f5f5f5;
   grid-area: create-user;
   border-radius: var(--border-radius);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -174,5 +173,26 @@
 
   to {
     transform: translateY(4px);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .edit-modal {
+    margin: 5px;
+    border-radius: var(--border-radius);
+    width: 70%;
+  }
+  .delete-modal {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .edit-modal {
+    margin: 5px;
+    border-radius: var(--border-radius);
+    width: 90%;
+  }
+  .delete-modal {
+    width: auto;
   }
 }

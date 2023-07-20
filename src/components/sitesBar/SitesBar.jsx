@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import "./sitesbar.css";
 import {
@@ -5,25 +7,50 @@ import {
   ProductionData,
   SitesDate,
 } from "../../slices/ShowBatimentCat";
+import { inputStatus } from "../../slices/Showfields";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useState } from "react";
+import Slide from "@mui/material/Slide";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 let base_url = "https://pouliprod.savas.ma/api/";
 
 const SitesBar = ({ siteData }) => {
-  const [clicked, setClicked] = useState(null);
-  // const disabled = useSelector((state) => state.setDisabled.disabled);
+  const [open, setOpen] = useState(false);
+  const [siteName, setSiteName] = useState("");
+  const [value, setValue] = useState(0);
+
   const inputV = useSelector((state) => state.toggleFieldStatus.inputV);
-  const [className, setClassName] = useState("site-button");
   const dispatch = useDispatch();
 
-  const handleClick = (id) => {
-    if (clicked === id) {
-      setClicked(clicked);
-    } else {
-      if (inputV === false) {
-        console.log("change disabled");
-      }
-      setClicked(id);
-    }
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    dispatch(inputStatus(true));
+    setOpen(false);
+  };
+  const handleConfirmChange = () => {
+    dispatch(ProductionData(siteName));
+    dispatch(inputStatus(false));
+
+    setOpen(false);
+  };
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
   const GetBatimentData = (id) => {
     const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -31,7 +58,7 @@ const SitesBar = ({ siteData }) => {
     fetch(`${base_url}get-site-bats/`, {
       method: "POST",
       body: JSON.stringify({
-        "site": id,
+        "site": id ? id : 1,
       }),
       headers: {
         "Authorization": `Bearer ${accessToken}`,
@@ -50,31 +77,68 @@ const SitesBar = ({ siteData }) => {
     GetBatimentData(sName.site_id);
     dispatch(ShowBatimentCat());
     dispatch(ProductionData(sName));
-    setClicked(sName.site_id);
-    // handleClick(sName.site_id);
-    // console.log(sName.site_id, clicked);
   }, []);
   return (
-    <div className="sites-bar">
-      {siteData.map((sName) => (
-        <button
-          disabled={inputV}
-          className={clicked === sName.site_id ? `btn-clicked` : "site-button "}
-          key={sName.site_id}
-          onClick={() => {
-            // console.log(clicked);
-            GetBatimentData(sName.site_id);
-            dispatch(ShowBatimentCat());
-
-            dispatch(ProductionData(sName));
-            handleClick(sName.site_id);
-            // if (clicked === Number) handleClick(sName.site_id);
-          }}
-        >
-          {sName.name}
-        </button>
-      ))}
-    </div>
+    <Box sx={{ bgcolor: "background.paper" }}>
+      <Tabs
+        className="sites-bar"
+        value={value}
+        onChange={handleChange}
+        variant="scrollable"
+        scrollButtons
+        allowScrollButtonsMobile
+        aria-label="scrollable force example"
+      >
+        {siteData.map((sName) => (
+          <Tab
+            key={sName.site_id}
+            label={sName.name}
+            className="site-button"
+            onClick={() => {
+              setSiteName(sName);
+              GetBatimentData(sName.site_id);
+              if (inputV === true) {
+                dispatch(ShowBatimentCat());
+                handleClickOpen();
+              } else {
+                dispatch(ProductionData(sName));
+              }
+            }}
+          />
+        ))}
+      </Tabs>
+      <div>
+        {open && (
+          <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
+            className=""
+          >
+            <DialogTitle>
+              {"Attention ! Avertissement d'effacement des données"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                Êtes-vous sûr de vouloir continuer ? Cette action effacera
+                définitivement toutes vos données et ne pourra pas être annulée.
+                Veuillez confirmer votre décision.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions className="btns">
+              <button onClick={handleClose} className="delete-btn">
+                Annuler
+              </button>
+              <button className="cancel-btn" onClick={handleConfirmChange}>
+                continuer
+              </button>
+            </DialogActions>
+          </Dialog>
+        )}
+      </div>
+    </Box>
   );
 };
 

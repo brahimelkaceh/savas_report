@@ -38,7 +38,11 @@ export default function ConfirmAlert({ alert, setAlert }) {
               <CloseIcon fontSize="inherit" />
             </IconButton>
           }
-          sx={{ mb: 2, bgcolor: "#FCD0CF" }}
+          sx={{
+            mb: 2,
+            bgcolor: "#FCD0CF",
+            borderLeft: "4px solid #dc2626",
+          }}
         >
           {/* <AlertTitle>Error</AlertTitle> */}
           <strong>Veuillez compléter tous les champs obligatoires.</strong>

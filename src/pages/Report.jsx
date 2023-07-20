@@ -31,8 +31,6 @@ const Report = ({ lots, base_url, CreateReports }) => {
   const data = useSelector((state) => state.ShowBatimentCat.data);
   const formState = useSelector((state) => state.ShowBatimentCat.formState);
 
-  let [ShowSites, setShowSites] = useState();
-
   const dispatch = useDispatch();
   let siteData;
 
@@ -50,7 +48,7 @@ const Report = ({ lots, base_url, CreateReports }) => {
       const data = await response.json();
       if (response.status === 200) {
         setLoading(false);
-        // console.log(JSON.parse(data))
+        // console.log(JSON.parse(data));
         setSites(JSON.parse(data));
       }
     } catch (error) {

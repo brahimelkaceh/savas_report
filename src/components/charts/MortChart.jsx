@@ -1,10 +1,9 @@
 import React from "react";
 import { ResponsiveLine } from "@nivo/line";
 
-function LinearChart({ prodChart }) {
-  // console.log(prodChart?.slice(1));
-  let data = prodChart?.slice(1);
-  // console.log(data);
+function MortChart({ mortData }) {
+  // console.log(mortData?.slice(1));
+  let data = mortData?.slice(1);
   return (
     <ResponsiveLine
       data={data}
@@ -12,7 +11,7 @@ function LinearChart({ prodChart }) {
       xScale={{ type: "point" }}
       yScale={{
         type: "linear",
-        min: 0,
+        min: 1,
         max: "auto",
         stacked: false,
         reverse: false,
@@ -32,12 +31,12 @@ function LinearChart({ prodChart }) {
       axisLeft={{
         tickSize: 5,
         tickPadding: 5,
-        tickRotation: 45,
-        legend: "Production",
-        legendOffset: -50,
+        tickRotation: 0,
+        legend: "Mortalité",
+        legendOffset: -40,
         legendPosition: "middle",
       }}
-      colors={{ scheme: "dark2" }}
+      colors={{ scheme: "paired" }}
       lineWidth={2}
       pointSize={3}
       pointColor={{ theme: "background" }}
@@ -75,4 +74,4 @@ function LinearChart({ prodChart }) {
   );
 }
 
-export default LinearChart;
+export default MortChart;

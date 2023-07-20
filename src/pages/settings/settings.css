@@ -83,6 +83,17 @@
   border-radius: var(--border-radius);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
+.edit-user,
+.edit-site {
+  padding: 10px;
+  /* grid-area: create-user; */
+  background: #f5f5f5;
+  border-radius: var(--border-radius);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  border-top: 6px solid #bf710f;
+
+  background: #f5f5f5;
+}
 
 .sites-settings {
   display: grid;
@@ -381,6 +392,7 @@
   left: 70%;
   width: 420px;
   display: grid;
+
   /* grid-template-rows: auto 1fr auto; */
   /* row-gap: 20px; */
   transition: 0.7s ease-in-out;

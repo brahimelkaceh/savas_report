@@ -210,7 +210,7 @@ const Settings = () => {
   };
   // * Updating Bâtiments
   const UpdateBatimentData = async (data) => {
-    console.log(data);
+    // console.log(data);
     setLoading(true);
     const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
