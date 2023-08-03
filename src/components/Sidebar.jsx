@@ -16,6 +16,7 @@ import { useLocation } from "react-router-dom";
 import { toggleLeftBar } from "../slices/LeftBar";
 const Sidebar = ({}) => {
   const status = useSelector((state) => state.toggleLeftBar.status);
+  // console.log(status);
 
   const dispatch = useDispatch();
   const location = useLocation();

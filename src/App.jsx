@@ -18,7 +18,7 @@ import Help from "./pages/help/Help";
 import AddGuide from "./pages/souches/AddGuide";
 let base_url = "https://pouliprod.savas.ma/api/";
 
-function App() {
+const App = () => {
   const CreateReports = (data) => {
     const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
@@ -134,6 +134,6 @@ function App() {
       </Routes>
     </AuthProvider>
   );
-}
+};
 
 export default App;
