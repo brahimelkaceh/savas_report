@@ -1,128 +1,117 @@
-import { useRef, useState } from "react";
 import ConfirmModal from "../modals/ConfirmModal";
 import { AiOutlineSend } from "react-icons/ai";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearInputs } from "../../../slices/LeftBar";
+import { useState } from "react";
+import { useFormik } from "formik";
+let base_url = "https://farmdriver.savas.ma/api/";
 
-function SitesManage({ CreateSite, setAlert }) {
-  const [open, setOpen] = useState(false);
-  const [regions, setRegions] = useState([
-    {
-      id: "Tanger - Tétouan - Al Hoceima",
-      name: "Tanger - Tétouan - Al Hoceima",
-    },
-    {
-      id: "L'Oriental",
-      name: "L'Oriental",
-    },
-    { id: "Fès - Meknès", name: "Fès - Meknès" },
-    { id: "Rabat - Salé - Kénitra", name: "Rabat - Salé - Kénitra" },
-    { id: "Beni Mellal - Khénifra", name: "Beni Mellal - Khénifra" },
-    { id: "Casablanca - Settat", name: "Casablanca - Settat" },
-    { id: "Marrakech - Safi", name: "Marrakech - Safi" },
-    { id: "Drâa - Tafilalet", name: "Drâa - Tafilalet" },
-    { id: "Souss -Massa", name: "Souss -Massa" },
-    { id: "Guelmim - Oued Noun", name: "Guelmim - Oued Noun" },
-    { id: "Laâyoune - Saguia al Hamra", name: "Laâyoune - Saguia al Hamra" },
-    { id: "Dakhla - Oued Ed-Dahab", name: "Dakhla - Oued Ed-Dahab" },
-  ]);
+function SitesManage({ setOpen, open }) {
+  const [message, setMessage] = useState("");
 
-  let siteRef = useRef();
-  let regionRef = useRef();
-  let phoneRef = useRef();
-  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
   const dispatch = useDispatch();
 
-  if (inputs) {
-    siteRef.current.value = "";
-    regionRef.current.value = "";
-    phoneRef.current.value = "";
-  }
-  const sendData = () => {
-    let siteData = {
-      name: siteRef.current.value,
-      region: regionRef.current.value,
-      phone: phoneRef.current.value,
-    };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      phone: "",
+    },
+    onSubmit: (values) => {
+      CreateSite(values);
+      formik.handleReset();
+    },
+  });
+  const CreateSite = async (data) => {
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
-    if (
-      siteData.name.trim() &&
-      siteData.region.trim() &&
-      siteData.phone.trim()
-    ) {
-      CreateSite(siteData);
-    } else {
-      setAlert(true);
+    try {
+      const response = await fetch(`${base_url}create-site/`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.ok) {
+        console.log("Le site a été ajouté au système");
+      } else {
+        data = {};
+        const errorMessage = "Site existe déjà";
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
-
   return (
     <div className="create-site slit-in-horizontal">
-      <h3>Gestion des sites</h3>
-      <ConfirmModal setOpen={setOpen} open={open} />
-      <form action="">
-        <div className="input-container ic2">
+      {open && (
+        <ConfirmModal
+          setOpen={setOpen}
+          open={open}
+          onSubmit={formik.handleSubmit}
+          message={message}
+        />
+      )}
+      <form
+        className="settings-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <p className="title">Gestion des sites </p>
+        <label>
           <input
-            ref={siteRef}
-            id="siteName"
+            required
+            id="name"
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
             className="input"
             type="text"
             placeholder=" "
             onFocus={() => dispatch(clearInputs(false))}
           />
-          <div className="cut"></div>
-          <label htmlFor="siteName" className="placeholder">
-            Site*
-          </label>
-        </div>
-        <div className="input-container ic2">
+          <span>Site</span>
+        </label>
+        <label>
           <input
-            ref={phoneRef}
-            id="sitePhone"
+            required
+            id="phone"
+            name="phone"
+            value={formik.values.phone}
+            onChange={formik.handleChange}
             className="input"
             type="text"
-            placeholder=" "
+            placeholder=""
             onFocus={() => dispatch(clearInputs(false))}
           />
-          <div className="cut"></div>
-          <label htmlFor="sitePhone" className="placeholder">
-            Télephone*
-          </label>
-        </div>
+          <span> Télephone*</span>
+        </label>
 
-        <div className="input-container ic2">
-          <select
-            ref={regionRef}
-            id="siteSities"
-            className="input"
-            onFocus={() => dispatch(clearInputs(false))}
+        <div className="btns">
+          <button
+            className="edit-btn"
+            type="submit"
+            disabled={
+              formik.values.name.length == 0 || formik.values.phone.length == 0
+            }
+            onClick={(e) => {
+              setMessage(
+                "Êtes-vous sûr(e) de vouloir soumettre ce formulaire ?"
+              );
+              setOpen(true);
+            }}
           >
-            <option value="">--</option>
-            {regions.map((region) => (
-              <option key={region.id} value={region.id}>
-                {region.name}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="siteSities" className="placeholder">
-            Region*
-          </label>
-        </div>
-        <button
-          type="submit"
-          className="send-btn"
-          onClick={(e) => {
-            e.preventDefault();
-            sendData();
-          }}
-        >
-          <div className="svg-wrapper-1">
-            <div className="svg-wrapper">
-              <AiOutlineSend />
+            <div className="svg-wrapper-1">
+              <div className="svg-wrapper">
+                <AiOutlineSend />
+              </div>
             </div>
-          </div>
-          <span>Send</span>
-        </button>
+            <span>Submit</span>
+          </button>
+        </div>
       </form>
     </div>
   );

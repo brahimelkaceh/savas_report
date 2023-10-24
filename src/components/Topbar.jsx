@@ -38,7 +38,7 @@ const Topbar = ({ isVisualize }) => {
         </button>
       </div>
 
-      <img src={logo} alt="Savas-logo" className="logo" />
+      {/* <img src={logo} alt="Savas-logo" className="logo" /> */}
       {searchBarstatus && <SearchBar />}
       {isVisualize ? (
         <FaSearch

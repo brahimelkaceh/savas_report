@@ -1529,3 +1529,1346 @@
       </Tabs>
       aliment/oeuf: altoeuf-chart/
       temperature: temp-chart/
+
+
+      //clicked on the site button :
+      - fetching site data 
+      including the batiment data and lot data 
+      -batiment data : production or Poussiniere 
+
+      if site including production and Poussiniere 
+          display production and Poussiniere 
+    else if site including production or Poussiniere 
+          display production or Poussiniere
+    else 
+    display nothing 
+
+
+ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import StarIcon from "@mui/icons-material/Star";
+import EggIcon from "@mui/icons-material/Egg";
+import { BiBorderRadius, BiCommentAdd } from "react-icons/bi";
+import { AiOutlineSend } from "react-icons/ai";
+import Rating from "@mui/material/Rating";
+import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
+
+import { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+const StyledRating = styled(Rating)({
+  "& .MuiRating-iconFilled": {
+    color: "#6C3428 ",
+  },
+  "& .MuiRating-iconHover": {
+    color: "#6C3428",
+  },
+});
+function ReportForm({ productionData }) {
+  // console.log(productionData)  ;
+  const [showProduction, setShowProduction] = useState(true);
+  const [showTemp, setShowTemp] = useState(true);
+  const [showLum, setShowLum] = useState(true);
+  const [showObservs, setShowObservs] = useState(false);
+  const [inputVal, setInputVal] = useState([]);
+  const [qltValue, setQltValue] = useState(0);
+  const [hoverQlt, setHoverQlt] = useState(-1);
+  const [colorationValue, setColorationValue] = useState(0);
+  const [hoverColoration, setHoverColoration] = useState(-1);
+  const [aspectPouletteValue, setAspectPouletteValue] = useState(0);
+  const [hoverAspectPouletteValue, setHoverAspectPouletteValue] = useState(-1);
+  const [fientesValue, setFientesValue] = useState(0);
+  const [hoverFientes, setHoverFientes] = useState(-1);
+  const initialValues = {
+    batiment: "",
+    mort: "",
+    prod_normal: "",
+    prod_dj: "",
+    prod_blanc: "",
+    prod_casse: "",
+    prod_feles: "",
+    prod_elimne: "",
+    //  if(reform) {
+
+    //    hensEliminated: parseInt(hensEliminatedRef.current.value),
+    //  },
+    alimentDist: "",
+    eauDist: "",
+    pmo: "",
+    poidVif: "",
+    homog: "",
+    formule: "",
+    temperatureMin: "",
+    temperatureMax: "",
+    temperatureMinExt: "",
+    temperatureMaxExt: "",
+    lightOn: "",
+    lightOff: "",
+    flashOn: "",
+    flashOff: "",
+    intensite: "",
+    aspectPoulette: "",
+    coloration: colorationValue,
+    qty_shell: qltValue,
+    fientes: fientesValue,
+    // observ: mergedArray.toString().replaceAll(",", "|@|"),
+    // Add more form fields as needed...
+  };
+
+  const colorationLabel = {
+    1: "70",
+    2: "80",
+    3: "90",
+    4: "100",
+    5: "110",
+  };
+  const aspectPouletteLabel = {
+    1: "Active",
+    2: "Calme",
+    3: "Nerveuse",
+    4: "Haléte",
+  };
+  const aspectPoulette = [
+    { id: 1, name: "Active" },
+    { id: 2, name: "Calme" },
+    { id: 3, name: "Nerveuse" },
+    { id: 4, name: "Nerveuse" },
+  ];
+  const qltLabel = {
+    1: "1",
+    2: "2",
+    3: "3",
+    4: "4",
+    5: "5",
+  };
+  const fientesLabel = {
+    1: "normal",
+    2: "diarrhee",
+    3: "sanglant",
+    4: "couleur anormale",
+    5: "nourriture non digeree",
+  };
+  const validationSchema = Yup.object({
+    batiment: Yup.string().required("Batiment is required"),
+    mort: Yup.number()
+      .required("Mortalité is required")
+      .positive("the number must be positive"),
+    prod_normal: Yup.number()
+      .required("Normaux is required")
+      .positive("the number must be positive"),
+    prod_dj: Yup.number()
+      .required("Double jaune is required")
+      .positive("the number must be positive"),
+    prod_blanc: Yup.number()
+      .required("Blanc is required")
+      .positive("the number must be positive"),
+    prod_casse: Yup.number()
+      .required("Casse is required")
+      .positive("the number must be positive"),
+    prod_feles: Yup.number()
+      .required("feles is required")
+      .positive("the number must be positive"),
+    prod_elimne: Yup.number()
+      .required("eliminé is required")
+      .positive("the number must be positive"),
+    alimentDist: Yup.number()
+      .required("aliment dist is required")
+      .positive("the number must be positive"),
+    eauDist: Yup.number()
+      .required("Eau dist is required")
+      .positive("the number must be positive"),
+    pmo: Yup.number()
+      .required("Poid moyen Oeuf is required")
+      .positive("the number must be positive"),
+    poidVif: Yup.number()
+      .required("Poid vif is required")
+      .positive("the number must be positive"),
+    homog: Yup.number()
+      .required("homogineité is required")
+      .positive("the number must be positive"),
+    formule: Yup.string().required("FEP is required"),
+    temperatureMin: Yup.number()
+      .required("Temp int min is required")
+      .positive("the number must be positive"),
+    temperatureMax: Yup.number()
+      .required("Temp int max is required")
+      .positive("the number must be positive"),
+    temperatureMinExt: Yup.number()
+      .required("Temp ext min is required")
+      .positive("the number must be positive"),
+    temperatureMaxExt: Yup.number()
+      .required("Temp ext max is required")
+      .positive("the number must be positive"),
+    lightOn: Yup.string().required("light on Oeuf is required"),
+    lightOff: Yup.string().required("light off Oeuf is required"),
+    flashOn: Yup.string().required("flash on Oeuf is required"),
+    flashOff: Yup.string().required("flash off Oeuf is required"),
+    intensite: Yup.number()
+      .required("intensité is required")
+      .positive("the number must be positive"),
+    // coloration: Yup.string().required(" coloration is required "),
+    // fientes: Yup.string().required(" fientes is required "),
+    // qty_shell: Yup.string().required(" qty shell is required"),
+    aspectPoulette: Yup.number()
+      .required("Aspect Poulette is required")
+      .min(1, "Rating must be at least 1")
+      .max(5, "Rating must not exceed 5"),
+    coloration: Yup.number()
+      .required("Coloration is required")
+      .min(1, "Rating must be at least 1")
+      .max(5, "Rating must not exceed 5"),
+    // rating2: Yup.number()
+    //   .required("Rating 2 is required")
+    //   .min(1, "Rating must be at least 1")
+    //   .max(5, "Rating must not exceed 5"),
+    // rating3: Yup.number()
+    //   .required("Rating 3 is required")
+    //   .min(1, "Rating must be at least 1")
+    //   .max(5, "Rating must not exceed 5"),
+    // rating4: Yup.number()
+    //   .required("Rating 4 is required")
+    //   .min(1, "Rating must be at least 1")
+    //   .max(5, "Rating must not exceed 5"),
+    // Define validation rules for other form fields...
+  });
+
+  //   ! Add New Input
+  const handleAdd = () => {
+    const val = [...inputVal, []];
+    setSelectedOption("");
+    // console.log(val);
+    setInputVal(val);
+  };
+  const handleSubmit = (values) => {
+    console.log(values);
+    // Handle form submission here (e.g., API calls, etc.)
+  };
+  // ! Geting Qlt Coquille Label Text From Rating
+  function getqltlabeltext(value) {
+    return `${value} Star${value !== 1 ? "s" : ""}, ${qltLabel[value]}`;
+  }
+  // ! Geting Coloration Label Text From Rating
+  function getColorationLabelText(value) {
+    return `${value} Star${value !== 1 ? "s" : ""}, ${colorationLabel[value]}`;
+  }
+  // ! Geting Ascpect Poulette Label Text From Rating
+  function getAscpectPouletteLabelText(value) {
+    return `${value} Star${value !== 1 ? "s" : ""}, ${
+      aspectPouletteLabel[value]
+    }`;
+  }
+  // ! Geting fientes Label Text From Rating
+  function getFientesLabelText(value) {
+    return `${value} Star${value !== 1 ? "s" : ""}, ${fientesLabel[value]}`;
+  }
+  return (
+    <>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form className="form">
+          <div className="input-container">
+            <label htmlFor="batiment" className="name">
+              Bâtiment
+            </label>
+            <Field
+              multiple={false}
+              as="select"
+              id="batiment"
+              name="batiment"
+              className="input"
+            >
+              <option value="">--</option>
+              {productionData.map((loc) => (
+                <option key={loc.id} value={loc.id}>
+                  {loc.name}
+                </option>
+              ))}
+            </Field>
+            <div className="underline"></div>
+
+            <ErrorMessage name="batiment" component="div" className="error" />
+          </div>
+          <div className="input-container">
+            <label htmlFor="mort" className="name">
+              Mortalité
+            </label>
+            <Field type="number" id="mort" name="mort" className="input" />
+            <div className="underline"></div>
+
+            <ErrorMessage name="mort" component="div" className="error" />
+          </div>
+
+          {/* ? Produciton */}
+          <div className=" ic2 feilds-container scale-up-ver-top">
+            <div className="toggle-switch ">
+              <label
+                onClick={() => {
+                  setShowProduction(!showProduction);
+                }}
+                className="toggle-label"
+                htmlFor="toggle"
+              >
+                {showProduction
+                  ? "masquer la production"
+                  : "afficher la production"}
+              </label>
+              <Field
+                className="toggle-input"
+                id="toggle"
+                type="checkbox"
+                hidden
+              />
+              <label
+                onClick={() => {
+                  setShowProduction(!showProduction);
+                }}
+                className="toggle-label"
+                htmlFor="toggle"
+              >
+                {!showProduction ? (
+                  <KeyboardArrowDownIcon />
+                ) : (
+                  <KeyboardArrowUpIcon />
+                )}
+              </label>
+            </div>
+
+            {showProduction && (
+              <div
+                className={
+                  showProduction ? "scale-up-ver-top" : "scale-out-ver-top"
+                }
+              >
+                <div className="input__container-box">
+                  <div className="input-container">
+                    <label htmlFor="prod_normal" className="name">
+                      Normaux
+                    </label>
+                    <Field
+                      id="prod_normal"
+                      className="input"
+                      name="prod_normal"
+                      // className="input input-disabled"
+                      type="number"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="prod_normal"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="input-container">
+                    <label htmlFor="prod_dj" className="name">
+                      Double Jaune
+                    </label>
+                    <Field
+                      id="prod_dj"
+                      className="input"
+                      // className="input input-disabled"
+                      type="number"
+                      name="prod_dj"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="prod_dj"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                </div>
+                <div className="input__container-box">
+                  <div className="input-container">
+                    <label htmlFor="prod_blanc" className="name">
+                      Blanc
+                    </label>
+                    <Field
+                      id="prod_blanc"
+                      className="input"
+                      // className="input input-disabled"
+                      type="number"
+                      name="prod_blanc"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="prod_blanc"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="input-container">
+                    <label htmlFor="prod_casse" className="name">
+                      Cassé
+                    </label>
+                    <Field
+                      id="prod_casse"
+                      className="input"
+                      // className="input input-disabled"
+                      type="number"
+                      name="prod_casse"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="prod_casse"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                </div>
+                <div className="input__container-box">
+                  <div className="input-container">
+                    <label htmlFor="prod_feles" className="name">
+                      Feles
+                    </label>
+                    <Field
+                      id="prod_feles"
+                      className="input"
+                      type="number"
+                      name="prod_feles"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="prod_feles"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="input-container">
+                    <label htmlFor="prod_elimne" className="name">
+                      Eliminé
+                    </label>
+                    <Field
+                      id="prod_elimne"
+                      className="input"
+                      type="number"
+                      name="prod_elimne"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="prod_elimne"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Aliment & Eau distribuer */}
+          <div className="input__container-box">
+            <div className="input-container">
+              <label htmlFor="alimentDist" className="name">
+                Aliment Distribué
+              </label>
+              <Field
+                id="alimentDist"
+                className="input"
+                type="number"
+                name="alimentDist"
+              />
+              <div className="underline"></div>
+
+              <ErrorMessage
+                name="alimentDist"
+                component="div"
+                className="error"
+              />
+            </div>
+            <div className="input-container">
+              <label htmlFor="eauDist" className="name">
+                Eau Distribué
+              </label>
+              <Field
+                id="eauDist"
+                className="input"
+                type="number"
+                name="eauDist"
+              />
+              <div className="underline"></div>
+
+              <ErrorMessage name="eauDist" component="div" className="error" />
+            </div>
+          </div>
+          {/* PMO */}
+          <div className="input-container">
+            <label htmlFor="pmo" className="name">
+              Poid moyen d'oeuf
+            </label>
+            <Field type="number" id="pmo" name="pmo" className="input" />
+            <div className="underline"></div>
+
+            <ErrorMessage name="pmo" component="div" className="error" />
+          </div>
+          {/* Piod vif */}
+          <div className="input__container-box">
+            <div className="input-container">
+              <label htmlFor="poidVif" className="name">
+                Poid vif
+              </label>
+              <Field
+                id="poidVif"
+                className="input"
+                type="number"
+                name="poidVif"
+              />
+              <div className="underline"></div>
+
+              <ErrorMessage name="poidVif" component="div" className="error" />
+            </div>
+            <div className="input-container">
+              <label htmlFor="homog" className="name">
+                Homogeneité
+              </label>
+              <Field id="homog" className="input" type="number" name="homog" />
+              <div className="underline"></div>
+
+              <ErrorMessage name="homog" component="div" className="error" />
+            </div>
+          </div>
+          {/* formule en place */}
+          <div className="input-container">
+            <label htmlFor="formule" className="name">
+              Formule en place
+            </label>
+            <Field type="text" id="formule" name="formule" className="input" />
+            <div className="underline"></div>
+
+            <ErrorMessage name="formule" component="div" className="error" />
+          </div>
+          {/* Temperature */}
+          <div className=" ic2 feilds-container scale-up-ver-top">
+            <div className="toggle-switch ">
+              <label
+                onClick={() => {
+                  setShowTemp(!showTemp);
+                }}
+                className="toggle-label"
+                htmlFor="toggle"
+              >
+                {showTemp
+                  ? "masquer la Temperature"
+                  : "afficher la Temperature"}
+              </label>
+              <Field
+                className="toggle-input"
+                id="toggle"
+                type="checkbox"
+                hidden
+              />
+              <label
+                onClick={() => {
+                  setShowTemp(!showTemp);
+                }}
+                className="toggle-label"
+                htmlFor="toggle"
+              >
+                {!showProduction ? (
+                  <KeyboardArrowDownIcon />
+                ) : (
+                  <KeyboardArrowUpIcon />
+                )}
+              </label>
+            </div>
+
+            {showTemp && (
+              <div
+                className={showTemp ? "scale-up-ver-top" : "scale-out-ver-top"}
+              >
+                <div className="input__container-box">
+                  <div className="input-container">
+                    <label htmlFor="temperatureMin" className="name">
+                      Temperature interne min
+                    </label>
+                    <Field
+                      id="temperatureMin"
+                      className="input"
+                      name="temperatureMin"
+                      // className="input input-disabled"
+                      type="number"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="temperatureMin"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="input-container">
+                    <label htmlFor="temperatureMax" className="name">
+                      Temperature interne max
+                    </label>
+                    <Field
+                      id="temperatureMax"
+                      className="input"
+                      // className="input input-disabled"
+                      type="number"
+                      name="temperatureMax"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="temperatureMax"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                </div>
+                <div className="input__container-box">
+                  <div className="input-container">
+                    <label htmlFor="temperatureMinExt" className="name">
+                      Temperature externe min
+                    </label>
+                    <Field
+                      id="temperatureMinExt"
+                      className="input"
+                      name="temperatureMinExt"
+                      // className="input input-disabled"
+                      type="number"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="temperatureMinExt"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="input-container">
+                    <label htmlFor="temperatureMaxExt" className="name">
+                      Temperature externe max
+                    </label>
+                    <Field
+                      id="temperatureMaxExt"
+                      className="input"
+                      // className="input input-disabled"
+                      type="number"
+                      name="temperatureMaxExt"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="temperatureMaxExt"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          {/* Lumiere */}
+          <div className=" ic2 feilds-container scale-up-ver-top">
+            <div className="toggle-switch ">
+              <label
+                onClick={() => {
+                  setShowLum(!showLum);
+                }}
+                className="toggle-label"
+                htmlFor="toggle"
+              >
+                {showLum ? "masquer la lumiere" : "afficher la lumiere"}
+              </label>
+              <Field
+                className="toggle-input"
+                id="toggle"
+                type="checkbox"
+                hidden
+              />
+              <label
+                onClick={() => {
+                  setShowLum(!showLum);
+                }}
+                className="toggle-label"
+                htmlFor="toggle"
+              >
+                {!showProduction ? (
+                  <KeyboardArrowDownIcon />
+                ) : (
+                  <KeyboardArrowUpIcon />
+                )}
+              </label>
+            </div>
+
+            {showLum && (
+              <div
+                className={showLum ? "scale-up-ver-top" : "scale-out-ver-top"}
+              >
+                <div className="input__container-box">
+                  <div className="input-container">
+                    <label htmlFor="lightOn" className="name">
+                      lumiere allumage
+                    </label>
+                    <Field
+                      id="lightOn"
+                      className="input"
+                      name="lightOn"
+                      // className="input input-disabled"
+                      type="time"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="lightOn"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="input-container">
+                    <label htmlFor="lightOff" className="name">
+                      lumiere eteinder
+                    </label>
+                    <Field
+                      id="lightOff"
+                      className="input"
+                      type="time"
+                      name="lightOff"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="lightOff"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                </div>
+                <div className="input__container-box">
+                  <div className="input-container">
+                    <label htmlFor="flashOn" className="name">
+                      Flash allumage
+                    </label>
+                    <Field
+                      id="flashOn"
+                      className="input"
+                      name="flashOn"
+                      // className="input input-disabled"
+                      type="time"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="flashOn"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="input-container">
+                    <label htmlFor="flashOff" className="name">
+                      Flash eteinder
+                    </label>
+                    <Field
+                      id="flashOff"
+                      className="input"
+                      // className="input input-disabled"
+                      type="time"
+                      name="flashOff"
+                    />
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="flashOff"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          {/* intensité */}
+          <div className="input-container">
+            <label htmlFor="intensite" className="name">
+              Intensité
+            </label>
+            <Field
+              type="number"
+              id="intensite"
+              name="intensite"
+              className="input"
+            />
+            <div className="underline"></div>
+
+            <ErrorMessage name="intensite" component="div" className="error" />
+          </div>
+          {/* Observations */}
+          <div className=" ic2 feilds-container scale-up-ver-top">
+            <div className="toggle-switch ">
+              <label
+                onClick={() => {
+                  setShowObservs(!showObservs);
+                }}
+                className="toggle-label"
+                htmlFor="toggle"
+              >
+                {showObservs
+                  ? "masquer l'observation "
+                  : "afficher l'observation"}
+              </label>
+              <Field
+                className="toggle-input"
+                id="toggle"
+                type="checkbox"
+                hidden
+              />
+              <label
+                onClick={() => {
+                  setShowObservs(!showObservs);
+                }}
+                className="toggle-label"
+                htmlFor="toggle"
+              >
+                {!showProduction ? (
+                  <KeyboardArrowDownIcon />
+                ) : (
+                  <KeyboardArrowUpIcon />
+                )}
+              </label>
+            </div>
+
+            {showObservs && (
+              <div
+                className={
+                  showObservs ? "scale-up-ver-top" : "scale-out-ver-top"
+                }
+              >
+                <div className="input__container-box">
+                  <div className="input-container">
+                    <label htmlFor="aspectPoulette" className="name">
+                      Aspect poulette
+                    </label>
+                    <div className="rating-container">
+                      <div className="rating">
+                        <Field
+                          value="5"
+                          name="aspectPoulette"
+                          id="aspectPoulette"
+                          type="radio"
+                        />
+                        <label htmlFor="aspectPoulette"></label>
+                        <Field
+                          value="4"
+                          name="aspectPoulette"
+                          id="aspectPoulette"
+                          type="radio"
+                        />
+                        <label htmlFor="aspectPoulette"></label>
+                        <Field
+                          value="3"
+                          name="aspectPoulette"
+                          id="aspectPoulette"
+                          type="radio"
+                        />
+                        <label htmlFor="aspectPoulette"></label>
+                        <Field
+                          value="2"
+                          name="aspectPoulette"
+                          id="aspectPoulette"
+                          type="radio"
+                        />
+                        <label htmlFor="aspectPoulette"></label>
+                        <Field
+                          value="1"
+                          name="aspectPoulette"
+                          id="aspectPoulette"
+                          type="radio"
+                        />
+                        <label htmlFor="aspectPoulette"></label>
+                        <div className="underline"></div>
+
+                        <ErrorMessage
+                          name="aspectPoulette"
+                          component="div"
+                          className="error"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="input-container">
+                    <label htmlFor="coloration" className="name">
+                      Coloration
+                    </label>
+                    <div className="rating-container">
+                      <StyledRating
+                        name="coloration"
+                        value={colorationValue}
+                        precision={1}
+                        getLabelText={getColorationLabelText}
+                        onChange={(event, newValue) => {
+                          setColorationValue(newValue);
+                          console.log(newValue);
+                        }}
+                        onChangeActive={(event, newHover) => {
+                          setHoverColoration(newHover);
+                        }}
+                        icon={<EggIcon fontSize="inherit" color="#6C3428" />}
+                        emptyIcon={
+                          <EggIcon
+                            style={{ opacity: 0.55, color: "#DFA878" }}
+                            fontSize="inherit"
+                          />
+                        }
+                      />
+                      {colorationValue !== null && (
+                        <Box sx={{ ml: 2 }}>
+                          {
+                            colorationLabel[
+                              hoverColoration !== -1
+                                ? hoverColoration
+                                : colorationValue
+                            ]
+                          }
+                        </Box>
+                      )}
+                    </div>
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="coloration"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  {/* Qlt Coquille */}
+                </div>
+                <div className="input__container-box">
+                  <div className="input-container">
+                    <label htmlFor="qty_shell" className="name">
+                      Qlt Coquille
+                    </label>
+                    <div className="rating-container">
+                      <Rating
+                        name="hover-feedback"
+                        value={qltValue}
+                        precision={1}
+                        getLabelText={getqltlabeltext}
+                        onChange={(event, newValue) => {
+                          setQltValue(newValue);
+                        }}
+                        onChangeActive={(event, newHover) => {
+                          setHoverQlt(newHover);
+                        }}
+                        emptyIcon={
+                          <StarIcon
+                            style={{ opacity: 0.55 }}
+                            fontSize="inherit"
+                          />
+                        }
+                      />
+                      {qltValue !== null && (
+                        <Box sx={{ ml: 2 }}>
+                          {qltLabel[hoverQlt !== -1 ? hoverQlt : qltValue]}
+                        </Box>
+                      )}
+                    </div>
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="qty_shell"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  {/* fientes */}
+
+                  <div className="input-container">
+                    <label htmlFor="fientes" className="name">
+                      Fientes
+                    </label>
+                    <div className="rating-container">
+                      <Rating
+                        name="hover-feedback"
+                        value={fientesValue}
+                        precision={1}
+                        getLabelText={getFientesLabelText}
+                        onChange={(event, newValue) => {
+                          setFientesValue(newValue);
+                        }}
+                        onChangeActive={(event, newHover) => {
+                          setHoverFientes(newHover);
+                        }}
+                        emptyIcon={
+                          <StarIcon
+                            style={{ opacity: 0.55 }}
+                            fontSize="inherit"
+                          />
+                        }
+                      />
+                      {fientesValue !== null && (
+                        <Box sx={{ ml: 2 }}>
+                          {
+                            fientesLabel[
+                              hoverFientes !== -1 ? hoverFientes : fientesValue
+                            ]
+                          }
+                        </Box>
+                      )}
+                    </div>
+                    <div className="underline"></div>
+
+                    <ErrorMessage
+                      name="fientes"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Add more input fields as needed... */}
+
+          <button type="submit">Submit</button>
+        </Form>
+      </Formik>
+    </>
+  );
+}
+
+export default ReportForm;
+//////////////////////////////////////////
+ const sites = useSelector((state) => state.ShowBatimentCat.sites);
+  const [isChecked, setIsChecked] = useState(false);
+  const [state, setState] = React.useState({
+    bottom: false,
+  });
+  const [lotData, setLotData] = useState([]);
+  let batimentIdRef = useRef();
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+  const placeDate = (dates) => {
+    const dateNaissance = document.getElementById("date-naissance");
+    const dateTransfert = document.getElementById("date-transfert");
+    const dateMep = document.getElementById("date-mise-place");
+
+    dateNaissance.type = "text";
+    dateTransfert.type = "text";
+    dateMep.type = "text";
+
+    dateNaissance.value = dates.birthdate;
+    dateTransfert.value = dates.transfert_date;
+    dateMep.value = dates.mep_data;
+  };
+
+  const GetLotDetails = () => {
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+    fetch(`${base_url}get-lot-data/`, {
+      method: "POST",
+      body: JSON.stringify({
+        "batiment": parseInt(batimentIdRef.current.value),
+      }),
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(JSON.parse(data));
+        setLotData(JSON.parse(data));
+        // placeDate(lotData.birth, lotData.transfert_date, lotData.mep_data);
+        placeDate(JSON.parse(data));
+      })
+      .catch((error) => console.error(error));
+  };
+  const handleFocusedElement = (e) => {
+    if (e.target.value.length == 0) {
+      e.target.type = "date";
+    }
+  };
+
+<div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        height: "fitContent",
+        zIndex: 10000,
+      }}
+      className="drawer-container"
+    >
+      {["bottom"].map((anchor) => (
+        <React.Fragment key={anchor}>
+          <Button onClick={toggleDrawer(anchor, true)} className="top-drawer">
+            <MdOutlineKeyboardArrowUp
+              style={{ fontSize: "18px", color: "ff6000" }}
+            />
+          </Button>
+
+          <SwipeableDrawer
+            anchor={anchor}
+            open={state[anchor]}
+            onClose={toggleDrawer(anchor, false)}
+            onOpen={toggleDrawer(anchor, true)}
+            className="drawer-container"
+          >
+            <form className="form">
+              <div className="input-container ic2">
+                <select
+                  name=""
+                  className="input"
+                  id="batiment"
+                  ref={batimentIdRef}
+                  onChange={GetLotDetails}
+                  required
+                >
+                  <option value={null}>--</option>
+                  {sites.map((site) => (
+                    <option value={site.id} key={site.id}>
+                      {site.name} -{site.site} ({site.type})
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="coloration" className="placeholder">
+                  Bâtiment
+                </label>
+              </div>
+              <div className="input-container ic2">
+                <select name="souche" id="souche" className="input">
+                  <option value={lotData.souche_id}>{lotData.souche}</option>
+                  <option value="HISEX 2022">HISEX 2022</option>
+                  <option value="HYLINE 2018">HYLINE 2018</option>
+                  <option value="HYLINE 2022">HYLINE 2022</option>
+                  <option value="LOHMANNE 2022">LOHMANNE 2022</option>
+                </select>
+                <label htmlFor="souche" className="placeholder">
+                  Souches
+                </label>
+              </div>
+              <div className="input-container ic2">
+                <input
+                  id="lotCode"
+                  className="input"
+                  type="text"
+                  placeholder=" "
+                  name="lotCode"
+                  defaultValue={lotData.code}
+                />
+                <div className="cut"></div>
+                <label htmlFor="lotCode" className="placeholder">
+                  Lot Code
+                </label>
+              </div>
+              <div className="input-container ic2">
+                <input
+                  id="effectif"
+                  className="input"
+                  type="number"
+                  placeholder=" "
+                  defaultValue={lotData?.effectifDP}
+                  name="effectif"
+                />
+                <div className="cut"></div>
+                <label htmlFor="effectif" className="placeholder">
+                  Effectif
+                </label>
+              </div>
+
+              <div className="input-container ic2">
+                <input
+                  name="dateNaissance"
+                  id="date-naissance"
+                  className="input"
+                  type="text"
+                  placeholder=" "
+                  onFocus={handleFocusedElement}
+                  onChange={handleFocusedElement}
+                />
+                <div className="cut"></div>
+                <label htmlFor="date-naissance" className="placeholder">
+                  Date de naissance
+                </label>
+              </div>
+              <div className="input-container ic2">
+                <input
+                  name="dateMisePlace"
+                  id="date-mise-place"
+                  className="input"
+                  type="text"
+                  placeholder=" "
+                  onFocus={handleFocusedElement}
+                  onChange={handleFocusedElement}
+                />
+                <div className="cut"></div>
+                <label htmlFor="date-mise-place" className="placeholder">
+                  Date de mise en place
+                </label>
+              </div>
+              <div className="input-container ic2">
+                <input
+                  name="dateTransfert"
+                  id="date-transfert"
+                  className="input"
+                  type="text"
+                  onFocus={handleFocusedElement}
+                  onChange={handleFocusedElement}
+                  placeholder=" "
+                />
+                <div className="cut"></div>
+                <label htmlFor="date-transfert" className="placeholder">
+                  Date de transfert
+                </label>
+              </div>
+              <div
+                // className={`${
+                //   disabled
+                //     ? "checkbox-input-container-disabled ic2"
+                //     : "check-input-container ic2"
+                // }`}
+                className="check-input-container ic2"
+              >
+                <label htmlFor="reform-lot" className="placehold">
+                  En Reformée
+                </label>
+                <input
+                  type="checkbox"
+                  name="reformLot"
+                  id="reform-lot"
+                  className="checkbox-input"
+                  // disabled={modifyReform === false ? "disabled" : ""}
+                  // defaultChecked={modifyReform === true ? "" : "checked "}
+
+                  // disabled={!disabled}
+                />
+              </div>
+              <div className="input-container ic2">
+                <div className="cut"></div>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span className="slider"></span>
+                </label>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "10px",
+                }}
+              >
+                {/* <SendBtn /> */}
+              </div>
+            </form>
+          </SwipeableDrawer>
+        </React.Fragment>
+      ))}
+    </div>
+
+    /////////////////////////////////////////////
+      const FetchData = async (lotId) => {
+    setLoading(true);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+    try {
+      const response = await fetch(`${base_url}get-table-data/`, {
+        method: "POST",
+        body: JSON.stringify({
+          "lotId": lotId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        setLoading(false);
+        setData(JSON.parse(data));
+        console.log(JSON.parse(data));
+      } else {
+        setLoading(false);
+        setData([]);
+      }
+    } catch (error) {
+      setLoading(false);
+      setData([]);
+    }
+  };
+
+  const GetLotTitle = async () => {
+    setLoading(true);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+    try {
+      const response = await fetch(`${base_url}get-lots-titles/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        setLoading(false);
+        console.log(JSON.parse(data));
+        setLotTitle(JSON.parse(data));
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    GetLotTitle();
+  }, []);
+
+  
+
+  data = {
+    'prod_normal': 3000,
+    'prod_dj': 100,
+    'prod_blanc': 50,
+    'prod_casse': 70,
+    'prod_feles': 20,
+    'prod_elimne': 10,
+    'mort': 5,
+    'hensEliminated': 1,
+    'alimentDist': 5000,
+    'eauDist': 10000,
+    'pmo': 43,
+    'poidVif': 1890,
+    'homog': 80,
+    'lightOn': '05:30',
+    'lightOff': '19:30',
+    'flashOn': '23:30',
+    'flashOff': '01:30',
+    'formule': 'EEP',
+    'intensite': 0,
+    'intensIsLux': false,
+    'temperatureMin': 0,
+    'temperatureMax': 0,
+    'temperatureMinExt': 0,
+    'temperatureMaxExt': 0,
+    'coloration': 1,
+    'qty_shell': '1',
+    'batiment': 1
+  }

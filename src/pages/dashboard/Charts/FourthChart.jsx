@@ -1,117 +1,48 @@
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
-import TagFacesIcon from "@mui/icons-material/TagFaces";
-// import SkeletonChart from "../skeletons/SkeletonChart";
-import { styled } from "@mui/material/styles";
-
-const ListItem = styled("li")(({ theme }) => ({
-  margin: theme.spacing(0.5),
-}));
-import { useState, useEffect } from "react";
-import "./style.css";
-import BarCharts from "../../../components/charts/BarCharts";
-import LinearChart from "../../../components/charts/LinearChart";
-import SkeletonChart from "../skeletons/SkeletonChart";
 import SkeletonBox from "../skeletons/SkeletonBox";
 import AltChart from "../../../components/charts/AltChart";
-// prod-chart/
-// get-site-or-bats/
-let base_url = "https://pouliprod.savas.ma/api/";
+import Loader from "../../../components/loader/Loader";
+import UseLocalStorageState from "../../../hooks/UseLocalStorageState";
+import useCustomFetch from "../hooks/UseFetchData";
+import { useState, useEffect } from "react";
+import "./style.css";
 
-function FourthChart() {
+function FourthChart({ batSite, Sitesloading }) {
   const [value, setValue] = useState(0);
-  const [siteBatId, setSiteBatId] = useState(1);
-  const [siteBatName, setSiteBatName] = useState("KAMOUNI");
-  const [time, setTime] = useState(0);
-  const [data, setData] = useState([
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-  ]);
-  const [chipData, setChipData] = useState([
-    { key: 0, label: "Sem" },
-    { key: 1, label: "Mois" },
-  ]);
-  const [loading, setLoading] = useState(false);
-  const [altData, setAltData] = useState([]);
-  const [batSite, setBatSite] = useState([]);
+  const [label, setLabel] = useState(0);
+  const chipData = [
+    { key: 0, label: "7 jours" },
+    { key: 1, label: "30 jours" },
+  ];
+  const [id, setId] = useState(null);
+  const [date, setDate] = UseLocalStorageState("ProdTime", 0);
+  const { data, loading } = useCustomFetch(
+    id ? id : batSite[0].id,
+    date ? date : 0,
+    "altoeuf-chart"
+  );
+  const fetchDataById = (id) => {
+    setId(id);
+  };
+
+  const fetchDataByDate = (date) => {
+    setDate(date);
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    // console.log(newValue);
   };
-  const handleClickTab = (tabValue) => {
-    console.log(tabValue);
-  };
-
-  const FetchProdChart = async (timeId, BatId, BatName) => {
-    // console.log(siteBatId, siteBatName);
-    // console.log(timeId);
-    setLoading(true);
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
-    try {
-      const response = await fetch(`${base_url}altoeuf-chart/`, {
-        method: "POST",
-        body: JSON.stringify({
-          name: BatName ? BatName : siteBatName,
-          place: BatId ? BatId : siteBatId,
-          time: timeId ? timeId : time,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const data = await response.json();
-      if (response.status === 200) {
-        setLoading(false);
-        setAltData(JSON.parse(data));
-        // console.log(true);
-      } else {
-        setLoading(false);
-        setAltData(null);
-      }
-    } catch (error) {
-      setLoading(false);
-      setAltData([]);
-    }
-  };
-  const GetSiteOrBat = async () => {
-    setLoading(true);
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
-    try {
-      const response = await fetch(`${base_url}get-site-or-bats/`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const data = await response.json();
-      if (response.status === 200) {
-        setLoading(false);
-        // console.log(JSON.parse(data));
-        setBatSite(JSON.parse(data));
-      }
-    } catch (error) {
-      console.error(error);
-      setBatSite(null);
-      setLoading(false);
-    }
+  const handleChangeLabel = (event, newValue) => {
+    setLabel(newValue);
+    localStorage.setItem("altTime", newValue);
   };
 
   useEffect(() => {
-    FetchProdChart();
-    GetSiteOrBat();
+    const savedLabel = localStorage.getItem("altTime") || 0;
+    setLabel(Number(savedLabel));
   }, []);
 
   return (
@@ -142,14 +73,15 @@ function FourthChart() {
                     minWidth: "20px",
                     minHeight: "20px",
                   }}
-                  onClick={() => FetchProdChart(0, d.id, d.name)}
+                  onClick={() => fetchDataById(d.id)}
                 />
               ))}
           </Tabs>
+          {Sitesloading && <Skeleton height={40} width="100%" />}
         </Box>
-        {altData !== null ? (
+        {data !== null ? (
           <>
-            <AltChart altData={altData} />
+            <AltChart altData={data ? data : []} />
 
             <Paper
               sx={{
@@ -162,26 +94,33 @@ function FourthChart() {
               }}
               component="ul"
             >
-              {chipData.map((data) => {
-                return (
-                  <ListItem key={data.key}>
-                    <Chip
+              <Tabs
+                value={label}
+                onChange={handleChangeLabel}
+                style={{ maxWidth: "50%", width: "35%", margin: "0  auto" }}
+              >
+                {chipData?.map((data) => {
+                  return (
+                    <Tab
+                      key={data.key}
                       label={data.label}
+                      style={{ textTransform: "capitalize" }}
                       size="small"
                       color="primary"
-                      variant="outlined"
-                      onClick={() => FetchProdChart(data.key, 1, "KAMOUNI")}
+                      variant="variant"
+                      onClick={() => fetchDataByDate(data.key)}
                     />
-                  </ListItem>
-                );
-              })}
+                  );
+                })}
+              </Tabs>
             </Paper>
           </>
         ) : (
           <SkeletonBox />
         )}
+        {loading && <Loader />}
       </div>
-      {loading && <SkeletonChart />}
+      {/* {loading && <SkeletonChart />} */}
     </>
   );
 }

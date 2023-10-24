@@ -10,7 +10,7 @@ import {
   getBatType,
   getBatName,
 } from "../../../slices/SiteData";
-let base_url = "https://pouliprod.savas.ma/api/";
+let base_url = "https://farmdriver.savas.ma/api/";
 function BatsTable({ UpdateBatimentData, siteName }) {
   const [loading, setLoading] = useState(false);
   const [batsData, setBatsData] = useState();
@@ -40,7 +40,7 @@ function BatsTable({ UpdateBatimentData, siteName }) {
       if (response.status === 200) {
         setLoading(false);
         // console.log(JSON.parse(data));
-        setBatsData(JSON.parse(data));
+        setBatsData(data);
       }
     } catch (error) {
       console.error(error);

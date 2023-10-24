@@ -4,6 +4,8 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"); */
 
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap");
+
 * {
   --dark-blue: #004e86;
   /* --dark-blue: #0072cf; */
@@ -17,8 +19,8 @@
   --hover-background: #004370;
   --primary-grey: rgb(116, 116, 116);
   --secondary-grey: rgb(180, 180, 180);
-  --red-color: #dc2626;
-  --green-color: #22c55e;
+  --red-color: #eb455f;
+  --green-color: #368753;
   --border-radius: 4px;
 }
 html,
@@ -31,6 +33,7 @@ body,
   font-family: Helvetica, sans-serif; */
 
   font-family: "DM Sans", Helvetica, Arial, sans-serif;
+  /* font-family: "Roboto Mono", monospace; */
   /* font-family: "Lato", sans-serif;
   font-family: "Montserrat Alternates", sans-serif; */
   /* background-color: var(--background-color); */
@@ -56,6 +59,9 @@ a {
 h1 {
   display: inline;
 }
+h3 {
+  margin: 0;
+}
 
 .app {
   /* display: flex;
@@ -63,24 +69,6 @@ h1 {
   /* flex-direction: column; */
   width: 100%;
   height: 100vh;
-}
-::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
-}
-/* !Track */
-::-webkit-scrollbar-track {
-  background-color: #e0e0e0;
-}
-
-/* ! Handle */
-::-webkit-scrollbar-thumb {
-  background-color: #888;
-}
-
-/* !Handle on hover */
-::-webkit-scrollbar-track:hover {
-  background-color: #555;
 }
 
 /*  ! global classes */

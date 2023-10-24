@@ -1,9 +1,68 @@
 import "./doawnloadbt.css";
+import { useState } from "react";
+let base_url = "https://farmdriver.savas.ma/api/";
+
 const DownloadBtn = () => {
+  const [pdfLoading, setPdfLoading] = useState(false);
+
+  const handleWeekPdfClick = async () => {
+    setPdfLoading(true);
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+      const response = await fetch(`${base_url}production-state-pdf/`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const blob = await response.blob();
+
+      // Create a temporary URL for the received blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a hidden anchor element for downloading
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = "week_report.pdf"; // Change the file name if needed
+
+      // Append the anchor element to the DOM
+      document.body.appendChild(a);
+
+      // Trigger a click event on the anchor element to initiate the download
+      a.click();
+
+      // Remove the anchor element from the DOM
+      document.body.removeChild(a);
+
+      // Revoke the object URL to free up resources
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle the error as needed
+    } finally {
+      setIsLoading(false); // Set loading to false when the fetch is complete
+    }
+  };
+
   return (
-    <div data-tooltip="Size: 20Mb" className="button">
+    <div
+      // data-tooltip={pdfLoading ? "loading..." : "Size: 20Mb"}
+      className="button"
+      onClick={(e) => {
+        e.preventDefault();
+        handleWeekPdfClick();
+        console.log("pdf download");
+      }}
+    >
       <div className="button-wrapper">
-        <div className="text">Download</div>
+        <div className="text">Telecharger</div>
         <span className="icon">
           <svg
             viewBox="0 0 24 24"

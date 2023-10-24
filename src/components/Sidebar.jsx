@@ -9,13 +9,14 @@ import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import { FaTimes } from "react-icons/fa";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import "../styles/sidebar.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import DownloadBtn from "./buttons/DownloadBtn";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toggleLeftBar } from "../slices/LeftBar";
 const Sidebar = ({}) => {
   const status = useSelector((state) => state.toggleLeftBar.status);
+  // console.log(status);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -43,8 +44,7 @@ const Sidebar = ({}) => {
       <ul className="links">
         <li>
           <ul className="sub-links">
-            <Link
-              className={location.pathname === "/" ? "active" : ""}
+            <NavLink
               to="/"
               onClick={() => {
                 dispatch(toggleLeftBar());
@@ -52,28 +52,25 @@ const Sidebar = ({}) => {
             >
               <DashboardIcon className="sidebar-icon" />
               <span>Tableau de bord</span>
-            </Link>
-            <Link
-              className={location.pathname === "/report" ? "active" : ""}
+            </NavLink>
+            <NavLink
               to="/report"
               onClick={() => {
                 dispatch(toggleLeftBar());
               }}
             >
-              <NoteAddIcon className="sidebar-icon" /> <span>Rapport</span>
-            </Link>
-            <Link
-              className={location.pathname === "/modification" ? "active" : ""}
+              <NoteAddIcon className="sidebar-icon" /> <span>Saisie</span>
+            </NavLink>
+            <NavLink
               to="/modification"
               onClick={() => {
                 dispatch(toggleLeftBar());
               }}
             >
               <TableChartIcon className="sidebar-icon" />
-              <span>Modifications</span>
-            </Link>
-            <Link
-              className={location.pathname === "/visualize" ? "active" : ""}
+              <span>Visualisation des données</span>
+            </NavLink>
+            <NavLink
               to="/visualize"
               onClick={() => {
                 dispatch(toggleLeftBar());
@@ -81,9 +78,8 @@ const Sidebar = ({}) => {
             >
               <InsertDriveFileIcon className="sidebar-icon" />
               <span>Synthèse</span>
-            </Link>
-            <Link
-              className={location.pathname === "/charts" ? "active" : ""}
+            </NavLink>
+            <NavLink
               to="/charts"
               onClick={() => {
                 dispatch(toggleLeftBar());
@@ -91,9 +87,8 @@ const Sidebar = ({}) => {
             >
               <QueryStatsIcon className="sidebar-icon" />
               <span>Courbes</span>
-            </Link>
-            <Link
-              className={location.pathname === "/settings" ? "active" : ""}
+            </NavLink>
+            <NavLink
               to="/settings"
               onClick={() => {
                 dispatch(toggleLeftBar());
@@ -101,9 +96,8 @@ const Sidebar = ({}) => {
             >
               <SettingsIcon className="sidebar-icon" />
               <span>Paramètres</span>
-            </Link>
-            <Link
-              className={location.pathname === "/souches" ? "active" : ""}
+            </NavLink>
+            <NavLink
               to="/souches"
               onClick={() => {
                 dispatch(toggleLeftBar());
@@ -111,8 +105,8 @@ const Sidebar = ({}) => {
             >
               <SourceIcon className="sidebar-icon" />
               <span>Souches</span>
-            </Link>
-            <Link
+            </NavLink>
+            {/* <NavLink
               className={location.pathname === "/help" ? "active" : ""}
               to="/help"
               onClick={() => {
@@ -121,7 +115,16 @@ const Sidebar = ({}) => {
             >
               <HelpCenterIcon className="sidebar-icon" />
               <span>Aide</span>
-            </Link>
+            </NavLink> */}
+            <NavLink
+              to="/test"
+              onClick={() => {
+                dispatch(toggleLeftBar());
+              }}
+            >
+              <HelpCenterIcon className="sidebar-icon" />
+              <span>Index</span>
+            </NavLink>
           </ul>
         </li>
       </ul>

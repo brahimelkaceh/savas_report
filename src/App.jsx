@@ -1,12 +1,12 @@
 import Login from "./components/login/Login";
+import Register from "./pages/registration/Register";
 // import Report from "./pages/Report";
 import Report from "./pages/reports/Report";
-import Visualize from "./pages/Visualize";
+import Visualize from "./pages/senthyse/Visualize";
 import Settings from "./pages/settings/Settings";
 import Error from "./pages/Error";
 import Modification from "./pages/modification/Modification";
 import Dashboard from "./pages/dashboard/Dashboard";
-
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./styles/animations.css";
@@ -16,9 +16,9 @@ import Charts from "./pages/charts/Charts";
 import Souches from "./pages/souches/Souches";
 import Help from "./pages/help/Help";
 import AddGuide from "./pages/souches/AddGuide";
-let base_url = "https://pouliprod.savas.ma/api/";
+let base_url = "https://farmdriver.savas.ma/api/";
 
-function App() {
+const App = () => {
   const CreateReports = (data) => {
     const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
@@ -88,6 +88,7 @@ function App() {
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route element={<PrivateRoutes />}>
           <Route
             exact
@@ -134,6 +135,6 @@ function App() {
       </Routes>
     </AuthProvider>
   );
-}
+};
 
 export default App;

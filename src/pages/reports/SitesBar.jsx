@@ -1,26 +1,48 @@
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
-import { useState } from "react";
-function SitesBar({ sitesName }) {
-  const [value, setValue] = useState(0);
+import { useMemo, useState, useEffect } from "react";
+import UseFetchData from "../../hooks/UseFetchData";
 
+let base_url = "https://farmdriver.savas.ma/api/";
+
+function SitesBar({ siteData, FetchData }) {
+  const [value, setValue] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const handleChangeSite = (id) => {
+    setActiveTab(id);
+  };
+  useEffect(() => {
+    siteData && FetchData(siteData[0]?.id);
+  }, [siteData]);
+
   return (
     <div className="sites-bar">
       <Tabs
         value={value}
         onChange={handleChange}
+        indicatorColor="secondary"
         variant="scrollable"
         scrollButtons
         allowScrollButtonsMobile
-        aria-label="scrollable force example"
+        aria-label="secondary scrollable force example"
       >
-        {sitesName.map((site) => (
-          <Tab className="site-button" label={site?.name} key={site.id} />
-        ))}
+        {siteData &&
+          siteData.map((site, i) => (
+            <Tab
+              key={site?.id}
+              className={
+                activeTab === i ? "btn-clicked site-button" : "site-button"
+              }
+              onClick={() => {
+                handleChangeSite(i);
+                FetchData(site?.id);
+              }}
+              label={site?.name}
+            />
+          ))}
       </Tabs>
     </div>
   );

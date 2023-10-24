@@ -1,0 +1,108 @@
+.synthes-container {
+  min-height: 84vh;
+  background-color: #fff;
+  border-radius: 4px;
+  margin: 10px;
+  padding: 12px 40px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  display: flex;
+  justify-content: space-between;
+}
+h2 {
+  margin: 0;
+}
+.select-card {
+  margin: 10px;
+
+  width: 92%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-radius: 0.5rem;
+  background: rgb(254, 247, 255);
+
+  padding: 12px;
+  color: #000;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  position: relative;
+}
+
+.select-card .icon {
+  position: relative;
+  height: 35px;
+  width: 35px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #cee8ff;
+  color: var(--dark-blue);
+}
+
+.icon span {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.select-card .content {
+  margin-left: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+.select-card .title {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+}
+
+.select-card .desc {
+  width: 100%;
+  margin-top: 8px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  color: var(--light-blue);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.select-card .desc div {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.select-card .desc span {
+  color: #f18f01;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.select-card .close {
+  margin: -0.375rem -0.375rem -0.375rem auto;
+  height: 2rem;
+  width: 2rem;
+  display: inline-flex;
+  border-radius: 0.5rem;
+  background-color: var(--red-color);
+  padding: 0.375rem;
+  color: rgba(255, 255, 255, 1);
+  border: none;
+  cursor: pointer;
+}
+
+.select-card .close svg {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.select-card .close:hover {
+  background-color: #ca2b42;
+}

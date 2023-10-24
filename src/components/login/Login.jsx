@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import "./login.css";
 import { useSelector, useDispatch } from "react-redux";
 import { loginForm } from "../../slices/Login";
@@ -20,77 +21,53 @@ const Login = () => {
 
   return (
     <main className="login-page">
-      <div className="login-card">
-        <h1>Login</h1>
+      <form className="login-form" onSubmit={loginUser}>
+        <p className="title">Login </p>
+        <p className="message">Login now and get full access to our app. </p>
         <span ref={errRef} name="errMsg">
           {errMsg}
         </span>
-        <form className="form" onSubmit={loginUser}>
-          <div className="input-container ic2">
-            <input
-              type="text"
-              name="username"
-              id="username"
-              className="input"
-              placeholder=" "
-              autoComplete="off"
-              required
-              ref={userRef}
-              value={userName}
-              onChange={(e) => {
-                setUserName(e.target.value);
-              }}
-            />
-            <div className="cut"></div>
-            <label htmlFor="userName" className="placeholder">
-              User Name
-            </label>
-          </div>
-          <div className="input-container ic2">
-            <input
-              type="text"
-              name="password"
-              id="password"
-              className="input"
-              placeholder=" "
-              required
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <div className="cut"></div>
-            <label htmlFor="password" className="placeholder">
-              Password
-            </label>
-          </div>
+        <label>
+          <input
+            placeholder=""
+            type="text"
+            className="input"
+            required
+            name="username"
+            id="username"
+            ref={userRef}
+            value={userName}
+            onChange={(e) => {
+              setUserName(e.target.value);
+            }}
+          />
+          <span>Username</span>
+        </label>
 
-          <button
-            type="submit"
-            className="login-btn"
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   const data = { username: userName, password: password };
-            //   fetch(`${base_url}token`, {
-            //     method: "POST",
-            //     body: JSON.stringify(data),
-            //     headers: {
-            //       "Content-Type": "application/json",
-            //     },
-            //   })
-            //     .then((response) => response.json())
-            //     .then((data) =>
-            //       localStorage.setItem("authTokens", JSON.stringify(data))
-            //     )
-            //     .catch((error) => console.error(error));
-            //   console.log(data);
-            //   dispatch(loginForm());
-            // }}
-          >
-            Submit
-          </button>
-        </form>
-      </div>
+        <label>
+          <input
+            placeholder=""
+            type="password"
+            className="input"
+            name="password"
+            id="password"
+            required
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <span>Password</span>
+        </label>
+
+        <button className="submit">Submit</button>
+        <p className="signin">
+          You don't have an acount ?
+          <Link to="/register">
+            <span>Signup</span>
+          </Link>
+        </p>
+      </form>
     </main>
   );
 };

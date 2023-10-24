@@ -2,7 +2,7 @@ import jwt_decode from "jwt-decode";
 import { createContext } from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-let base_url = "https://pouliprod.savas.ma/api/";
+let base_url = "https://farmdriver.savas.ma/api/";
 
 const AuthContext = createContext();
 export default AuthContext;

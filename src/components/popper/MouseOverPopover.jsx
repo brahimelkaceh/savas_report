@@ -2,7 +2,7 @@ import * as React from "react";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 
-export default function MouseOverPopover({ guide, reel, fontSize, symbol }) {
+export default function MouseOverPopover({ guide, reel, fontSize, cent }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handlePopoverOpen = (event) => {
@@ -22,10 +22,10 @@ export default function MouseOverPopover({ guide, reel, fontSize, symbol }) {
         aria-haspopup="true"
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
-        sx={{ fontSize: { fontSize } }}
+        sx={{ fontSize: "14px", fontFamily: "Roboto Mono" }}
       >
-        {reel}
-        {symbol}
+        {reel ? reel : "--"}
+        {cent}
       </Typography>
       <Popover
         id="mouse-over-popover"
@@ -45,7 +45,10 @@ export default function MouseOverPopover({ guide, reel, fontSize, symbol }) {
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        <Typography sx={{ p: 1 }}>Guide : {guide}</Typography>
+        <Typography sx={{ p: 1, fontFamily: "Roboto Mono" }}>
+          Guide : {guide ? guide : "--"}
+          {cent}
+        </Typography>
       </Popover>
     </div>
   );

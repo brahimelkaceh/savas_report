@@ -85,10 +85,10 @@ export default function EditBatsModal({
         <Fade in={open}>
           <Box sx={style} className="edit-modal">
             <div className="edit-site slit-in-horizontal">
-              <h3>Modifier bâtiment</h3>
               {/* <ConfirmModal setOpen={setOpen} open={open} /> */}
-              <form action="">
-                <div className="input-container ic2">
+              <form className="settings-form">
+                <p className="title">Modifier bâtiment</p>
+                <label>
                   <input
                     ref={batmntRef}
                     id="batiment"
@@ -98,13 +98,9 @@ export default function EditBatsModal({
                     defaultValue={batName}
                     // onFocus={() => dispatch(clearInputs(false))}
                   />
-                  <div className="cut"></div>
-                  <label htmlFor="batiment" className="placeholder">
-                    Bâtiment
-                  </label>
-                </div>
-
-                <div className="input-container ic2">
+                  <span> Bâtiment*</span>
+                </label>
+                <label>
                   <select
                     ref={typeRef}
                     id="production"
@@ -120,12 +116,12 @@ export default function EditBatsModal({
                       {!batType == "production" ? "Production" : "Poussiniere"}
                     </option>
                   </select>
-                  <label htmlFor="production  " className="placeholder">
-                    Production/Poussiniere*
-                  </label>
-                </div>
-                <div className="input-container ic2">
+                  <span> Production/Poussiniere*</span>
+                </label>
+
+                <label>
                   <select
+                    required
                     ref={siteNameRef}
                     id="siteNames"
                     className="input"
@@ -143,10 +139,8 @@ export default function EditBatsModal({
                       </option>
                     ))}
                   </select>
-                  <label htmlFor="site" className="placeholder">
-                    Sites*
-                  </label>
-                </div>
+                  <span>Sites*</span>
+                </label>
                 <div className="btns">
                   <button
                     type=""

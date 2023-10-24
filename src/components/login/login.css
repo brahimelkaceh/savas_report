@@ -6,101 +6,139 @@
   justify-content: center;
   background-color: var(--dark-blue) !important;
 }
-.login-page h1 {
-  margin: 0;
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 450px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  position: relative;
 }
-.login-card {
-  width: 400px;
-  height: 300px;
-  border-radius: 8px;
-  background: #fff;
-  /* background-color: var(--bar-blue); */
-  box-shadow: rgba(118, 118, 225, 0.25) 0px 13px 27px -5px,
-    rgba(139, 139, 139, 0.3) 0px 8px 16px -8px;
+
+.login-form .title {
+  font-size: 28px;
+  color: royalblue;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 15px;
-  transition: 0.3s linear;
+  padding-left: 30px;
 }
 
-.login-page .form {
-  border-radius: 20px;
-  box-sizing: border-box;
-  height: auto;
-  width: 90%;
+.login-form .title::before,
+.login-form .title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: royalblue;
+}
+
+.login-form .title::before {
+  width: 18px;
+  height: 18px;
+  background-color: royalblue;
+}
+
+.login-form .title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.message,
+.signin {
+  color: rgba(88, 87, 87, 0.822);
+  font-size: 14px;
+}
+
+.signin {
+  text-align: center;
+}
+
+.signin a {
+  color: royalblue;
+}
+
+.signin a:hover {
+  text-decoration: underline royalblue;
+}
+
+.flex {
   display: flex;
-  flex-direction: column;
-}
-
-.login-page .input-container {
-  height: 40px;
-  position: relative;
+  /* justify-content: space-between; */
   width: 100%;
-}
-.login-page .ic2 {
-  margin-top: 15px;
+  gap: 70px;
 }
 
-.login-page .input {
-  background-color: #ecfcff;
-  border-radius: 8px;
-  border: 1px solid #287bff;
-  box-sizing: border-box;
-  color: #080b12;
-  font-size: 18px;
-  height: 100%;
+.login-form label {
+  position: relative;
+}
+
+.login-form label .input {
+  width: 95%;
+  padding: 10px 10px 20px 10px;
   outline: 0;
-  padding: 4px 10px 0;
-  width: 100%;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
 }
 
-.login-btn {
-  margin-top: 15px;
-  font-family: "Oxanium", cursive;
-  padding: 12px 35px;
-  border: unset;
-  border-radius: 15px;
-  color: var(--dark-blue);
-  z-index: 1;
-  background: var(--bar-blue);
-  position: relative;
-  font-weight: 1000;
-  font-size: 17px;
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  transition: all 250ms;
-  overflow: hidden;
+.login-form label .input + span {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.login-form label .input:placeholder-shown + span {
+  top: 15px;
+  font-size: 0.9em;
+}
+
+.login-form label .input:focus + span,
+.login-form label .input:valid + span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.login-form label .input:valid + span {
+  color: green;
+}
+
+.login-form .submit {
+  border: none;
+  outline: none;
+  background-color: royalblue;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  transform: 0.3s ease;
   cursor: pointer;
 }
 
-.login-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0;
-  border-radius: 15px;
-  background-color: var(--dark-blue);
-  z-index: -1;
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  transition: all 250ms;
+.login-form .submit:hover {
+  background-color: rgb(56, 90, 194);
 }
 
-.login-btn:hover {
-  color: #e8e8e8;
-}
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
 
-.login-btn:hover::before {
-  width: 100%;
-}
-
-@media screen and (max-width: 768px) {
-  .login-card {
-    width: 270px;
-    height: 300px;
+  to {
+    transform: scale(1.8);
+    opacity: 0;
   }
 }

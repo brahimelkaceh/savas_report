@@ -10,6 +10,8 @@ import ShowBatimentCatReducer from "./slices/ShowBatimentCat";
 import ShowBatimentFormsReducer from "./slices/ShowBatimentForms";
 import ShowfieldsReducer from "./slices/Showfields";
 import ModificationHeaderReducer from "./slices/ModificationHeader";
+import EditReportReducer from "./slices/EditReport";
+import batimentDataReducer from "./slices/batimentData";
 // import BatsDataReducer from "./slices/BatsData";
 
 const store = configureStore({
@@ -25,6 +27,8 @@ const store = configureStore({
     ShowBatimentForms: ShowBatimentFormsReducer,
     modificationHeader: ModificationHeaderReducer,
     getSiteData: SiteDataReducer,
+    editReport: EditReportReducer,
+    batimentData: batimentDataReducer,
     // getBatsData: BatsDataReducer,
   },
 });

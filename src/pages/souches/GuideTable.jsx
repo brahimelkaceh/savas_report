@@ -5,7 +5,7 @@ import EditGuide from "./Editguide";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getguideId } from "../../slices/LeftBar";
-let base_url = "https://pouliprod.savas.ma/api/";
+let base_url = "https://farmdriver.savas.ma/api/";
 
 function GuideTable(GetGuideData) {
   const guideid = useSelector((state) => state.toggleLeftBar.guideid);

@@ -9,8 +9,9 @@ import { useState, useRef } from "react";
 import "../modals/style.css";
 import { useEffect } from "react";
 import { clearInputs } from "../../../slices/LeftBar";
+import { useFormik } from "formik";
 
-let base_url = "https://pouliprod.savas.ma/api/";
+let base_url = "https://farmdriver.savas.ma/api/";
 
 const style = {
   position: "absolute",
@@ -19,17 +20,15 @@ const style = {
   transform: "translate(-50%, -50%)",
   // border: "2px solid transparent",
   boxShadow: 24,
+  width: 600,
   // p: 1,
 };
 
 export default function EditModal({
-  UpdateUserData,
   openEditModal,
   setOpenEditModal,
   siteName,
-  setAlert,
 }) {
-  let id = useSelector((state) => state.toggleLeftBar.id);
   let userName = useSelector((state) => state.toggleLeftBar.userName);
   let email = useSelector((state) => state.toggleLeftBar.email);
   let phone = useSelector((state) => state.toggleLeftBar.phone);
@@ -38,65 +37,72 @@ export default function EditModal({
   let isAdmin = useSelector((state) => state.toggleLeftBar.isAdmin);
   let site = useSelector((state) => state.toggleLeftBar.site);
   let siteId = useSelector((state) => state.toggleLeftBar.siteId);
-  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
-  let editModal = useSelector((state) => state.toggleLeftBar.editModal);
 
   const handleClose = () => setOpenEditModal(false);
   const newSiteName = siteName.filter((site) => site.id !== siteId);
   const currentSiteName = siteName.filter((site) => site.id === siteId);
-  const [newUsername, setNewUsername] = useState(userName);
-  const [name, setName] = useState(siteId);
-  const [is_Admin, SetIsAdmin] = useState("");
-
-  // const [loading, setLoading] = useState(false);
-  // const [usersData, setUsersData] = useState();
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      email: "",
+      phone: "",
+      first_name: "",
+      last_name: "",
+      isAdmin: "",
+      site: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+      UpdateUser(values);
+    },
+  });
+  const UpdateUser = async (data) => {
+    setLoading(true);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
-  let usernameRef = useRef();
-  let emailRef = useRef();
-  let phoneRef = useRef();
-  let firstNameRef = useRef();
-  let lastNameRef = useRef();
-  let isAdimnRef = useRef();
-  let siteRef = useRef();
-
-  // if (inputs) {
-  //   usernameRef.current.value = "";
-  //   emailRef.current.value = "";
-  //   phoneRef.current.value = "";
-  //   firstNameRef.current.value = "";
-  //   lastNameRef.current.value = "";
-  //   isAdimnRef.current.value = "";
-  //   siteRef.current.value = "";
-  // }
-
-  const sendData = () => {
-    let userData = {
-      user_id: id,
-      username: usernameRef.current.value,
-      email: emailRef.current.value,
-      phone: phoneRef.current.value,
-      first_name: firstNameRef.current.value,
-      last_name: lastNameRef.current.value,
-      isAdmin: Boolean(isAdimnRef.current.value),
-      site: parseInt(siteRef.current.value),
-    };
-
-    if (
-      userData.username.trim() &&
-      userData.first_name.trim() &&
-      userData.last_name.trim() &&
-      (userData.isAdmin === true || userData.isAdmin === false) &&
-      userData.site
-    ) {
-      UpdateUserData(userData);
-      // console.log(userData.username);
-    } else {
-      setAlert(true);
+    try {
+      const response = await fetch(`${base_url}update-user-site/`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (!response.ok) {
+        data = {};
+      }
+      const datas = await response.data;
+      console.log(datas);
+      if (response.ok) {
+        console.log("L'utilisateur a été modifié ");
+        // handleOpen();
+      } else {
+        setLoading(false);
+        const errorMessage = "Un utilisateur avec ce identifiant existe déjà";
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setLoading(false);
     }
   };
-
+  useEffect(() => {
+    formik.setValues({
+      ...formik.values,
+      username: userName,
+      email: email,
+      phone: phone,
+      first_name: firstName,
+      last_name: lastName,
+      isAdmin: isAdmin,
+      site: site,
+    });
+    console.log(formik.values.isAdmin);
+  }, []);
   return (
     <div>
       <Modal
@@ -117,141 +123,124 @@ export default function EditModal({
             <div className="edit-user slit-in-horizontal">
               <h3>Modifier l'utilisateur </h3>
 
-              <form action="">
-                <div className="input-container ic2">
+              <form
+                className="settings-form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  formik.handleSubmit();
+                }}
+              >
+                <label>
                   <input
-                    ref={usernameRef}
-                    id="identifiant"
+                    id="username"
+                    name="username"
                     className="input"
                     type="text"
                     placeholder=" "
-                    defaultValue={newUsername}
                     onFocus={() => dispatch(clearInputs(false))}
-                    onChange={(e) => setNewUsername(e.target.value)}
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
                   />
-                  <div className="cut"></div>
-                  <label htmlFor="identifiant" className="placeholder">
-                    Identifiant*
-                  </label>
-                </div>
-                <div className="input-container ic2">
+                  <span>Identifiant*</span>
+                </label>
+
+                <label>
                   <input
-                    ref={emailRef}
                     id="email"
+                    name="email"
                     className="input"
                     type="email"
                     placeholder=" "
-                    defaultValue={email}
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
                     onFocus={() => dispatch(clearInputs(false))}
                   />
-                  <div className="cut"></div>
-                  <label htmlFor="email" className="placeholder">
-                    E-mail
-                  </label>
-                </div>
-                <div className="input-container ic2">
+                  <span>E-mail</span>
+                </label>
+                <label>
                   <input
-                    ref={phoneRef}
                     id="phone"
+                    name="phone"
                     className="input"
                     type="text"
                     placeholder=" "
-                    defaultValue={phone}
+                    value={formik.values.phone}
+                    onChange={formik.handleChange}
                     onFocus={() => dispatch(clearInputs(false))}
                   />
-                  <div className="cut"></div>
-                  <label htmlFor="phone" className="placeholder">
-                    Télephone
-                  </label>
-                </div>
+                  <span>Télephone</span>
+                </label>
 
-                <div className="input-container ic2">
+                <label>
                   <input
-                    ref={firstNameRef}
                     id="firstName"
+                    name="first_ame"
                     className="input"
                     type="text"
                     placeholder=" "
-                    defaultValue={firstName}
+                    value={formik.values.first_name}
+                    onChange={formik.handleChange}
                     onFocus={() => dispatch(clearInputs(false))}
                   />
-                  <div className="cut"></div>
-                  <label htmlFor="firstName" className="placeholder">
-                    Nom*
-                  </label>
-                </div>
-                <div className="input-container ic2">
+                  <span>Nom*</span>
+                </label>
+                <label>
                   <input
-                    ref={lastNameRef}
                     id="lastName"
+                    name="last_name"
                     className="input"
                     type="text"
                     placeholder=" "
-                    defaultValue={lastName}
+                    value={formik.values.last_name}
+                    onChange={formik.handleChange}
                     onFocus={() => dispatch(clearInputs(false))}
                   />
-                  <div className="cut"></div>
-                  <label htmlFor="lastName" className="placeholder">
-                    Prénom*
-                  </label>
-                </div>
-                <div className="input-container ic2">
-                  <select
-                    id="admin"
-                    className="input"
-                    ref={isAdimnRef}
-                    // defaultValue={isAdmin}
-                    // value={isAdmin}
-                    onFocus={() => dispatch(clearInputs(false))}
-                    onChange={(e) => SetIsAdmin(e.target.value)}
-                  >
-                    <option value={is_Admin}>
-                      {isAdmin === true ? "Oui" : "Non"}
-                    </option>
-                    <option value={!is_Admin}>
-                      {!isAdmin ? "Oui" : "Non"}
-                    </option>
-
-                    {/* <option value="true">Oui</option>
-                    <option value="">Non</option> */}
-                  </select>
-                  <label htmlFor="admin" className="placeholder">
-                    Admin*
-                  </label>
-                </div>
-                <div className="input-container ic2">
-                  <select
-                    ref={siteRef}
-                    id="site"
-                    className="input"
-                    value={name}
-                    onFocus={() => dispatch(clearInputs(false))}
-                    onChange={(e) => setName(e.target.value)}
-                  >
-                    {currentSiteName.map((site) => (
-                      <option key={site.id} value={site.id}>
-                        {site.name}
+                  <span>Prénom*</span>
+                </label>
+                <div className="flex">
+                  <label>
+                    <select
+                      id="admin"
+                      name="isAdmin"
+                      className="input"
+                      onFocus={() => dispatch(clearInputs(false))}
+                      value={formik.values.isAdmin}
+                      onChange={formik.handleChange}
+                    >
+                      <option value={formik.values.isAdmin}>
+                        {formik.values.isAdmin == true ? "Oui" : "Non"}
                       </option>
-                    ))}
-                    {newSiteName.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.name}
+                      <option value={!formik.values.isAdmin}>
+                        {!formik.values.isAdmin ? "Oui" : "Non"}
                       </option>
-                    ))}
-                  </select>
-                  <label htmlFor="site" className="placeholder">
-                    Sites*
+                    </select>
+                    <span>Admin*</span>
+                  </label>
+                  <label>
+                    <select
+                      id="site"
+                      name="site"
+                      className="input"
+                      onFocus={() => dispatch(clearInputs(false))}
+                      value={formik.values.site}
+                      onChange={formik.handleChange}
+                    >
+                      {currentSiteName.map((site) => (
+                        <option key={site.id} value={site.id}>
+                          {site.name}
+                        </option>
+                      ))}
+                      {newSiteName.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.name}
+                        </option>
+                      ))}
+                    </select>
+                    <span>Sites*</span>
                   </label>
                 </div>
                 <div className="btns">
-                  <button
-                    type=""
-                    className="edit-btn"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      sendData();
-                    }}
-                  >
+                  <button type="submit" className="edit-btn">
                     <div className="svg-wrapper-1">
                       <div className="svg-wrapper">
                         <AiOutlineSend />

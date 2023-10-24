@@ -18,8 +18,16 @@ const LeftBarSlice = createSlice({
     site: "",
     siteId: "",
     editModal: false,
+    lotTableId: null,
+    msgContent: "--",
   },
   reducers: {
+    getMsgContent: (state, action) => {
+      state.msgContent = action.payload;
+    },
+    getLotId: (state, action) => {
+      state.lotTableId = action.payload;
+    },
     toggleLeftBar: (state, action) => {
       state.status = action.payload;
     },
@@ -83,5 +91,7 @@ export const {
   userSite,
   userSiteId,
   handleCloseEditModal,
+  getLotId,
+  getMsgContent,
 } = LeftBarSlice.actions;
 export default LeftBarSlice.reducer;

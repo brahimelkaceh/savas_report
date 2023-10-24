@@ -5,7 +5,7 @@ import injection from "../../../assets/injection.svg";
 function Profylax() {
   return (
     <div className="prophylaxie">
-      <h1 className="title">Rappels de prophilaction</h1>
+      <h1 className="title">Rappels</h1>
       <div className="card-item">
         <div className="card-icon">
           <img src={injection} alt="" />

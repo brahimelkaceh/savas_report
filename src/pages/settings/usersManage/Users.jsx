@@ -1,10 +1,10 @@
+import { useMemo } from "react";
 import UsersManage from "./UsersManage";
 import UsersTable from "./UsersTable";
+
 function Users({
-  CreateUsers,
   UpdateUserData,
-  openEditModal,
-  setOpenEditModal,
+
   alert,
   setAlert,
   message,
@@ -15,14 +15,11 @@ function Users({
       <UsersTable
         siteName={siteName}
         UpdateUserData={UpdateUserData}
-        openEditModal={openEditModal}
-        setOpenEditModal={setOpenEditModal}
         alert={alert}
         setAlert={setAlert}
         message={message}
       />
       <UsersManage
-        CreateUsers={CreateUsers}
         alert={alert}
         setAlert={setAlert}
         message={message}

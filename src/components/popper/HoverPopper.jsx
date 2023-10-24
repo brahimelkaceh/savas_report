@@ -1,10 +1,12 @@
 import * as React from "react";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
+import "./popper.css";
 // import egge90 from "./egge90";
 
 const HoverPopper = ({ data }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [text, setText] = React.useState(data?.period);
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -15,6 +17,13 @@ const HoverPopper = ({ data }) => {
   };
 
   const open = Boolean(anchorEl);
+  let replacedText;
+
+  if (text) {
+    replacedText =
+      text?.replace(":", '<span class="replaced-text">h </span>') +
+      "<span class='replaced-text'>m</span>";
+  }
 
   return (
     <div>
@@ -24,7 +33,11 @@ const HoverPopper = ({ data }) => {
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
       >
-        {data?.period}
+        <p
+          dangerouslySetInnerHTML={{
+            __html: replacedText ? replacedText : "-- : --",
+          }}
+        ></p>
       </Typography>
       <Popover
         id="mouse-over-popover"
@@ -45,7 +58,8 @@ const HoverPopper = ({ data }) => {
         disableRestoreFocus
       >
         <Typography sx={{ p: 1 }}>
-          {data?.starts_at}~{data?.ends_at}
+          {data?.starts_at ? data?.starts_at : "-:- "}~
+          {data?.ends_at ? data?.ends_at : " -:- "}
         </Typography>
       </Popover>
     </div>

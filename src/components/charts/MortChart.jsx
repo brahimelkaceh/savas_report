@@ -1,77 +1,115 @@
 import React from "react";
-import { ResponsiveLine } from "@nivo/line";
+import {
+  Chart as ChartJS,
+  LinearScale,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Legend,
+  Tooltip,
+  LineController,
+  BarController,
+} from "chart.js";
+import { Chart } from "react-chartjs-2";
 
+ChartJS.register(
+  LinearScale,
+  CategoryScale,
+  PointElement,
+  LineElement,
+  Legend,
+  Tooltip,
+  LineController,
+  BarController
+);
+const options = {
+  elements: {
+    point: {
+      radius: 0, // The radius of data points (default is 3)
+      borderWidth: 1, // Border width of the data points
+    },
+    line: {
+      tension: 0.1, // Adjust the line curvature (default is 0.4)
+      borderColor: "rgba(0, 102, 140,0)", // Color of the line
+      borderWidth: 1.8, // Width of the line
+      borderCapStyle: "round", // Line cap style ('butt', 'round', 'square')
+      //   borderDash: [5, 5], // Dashed line pattern (e.g., [5, 5] for dashes)
+    },
+  },
+
+  responsive: true,
+  interaction: {
+    mode: "index",
+    intersect: false,
+  },
+  stacked: false,
+  plugins: {
+    title: {
+      display: true,
+      text: "Mortalité",
+    },
+    legend: {
+      display: true,
+      position: "top", // 'top', 'bottom', 'left', 'right'
+    },
+  },
+  scales: {
+    x: {
+      // X-axis grid customization
+      grid: {
+        display: true, // Display the grid lines for the X-axis
+        color: "rgba(0, 0, 0, 0.08  )", // Color of the grid lines
+        borderWidth: 1, // Width of the grid lines
+        drawTicks: true, // Whether to draw tick marks on the grid lines
+        drawOnChartArea: true,
+      },
+    },
+
+    y1: {
+      type: "linear",
+      display: true,
+      position: "left",
+      title: {
+        display: true,
+        text: "Mortalité",
+      },
+      grid: {
+        display: true,
+        drawOnChartArea: true,
+      },
+    },
+  },
+};
 function MortChart({ mortData }) {
-  // console.log(mortData?.slice(1));
-  let data = mortData?.slice(1);
-  return (
-    <ResponsiveLine
-      data={data}
-      margin={{ top: 30, right: 100, bottom: 45, left: 60 }}
-      xScale={{ type: "point" }}
-      yScale={{
-        type: "linear",
-        min: 1,
-        max: "auto",
-        stacked: false,
-        reverse: false,
-      }}
-      yFormat=" >-.2f"
-      curve="cardinal"
-      axisTop={null}
-      axisRight={null}
-      axisBottom={{
-        tickSize: 5,
-        tickPadding: 8,
-        tickRotation: 45,
-        legend: "",
-        legendOffset: 35,
-        legendPosition: "middle",
-      }}
-      axisLeft={{
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: "Mortalité",
-        legendOffset: -40,
-        legendPosition: "middle",
-      }}
-      colors={{ scheme: "paired" }}
-      lineWidth={2}
-      pointSize={3}
-      pointColor={{ theme: "background" }}
-      pointBorderWidth={2}
-      pointBorderColor={{ from: "serieColor" }}
-      pointLabelYOffset={-12}
-      useMesh={true}
-      legends={[
-        {
-          anchor: "top-right",
-          direction: "column",
-          justify: false,
-          translateX: 98,
-          translateY: 0,
-          itemsSpacing: 0,
-          itemDirection: "left-to-right",
-          itemWidth: 90,
-          itemHeight: 20,
-          itemOpacity: 0.75,
-          symbolSize: 5,
-          symbolShape: "circle",
-          symbolBorderColor: "rgba(0, 0, 0, .5)",
-          effects: [
-            {
-              on: "hover",
-              style: {
-                itemBackground: "rgba(0, 0, 0, .03)",
-                itemOpacity: 1,
-              },
-            },
-          ],
-        },
-      ]}
-    />
-  );
+  const labels = mortData[0]?.dates;
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        type: "line",
+        label: "moratilité total",
+        borderColor: "rgb(0, 102, 140)",
+        backgroundColor: "rgba(0, 102, 140,1)",
+        borderWidth: 1, // Set the border width
+        yAxisID: "y1",
+
+        data: mortData[1]?.mortTotal,
+      },
+      {
+        type: "line",
+        label: "Guide : moratilité total",
+        borderColor: "#D71313",
+        backgroundColor: "#D71313",
+        yAxisID: "y1",
+        borderWidth: 1, // Set the border width
+
+        data: mortData[2]?.mortGuide,
+      },
+    ],
+  };
+  return <Chart options={options} data={data} />;
 }
 
 export default MortChart;

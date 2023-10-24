@@ -37,11 +37,12 @@ export default function BatsManage({ CreateBatiments, setAlert, siteName }) {
 
   return (
     <div className="create-bats">
-      <h3>Gestion des Bâtiments</h3>
       <ConfirmModal setOpen={setOpen} open={open} />
-      <form action="">
-        <div className="input-container ic2">
+      <form className="settings-form">
+        <p className="title">Gestion des Bâtiments </p>
+        <label>
           <input
+            required
             ref={batmntRef}
             id="batiment"
             className="input"
@@ -49,60 +50,62 @@ export default function BatsManage({ CreateBatiments, setAlert, siteName }) {
             placeholder=" "
             onFocus={() => dispatch(clearInputs(false))}
           />
-          <div className="cut"></div>
-          <label htmlFor="batiment" className="placeholder">
-            Bâtiment
-          </label>
-        </div>
-
-        <div className="input-container ic2">
+          <span>Bâtiment</span>
+        </label>
+        <label>
           <select
+            required
             ref={typeRef}
             id="production"
             className="input"
             onFocus={() => dispatch(clearInputs(false))}
           >
-            <option value="">--</option>
+            <option value="" disabled>
+              --
+            </option>
             <option value="production">Production</option>
             <option value="poussiniere">Poussiniere</option>
           </select>
-          <label htmlFor="production  " className="placeholder">
-            Production/Poussiniere*
-          </label>
-        </div>
-        <div className="input-container ic2">
+          <span> Production/Poussiniere*</span>
+        </label>
+        <label>
           <select
+            required
             ref={siteNameRef}
             id="siteNames"
             className="input"
             onFocus={() => dispatch(clearInputs(false))}
             onChange={(e) => SetSite(e.target.value)}
           >
-            <option value="">--</option>
+            <option value="" disabled>
+              --
+            </option>
             {siteName?.map((site) => (
               <option key={site.id} value={site.id}>
                 {site.name}
               </option>
             ))}
           </select>
-          <label htmlFor="site" className="placeholder">
-            Sites*
-          </label>
-        </div>
-        <button
-          className="send-btn"
-          onClick={(e) => {
-            e.preventDefault();
-            sendData();
-          }}
-        >
-          <div className="svg-wrapper-1">
-            <div className="svg-wrapper">
-              <AiOutlineSend />
+          <span> Sites*</span>
+        </label>
+
+        <div className="btns">
+          <button
+            type=""
+            className="edit-btn"
+            onClick={(e) => {
+              e.preventDefault();
+              sendData();
+            }}
+          >
+            <div className="svg-wrapper-1">
+              <div className="svg-wrapper">
+                <AiOutlineSend />
+              </div>
             </div>
-          </div>
-          <span>Send</span>
-        </button>
+            <span>Submit</span>
+          </button>
+        </div>
       </form>
     </div>
   );

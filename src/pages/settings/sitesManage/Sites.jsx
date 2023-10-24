@@ -1,11 +1,14 @@
 import SitesTable from "./SitesTable";
 import SitesManage from "./SitesManage";
+import { useState } from "react";
 import "./style.css";
-function Sites({ CreateSite, UpdateSiteData, setAlert }) {
+function Sites() {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="sites-settings">
-      <SitesManage CreateSite={CreateSite} setAlert={setAlert} />
-      <SitesTable setAlert={setAlert} UpdateSiteData={UpdateSiteData} />
+      <SitesManage setOpen={setOpen} open={open} />
+      <SitesTable renderData={open} />
     </div>
   );
 }

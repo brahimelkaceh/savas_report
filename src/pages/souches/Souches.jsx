@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
 import "./souches.css";
-let base_url = "https://pouliprod.savas.ma/api/";
+let base_url = "https://farmdriver.savas.ma/api/";
 
 const Souches = () => {
   const [guideData, setGuideData] = useState();

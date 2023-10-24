@@ -1,122 +1,53 @@
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
-import TagFacesIcon from "@mui/icons-material/TagFaces";
-// import SkeletonChart from "../skeletons/SkeletonChart";
-import { styled } from "@mui/material/styles";
-
-const ListItem = styled("li")(({ theme }) => ({
-  margin: theme.spacing(0.5),
-}));
 import { useState, useEffect } from "react";
+import UseLocalStorageState from "../../../hooks/UseLocalStorageState";
+import ProductionChart from "./ProductionChart";
+import Loader from "../../../components/loader/Loader";
+import { Skeleton } from "@mui/material";
 import "./style.css";
-import BarCharts from "../../../components/charts/BarCharts";
-import LinearChart from "../../../components/charts/LinearChart";
-import SkeletonChart from "../skeletons/SkeletonChart";
-import SkeletonBox from "../skeletons/SkeletonBox";
-// prod-chart/
-// get-site-or-bats/
-let base_url = "https://pouliprod.savas.ma/api/";
+import useCustomFetch from "../hooks/UseFetchData";
 
-function FirstChart() {
+function FirstChart({ batSite, Sitesloading }) {
   const [value, setValue] = useState(0);
-  const [siteBatId, setSiteBatId] = useState(1);
-  const [siteBatName, setSiteBatName] = useState("KAMOUNI");
-  const [time, setTime] = useState(0);
-  const [data, setData] = useState([
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-  ]);
-  const [chipData, setChipData] = useState([
-    { key: 0, label: "Sem" },
-    { key: 1, label: "Mois" },
-  ]);
-  const [loading, setLoading] = useState(false);
-  const [prodChart, setProdChart] = useState([]);
-  const [batSite, setBatSite] = useState([]);
+  const [label, setLabel] = useState(0);
+  const chipData = [
+    { key: 0, label: "7 jours" },
+    { key: 1, label: "30 jours" },
+  ];
+  const [id, setId] = useState(null);
+  const [date, setDate] = UseLocalStorageState("ProdTime", 0);
+  const { data, loading } = useCustomFetch(
+    id ? id : batSite[0].id,
+    date ? date : 0,
+    "prod-chart"
+  );
+  const fetchDataById = (id) => {
+    setId(id);
+  };
+
+  const fetchDataByDate = (date) => {
+    setDate(date);
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    // console.log(newValue);
   };
-  const handleClickTab = (tabValue) => {
-    console.log(tabValue);
-  };
-
-  const FetchProdChart = async (timeId, BatId, BatName) => {
-    // console.log(siteBatId, siteBatName);
-    // console.log(timeId);
-    setLoading(true);
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
-    try {
-      const response = await fetch(`${base_url}prod-chart/`, {
-        method: "POST",
-        body: JSON.stringify({
-          name: BatName ? BatName : siteBatName,
-          place: BatId ? BatId : siteBatId,
-          time: timeId ? timeId : time,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const data = await response.json();
-      if (response.status === 200) {
-        setLoading(false);
-        setProdChart(JSON.parse(data));
-        // console.log(JSON.parse(data));
-        // console.log(true);
-      } else {
-        setLoading(false);
-        setProdChart(null);
-      }
-    } catch (error) {
-      setLoading(false);
-      setProdChart([]);
-    }
-  };
-  const GetSiteOrBat = async () => {
-    setLoading(true);
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
-    try {
-      const response = await fetch(`${base_url}get-site-or-bats/`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const data = await response.json();
-      if (response.status === 200) {
-        setLoading(false);
-        // console.log(JSON.parse(data));
-        setBatSite(JSON.parse(data));
-      }
-    } catch (error) {
-      console.error(error);
-      setBatSite(null);
-      setLoading(false);
-    }
+  const handleChangeLabel = (event, newValue) => {
+    setLabel(newValue);
+    localStorage.setItem("ProdTime", newValue);
   };
 
   useEffect(() => {
-    FetchProdChart();
-    GetSiteOrBat();
+    const savedLabel = localStorage.getItem("ProdTime") || 0;
+    setLabel(Number(savedLabel));
   }, []);
 
   return (
     <>
-      <div className="First-chart">
+      <div className="First-chart ">
         <Box
           sx={{
             maxWidth: { xs: 320, sm: "100%" },
@@ -142,45 +73,56 @@ function FirstChart() {
                     minWidth: "20px",
                     minHeight: "20px",
                   }}
-                  onClick={() => FetchProdChart(0, d.id, d.name)}
+                  onClick={() => fetchDataById(d.id)}
                 />
               ))}
+            {Sitesloading && <Skeleton height={40} width="100%" />}
           </Tabs>
         </Box>
-        {prodChart !== null ? (
-          <>
-            <LinearChart prodChart={prodChart} />
-            <Paper
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                flexWrap: "wrap",
-                listStyle: "none",
-                p: 0.2,
-                m: 0,
-              }}
-              component="ul"
+        <>
+          {data !== null ? (
+            <ProductionChart prodChart={data} />
+          ) : (
+            <ProductionChart prodChart={[]} />
+          )}
+          <Paper
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              listStyle: "none",
+              p: 0.2,
+              m: 0,
+            }}
+            component="ul"
+          >
+            <Tabs
+              value={label}
+              onChange={handleChangeLabel}
+              style={{ maxWidth: "50%", width: "35%", margin: "0  auto" }}
             >
-              {chipData.map((data) => {
+              {chipData?.map((data) => {
                 return (
-                  <ListItem key={data.key}>
-                    <Chip
-                      label={data.label}
-                      size="small"
-                      color="primary"
-                      variant="outlined"
-                      onClick={() => FetchProdChart(data.key, 1, "KAMOUNI")}
-                    />
-                  </ListItem>
+                  <Tab
+                    key={data.key}
+                    label={data.label}
+                    style={{ textTransform: "capitalize" }}
+                    size="small"
+                    color="primary"
+                    variant="variant"
+                    onClick={() => {
+                      fetchDataByDate(data.key);
+                    }}
+                  />
                 );
               })}
-            </Paper>
-          </>
-        ) : (
-          <SkeletonBox />
-        )}
+            </Tabs>
+          </Paper>
+        </>
+
+        {loading && <Loader />}
       </div>
-      {loading && <SkeletonChart />}
+      {/* {loading && <SkeletonChart />} */}
     </>
   );
 }

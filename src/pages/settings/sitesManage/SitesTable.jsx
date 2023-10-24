@@ -1,72 +1,43 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useMemo, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import EditSitesModal from "./EditSitesModal";
 import DeleteSiteModal from "./DeletesitesModal";
 import {
   getSiteData,
   getSiteName,
-  getSiteRegion,
   getSitePhone,
 } from "../../../slices/SiteData";
+import UseFetchData from "../../../hooks/UseFetchData";
 
 // import EditeSy
-let base_url = "https://pouliprod.savas.ma/api/";
+let base_url = "https://farmdriver.savas.ma/api/";
 
-function SitesTable({ setAlert, UpdateSiteData }) {
-  const [loading, setLoading] = useState(false);
-  const [siteData, setSiteData] = useState();
+function SitesTable({ renderData }) {
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
-  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
-
+  const [siteId, setSiteId] = useState("");
   const dispatch = useDispatch();
 
   const handleOpen = () => setOpen(true);
   const handleDeleteModal = () => setOpenDeleteModal(true);
+  lkij;
+  const apiUrl = useMemo(
+    () => `${base_url}get-sites/`,
+    [base_url, renderData || open]
+  );
 
-  const GetSiteData = async () => {
-    setLoading(true);
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+  const { data, loading } = UseFetchData(apiUrl, renderData || open);
 
-    try {
-      const response = await fetch(`${base_url}get-sites/`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const data = await response.json();
-      if (response.status === 200) {
-        setLoading(false);
-        // console.log(JSON.parse(data));
-        setSiteData(JSON.parse(data));
-      }
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    GetSiteData();
-  }, [inputs]);
   return (
     <div className="site-table slit-in-horizontal">
-      {open && (
-        <EditSitesModal
-          open={open}
-          setOpen={setOpen}
-          setAlert={setAlert}
-          UpdateSiteData={UpdateSiteData}
-        />
-      )}
+      {open && <EditSitesModal open={open} setOpen={setOpen} />}
       {openDeleteModal && (
         <DeleteSiteModal
           openDeleteModal={openDeleteModal}
           setOpenDeleteModal={setOpenDeleteModal}
+          id={siteId}
         />
       )}
 
@@ -75,21 +46,22 @@ function SitesTable({ setAlert, UpdateSiteData }) {
           <tr>
             <th>Sites</th>
             <th>Phone</th>
-            <th>Region</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {siteData !== undefined &&
-            siteData.map((site) => (
+          {data !== undefined &&
+            data?.map((site) => (
               <tr key={site.id}>
                 <td>{site.name}</td>
                 <td>{site.phone}</td>
-                <td>{site.region}</td>
                 <td>
                   <DeleteForeverIcon
                     style={{ color: "#dc2626", cursor: "pointer" }}
-                    onClick={handleDeleteModal}
+                    onClick={() => {
+                      setSiteId(site.id);
+                      handleDeleteModal();
+                    }}
                   />
                   <EditIcon
                     style={{ color: "#fbbf24", cursor: "pointer" }}
@@ -98,7 +70,6 @@ function SitesTable({ setAlert, UpdateSiteData }) {
                       dispatch(getSiteData(site.id));
                       dispatch(getSiteName(site.name));
                       dispatch(getSitePhone(site.phone));
-                      dispatch(getSiteRegion(site.region));
                     }}
                   />
                 </td>

@@ -1,77 +1,123 @@
 import React from "react";
-import { ResponsiveLine } from "@nivo/line";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
 
-function MortChart({ altData }) {
-  // console.log(altData?.slice(1));
-  let data = altData?.slice(1);
-  return (
-    <ResponsiveLine
-      data={data}
-      margin={{ top: 30, right: 100, bottom: 45, left: 60 }}
-      xScale={{ type: "point" }}
-      yScale={{
-        type: "linear",
-        min: 1,
-        max: "auto",
-        stacked: false,
-        reverse: false,
-      }}
-      yFormat=" >-.2f"
-      curve="cardinal"
-      axisTop={null}
-      axisRight={null}
-      axisBottom={{
-        tickSize: 5,
-        tickPadding: 8,
-        tickRotation: 45,
-        legend: "",
-        legendOffset: 35,
-        legendPosition: "middle",
-      }}
-      axisLeft={{
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 45,
-        legend: "Aliment / Oeuf",
-        legendOffset: -50,
-        legendPosition: "middle",
-      }}
-      colors={{ scheme: "set1" }}
-      lineWidth={2}
-      pointSize={3}
-      pointColor={{ theme: "background" }}
-      pointBorderWidth={2}
-      pointBorderColor={{ from: "serieColor" }}
-      pointLabelYOffset={-12}
-      useMesh={true}
-      legends={[
-        {
-          anchor: "top-right",
-          direction: "column",
-          justify: false,
-          translateX: 98,
-          translateY: 0,
-          itemsSpacing: 0,
-          itemDirection: "left-to-right",
-          itemWidth: 90,
-          itemHeight: 20,
-          itemOpacity: 0.75,
-          symbolSize: 5,
-          symbolShape: "circle",
-          symbolBorderColor: "rgba(0, 0, 0, .5)",
-          effects: [
-            {
-              on: "hover",
-              style: {
-                itemBackground: "rgba(0, 0, 0, .03)",
-                itemOpacity: 1,
-              },
-            },
-          ],
-        },
-      ]}
-    />
-  );
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
+
+const options = {
+  elements: {
+    point: {
+      radius: 0, // The radius of data points (default is 3)
+      borderWidth: 1, // Border width of the data points
+    },
+    line: {
+      tension: 0.1, // Adjust the line curvature (default is 0.4)
+      borderColor: "rgba(255, 0, 0, 1)", // Color of the line
+      borderWidth: 1.8, // Width of the line
+      borderCapStyle: "round", // Line cap style ('butt', 'round', 'square')
+      //   borderDash: [5, 5], // Dashed line pattern (e.g., [5, 5] for dashes)
+    },
+  },
+
+  responsive: true,
+  interaction: {
+    mode: "index",
+    intersect: false,
+  },
+  stacked: false,
+  plugins: {
+    title: {
+      display: true,
+      text: "Alimentation",
+    },
+    legend: {
+      display: true,
+      position: "top", // 'top', 'bottom', 'left', 'right'
+    },
+  },
+  scales: {
+    x: {
+      // X-axis grid customization
+      grid: {
+        display: true, // Display the grid lines for the X-axis
+        color: "rgba(0, 0, 0, 0.08  )", // Color of the grid lines
+        borderWidth: 1, // Width of the grid lines
+        drawTicks: true, // Whether to draw tick marks on the grid lines
+        drawOnChartArea: true,
+      },
+    },
+    y: {
+      type: "linear",
+      display: true,
+      position: "left",
+      title: {
+        display: true,
+        text: "Aliment",
+      },
+      grid: {
+        display: true,
+        drawOnChartArea: true,
+        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
+      },
+    },
+    y1: {
+      type: "linear",
+      display: false,
+      position: "right",
+      grid: {
+        drawOnChartArea: true,
+      },
+    },
+  },
+};
+
+function AltChart({ altData }) {
+  const labels = altData[0]?.dates;
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Alt/Oeuf",
+        data: altData[1]?.altOeufReel,
+        borderColor: "#BB371A",
+        backgroundColor: "#BB371A",
+        borderWidth: 1,
+        fill: false, // Add fill property to fill the area below the line
+
+        yAxisID: "y",
+      },
+      {
+        label: "Guide: alt/Oeuf",
+        data: altData[2]?.altOeufGuide,
+        borderColor: "#829460",
+        backgroundColor: "#829460",
+        borderWidth: 1,
+
+        yAxisID: "y",
+      },
+    ],
+  };
+  return <Line options={options} data={data} />;
 }
 
-export default MortChart;
+export default AltChart;
