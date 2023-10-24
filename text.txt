@@ -2538,6 +2538,7 @@ function ReportForm({ productionData }) {
 }
 
 export default ReportForm;
+<<<<<<< HEAD
 //////////////////////////////////////////
  const sites = useSelector((state) => state.ShowBatimentCat.sites);
   const [isChecked, setIsChecked] = useState(false);
@@ -2872,3 +2873,5 @@ export default ReportForm;
     'qty_shell': '1',
     'batiment': 1
   }
+=======
+>>>>>>> 844ea6db67c5fa449f99a6a16612e87e3513feda

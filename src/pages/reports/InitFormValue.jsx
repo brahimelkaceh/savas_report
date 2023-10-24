@@ -10,7 +10,14 @@ const formik = useFormik({
     prod_casse: "",
     prod_feles: "",
     prod_elimne: "",
+<<<<<<< HEAD
 
+=======
+    //  if(reform) {
+
+    //    hensEliminated: parseInt(hensEliminatedRef.current.value),
+    //  },
+>>>>>>> 844ea6db67c5fa449f99a6a16612e87e3513feda
     alimentDist: "",
     eauDist: "",
     pmo: "",
@@ -30,6 +37,10 @@ const formik = useFormik({
     coloration: 0,
     qty_shell: 0,
     fientes: 0,
+<<<<<<< HEAD
+=======
+    // observ: mergedArray.toString().replaceAll(",", "|@|"),
+>>>>>>> 844ea6db67c5fa449f99a6a16612e87e3513feda
   },
   validationSchema,
   onSubmit: (values) => {
