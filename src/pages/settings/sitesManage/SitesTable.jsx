@@ -22,7 +22,6 @@ function SitesTable({ renderData }) {
 
   const handleOpen = () => setOpen(true);
   const handleDeleteModal = () => setOpenDeleteModal(true);
-  lkij;
   const apiUrl = useMemo(
     () => `${base_url}get-sites/`,
     [base_url, renderData || open]
