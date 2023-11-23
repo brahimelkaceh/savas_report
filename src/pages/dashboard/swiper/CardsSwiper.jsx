@@ -6,6 +6,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import ThirdCard from "../cards/ThirdCard";
 import "./style.css";
 import SkeletonBlock from "../skeletons/SkeletonBlock";
+import { Skeleton } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 export default function App() {
@@ -23,7 +24,8 @@ export default function App() {
   if (error || !data) {
     return (
       <div className="card-3">
-        <p>there is an error</p>
+        <Skeleton height={100} />
+        <Skeleton height={30} />
       </div>
     );
   }

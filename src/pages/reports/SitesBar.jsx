@@ -1,7 +1,6 @@
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useMemo, useState, useEffect } from "react";
-import UseFetchData from "../../hooks/UseFetchData";
 
 let base_url = "https://farmdriver.savas.ma/api/";
 
@@ -29,7 +28,7 @@ function SitesBar({ siteData, FetchData }) {
         allowScrollButtonsMobile
         aria-label="secondary scrollable force example"
       >
-        {siteData &&
+        {siteData ? (
           siteData.map((site, i) => (
             <Tab
               key={site?.id}
@@ -42,7 +41,10 @@ function SitesBar({ siteData, FetchData }) {
               }}
               label={site?.name}
             />
-          ))}
+          ))
+        ) : (
+          <Tab label="Aucun site" />
+        )}
       </Tabs>
     </div>
   );

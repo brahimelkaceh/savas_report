@@ -1,12 +1,14 @@
 import ConfirmModal from "../modals/ConfirmModal";
 import { AiOutlineSend } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getRenderData } from "../../../slices/SiteData";
 import { clearInputs } from "../../../slices/LeftBar";
 import { useState } from "react";
 import { useFormik } from "formik";
 let base_url = "https://farmdriver.savas.ma/api/";
 
-function SitesManage({ setOpen, open }) {
+function SitesManage() {
+  const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
 
   const dispatch = useDispatch();
@@ -15,6 +17,8 @@ function SitesManage({ setOpen, open }) {
     initialValues: {
       name: "",
       phone: "",
+      longtitude: "",
+      latitude: "",
     },
     onSubmit: (values) => {
       CreateSite(values);
@@ -35,6 +39,7 @@ function SitesManage({ setOpen, open }) {
       });
       if (response.ok) {
         console.log("Le site a été ajouté au système");
+        dispatch(getRenderData(new Date().toISOString()));
       } else {
         data = {};
         const errorMessage = "Site existe déjà";
@@ -60,7 +65,7 @@ function SitesManage({ setOpen, open }) {
           e.preventDefault();
         }}
       >
-        <p className="title">Gestion des sites </p>
+        <p className="title">Sites </p>
         <label>
           <input
             required
@@ -89,13 +94,44 @@ function SitesManage({ setOpen, open }) {
           />
           <span> Télephone*</span>
         </label>
+        <div className="flex">
+          <label>
+            <input
+              required
+              id="longtitude"
+              name="longtitude"
+              value={formik.values.longtitude}
+              onChange={formik.handleChange}
+              className="input"
+              type="number"
+              placeholder=""
+            />
+            <span> Longtitude*</span>
+          </label>
+          <label>
+            <input
+              required
+              id="latitude"
+              name="latitude"
+              value={formik.values.latitude}
+              onChange={formik.handleChange}
+              className="input"
+              type="number"
+              placeholder=""
+            />
+            <span> Latitude*</span>
+          </label>
+        </div>
 
         <div className="btns">
           <button
             className="edit-btn"
             type="submit"
             disabled={
-              formik.values.name.length == 0 || formik.values.phone.length == 0
+              !formik.values.name.length ||
+              !formik.values.phone.length ||
+              !formik.values.latitude ||
+              !formik.values.longtitude
             }
             onClick={(e) => {
               setMessage(
@@ -109,7 +145,7 @@ function SitesManage({ setOpen, open }) {
                 <AiOutlineSend />
               </div>
             </div>
-            <span>Submit</span>
+            <span>Envoyer</span>
           </button>
         </div>
       </form>

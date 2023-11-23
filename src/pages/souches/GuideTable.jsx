@@ -1,19 +1,17 @@
 import React from "react";
-import guideLogo from "../../../imgs/hisex.svg";
-import { AiFillEye, AiFillEdit } from "react-icons/ai";
+import { AiFillEye } from "react-icons/ai";
 import EditGuide from "./Editguide";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getguideId } from "../../slices/LeftBar";
+import { Skeleton } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 function GuideTable(GetGuideData) {
-  const guideid = useSelector((state) => state.toggleLeftBar.guideid);
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [guideTitle, setGuidetitle] = useState();
   const dispatch = useDispatch();
-  const handleOpen = () => setOpen(true);
   const GetGuideTitle = async () => {
     setLoading(true);
     const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -29,7 +27,7 @@ function GuideTable(GetGuideData) {
       if (response.status === 200) {
         setLoading(false);
         // console.log(JSON.parse(data));
-        setGuidetitle(JSON.parse(data));
+        setGuidetitle(data);
       }
     } catch (error) {
       console.error(error);
@@ -104,21 +102,13 @@ function GuideTable(GetGuideData) {
           );
         })
       ) : (
-        <p>undefined</p>
-      )}
-      {/* {loading && (
-        <div className="lds-ellipsis">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          // <p>undifinde</p>
+        <div style={{ width: "100%", margin: "0 7px" }}>
+          <Skeleton width={"100%"} height={50} />
         </div>
-      )} */}
+      )}
+      {/* {loading && <Loader />} */}
     </div>
   );
 }
 
 export default GuideTable;
-// get-guides-titles
-// toggle-guide-activation/

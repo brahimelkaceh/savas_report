@@ -1,46 +1,26 @@
 import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import LinkBtn from "../buttons/LinkBtn";
-import { useState } from "react";
-import { BsPersonCircle } from "react-icons/bs";
-import { FaUser } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
 import "./userDrop.css";
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 const DropMenu = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const { logoutUser } = useContext(AuthContext);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleLogout = () => {
+    logoutUser();
   };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <div>
       <Button
         id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
+        aria-controls="basic-menu"
         aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+        aria-expanded="true"
+        onClick={handleLogout}
       >
-        <BsPersonCircle className="search-toggle" />
+        <FiLogOut className="search-toggle" />
       </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <div className="user__drop-container_btns">
-          <LinkBtn />
-        </div>
-      </Menu>
     </div>
   );
 };

@@ -5,13 +5,12 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { AiOutlineSend } from "react-icons/ai";
 import "../modals/style.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
 import { useState, useMemo } from "react";
-import UseFetchData from "../../../hooks/UseFetchData";
-import { useEffect } from "react";
-import ConfirmModal from "../modals/ConfirmModal";
 import SuccessModal from "../modals/SuccessModal";
+import { getRenderData } from "../../../slices/SiteData";
+import { render } from "react-dom";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const style = {
@@ -26,17 +25,17 @@ const style = {
 };
 
 export default function EditSitesModal({ open, setOpen }) {
-  let siteId = useSelector((state) => state.getSiteData.siteId);
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   let inputs = useSelector((state) => state.toggleLeftBar.inputs);
 
+  let siteId = useSelector((state) => state.getSiteData.siteId);
   let siteName = useSelector((state) => state.getSiteData.siteName);
   let sitePhone = useSelector((state) => state.getSiteData.sitePhone);
 
+  const disptach = useDispatch();
   const handleClose = () => {
     setOpen(false);
   };
@@ -76,17 +75,13 @@ export default function EditSitesModal({ open, setOpen }) {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      if (!response.ok) {
-        data = {};
-      }
 
       const datas = await response.json();
       console.log(datas);
       if (response.ok) {
         setMessage("Vos modifications ont été enregistrées.");
-        setDataRender(!dataRender);
       } else {
-        setLoading(false);
+        data = {};
         const errorMessage = "Site existe déjà";
         throw new Error(errorMessage);
       }
@@ -165,7 +160,7 @@ export default function EditSitesModal({ open, setOpen }) {
                         <AiOutlineSend />
                       </div>
                     </div>
-                    <span>Submit</span>
+                    <span>Envoyer</span>
                   </button>
                   <button
                     type=""
@@ -175,7 +170,7 @@ export default function EditSitesModal({ open, setOpen }) {
                       handleClose();
                     }}
                   >
-                    <span>Cancel</span>
+                    <span>Annuler</span>
                   </button>
                 </div>
               </form>

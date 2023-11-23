@@ -12,6 +12,7 @@ import egg90 from "../../../assets/90.png";
 import egg100 from "../../../assets/100.png";
 import egg110 from "../../../assets/110.png";
 import noimg from "../../../assets/no-img.png";
+import { useSelector } from "react-redux";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const style = {
@@ -26,6 +27,8 @@ const style = {
   borderTopColor: "#004e86",
 };
 const TableDetailModal = ({ open, setOpen, age, lotId }) => {
+  const batimentName = useSelector((state) => state.getSiteData.batimentName);
+  console.log(batimentName);
   const tableApiUrl = useMemo(
     () => `${base_url}get-table-row-details/?lotId=${lotId}&age=${age}`,
     [base_url, lotId, age]
@@ -53,12 +56,13 @@ const TableDetailModal = ({ open, setOpen, age, lotId }) => {
             <table className="table-detail">
               <thead>
                 <th>Date</th>
-                <th>Day</th>
-
+                <th>jour</th>
                 <th>Coloration</th>
                 <th>Coquille</th>
                 <th>Observation</th>
-                <th>Prophylaxi</th>
+                <th>Double jaune</th>
+                <th>blancs</th>
+                <th>Cassé</th>
               </thead>
               <tbody>
                 {data?.map((d, i) => {
@@ -92,14 +96,15 @@ const TableDetailModal = ({ open, setOpen, age, lotId }) => {
                         <Rating name="read-only" value={d.coquille} readOnly />
                       </td>
                       <td>{d.observation || "--"}</td>
-                      <td>{d.prophylaxi || "--"}</td>
+                      <td>{d.casse || "--"}</td>
+                      <td>{d.dj || "--"}</td>
+                      <td>{d.blancs || "--"}</td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
           )}
-          {!data && <p>no data to display</p>}
         </Box>
       </Modal>
     </div>

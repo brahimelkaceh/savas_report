@@ -1,6 +1,7 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import UseFetchData from "../../../hooks/UseFetchData";
 import { useSelector, useDispatch } from "react-redux";
 import EditBatsModal from "./EditBatsModal";
 import DeleteBatsModal from "./DeleteBatsModal";
@@ -10,64 +11,29 @@ import {
   getBatType,
   getBatName,
 } from "../../../slices/SiteData";
-let base_url = "https://farmdriver.savas.ma/api/";
-function BatsTable({ UpdateBatimentData, siteName }) {
-  const [loading, setLoading] = useState(false);
-  const [batsData, setBatsData] = useState();
+import Loader from "../../../components/loader/Loader";
+function BatsTable({ siteName, loading, data }) {
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
-  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
-
+  const [batId, setBatId] = useState("");
   const dispatch = useDispatch();
 
   const handleOpen = () => setOpen(true);
 
   const handleModalOpen = () => setOpenDeleteModal(true);
 
-  const GetBatsData = async () => {
-    setLoading(true);
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
-    try {
-      const response = await fetch(`${base_url}get-bats/`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const data = await response.json();
-      if (response.status === 200) {
-        setLoading(false);
-        // console.log(JSON.parse(data));
-        setBatsData(data);
-      }
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    GetBatsData();
-  }, [inputs]);
   return (
     <div className="bats-table slit-in-horizontal">
       {open && (
-        <EditBatsModal
-          open={open}
-          setOpen={setOpen}
-          siteName={siteName}
-          UpdateBatimentData={UpdateBatimentData}
-        />
+        <EditBatsModal open={open} setOpen={setOpen} siteName={siteName} />
       )}
       {openDeleteModal && (
         <DeleteBatsModal
           openDeleteModal={openDeleteModal}
           setOpenDeleteModal={setOpenDeleteModal}
+          id={batId}
         />
       )}
-      {/* {openModal && <Dele} */}
 
       <table className="">
         <thead className="fixed-header">
@@ -79,8 +45,8 @@ function BatsTable({ UpdateBatimentData, siteName }) {
           </tr>
         </thead>
         <tbody>
-          {batsData !== undefined &&
-            batsData.map((bats) => (
+          {data !== undefined &&
+            data?.map((bats) => (
               <tr key={bats.id}>
                 <td>{bats.site_name}</td>
                 <td>{bats.name}</td>
@@ -96,10 +62,19 @@ function BatsTable({ UpdateBatimentData, siteName }) {
                   </span>
                 </td>
                 <td>
-                  <DeleteForeverIcon
-                    style={{ color: "#dc2626", cursor: "pointer" }}
-                    onClick={handleModalOpen}
-                  />
+                  {bats.deletable ? (
+                    <DeleteForeverIcon
+                      style={{ color: "#dc2626", cursor: "pointer" }}
+                      onClick={() => {
+                        setBatId(bats.id);
+                        handleModalOpen();
+                      }}
+                    />
+                  ) : (
+                    <DeleteForeverIcon
+                      style={{ color: "#888", cursor: "not-allowed" }}
+                    />
+                  )}
                   <EditIcon
                     style={{ color: "#fbbf24", cursor: "pointer" }}
                     onClick={() => {
@@ -115,7 +90,7 @@ function BatsTable({ UpdateBatimentData, siteName }) {
             ))}
         </tbody>
       </table>
-      {loading && <div className="custom-loader"></div>}
+      {loading && <Loader />}
     </div>
   );
 }

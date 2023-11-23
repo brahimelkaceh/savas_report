@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import WeeklyTableHeader from "./WeeklyTableHeader";
 import FixedHeader from "./FixedHeader";
@@ -18,12 +18,12 @@ let base_url = "https://farmdriver.savas.ma/api/";
 
 function DataTable() {
   const lotTableId = useSelector((state) => state.toggleLeftBar.lotTableId);
+  let renderData = useSelector((state) => state.getSiteData.renderData);
+  let refreshData = useSelector((state) => state.getSiteData.refreshData);
 
-  const tableApiUrl = useMemo(
-    () => `${base_url}get-table-data/?lotId=${lotTableId}`,
-    [base_url, lotTableId]
-  );
   const [age, setAge] = useState("");
+  const [tableData, setTableData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTableDetailModal, setOpenTableDetailModal] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
@@ -31,35 +31,54 @@ function DataTable() {
 
   const [elementVisibility, setElementVisibility] = useState({});
 
-  const { data: tableData, loading } = UseFetchData(
-    tableApiUrl,
-    "GET",
-    lotTableId
-  );
-
   const toggleVisibility = (elementId) => {
     setElementVisibility((prevState) => ({
       ...prevState,
       [elementId]: !prevState[elementId],
     }));
   };
+  const getRepportData = async (id) => {
+    setLoading(true);
+
+    try {
+      const authTokens = JSON.parse(localStorage.getItem("authTokens"));
+      if (!authTokens || !authTokens.access) {
+        throw new Error("Access token not found");
+      }
+
+      const accessToken = authTokens.access;
+      const response = await fetch(`${base_url}get-table-data/?lotId=${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+      const data = await response.json();
+      if (response.ok) {
+        setTableData(data);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   //! Extract the last element from each sub-array in 'data'
-  let weeklyData;
-  if (tableData?.length > 0) {
-    weeklyData = tableData?.map((d) => d[d.length - 1]);
-    // console.log(weeklyData);
-  }
-
-  // //! Filter 'weeklyData' array to keep objects with at least one non-empty value
-  const newWeeklyData = weeklyData?.filter((obj) =>
-    //   //! Check if any value in the object is not an empty string
-    Object.values(obj).some((value) => value !== "")
-  );
+  const [weeklyData, setWeeklyData] = useState([]);
+  const [newWeeklyData, setNewWeeklyData] = useState([]);
+  // useEffect(() => {
+  //   tableData?.length > 0
+  //     ? setWeeklyData(tableData?.map((d) => d[d.length - 1]))
+  //     : setWeeklyData([]);
+  // }, [tableData]);
 
   const handleWeekPdfClick = async (id, age) => {
-    console.log(id, age);
-
     setPdfLoading(true);
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -77,7 +96,9 @@ function DataTable() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
+      if (response.ok) {
+        setPdfLoading(false);
+      }
       const blob = await response.blob();
 
       // Create a temporary URL for the received blob
@@ -107,6 +128,27 @@ function DataTable() {
       setIsLoading(false); // Set loading to false when the fetch is complete
     }
   };
+  const initialLotTableId = useRef(null); // Create a ref to store the previous lotTableId
+  useEffect(() => {
+    getRepportData(lotTableId);
+  }, [lotTableId, refreshData]);
+
+  useEffect(() => {
+    setWeeklyData(tableData?.map((d) => d[d.length - 1]));
+    //! Filter 'weeklyData' array to keep objects with at least one non-empty value
+  }, [refreshData, tableData]);
+  useEffect(() => {
+    setNewWeeklyData(
+      weeklyData?.filter((obj) =>
+        //   //! Check if any value in the object is not an empty string
+        Object.values(obj).some((value) => value !== "")
+      )
+    );
+  }, [refreshData, weeklyData]);
+
+  useEffect(() => {
+    setWeeklyData([]);
+  }, [renderData]);
 
   return (
     <div className="modification-table-container">
@@ -132,7 +174,7 @@ function DataTable() {
       )}
 
       {loading && <Loader />}
-      {pdfLoading && <span className="loading-text">Loading...</span>}
+      {pdfLoading && <Loader />}
 
       <table>
         <thead className="sticky-header">
@@ -142,11 +184,12 @@ function DataTable() {
         {newWeeklyData &&
           newWeeklyData.map((d, i) => {
             return (
-              <tbody key={i} className="">
-                {/* {elementVisibility[i] && (
-                  <DailyTableHeader dailyData={dailyData} i={i} />
-                )} */}
-
+              <tbody
+                key={i}
+                className={
+                  elementVisibility[i] ? "my-tbody-active" : "my-tbody"
+                }
+              >
                 {elementVisibility[i] && (
                   <DailyData
                     dailyData={tableData?.map((d) => d.slice(0, -1))}
@@ -163,13 +206,15 @@ function DataTable() {
                       ? "weekly-body-tr active-tr"
                       : "weekly-body-tr"
                   }
+                  style={{
+                    border: "none !important",
+                  }}
                 >
                   <td rowSpan={2} className="border-right">
                     <div className="actions">
                       <button className="download">
                         <DownloadIcon
                           onClick={() => {
-                            // console.log(newWeeklyData[i]?.calendrier?.age);
                             console.log();
                             handleWeekPdfClick(
                               lotTableId,
@@ -211,22 +256,33 @@ function DataTable() {
                   {/* Ambiance */}
                   <td rowSpan={2}>
                     <HoverPopper
-                      data={
-                        newWeeklyData[i]?.ambiance.lumiere
-                          ? newWeeklyData[i]?.ambiance.lumiere
-                          : "--"
-                      }
+                      data={newWeeklyData[i]?.ambiance.lumiere || "--"}
                       fontSize={15}
                     />
                   </td>
                   <td rowSpan={2}>
                     <HoverPopper
-                      data={newWeeklyData[i]?.ambiance.flash}
+                      data={newWeeklyData[i]?.ambiance.flash || "--"}
                       fontSize={15}
                     />
                   </td>
                   <td className="border-right" rowSpan={2}>
                     {newWeeklyData[i]?.ambiance?.intensite}
+                  </td>
+                  <td className="border-right" rowSpan={2}>
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        color: "#5272F2",
+                      }}
+                    >
+                      {newWeeklyData[i]?.ambiance?.temperature.min}°
+                    </span>
+                    /
+                    <span style={{ color: "#C70039" }}>
+                      {newWeeklyData[i]?.ambiance?.temperature.max}°
+                    </span>
                   </td>
                   {/* Viabilité */}
                   <td rowSpan={2}>{newWeeklyData[i]?.viabilite?.effectif}</td>
@@ -302,7 +358,7 @@ function DataTable() {
                       : "--"}
                   </td>
                   {/* PRODUCTION */}
-                  <td rowSpan={2}>{newWeeklyData[i]?.production?.ponte_nbr}</td>
+                  <td>{newWeeklyData[i]?.production?.ponte_nbr}</td>
                   <td>
                     {newWeeklyData[i]?.production?.ponte_cent?.reel}
                     {/* <MouseOverPopover
@@ -320,14 +376,14 @@ function DataTable() {
                     /> */}
                   </td>
                   <td>
-                    {newWeeklyData[i]?.production?.noppd?.reel}
+                    {newWeeklyData[i]?.production?.noppp_cuml_sem?.reel}
                     {/* <MouseOverPopover
-                      guide={newWeeklyData[i]?.production?.noppd?.guide}
-                      reel={newWeeklyData[i]?.production?.noppd?.reel}
+                      guide={newWeeklyData[i]?.production?.noppp?.guide}
+                      reel={newWeeklyData[i]?.production?.noppp?.reel}
                       fontSize={15}
                     /> */}
                   </td>
-                  <td className="border-right">
+                  <td>
                     {newWeeklyData[i]?.production?.noppp?.reel}
                     {/* <MouseOverPopover
                       guide={newWeeklyData[i]?.production?.noppp?.guide}
@@ -336,24 +392,34 @@ function DataTable() {
                     /> */}
                   </td>
 
+                  <td className="border-right">
+                    {newWeeklyData[i]?.production?.noppd_cuml_sem?.reel}
+                    {/* <MouseOverPopover
+                      guide={newWeeklyData[i]?.production?.noppd?.guide}
+                      reel={newWeeklyData[i]?.production?.noppd?.reel}
+                      fontSize={15}
+                    /> */}
+                  </td>
+                  <td className="border-right">
+                    {newWeeklyData[i]?.production?.noppd?.reel}
+                    {/* <MouseOverPopover
+                      guide={newWeeklyData[i]?.production?.noppd?.guide}
+                      reel={newWeeklyData[i]?.production?.noppd?.reel}
+                      fontSize={15}
+                    /> */}
+                  </td>
+                  <td rowSpan={2}>{newWeeklyData[i]?.production?.declassed}</td>
                   {/* Mass OEUF */}
 
-                  <td>
-                    {newWeeklyData[i]?.mass_oeuf?.mass_oeuf_pp?.reel}
-                    {/* <MouseOverPopover
-                      guide={newWeeklyData[i]?.mass_oeuf?.mass_oeuf_pp?.guide}
-                      reel={newWeeklyData[i]?.mass_oeuf?.mass_oeuf_pp?.reel}
-                      fontSize={15}
-                    /> */}
+                  <td>{newWeeklyData[i]?.mass_oeuf?.mass_oeuf_sem_pp.reel}</td>
+                  <td>{newWeeklyData[i]?.mass_oeuf?.mass_oeuf_pp?.reel}</td>
+                  <td className="border-right">
+                    {newWeeklyData[i]?.mass_oeuf?.mass_oeuf_sem_pd.reel}
                   </td>
-                  <td>
+                  <td className="border-right">
                     {newWeeklyData[i]?.mass_oeuf?.mass_oeuf_pd?.reel}
-                    {/* <MouseOverPopover
-                      guide={newWeeklyData[i]?.mass_oeuf?.mass_oeuf_pd?.guide}
-                      reel={newWeeklyData[i]?.mass_oeuf?.mass_oeuf_pd?.reel}
-                      fontSize={15}
-                    /> */}
                   </td>
+
                   {/* Aliment / Oeuf */}
                   <td>
                     {newWeeklyData[i]?.indice_conver?.alt_oeuf?.reel}
@@ -363,7 +429,7 @@ function DataTable() {
                       fontSize={15}
                     /> */}
                   </td>
-                  <td className="border-right">
+                  <td>
                     {newWeeklyData[i]?.indice_conver?.alt_oeuf_cuml?.reel}
                     {/* <MouseOverPopover
                       guide={
@@ -384,7 +450,13 @@ function DataTable() {
                     /> */}
                   </td>
                 </tr>
-                <tr className="weekly-body-tr">
+                <tr
+                  className={
+                    elementVisibility[i]
+                      ? "weekly-body-tr active-tr"
+                      : "weekly-body-tr"
+                  }
+                >
                   {/* Viabilité */}
                   <td className={newWeeklyData[i]?.viabilite?.homog?.color}>
                     <MouseOverPopover
@@ -413,13 +485,13 @@ function DataTable() {
                   </td>
                   <td
                     className={
-                      newWeeklyData[i]?.viabilite?.cent_mort_sem?.color +
+                      newWeeklyData[i]?.viabilite?.cent_mort_cuml?.color +
                       " border-right"
                     }
                   >
                     <MouseOverPopover
-                      guide={newWeeklyData[i]?.viabilite?.cent_mort_sem?.guide}
-                      reel={newWeeklyData[i]?.viabilite?.cent_mort_sem?.ecart}
+                      guide={newWeeklyData[i]?.viabilite?.cent_mort_cuml?.guide}
+                      reel={newWeeklyData[i]?.viabilite?.cent_mort_cuml?.ecart}
                       fontSize={15}
                     />
                   </td>
@@ -449,6 +521,15 @@ function DataTable() {
                   </td>
                   {/* PRODUCTION */}
                   <td
+                    style={{
+                      color: `${newWeeklyData[i]?.production?.ponte_var.color}`,
+                      backgroundColor: "#fff",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    {newWeeklyData[i]?.production?.ponte_var?.reel}
+                  </td>
+                  <td
                     className={newWeeklyData[i]?.production?.ponte_cent?.color}
                   >
                     <MouseOverPopover
@@ -456,15 +537,34 @@ function DataTable() {
                       reel={newWeeklyData[i]?.production?.ponte_cent?.ecart}
                       fontSize={15}
                     />
-                  </td>{" "}
-                  <td className={newWeeklyData[i]?.mass_oeuf?.pmo?.color}>
+                  </td>
+                  <td className={newWeeklyData[i]?.production?.pmo?.color}>
                     <MouseOverPopover
                       guide={newWeeklyData[i]?.production?.pmo?.guide}
                       reel={newWeeklyData[i]?.production?.pmo?.ecart}
                       fontSize={15}
                     />
+                  </td>{" "}
+                  <td
+                    className={
+                      newWeeklyData[i]?.production?.noppp_cuml_sem?.color +
+                      " border-right"
+                    }
+                  >
+                    <MouseOverPopover
+                      guide={
+                        newWeeklyData[i]?.production?.noppp_cuml_sem?.guide
+                      }
+                      reel={newWeeklyData[i]?.production?.noppp_cuml_sem?.ecart}
+                      fontSize={15}
+                    />
                   </td>
-                  <td className={newWeeklyData[i]?.production?.noppp?.color}>
+                  <td
+                    className={
+                      newWeeklyData[i]?.production?.noppp?.color +
+                      " border-right"
+                    }
+                  >
                     <MouseOverPopover
                       guide={newWeeklyData[i]?.production?.noppp?.guide}
                       reel={newWeeklyData[i]?.production?.noppp?.ecart}
@@ -473,10 +573,18 @@ function DataTable() {
                   </td>
                   <td
                     className={
-                      newWeeklyData[i]?.production?.noppd?.color +
-                      " border-right"
+                      newWeeklyData[i]?.production?.noppd_cuml_sem?.color
                     }
                   >
+                    <MouseOverPopover
+                      guide={
+                        newWeeklyData[i]?.production?.noppd_cuml_sem?.guide
+                      }
+                      reel={newWeeklyData[i]?.production?.noppd_cuml_sem?.ecart}
+                      fontSize={15}
+                    />
+                  </td>
+                  <td className={newWeeklyData[i]?.production?.noppd?.color}>
                     <MouseOverPopover
                       guide={newWeeklyData[i]?.production?.noppd?.guide}
                       reel={newWeeklyData[i]?.production?.noppd?.ecart}
@@ -485,11 +593,42 @@ function DataTable() {
                   </td>
                   {/* Mass OEUF */}
                   <td
+                    className={
+                      newWeeklyData[i]?.mass_oeuf?.mass_oeuf_sem_pp?.color
+                    }
+                  >
+                    <MouseOverPopover
+                      guide={
+                        newWeeklyData[i]?.mass_oeuf?.mass_oeuf_sem_pp?.guide
+                      }
+                      reel={
+                        newWeeklyData[i]?.mass_oeuf?.mass_oeuf_sem_pp?.ecart
+                      }
+                      fontSize={15}
+                    />
+                  </td>
+                  <td
                     className={newWeeklyData[i]?.mass_oeuf?.mass_oeuf_pp?.color}
                   >
                     <MouseOverPopover
                       guide={newWeeklyData[i]?.mass_oeuf?.mass_oeuf_pp?.guide}
                       reel={newWeeklyData[i]?.mass_oeuf?.mass_oeuf_pp?.ecart}
+                      fontSize={15}
+                    />
+                  </td>
+                  <td
+                    className={
+                      newWeeklyData[i]?.mass_oeuf?.mass_oeuf_sem_pd?.color +
+                      " border-right"
+                    }
+                  >
+                    <MouseOverPopover
+                      guide={
+                        newWeeklyData[i]?.mass_oeuf?.mass_oeuf_sem_pd?.guide
+                      }
+                      reel={
+                        newWeeklyData[i]?.mass_oeuf?.mass_oeuf_sem_pd?.ecart
+                      }
                       fontSize={15}
                     />
                   </td>
@@ -530,7 +669,12 @@ function DataTable() {
                       fontSize={15}
                     />
                   </td>
-                  <td className="border-right">
+                  <td
+                    className={
+                      newWeeklyData[i]?.indice_conver?.ic_cuml?.color +
+                      " border-right"
+                    }
+                  >
                     <MouseOverPopover
                       guide={newWeeklyData[i]?.indice_conver?.ic_cuml?.guide}
                       reel={newWeeklyData[i]?.indice_conver?.ic_cuml?.ecart}

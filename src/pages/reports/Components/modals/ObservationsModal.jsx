@@ -94,7 +94,7 @@ export default function ObservationsModal({
                   <AiOutlineSend />
                 </div>
               </div>
-              <span>Submit</span>
+              <span>Envoyer</span>
             </button>
             <button
               type=""
@@ -105,7 +105,7 @@ export default function ObservationsModal({
                 // sendData();
               }}
             >
-              <span>Cancel</span>
+              <span>Annuler</span>
             </button>
           </div>
         </Box>

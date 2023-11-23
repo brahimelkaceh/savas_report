@@ -12,10 +12,12 @@ import { useState, useEffect } from "react";
 import "./styles/animations.css";
 import PrivateRoutes from "./components/utils/PrivateRoutes";
 import { AuthProvider } from "./context/AuthContext";
+import { LotProvider } from "./pages/senthyse/context/LotContext";
 import Charts from "./pages/charts/Charts";
 import Souches from "./pages/souches/Souches";
 import Help from "./pages/help/Help";
 import AddGuide from "./pages/souches/AddGuide";
+import Lots from "./pages/lots/Lots";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const App = () => {
@@ -90,40 +92,22 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route element={<PrivateRoutes />}>
-          <Route
-            exact
-            path="/"
-            element={
-              <Dashboard
-
-              // FetchLotData={FetchLotData}
-              />
-            }
-          />
-
-          <Route
-            path="/report"
-            element={
-              <Report
-                CreateReports={CreateReports}
-                lots={lots}
-                base_url={base_url}
-              />
-            }
-          />
+          <Route exact path="/" element={<Dashboard />} />
+          <Route path="/report" element={<Report />} />
           <Route
             path="/visualize"
             element={
-              <Visualize
-                reports={reports}
-                // FetchData={FetchData}
-              />
+              <LotProvider>
+                <Visualize />
+              </LotProvider>
             }
           />
+
           <Route path="/settings" element={<Settings />} />
           <Route path="/souches" element={<Souches />} />
           <Route path="/souches/ajouter-guide" element={<AddGuide />} />
           <Route path="/help" element={<Help />} />
+          <Route path="/lots" element={<Lots />} />
           <Route
             path="/modification"
             element={<Modification base_url={base_url} />}

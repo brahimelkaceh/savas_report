@@ -23,7 +23,7 @@ function FormHeader({ nextReport, lot_code, loading, siteId }) {
       </div>
 
       <div className="next-send">
-        <h4 style={{ display: "inline" }}>Code Lot :</h4>
+        <h4 style={{ display: "inline" }}>Code lot :</h4>
 
         {loading ? <span> loading...</span> : <span>{codeLot} </span>}
       </div>

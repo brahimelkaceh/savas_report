@@ -3,19 +3,13 @@ import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import { useState } from "react";
 import Switecher from "./Switecher";
 import RangSlider from "./RangSlider";
-function Ambiance({ formik, last_rep }) {
-  const [isOpen, setIsOpen] = useState(false);
+function Ambiance({ formik, last_rep, open }) {
+  const [isOpen, setIsOpen] = useState(open ? open : false);
   // ! open close the boxes
   const toggleBox = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  // ! Get Intensite Type Data
-  // formik.values.intensIsLux = data?.data?.last_rep?.intensIsLux ? true : false;
-  last_rep?.intensIsLux &&
-    (formik.values.intensIsLux
-      ? (formik.values.intensIsLux = formik.values.intensIsLux)
-      : (formik.values.intensIsLux = last_rep?.intensIsLux));
   return (
     <div className={`box ${isOpen ? "open" : ""}`}>
       <div className="box-header ambiance" onClick={toggleBox}>
@@ -47,7 +41,7 @@ function Ambiance({ formik, last_rep }) {
                   value={formik.values.temperatureMin}
                   onChange={formik.handleChange}
                 />
-                <span>Temperature int min</span>
+                <span>Température intérieure minimale</span>
               </label>
               {formik.touched.temperatureMin &&
                 formik.errors.temperatureMin && (
@@ -70,7 +64,7 @@ function Ambiance({ formik, last_rep }) {
                   value={formik.values.temperatureMax}
                   onChange={formik.handleChange}
                 />
-                <span>Temperature int max</span>
+                <span>Température intérieure maximale</span>
               </label>
               {formik.touched.temperatureMax &&
                 formik.errors.temperatureMax && (
@@ -95,7 +89,7 @@ function Ambiance({ formik, last_rep }) {
                   value={formik.values.temperatureMinExt}
                   onChange={formik.handleChange}
                 />
-                <span>Temperature ext min</span>
+                <span>Température extérieure minimale </span>
               </label>
               {formik.touched.temperatureMinExt &&
                 formik.errors.temperatureMinExt && (
@@ -118,7 +112,7 @@ function Ambiance({ formik, last_rep }) {
                   value={formik.values.temperatureMaxExt}
                   onChange={formik.handleChange}
                 />
-                <span>Temperature Ext max</span>
+                <span>Température extérieure maximale</span>
                 {formik.touched.temperatureMaxExt &&
                   formik.errors.temperatureMaxExt && (
                     <div className="error">
@@ -146,16 +140,10 @@ function Ambiance({ formik, last_rep }) {
                   value={formik.values.lightOn}
                   onChange={(e) => {
                     formik.handleChange(e);
-                    if (formik.values.lightDuration.length > 0) {
-                      formik.setValues({
-                        ...formik.values,
-                        lightDuration: "",
-                      });
-                    }
                   }}
                   // onChange={formik.handleChange}
                 />
-                <span>lumière allumée</span>
+                <span>Allumage de lumiére</span>
               </label>
               {formik.touched.lightOn && formik.errors.lightOn && (
                 <div className="error">{formik.errors.lightOn}</div>
@@ -177,15 +165,9 @@ function Ambiance({ formik, last_rep }) {
                   value={formik.values.lightOff}
                   onChange={(e) => {
                     formik.handleChange(e);
-                    if (formik.values.lightDuration.length > 0) {
-                      formik.setValues({
-                        ...formik.values,
-                        lightDuration: "",
-                      });
-                    }
                   }}
                 />
-                <span>lumière éteinte</span>
+                <span>Extinction de lumière</span>
               </label>
               {formik.touched.lightOff && formik.errors.lightOff && (
                 <div className="error">{formik.errors.lightOff}</div>
@@ -207,19 +189,9 @@ function Ambiance({ formik, last_rep }) {
                   value={formik.values.lightDuration}
                   onChange={(e) => {
                     formik.handleChange(e);
-                    if (
-                      formik.values.lightOff.length > 0 ||
-                      formik.values.lightOn.length > 0
-                    ) {
-                      formik.setValues({
-                        ...formik.values,
-                        lightOff: "",
-                        lightOn: "",
-                      });
-                    }
                   }}
                 />
-                <span>durée d'éclairage</span>
+                <span>Durée de lumiére</span>
               </label>
               {formik.touched.lightDuration && formik.errors.lightDuration && (
                 <div className="error">{formik.errors.lightDuration}</div>
@@ -243,15 +215,9 @@ function Ambiance({ formik, last_rep }) {
                   value={formik.values.flashOn}
                   onChange={(e) => {
                     formik.handleChange(e);
-                    if (formik.values?.flashDuration?.length > 0) {
-                      formik.setValues({
-                        ...formik.values,
-                        flashDuration: "",
-                      });
-                    }
                   }}
                 />
-                <span>Flash allumée</span>
+                <span>Allumage de flash</span>
               </label>
               {formik.touched.flashOn && formik.errors.flashOn && (
                 <div className="error">{formik.errors.flashOn}</div>
@@ -273,15 +239,9 @@ function Ambiance({ formik, last_rep }) {
                   value={formik.values.flashOff}
                   onChange={(e) => {
                     formik.handleChange(e);
-                    if (formik.values?.flashDuration?.length > 0) {
-                      formik.setValues({
-                        ...formik.values,
-                        flashDuration: "",
-                      });
-                    }
                   }}
                 />
-                <span>Flash éteinte</span>
+                <span>Extinction de flash</span>
               </label>
               {formik.touched.flashOff && formik.errors.flashOff && (
                 <div className="error">{formik.errors.flashOff}</div>
@@ -302,19 +262,9 @@ function Ambiance({ formik, last_rep }) {
                   value={formik.values.flashDuration}
                   onChange={(e) => {
                     formik.handleChange(e);
-                    if (
-                      formik.values.flashOn?.length > 0 ||
-                      formik.values.flashOff?.length > 0
-                    ) {
-                      formik.setValues({
-                        ...formik.values,
-                        flashOff: "",
-                        flashOn: "",
-                      });
-                    }
                   }}
                 />
-                <span>Durée du flash</span>
+                <span>Durée de flash</span>
               </label>
               {formik.touched.flashDuration && formik.errors.flashDuration && (
                 <div className="error">{formik.errors.flashDuration}</div>

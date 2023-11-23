@@ -7,15 +7,16 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import "./style.css";
+import { useSelector } from "react-redux";
 
 function createData(name, value) {
   return { name, value };
 }
 
 export default function DataTable(data) {
-  console.log(data?.data);
+  let batimentName = useSelector((state) => state.getSiteData.batimentName);
   const rows = [
-    createData("Batiment", data?.data?.batiment || "--"),
+    createData("Batiment", batimentName || "--"),
     createData("Mortalité", data?.data?.mort || "--"),
     createData("Sujet éliminées", data?.data?.sjt_elm || "--"),
     createData("Homogeneité", data?.data?.homog || "--"),
@@ -35,7 +36,7 @@ export default function DataTable(data) {
     createData("Temperature ext max", data?.data?.temperatureMaxExt || "--"),
     createData("Light On", data?.data?.lightOn || "--:--"),
     createData("Light Off", data?.data?.lightOff || "--:--"),
-    createData("Light Durration", data?.data?.lightDurr || "--:--"),
+    createData("Light Durration", data?.data?.lightDuration || "--:--"),
     createData("Flash On", data?.data?.flashOn || "--:--"),
     createData("Flash Off", data?.data?.flashOff || "--:--"),
     createData("Flash Durration", data?.data?.flashDuration || "--:--"),

@@ -12,14 +12,14 @@ import {
   userFirstName,
   userLastName,
   userPhone,
-  userIsAdmin,
+  userRole,
   userSite,
   userSiteId,
   handleCloseEditModal,
 } from "../../../slices/LeftBar";
 import EditUsersModal from "./EditUsersModal";
 import DeleteUsersModal from "./DeleteUsersModal";
-let base_url = "https://farmdriver.savas.ma/api/";
+import Loader from "../../../components/loader/Loader";
 
 // get-users
 function stringToColor(string) {
@@ -51,18 +51,14 @@ function stringAvatar(name) {
   };
 }
 
-function UsersTable({ siteName }) {
+function UsersTable({ siteName, data }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-
+  const [useRId, setUserId] = useState("");
   const handleEditOpen = () => setOpenEditModal(true);
   const handleDeleteModal = () => setOpenDeleteModal(true);
 
   const dispatch = useDispatch();
-
-  const apiUrl = useMemo(() => `${base_url}get-users/`, [base_url]);
-
-  const { data, loading } = UseFetchData(apiUrl);
 
   return (
     <div className="user-table slit-in-horizontal">
@@ -70,6 +66,7 @@ function UsersTable({ siteName }) {
         <DeleteUsersModal
           openDeleteModal={openDeleteModal}
           setOpenDeleteModal={setOpenDeleteModal}
+          id={useRId}
         />
       )}
       {openEditModal && (
@@ -77,17 +74,19 @@ function UsersTable({ siteName }) {
           openEditModal={openEditModal}
           setOpenEditModal={setOpenEditModal}
           siteName={siteName}
+          userid={useRId}
         />
       )}
       <table className="">
         <thead className="fixed-header">
           <tr>
-            <th>Profile</th>
+            <th></th>
             <th>Identifiant</th>
-            <th>E-mail</th>
-            <th>Télephone</th>
             <th>Nom</th>
             <th>Prénom</th>
+            <th>Role</th>
+            <th>E-mail</th>
+            <th>Télephone</th>
             <th>Site</th>
             <th>Actions</th>
           </tr>
@@ -103,26 +102,32 @@ function UsersTable({ siteName }) {
                     />
                   </td>
                   <td>{user.username}</td>
-                  <td>{user.email}</td>
-                  <td>{user.phone}</td>
                   <td>{user.last_name}</td>
                   <td>{user.first_name}</td>
+                  <td>{user.role}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phone ? user.phone : "loading..."}</td>
                   <td>{user.site_name}</td>
                   <td>
                     <DeleteForeverIcon
-                      onClick={handleDeleteModal}
+                      onClick={() => {
+                        setUserId(user.user_id);
+                        console.log(user.user_id);
+                        handleDeleteModal();
+                      }}
                       style={{ color: "#dc2626", cursor: "pointer" }}
                     />
                     <EditIcon
                       // onClick={handleEditOpen}
                       onClick={() => {
                         handleEditOpen();
+                        setUserId(user.user_id);
                         dispatch(userId(user.user_id));
                         dispatch(userData(user.username));
                         dispatch(userEmail(user.email));
                         dispatch(userFirstName(user.first_name));
                         dispatch(userLastName(user.last_name));
-                        dispatch(userIsAdmin(user.is_admin));
+                        dispatch(userRole(user.is_admin));
                         dispatch(userSite(user.site_name));
                         dispatch(userPhone(user.phone));
                         dispatch(userSiteId(user.site_id));
@@ -136,7 +141,6 @@ function UsersTable({ siteName }) {
             })}
         </tbody>
       </table>
-      {loading && <div className="custom-loader"></div>}
     </div>
   );
 }

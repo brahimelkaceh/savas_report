@@ -48,15 +48,18 @@
 }
 .mySwiper .card-1 .card-item-footer {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  gap: 10px;
   align-items: flex-end;
-  top: 40%;
+  top: 50%;
+  width: 100%;
 }
 .card-item-footer .card-item-footer-details {
   font-size: 11px;
+  width: fit-content;
 }
 .card-item-footer .card-item-footer-details span {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
 }
 .swiper-horizontal > .swiper-pagination-bullets,

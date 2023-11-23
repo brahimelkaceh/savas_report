@@ -11,6 +11,9 @@ const SiteDataSlice = createSlice({
     batId: "",
     batType: "",
     batSite: "",
+    renderData: new Date().toString(),
+    refreshData: new Date().toString(),
+    batimentName: "",
   },
   reducers: {
     getSiteData: (state, action) => {
@@ -37,6 +40,15 @@ const SiteDataSlice = createSlice({
     getBatSite: (state, action) => {
       state.batSite = action.payload;
     },
+    getRenderData: (state, action) => {
+      state.renderData = action.payload;
+    },
+    getBatimentName: (state, action) => {
+      state.batimentName = action.payload;
+    },
+    getRefreshData: (state, action) => {
+      state.refreshData = action.payload;
+    },
   },
 });
 export const {
@@ -48,5 +60,8 @@ export const {
   getBatId,
   getBatType,
   getBatSite,
+  getRenderData,
+  getBatimentName,
+  getRefreshData,
 } = SiteDataSlice.actions;
 export default SiteDataSlice.reducer;

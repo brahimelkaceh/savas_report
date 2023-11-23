@@ -526,6 +526,7 @@
   height: 50px;
   display: flex;
   color: #ff0060;
+  z-index: 1000;
 }
 
 .custom-loader:before,

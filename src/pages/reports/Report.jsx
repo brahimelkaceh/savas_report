@@ -9,7 +9,7 @@ import UseFetchData from "../../hooks/UseFetchData";
 import Loader from "../../components/loader/Loader";
 let base_url = "https://farmdriver.savas.ma/api/";
 
-function Report({}) {
+function Report() {
   const status = useSelector((state) => state.toggleLeftBar.status);
   const isVisualize = useSelector((state) => state.openSearchBar.isVisualize);
   const dropState = useSelector((state) => state.userDrop.dropState);
@@ -26,9 +26,6 @@ function Report({}) {
         <Loader />
       </main>
     );
-  }
-  if (error) {
-    return <p>{error}</p>;
   }
 
   const FetchData = (id) => {

@@ -11,13 +11,23 @@ import Observation from "./Components/Observation";
 import { useData } from "./context/DataProvider";
 import ReportModal from "./Components/modals/ReportModal";
 import SuccessAlert from "./Components/alerts/SuccessAlert";
-let base_url = "https://farmdriver.savas.ma/api/";
+import { getRenderData, getBatimentName } from "../../slices/SiteData";
+import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
 
+let base_url = "https://farmdriver.savas.ma/api/";
 const BatimentForm = ({ siteId }) => {
+  const dispatch = useDispatch();
   const { data } = useData();
   const [open, setOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
+  const validationSchema = Yup.object().shape({
+    pmo: Yup.number()
+      .required("PMO est requis*.")
+      .positive("PMO doit être un nombre positif*."),
+    // Add validation for other fields here as needed
+  });
   const formik = useFormik({
     initialValues: {
       batiment: "",
@@ -31,6 +41,7 @@ const BatimentForm = ({ siteId }) => {
       prod_casse: "",
       prod_feles: "",
       prod_elimne: "",
+      prod_liquide: "",
       alimentDist: "",
       eauDist: "",
       pmo: "",
@@ -50,14 +61,15 @@ const BatimentForm = ({ siteId }) => {
       coloration: "",
       qty_shell: "",
     },
+    // validationSchema: validationSchema, // pass the Yup schema here
     onSubmit: (values) => {
-      console.log(formik.values);
       CreateReports(formik.values);
+      dispatch(getRenderData(new Date().toISOString()));
       formik.handleReset();
       setShowAlert(true);
       setTimeout(() => {
         setShowAlert(false);
-      }, 5000);
+      }, 15000);
     },
   });
 
@@ -74,7 +86,6 @@ const BatimentForm = ({ siteId }) => {
     })
       .then((response) => {
         console.log(response.status);
-        return response;
       })
       .catch((error) => console.error(error));
   };
@@ -95,12 +106,15 @@ const BatimentForm = ({ siteId }) => {
       flashDuration: data?.last_rep?.flash_durr || "",
       qty_shell: data?.last_rep?.qty_coquille || "",
       coloration: data?.last_rep?.coloration || "",
+      intensIsLux: data?.last_rep?.intensIsLux || false,
+      intensite: data?.last_rep?.intensite || "",
+      pmo: data?.last_rep?.pmo || "",
     });
+    dispatch(getBatimentName(data?.last_rep?.batiment));
   }, [data]);
   useEffect(() => {
     formik.handleReset();
   }, [siteId]);
-
   return (
     <div className="batiment-form">
       {showAlert && <SuccessAlert />}
@@ -126,7 +140,7 @@ const BatimentForm = ({ siteId }) => {
         <div className="form-box">
           <Ambiance formik={formik} last_rep={data?.last_rep} />
           {data && <Constats formik={formik} last_rep={data?.last_rep} />}
-          <Observation formik={formik} />
+          <Observation siteId={siteId} />
         </div>
         <button
           type="submit"
@@ -141,7 +155,7 @@ const BatimentForm = ({ siteId }) => {
               <AiOutlineSend />
             </div>
           </div>
-          <span>Submit</span>
+          <span>Envoyer</span>
         </button>
       </form>
     </div>

@@ -14,7 +14,7 @@ const LeftBarSlice = createSlice({
     phone: "",
     firstName: "",
     lastName: "",
-    isAdmin: "",
+    role: "",
     site: "",
     siteId: "",
     editModal: false,
@@ -61,8 +61,8 @@ const LeftBarSlice = createSlice({
     userLastName: (state, action) => {
       state.lastName = action.payload;
     },
-    userIsAdmin: (state, action) => {
-      state.isAdmin = action.payload;
+    userRole: (state, action) => {
+      state.role = action.payload;
     },
     userSite: (state, action) => {
       state.site = action.payload;
@@ -87,7 +87,7 @@ export const {
   userPhone,
   userFirstName,
   userLastName,
-  userIsAdmin,
+  userRole,
   userSite,
   userSiteId,
   handleCloseEditModal,

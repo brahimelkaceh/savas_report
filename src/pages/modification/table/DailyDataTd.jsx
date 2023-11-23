@@ -3,7 +3,7 @@ import MouseOverPopover from "../../../components/popper/MouseOverPopover";
 function DailyDataTd({ lot_id, data, secondaryData, className }) {
   // console.log(secondaryData);
   return (
-    <td className={className}>
+    <td className={className} rowSpan={2}>
       {lot_id ? (
         <div>
           <div>

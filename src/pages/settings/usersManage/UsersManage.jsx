@@ -2,15 +2,22 @@ import { AiOutlineSend } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
-
+import { getRenderData } from "../../../slices/SiteData";
 import { clearInputs } from "../../../slices/LeftBar";
 import ConfirmModal from "../modals/ConfirmModal";
 let base_url = "https://farmdriver.savas.ma/api/";
 
-function UsersManage({ setAlert, siteName }) {
+function UsersManage({ siteName }) {
+  let renderData = useSelector((state) => state.getSiteData.renderData);
+
+  const predefinedOptions = [
+    { value: 2, label: "Admin" },
+    { value: 3, label: "Technicien" },
+    { value: 4, label: "Consultant d'un site" },
+    { value: 5, label: "Consultant global" },
+  ];
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
 
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -46,9 +53,11 @@ function UsersManage({ setAlert, siteName }) {
       if (!response.ok) {
         data = {};
       }
-      const datas = await response.data;
       if (response.ok) {
+        setLoading(true);
         console.log("L'utilisateur a été ajouté au système");
+        dispatch(getRenderData(new Date().toISOString()));
+
         handleOpen();
       } else {
         setLoading(false);
@@ -70,7 +79,7 @@ function UsersManage({ setAlert, siteName }) {
           open={open}
           setOpen={setOpen}
           onSubmit={formik.handleSubmit}
-          message={"are you sure you want to submit this"}
+          message={"Êtes-vous sûr(e) de vouloir soumettre ce formulaire ?"}
         />
       )}
       <form
@@ -79,7 +88,7 @@ function UsersManage({ setAlert, siteName }) {
           e.preventDefault();
         }}
       >
-        <p className="title">Gestion d'utilisateurs </p>
+        <p className="title">Utilisateurs </p>
         {/* <p className="message">Login now and get full access to our app. </p> */}
 
         <label>
@@ -96,7 +105,19 @@ function UsersManage({ setAlert, siteName }) {
           />
           <span>Identifiant</span>
         </label>
-
+        <label>
+          <input
+            placeholder=""
+            type="password"
+            className="input"
+            name="password"
+            value={formik?.values.password}
+            onChange={formik?.handleChange}
+            id="password"
+            required
+          />
+          <span>Password</span>
+        </label>
         <label>
           <input
             required
@@ -125,19 +146,7 @@ function UsersManage({ setAlert, siteName }) {
           />
           <span>Telephone</span>
         </label>
-        <label>
-          <input
-            placeholder=""
-            type="password"
-            className="input"
-            name="password"
-            value={formik?.values.password}
-            onChange={formik?.handleChange}
-            id="password"
-            required
-          />
-          <span>Password</span>
-        </label>
+
         <div className="flex">
           <label>
             <input
@@ -172,17 +181,19 @@ function UsersManage({ setAlert, siteName }) {
           <label className="select">
             <select
               className="input"
-              name="isAdmin"
-              onFocus={() => dispatch(clearInputs(false))}
+              name="role"
               value={formik?.values.role}
-              onChange={(e) => {
-                formik?.handleChange(e);
-              }}
+              onChange={formik?.handleChange}
             >
-              <option value={2}>Admin</option>
-              <option value={3}>Technicien</option>
-              <option value={4}>Consultant d'un site</option>
-              <option value={5}>Consultant global</option>
+              <option value="" disabled>
+                --
+              </option>
+
+              {predefinedOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
             <span>Role</span>
           </label>
@@ -193,7 +204,6 @@ function UsersManage({ setAlert, siteName }) {
               name="site"
               value={formik?.values.site}
               onChange={formik?.handleChange}
-              onFocus={() => dispatch(clearInputs(false))}
             >
               <option value="" disabled>
                 --
@@ -207,14 +217,28 @@ function UsersManage({ setAlert, siteName }) {
             <span>Site</span>
           </label>
         </div>
-        <div className="btns" onClick={(e) => setOpen(true)}>
-          <button type="submit" className="edit-btn">
+        <div className="btns">
+          <button
+            disabled={
+              !formik.values.email ||
+              !formik.values.first_name ||
+              !formik.values.last_name ||
+              !formik.values.username ||
+              !formik.values.password ||
+              !formik.values.phone ||
+              !formik.values.site ||
+              !formik.values.role
+            }
+            type="submit"
+            className="edit-btn"
+            onClick={(e) => setOpen(true)}
+          >
             <div className="svg-wrapper-1">
               <div className="svg-wrapper">
                 <AiOutlineSend />
               </div>
             </div>
-            <span>Submit</span>
+            <span>Envoyer</span>
           </button>
         </div>
       </form>

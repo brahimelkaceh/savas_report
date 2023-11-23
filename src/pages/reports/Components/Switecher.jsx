@@ -5,22 +5,18 @@ import FormGroup from "@mui/material/FormGroup";
 import Checkbox from "@mui/material/Checkbox";
 const Switecher = ({ formik }) => {
   return (
-    <FormGroup>
-      <FormControlLabel
-        control={
-          <Checkbox
-            value={
-              formik.values.intensIsLux ? formik.values.intensIsLux : false
-            }
-            onChange={(e) => {
-              formik.handleChange(e);
-            }}
-            name="intensIsLux"
-          />
-        }
-        label={formik.values.intensIsLux ? "lux" : "%"}
+    <label className="cyberpunk-checkbox-label">
+      <input
+        type="checkbox"
+        className="switch"
+        name="intensIsLux"
+        checked={formik.values.intensIsLux}
+        onChange={(e) => {
+          formik.handleChange(e);
+        }}
       />
-    </FormGroup>
+      {formik.values.intensIsLux ? "lux" : "%"}
+    </label>
   );
 };
 

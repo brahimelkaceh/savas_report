@@ -14,80 +14,120 @@
   overflow: scroll;
   gap: 20px;
 }
-.edit-form .edit-inputs-container {
-  width: fit-content;
-}
-.edit-form .edit-inputs-container .light-container {
+.edit-form form {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
-
-.edit-form .input-container {
-  position: relative;
-  margin: 10px;
-  /* background-color: #27408b; */
-  /* width: 100%; */
+.edit-form .form-box {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  margin: 5px 0;
+  /* background-color: #00bfff;/ */
 }
-
-/* Input field */
-.edit-form .input-field {
-  display: block;
-  /* width: 100%; */
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-  background-color: transparent;
-}
-
-/* Input label */
-.edit-form .input-label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 16px;
-  color: rgba(204, 204, 204, 0);
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-
-/* Input highlight */
-.edit-form .input-highlight {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 0;
-  background-color: #007bff;
-  transition: all 0.3s ease;
-}
-
-/* Input field:focus styles */
-.edit-form .input-field:focus + .input-label {
-  top: -15px;
-  font-size: 12px;
-  color: #007bff;
-}
-.edit-form input[type="time"] + .input-label {
-  top: -15px;
-  font-size: 12px;
-  color: #3c3c3c;
-}
-.edit-form .input-field-valid + .input-label {
-  top: -15px;
-  font-size: 12px;
-  color: #007bff !important;
-}
-.input-field:focus::placeholder {
-  visibility: hidden;
-}
-
-.edit-form .input-field:focus + .input-label + .input-highlight {
+.edit-form .form-box label {
   width: 100%;
 }
+.edit-form .form-box label .input {
+  width: 100%;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  background: #fff;
+  border-radius: 5px;
+  /* background-color: #000; */
+}
 
+.edit-form .form-box label .input + span {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.edit-form .form-box label .input:placeholder-shown + span {
+  top: 0px;
+  font-size: 0.9em;
+}
+
+.edit-form .form-box label .input:focus + span,
+.edit-form .form-box label .input:valid + span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.edit-form .form-box label .input:valid + span {
+  color: green;
+}
+.edit-form .box-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  padding: 8.5px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.edit-form .box-content .inputs-group {
+  width: fit-content;
+}
+.edit-form .box-content.production {
+  transition: 0.3s linear;
+  border: 2px solid #8b4513;
+  border-top: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+.edit-form .box-content.constat {
+  width: auto;
+  border-top: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+.edit-form .box-content.constat .inputs-group {
+  width: 100%;
+}
+.edit-form .box-content.production {
+  width: auto;
+}
+.edit-form .box-content.production .inputs-group {
+  width: 90%;
+}
+.edit-form .box-content.viability {
+  border-top: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  width: auto;
+}
+.edit-form .box-content.viability .inputs-group {
+  width: 90%;
+}
+.edit-form .box-content.consommation {
+  border-top: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  width: auto;
+}
+.edit-form .box-content.consommation .inputs-group {
+  width: 90%;
+}
+.edit-form .box-content.ambiance {
+  border-top: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  width: auto;
+}
+.edit-form .box-content.ambiance .inputs-group {
+  width: 90%;
+}
 /* Edit Observation */
 .edit-observ-container {
   /* background: #9b9b9b; */
@@ -227,4 +267,9 @@
 fieldset {
   border-radius: 4px;
   /* width: 100%; */
+}
+
+.edit-site .edit-btn-position {
+  position: absolute;
+  top: 90%;
 }

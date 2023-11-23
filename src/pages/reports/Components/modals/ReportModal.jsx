@@ -17,11 +17,17 @@ const style = {
   textAlign: "left",
 };
 
-export default function ReportModal({ setOpen, open, onSubmit, data }) {
+export default function ReportModal({
+  setOpen,
+  open,
+  onSubmit,
+  data,
+  batimentName,
+}) {
   const handleClose = () => {
     setOpen(false);
   };
-
+  console.log(batimentName);
   return (
     <div>
       <Modal

@@ -1,68 +1,91 @@
-import React, { useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { AiOutlineSend } from "react-icons/ai";
 import ConfirmModal from "../modals/ConfirmModal";
-import { clearInputs } from "../../../slices/LeftBar";
+import SuccessModal from "../modals/SuccessModal";
+import { getRenderData } from "../../../slices/SiteData";
+import { useFormik } from "formik";
+let base_url = "https://farmdriver.savas.ma/api/";
 
-export default function BatsManage({ CreateBatiments, setAlert, siteName }) {
+export default function BatsManage({ siteName }) {
   const [open, setOpen] = useState(false);
-  const [site, SetSite] = useState("");
 
-  let batmntRef = useRef();
-  let siteNameRef = useRef();
-  let typeRef = useRef();
   const dispatch = useDispatch();
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      site: "",
+      typeOf: 0,
+    },
+    onSubmit: (values) => {
+      CreateBatiment(values);
+      formik.handleReset();
+    },
+  });
+  const CreateBatiment = async (data) => {
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
-  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
-
-  if (inputs) {
-    batmntRef.current.value = "";
-    siteNameRef.current.value = "";
-    typeRef.current.value = "";
-  }
-  const sendData = () => {
-    let batmntData = {
-      name: batmntRef.current.value,
-      site: parseInt(siteNameRef.current.value),
-      typeOf: typeRef.current.value,
-    };
-
-    if (batmntData.name.trim() && batmntData.site && batmntData.typeOf.trim()) {
-      CreateBatiments(batmntData);
-      console.log(batmntData);
-    } else {
-      setAlert(true);
+    try {
+      const response = await fetch(`${base_url}create-batmnt/`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.ok) {
+        dispatch(getRenderData(new Date().toISOString()));
+        console.log("Le site a été ajouté au système");
+      } else {
+        data = {};
+        const errorMessage = "Batiment existe déjà";
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
   return (
     <div className="create-bats">
-      <ConfirmModal setOpen={setOpen} open={open} />
-      <form className="settings-form">
-        <p className="title">Gestion des Bâtiments </p>
+      {open && (
+        <ConfirmModal
+          setOpen={setOpen}
+          open={open}
+          onSubmit={formik.handleSubmit}
+          message={"Êtes-vous sûr(e) de vouloir soumettre ce formulaire ?"}
+        />
+      )}
+      <form
+        className="settings-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <p className="title">Bâtiments </p>
         <label>
           <input
             required
-            ref={batmntRef}
-            id="batiment"
+            name="name"
             className="input"
             type="text"
             placeholder=" "
-            onFocus={() => dispatch(clearInputs(false))}
+            value={formik.values.name}
+            onChange={formik.handleChange}
           />
           <span>Bâtiment</span>
         </label>
         <label>
           <select
             required
-            ref={typeRef}
-            id="production"
+            id="typeOf"
+            name="typeOf"
+            value={formik.values.typeOf}
+            onChange={formik.handleChange}
             className="input"
-            onFocus={() => dispatch(clearInputs(false))}
           >
-            <option value="" disabled>
-              --
-            </option>
+            <option value="">--</option>
             <option value="production">Production</option>
             <option value="poussiniere">Poussiniere</option>
           </select>
@@ -71,15 +94,18 @@ export default function BatsManage({ CreateBatiments, setAlert, siteName }) {
         <label>
           <select
             required
-            ref={siteNameRef}
-            id="siteNames"
+            id="site"
+            name="site"
+            value={formik.values.site}
+            onChange={(e) => {
+              // Parse the selected value to a number before updating formik state
+              formik.handleChange(e);
+              const selectedValue = parseInt(e.target.value, 10);
+              formik.setFieldValue("site", selectedValue);
+            }}
             className="input"
-            onFocus={() => dispatch(clearInputs(false))}
-            onChange={(e) => SetSite(e.target.value)}
           >
-            <option value="" disabled>
-              --
-            </option>
+            <option value="">--</option>
             {siteName?.map((site) => (
               <option key={site.id} value={site.id}>
                 {site.name}
@@ -88,14 +114,19 @@ export default function BatsManage({ CreateBatiments, setAlert, siteName }) {
           </select>
           <span> Sites*</span>
         </label>
-
         <div className="btns">
           <button
-            type=""
+            type="submit"
+            disabled={
+              !formik.values.name ||
+              !formik.values.typeOf ||
+              !formik.values.site
+            }
             className="edit-btn"
             onClick={(e) => {
               e.preventDefault();
-              sendData();
+              setOpen(true);
+              // sendData();
             }}
           >
             <div className="svg-wrapper-1">
@@ -103,7 +134,7 @@ export default function BatsManage({ CreateBatiments, setAlert, siteName }) {
                 <AiOutlineSend />
               </div>
             </div>
-            <span>Submit</span>
+            <span>Envoyer</span>
           </button>
         </div>
       </form>

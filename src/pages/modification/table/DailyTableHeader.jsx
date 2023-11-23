@@ -14,7 +14,13 @@ function DailyTableHeader() {
           Lumiére
         </td>
         <td title="durée en heure">Flash</td>
-        <td className="border-right">intensité</td>
+        <td>intensité</td>
+        <td
+          className="border-right"
+          title="Température intérieure minimale / maximale °C"
+        >
+          Temp °C
+        </td>
         {/* Viabilité */}
         <td>Effectif présent</td>
         <td title="Homogénéité (%)">Homogénéité (%)</td>
@@ -41,14 +47,31 @@ function DailyTableHeader() {
         <td title="Poid moyen d'œuf (g)">PMO (g)</td>
 
         <td title="Nombre d'œuf par poule présente">NOPPP</td>
+        <td title="Nombre d'œuf par poule présente cumulée">∑ NOPPP</td>
         <td title="Nombre d'œuf par poule départ" className="border-right">
           NOPPD
         </td>
+        <td title="Nombre d'œuf par poule départ cumulé">∑ NOPPD</td>
+        <td title="Declassé" className="border-right">
+          Déclasse
+        </td>
 
         {/* Mass OEUF */}
-        <td title="mass d'œuf par poule présente (kg)">MOPPP (kg)</td>
-        <td title="mass d'œuf par poule départ (kg)" className="border-right">
-          MOPPD (kg)
+        <td title="masse d'œuf par poule présente par semaine (g)">
+          MOPPP/sem (g)
+        </td>
+        <td title="masse d'œuf par poule présente cumulé (kg)">∑ MOPPP (kg)</td>
+        <td
+          title="masse d'œuf par poule départ par semaine(g)"
+          className="border-right"
+        >
+          MOPPD/sem (g)
+        </td>
+        <td
+          title="masse d'œuf par poule départ cumulé(kg)"
+          className="border-right"
+        >
+          ∑ MOPPD (kg)
         </td>
         {/* Aliment / Oeuf */}
         <td title="aliment par œuf (g)">APO (g)</td>

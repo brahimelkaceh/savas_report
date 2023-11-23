@@ -9,6 +9,7 @@ export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
   // console.log(children);
+  const [loading, setLoading] = useState(false);
   let [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
@@ -26,6 +27,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   let loginUser = async (e) => {
+    setLoading(true);
     e.preventDefault();
     let response = await fetch(`${base_url}token`, {
       method: "POST",
@@ -40,6 +42,7 @@ export const AuthProvider = ({ children }) => {
     let data = await response.json();
 
     if (response.status === 200) {
+      setLoading(false);
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
       localStorage.setItem("authTokens", JSON.stringify(data));
@@ -48,8 +51,8 @@ export const AuthProvider = ({ children }) => {
       let expirTime = Math.floor(jwt_decode(accessToken).exp);
       let currentTime = Math.floor(new Date().getTime() / 1000);
       let TimeOut = expirTime - currentTime;
+
       setInterval(() => {
-        // console.log('login')
         updateToken();
       }, TimeOut * 1000);
       navigate("/");
@@ -81,8 +84,6 @@ export const AuthProvider = ({ children }) => {
       });
 
       let data = await response.json();
-
-      // console.log(data);
 
       if (response.status === 200) {
         let daTa = {
@@ -132,6 +133,7 @@ export const AuthProvider = ({ children }) => {
     authTokens: authTokens,
     loginUser: loginUser,
     logoutUser: logoutUser,
+    loading,
   };
 
   return (

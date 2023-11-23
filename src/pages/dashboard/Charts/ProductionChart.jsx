@@ -26,7 +26,7 @@ ChartJS.register(
 const options = {
   elements: {
     point: {
-      radius: 0, // The radius of data points (default is 3)
+      radius: 2, // The radius of data points (default is 3)
       borderWidth: 1, // Border width of the data points
     },
     line: {
@@ -47,7 +47,10 @@ const options = {
   plugins: {
     title: {
       display: true,
-      text: "Production",
+      text: "Production oeufs",
+      font: {
+        size: "20",
+      },
     },
     legend: {
       display: true,
@@ -69,9 +72,17 @@ const options = {
       type: "linear",
       display: true,
       position: "left",
+
+      ticks: {
+        color: "#BA704F",
+      },
       title: {
         display: true,
-        text: "Ponte",
+        text: "Ponte (en milliers)",
+        color: "#BA704F",
+        font: {
+          weight: "bold",
+        },
       },
       grid: {
         display: true,
@@ -91,11 +102,9 @@ const options = {
 };
 
 function ProductionChart({ prodChart }) {
-  // console.log(prodChart.map((prod) => prod?.dates[0]));
   const labels = prodChart[0]?.dates;
   const xData = prodChart[1]?.prodTotal;
   const zData = prodChart[2]?.normaux;
-  const aData = prodChart[3]?.declass;
   const bData = prodChart[4]?.dj;
 
   const data = {
@@ -104,35 +113,26 @@ function ProductionChart({ prodChart }) {
       {
         label: "Production Total",
         data: xData,
-        borderColor: "#abacea",
-        backgroundColor: "#abacea",
-        fill: false, // Add fill property to fill the area below the line
-
+        borderColor: "#BA704F",
+        backgroundColor: "#BA704F",
+        fill: false,
         yAxisID: "y",
       },
       {
         label: "Normaux",
         data: zData,
-
         borderColor: "rgb(131, 53, 0)",
         backgroundColor: "rgb(131, 53, 0)",
         borderWidth: 1,
 
         yAxisID: "y",
       },
-      {
-        label: "Declass",
-        data: aData,
-        borderColor: "#F18F01",
-        backgroundColor: "#F18F01",
-        borderWidth: 1,
-        yAxisID: "y",
-      },
+
       {
         label: "DJ",
         data: bData,
-        borderColor: "#186F65",
-        backgroundColor: "#186F65",
+        borderColor: "#FFC26F",
+        backgroundColor: "#FFC26F",
         borderWidth: 1,
         yAxisID: "y",
       },

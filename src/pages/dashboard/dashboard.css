@@ -51,6 +51,11 @@
   margin: 0 1px;
   font-size: 10px;
 }
+.marquee-card .param-icon {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
 .marquee-card .bad-param {
   display: flex;
   align-items: center;
@@ -65,6 +70,7 @@
   font-weight: 600;
   text-transform: capitalize;
   font-size: 12px;
+  padding: 0 2px;
 }
 .marquee-card .bad-marquee {
   border: 0.5px solid #d90429;
@@ -301,15 +307,6 @@
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
-.prophylaxie .title,
-.observations .title {
-  position: sticky;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 15px;
-  margin: 2px;
-  padding: 4px;
-}
 .prophylaxie .card-item {
   display: flex;
   justify-content: space-between;
@@ -402,11 +399,15 @@
   border-radius: var(--border-radius);
 }
 .observations .card-title {
-  padding-left: 8px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
   font-size: 18px;
   font-weight: 500;
   align-self: flex-start;
   color: #2d2d2d;
+  border-radius: 50%;
+  box-shadow: 20px 20px 60px #cacaca, -20px -20px 60px #ffffff;
 }
 .observations .card-icon {
   color: var(--red-color);

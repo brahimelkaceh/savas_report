@@ -216,12 +216,11 @@
   width: 100%;
 }
 .modification-table-container .weekly-body-tr {
-  border-bottom: 2px solid #000;
   background-color: #fefdf9;
   font-size: 15px !important;
 }
 .modification-table-container .daily-tr {
-  font-size: 10px;
+  font-size: 13px;
   color: #333 !important;
 }
 .modification-table-container table td {
@@ -230,17 +229,31 @@
   /* font-size: 13px; */
   font-weight: 400;
   text-align: center;
-  border-right: 1px solid #999;
-  border-top: 0.5px solid #999;
-  border-bottom: 0.5px solid #999;
+  border-right: 1px solid #111;
+  border-top: 0.5px solid #111;
+  border-bottom: 0.5px solid #fce3dc;
   white-space: nowrap;
   padding: 2px 4px;
+  font-weight: 500;
   /* letter-spacing: 1.5px; */
   font-weight: 400;
   /* font-family: "Roboto Mono", monospace; */
   font-family: "PT Sans", sans-serif;
   font-family: "Roboto", sans-serif;
 }
+table .my-tbody {
+  border-top: 2px solid #c0826198;
+}
+table .my-tbody-active td {
+  font-weight: bold !important;
+  font-size: 15px;
+}
+table .my-tbody-active {
+  border-top: 4px solid #000;
+  border-bottom: 4px solid #000;
+  background-color: #fef39fbd;
+}
+
 table .daily-data td {
   border-right: 1px solid #000000 !important;
   border-top: 0.5px solid #999;
@@ -312,6 +325,7 @@ table .daily-data div {
   gap: 10;
   position: absolute;
   right: 5%;
+  width: fit-content;
 }
 .download.download-btn span {
   margin-right: 4px;

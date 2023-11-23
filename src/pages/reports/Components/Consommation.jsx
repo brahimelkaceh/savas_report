@@ -2,10 +2,8 @@ import { BsArrowDownSquare, BsArrowUpSquare } from "react-icons/bs";
 import { CiWheat } from "react-icons/ci";
 
 import { useEffect, useState } from "react";
-import { useData } from "../context/DataProvider";
-function Consommation({ formik }) {
-  const { data } = useData();
-  const [isOpen, setIsOpen] = useState(false);
+function Consommation({ formik, open }) {
+  const [isOpen, setIsOpen] = useState(open ? open : false);
   // ! open close the boxes
   const toggleBox = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -40,7 +38,7 @@ function Consommation({ formik }) {
                   value={formik.values.alimentDist}
                   onChange={formik.handleChange}
                 />
-                <span>Aliment Distribué</span>
+                <span>Aliment consommée (Kg)</span>
                 {formik.touched.alimentDist && formik.errors.alimentDist && (
                   <div className="error">{formik.errors.alimentDist}</div>
                 )}
@@ -63,7 +61,7 @@ function Consommation({ formik }) {
                   value={formik.values?.formule}
                   onChange={formik.handleChange}
                 />
-                <span>Réference aliment</span>
+                <span>Référence d'aliment</span>
               </label>
               {formik.touched.formule && formik.errors.formule && (
                 <div className="error">{formik.errors.formule}</div>
@@ -87,7 +85,7 @@ function Consommation({ formik }) {
                   value={formik.values.eauDist}
                   onChange={formik.handleChange}
                 />
-                <span>Eau Distribué</span>
+                <span>Eau consommée (Litre)</span>
               </label>
               {formik.touched.eauDist && formik.errors.eauDist && (
                 <div className="error">{formik.errors.eauDist}</div>

@@ -5,11 +5,11 @@ import Stack from "@mui/material/Stack";
 export default function SuccessAlert() {
   return (
     <Stack
-      sx={{ width: "20%", position: "absolute", zIndex: 1000, bottom: 50 }}
+      sx={{ width: "28%", position: "absolute", zIndex: 1000, bottom: 50 }}
       spacing={2}
     >
       <Alert variant="filled" severity="success">
-        This is a success alert — check it out!
+        Les données ont été enregistrées avec succès !
       </Alert>
     </Stack>
   );

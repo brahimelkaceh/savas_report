@@ -26,7 +26,7 @@ ChartJS.register(
 const options = {
   elements: {
     point: {
-      radius: 0, // The radius of data points (default is 3)
+      radius: 2, // The radius of data points (default is 3)
       borderWidth: 1, // Border width of the data points
     },
     line: {
@@ -48,6 +48,9 @@ const options = {
     title: {
       display: true,
       text: "Mortalité",
+      font: {
+        size: "20px",
+      },
     },
     legend: {
       display: true,
@@ -70,9 +73,16 @@ const options = {
       type: "linear",
       display: true,
       position: "left",
+      ticks: {
+        color: "#FA7070",
+      },
       title: {
         display: true,
         text: "Mortalité",
+        color: "#FA7070",
+        font: {
+          weight: "bold",
+        },
       },
       grid: {
         display: true,
@@ -90,9 +100,9 @@ function MortChart({ mortData }) {
       {
         type: "line",
         label: "moratilité total",
-        borderColor: "rgb(0, 102, 140)",
-        backgroundColor: "rgba(0, 102, 140,1)",
-        borderWidth: 1, // Set the border width
+        borderColor: "#FA7070",
+        backgroundColor: "#FA7070",
+        borderWidth: 2, // Set the border width
         yAxisID: "y1",
 
         data: mortData[1]?.mortTotal,
@@ -100,10 +110,10 @@ function MortChart({ mortData }) {
       {
         type: "line",
         label: "Guide : moratilité total",
-        borderColor: "#D71313",
-        backgroundColor: "#D71313",
+        borderColor: "#FA707069",
+        backgroundColor: "#FA7070",
         yAxisID: "y1",
-        borderWidth: 1, // Set the border width
+        borderWidth: 4, // Set the border width
 
         data: mortData[2]?.mortGuide,
       },

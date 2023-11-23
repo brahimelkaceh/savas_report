@@ -1,8 +1,8 @@
 import { BsArrowDownSquare, BsArrowUpSquare } from "react-icons/bs";
 import StreamIcon from "@mui/icons-material/Stream";
 import { useState } from "react";
-function Viabilite({ formik }) {
-  const [isOpen, setIsOpen] = useState(false);
+function Viabilite({ formik, open }) {
+  const [isOpen, setIsOpen] = useState(open ? open : false);
   // ! open close the boxes
   const toggleBox = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -36,7 +36,7 @@ function Viabilite({ formik }) {
                   value={formik?.values.mort}
                   onChange={formik?.handleChange}
                 />
-                <span>Mortalité</span>
+                <span>Mortalité (Sujet)</span>
               </label>
             </div>
             {/* SJT-ELMNT */}
@@ -55,7 +55,7 @@ function Viabilite({ formik }) {
                   value={formik?.values?.sjt_elm}
                   onChange={formik?.handleChange}
                 />
-                <span>Sujet éliminées</span>
+                <span>Triage (Sujet)</span>
               </label>
             </div>
           </div>
@@ -76,7 +76,7 @@ function Viabilite({ formik }) {
                   value={formik.values?.poidVif}
                   onChange={formik.handleChange}
                 />
-                <span>Poids corporel</span>
+                <span>Poids corporel (g)</span>
               </label>
               {formik.touched.poidVif && formik.errors.poidVif && (
                 <div className="error">{formik.errors.poidVif}</div>
@@ -98,7 +98,7 @@ function Viabilite({ formik }) {
                   value={formik.values?.homog}
                   onChange={formik.handleChange}
                 />
-                <span>Homogeneité</span>
+                <span>Homogeneité (%)</span>
               </label>
               {formik.touched.homog && formik.errors.homog && (
                 <div className="error">{formik.errors.homog}</div>

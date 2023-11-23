@@ -6,10 +6,10 @@ import Fade from "@mui/material/Fade";
 import { AiOutlineSend } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useRef } from "react";
-import Typography from "@mui/material/Typography";
 import "../modals/style.css";
-import { Padding } from "@mui/icons-material";
 import { useState } from "react";
+import SuccessModal from "../modals/SuccessModal";
+let base_url = "https://farmdriver.savas.ma/api/";
 
 const style = {
   position: "absolute",
@@ -17,19 +17,16 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   boxShadow: 24,
+  width: 600,
 };
 
-export default function EditBatsModal({
-  UpdateBatimentData,
-  siteName,
-  open,
-  setOpen,
-}) {
+export default function EditBatsModal({ siteName, open, setOpen }) {
+  const disable = true;
   let batId = useSelector((state) => state.getSiteData.batId);
   let batName = useSelector((state) => state.getSiteData.batName);
   let batType = useSelector((state) => state.getSiteData.batType);
   let batSite = useSelector((state) => state.getSiteData.batSite);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [batimentType, setBatimentType] = useState("");
   let inputs = useSelector((state) => state.toggleLeftBar.inputs);
 
@@ -40,11 +37,11 @@ export default function EditBatsModal({
   let siteNameRef = useRef();
   let typeRef = useRef();
 
-  // if (inputs) {
-  //   batmntRef.current.value = "";
-  //   siteNameRef.current.value = "";
-  //   typeRef.current.value = "";
-  // }
+  if (inputs) {
+    batmntRef.current.value = "";
+    siteNameRef.current.value = "";
+    typeRef.current.value = "";
+  }
   const sendData = () => {
     let batimentData = {
       bat_id: batId,
@@ -58,14 +55,39 @@ export default function EditBatsModal({
       batimentData.site_id &&
       batimentData.type.trim()
     ) {
+      console.log(batimentData);
       UpdateBatimentData(batimentData);
-      // console.log(batimentData);
-    } else {
-      setAlert(true);
     }
   };
 
   const handleClose = () => setOpen(false);
+
+  // * Updating Bâtiments
+  const UpdateBatimentData = async (data) => {
+    // console.log(data);
+    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+    try {
+      const response = await fetch(`${base_url}update-batmnt/`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.ok) {
+        console.log("Vos modifications ont été enregistrées.");
+        setIsModalOpen(true);
+      } else {
+        data = {};
+        const errorMessage = "Bâtiment existe déjà";
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div>
@@ -85,7 +107,14 @@ export default function EditBatsModal({
         <Fade in={open}>
           <Box sx={style} className="edit-modal">
             <div className="edit-site slit-in-horizontal">
-              {/* <ConfirmModal setOpen={setOpen} open={open} /> */}
+              {isModalOpen && (
+                <SuccessModal
+                  open={isModalOpen}
+                  setOpen={setIsModalOpen}
+                  onClose={handleClose}
+                  message={"Vos données ont été enregistrées avec succès."}
+                />
+              )}
               <form className="settings-form">
                 <p className="title">Modifier bâtiment</p>
                 <label>
@@ -96,39 +125,51 @@ export default function EditBatsModal({
                     type="text"
                     placeholder=" "
                     defaultValue={batName}
+                    required={true}
                     // onFocus={() => dispatch(clearInputs(false))}
                   />
                   <span> Bâtiment*</span>
                 </label>
                 <label>
-                  <select
+                  <input
                     ref={typeRef}
                     id="production"
                     className="input"
-                    // defaultValue={batimentType}
-                    onChange={(e) => setBatimentType(e.target.value)}
+                    disabled={disable}
+                    defaultValue={batType}
+                    // onChange={(e) => setBatimentType(e.target.value)}
                     // onFocus={() => dispatch(clearInputs(false))}
                   >
-                    <option value={"Production"}>
+                    {/* <option
+                      value={
+                        batType == "production" ? "Production" : "Poussiniere"
+                      }
+                    >
                       {batType == "production" ? "Production" : "Poussiniere"}
                     </option>
-                    <option value={"poussiniere"}>
-                      {!batType == "production" ? "Production" : "Poussiniere"}
-                    </option>
-                  </select>
-                  <span> Production/Poussiniere*</span>
+                    <option
+                      value={
+                        batType !== "production" ? "Production" : "Poussiniere"
+                      }
+                    >
+                      {batType !== "production" ? "Production" : "Poussiniere"}
+                    </option> */}
+                  </input>
+                  {/* <span> Production/Poussiniere*</span> */}
                 </label>
 
                 <label>
-                  <select
+                  <input
                     required
                     ref={siteNameRef}
                     id="siteNames"
                     className="input"
+                    disabled={disable}
+                    defaultValue={currentSiteName.map((site) => site?.name)}
                     // onFocus={() => dispatch(clearInputs(false))}
                     // onChange={(e) => SetSite(e.target.value)}
                   >
-                    {currentSiteName.map((site) => (
+                    {/* {currentSiteName.map((site) => (
                       <option key={site.id} value={site.id}>
                         {site.name}
                       </option>
@@ -137,9 +178,9 @@ export default function EditBatsModal({
                       <option key={s.id} value={s.id}>
                         {s.name}
                       </option>
-                    ))}
-                  </select>
-                  <span>Sites*</span>
+                    ))} */}
+                  </input>
+                  {/* <span>Sites*</span> */}
                 </label>
                 <div className="btns">
                   <button
@@ -155,7 +196,7 @@ export default function EditBatsModal({
                         <AiOutlineSend />
                       </div>
                     </div>
-                    <span>Submit</span>
+                    <span>Envoyer</span>
                   </button>
                   <button
                     type=""
@@ -165,7 +206,7 @@ export default function EditBatsModal({
                       handleClose();
                     }}
                   >
-                    <span>Cancel</span>
+                    <span>Annuler</span>
                   </button>
                 </div>
               </form>

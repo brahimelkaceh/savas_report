@@ -9,10 +9,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useData } from "../context/DataProvider";
 const RangSlider = ({ maxValue, step, type, formik }) => {
-  const data = useData();
-  const [sliderValue, setSliderValue] = useState(
-    data?.data?.last_rep?.intensite
-  );
+  const [sliderValue, setSliderValue] = useState(formik.values.intensite);
   // ! Get Intensite Data
   const handleSliderChange = (event, newValue) => {
     formik.handleChange(event);
@@ -30,7 +27,7 @@ const RangSlider = ({ maxValue, step, type, formik }) => {
           </Typography>
         </Grid>
         <Grid item>
-          <LightModeIcon />
+          <LightModeIcon style={{ color: "#002661 " }} />
         </Grid>
         <Grid item xs>
           <Slider
@@ -47,6 +44,7 @@ const RangSlider = ({ maxValue, step, type, formik }) => {
             valueLabelDisplay="on"
             disableSwap
             aria-label="Temperature"
+            style={{ color: "#FFDB01 " }}
           />
         </Grid>
       </Grid>

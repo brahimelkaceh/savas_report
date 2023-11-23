@@ -6,6 +6,9 @@ let base_url = "https://farmdriver.savas.ma/api/";
 import "./style.css";
 import UseFetchData from "../../hooks/UseFetchData";
 import { Skeleton } from "@mui/material";
+import { getRefreshData, getRenderData } from "../../slices/SiteData";
+import { getBatimentName } from "../../slices/SiteData";
+import SelectedComponents from "./components/SelectedComponents";
 function Header() {
   const dispatch = useDispatch();
   const [lotId, setLotId] = useState("");
@@ -22,8 +25,6 @@ function Header() {
 
   dispatch(getMsgContent(lotIdentificationData?.msg?.content));
 
-  // console.log();
-  // Second API call
   const lotTitlesApiUrl = useMemo(
     () => `${base_url}get-lots-titles/`,
     [base_url]
@@ -33,8 +34,6 @@ function Header() {
     loading: lotTitlesLoading,
     error: lotTitlesError,
   } = UseFetchData(lotTitlesApiUrl, "GET");
-
-  console.log(lotTitlesData);
 
   if (lotIdentificationError || lotTitlesError) {
     return (
@@ -60,37 +59,22 @@ function Header() {
 
   return (
     <div className="modification-table-header">
-      <div className="input-container">
-        <label>
-          <select
-            required
-            disabled={lotTitlesLoading}
-            className="input"
-            onChange={(e) => {
-              setLotId(parseInt(e.target.value));
-            }}
-          >
-            <option value="">--</option>
-            {lotTitlesData &&
-              lotTitlesData?.map((title) => {
-                return (
-                  <option key={title.id} value={title.id}>
-                    {title.code}
-                  </option>
-                );
-              })}
-          </select>
-          <span> Sélectionnez un LOT</span>
-        </label>
-        <button
-          className="fetch-btn"
-          onClick={() => {
-            dispatch(getLotId(lotId));
-          }}
-        >
-          Afficher les donnees
-        </button>
-      </div>
+      <SelectedComponents
+        lotTitlesLoading={lotTitlesLoading}
+        lotTitlesData={lotTitlesData}
+        setLotId={setLotId}
+        lotId={lotId}
+      />
+      <button
+        disabled={!lotId}
+        className="fetch-btn"
+        onClick={() => {
+          dispatch(getLotId(lotId));
+          dispatch(getRefreshData(new Date().toString()));
+        }}
+      >
+        Afficher les donnees
+      </button>
 
       <div className="header-lot-container">
         <div className="content-box slide-in-blurred-right">
@@ -173,7 +157,7 @@ function Header() {
         </div>
         <div className="content-box slide-in-blurred-right">
           <div className="header-content">
-            <p>Date mise en place :</p>
+            <p>Transfert :</p>
             {lotTitlesLoading ? (
               <span className="loading-text">Loading...</span>
             ) : (

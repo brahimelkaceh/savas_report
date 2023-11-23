@@ -1,7 +1,7 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState, useMemo, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EditSitesModal from "./EditSitesModal";
 import DeleteSiteModal from "./DeletesitesModal";
 import {
@@ -9,12 +9,9 @@ import {
   getSiteName,
   getSitePhone,
 } from "../../../slices/SiteData";
-import UseFetchData from "../../../hooks/UseFetchData";
+import Loader from "../../../components/loader/Loader";
 
-// import EditeSy
-let base_url = "https://farmdriver.savas.ma/api/";
-
-function SitesTable({ renderData }) {
+function SitesTable({ data, loading }) {
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [siteId, setSiteId] = useState("");
@@ -22,12 +19,6 @@ function SitesTable({ renderData }) {
 
   const handleOpen = () => setOpen(true);
   const handleDeleteModal = () => setOpenDeleteModal(true);
-  const apiUrl = useMemo(
-    () => `${base_url}get-sites/`,
-    [base_url, renderData || open]
-  );
-
-  const { data, loading } = UseFetchData(apiUrl, renderData || open);
 
   return (
     <div className="site-table slit-in-horizontal">
@@ -54,16 +45,30 @@ function SitesTable({ renderData }) {
               <tr key={site.id}>
                 <td>{site.name}</td>
                 <td>{site.phone}</td>
-                <td>
-                  <DeleteForeverIcon
-                    style={{ color: "#dc2626", cursor: "pointer" }}
-                    onClick={() => {
-                      setSiteId(site.id);
-                      handleDeleteModal();
-                    }}
-                  />
+                <td style={{ display: "flex" }}>
+                  {site.deletable ? (
+                    <DeleteForeverIcon
+                      style={{ color: "#dc2626", cursor: "pointer" }}
+                      onClick={() => {
+                        setSiteId(site.id);
+                        handleDeleteModal();
+                      }}
+                    />
+                  ) : (
+                    <DeleteForeverIcon
+                      disabled
+                      style={{ color: "#999", cursor: "not-allowed" }}
+                      onClick={() => {
+                        setSiteId(site.id);
+                        handleDeleteModal();
+                      }}
+                    />
+                  )}
                   <EditIcon
-                    style={{ color: "#fbbf24", cursor: "pointer" }}
+                    style={{
+                      color: "#fbbf24",
+                      cursor: "pointer",
+                    }}
                     onClick={() => {
                       handleOpen();
                       dispatch(getSiteData(site.id));
@@ -76,7 +81,7 @@ function SitesTable({ renderData }) {
             ))}
         </tbody>
       </table>
-      {loading && <div className="custom-loader"></div>}
+      {loading && <Loader />}
     </div>
   );
 }

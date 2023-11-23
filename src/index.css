@@ -7,7 +7,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap");
 
 * {
-  --dark-blue: #004e86;
+  --dark-blue: #0071ce;
   /* --dark-blue: #0072cf; */
   --background-color: #efefef;
   --light-blue: #a3aed0;
@@ -108,4 +108,9 @@ h3 {
 .swiper-button-next {
   right: 0;
   top: 2%;
+}
+
+.css-tkn350-MuiTabs-root {
+  height: fit-content !important;
+  min-height: fit-content !important;
 }

@@ -26,7 +26,7 @@ ChartJS.register(
 const options = {
   elements: {
     point: {
-      radius: 0, // The radius of data points (default is 3)
+      radius: 1, // The radius of data points (default is 3)
       borderWidth: 1, // Border width of the data points
     },
     line: {
@@ -48,6 +48,10 @@ const options = {
     title: {
       display: true,
       text: "Alimentation",
+      font: {
+        weight: "bold",
+        size: "20px",
+      },
     },
     legend: {
       display: true,
@@ -69,9 +73,16 @@ const options = {
       type: "linear",
       display: true,
       position: "left",
+      ticks: {
+        color: "#557C55",
+      },
       title: {
         display: true,
         text: "Aliment",
+        color: "#557C55",
+        font: {
+          weight: "bold",
+        },
       },
       grid: {
         display: true,
@@ -99,9 +110,9 @@ function AltChart({ altData }) {
       {
         label: "Alt/Oeuf",
         data: altData[1]?.altOeufReel,
-        borderColor: "#BB371A",
-        backgroundColor: "#BB371A",
-        borderWidth: 1,
+        borderColor: "#557C55",
+        backgroundColor: "#557C55",
+        borderWidth: 2,
         fill: false, // Add fill property to fill the area below the line
 
         yAxisID: "y",
@@ -109,9 +120,9 @@ function AltChart({ altData }) {
       {
         label: "Guide: alt/Oeuf",
         data: altData[2]?.altOeufGuide,
-        borderColor: "#829460",
-        backgroundColor: "#829460",
-        borderWidth: 1,
+        borderColor: "#C5F88888",
+        backgroundColor: "#C5F88888",
+        borderWidth: 4,
 
         yAxisID: "y",
       },

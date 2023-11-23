@@ -11,7 +11,7 @@ import { useData } from "../context/DataProvider";
 import ObservationsModal from "./modals/ObservationsModal";
 let base_url = "https://farmdriver.savas.ma/api/";
 
-const Observation = ({ formik }) => {
+const Observation = ({ siteId }) => {
   const { data } = useData();
   const [isOpen, setIsOpen] = useState(true);
   const [date, setDate] = useState("");
@@ -126,6 +126,10 @@ const Observation = ({ formik }) => {
   useEffect(() => {
     setDate(data?.nextDateFormat?.replaceAll("/", "-"));
   }, [data, observationobjects]);
+  useEffect(() => {
+    setDate("");
+    setobservationText("");
+  }, [siteId]);
   return (
     <div className={`box ${isOpen ? "open" : ""}`}>
       {open && (
@@ -327,7 +331,7 @@ const Observation = ({ formik }) => {
                   <AiOutlineSend />
                 </div>
               </div>
-              <span>Submit</span>
+              <span>Envoyer</span>
             </button>
           </div>
         </div>

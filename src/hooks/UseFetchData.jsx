@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-function UseFetchData(url, open, renderData, openDeleteModal) {
+function UseFetchData(url, open, openDeleteModal) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [trigger, setTrigger] = useState(0); // State variable to trigger data fetching
 
   const controllerRef = useRef(new AbortController());
 
@@ -42,9 +43,13 @@ function UseFetchData(url, open, renderData, openDeleteModal) {
 
     // Cleanup function to abort the fetch request when the component is unmounted
     return () => controllerRef.current.abort();
-  }, [renderData, open, openDeleteModal, url]); // Dependency array ensures the effect runs only when the URL changes
+  }, [url, trigger, open, openDeleteModal]); // Dependency array ensures the effect runs only when the URL changes
+  // Function to trigger data fetching (use this function after CRUD operations)
+  const refetchData = () => {
+    setTrigger((prevTrigger) => prevTrigger + 1);
+  };
 
-  return { data, loading, error };
+  return { data, loading, error, refetchData };
 }
 
 export default UseFetchData;

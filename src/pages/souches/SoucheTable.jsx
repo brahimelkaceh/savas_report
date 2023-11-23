@@ -1,7 +1,7 @@
 import { useState } from "react";
-function SoucheTable(guideData) {
-  const [loading, setLoading] = useState(true);
-
+import Loader from "../../components/loader/Loader";
+function SoucheTable(guideData, loading) {
+  console.log(loading);
   return (
     <div className="souche-table slit-in-horizontal">
       <table className="">
@@ -65,9 +65,9 @@ function SoucheTable(guideData) {
             ))}
         </tbody>
       </table>
-      {loading && guideData.guideData == undefined && (
+      {guideData.guideData == undefined && (
         <div className="tracking-in-contract-bck-top guide-msg">
-          Lorem ipsum dolor sit amet.
+          <span> Veuillez choisir une souche pour afficher les données.</span>
         </div>
       )}
     </div>

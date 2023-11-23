@@ -48,16 +48,27 @@ const options = {
   plugins: {
     title: {
       display: true,
-      text: "Mortalité",
+      text: " % Mortalité",
+      font: {
+        weight: "bold",
+        size: "20px",
+      },
     },
     legend: {
       display: true,
-      position: "top", // 'top', 'bottom', 'left', 'right'
+      position: "bottom", // 'top', 'bottom', 'left', 'right'
     },
   },
   scales: {
     x: {
       // X-axis grid customization
+      title: {
+        display: true,
+        text: "Age (semaine)",
+        font: {
+          weight: "bold",
+        },
+      },
       grid: {
         display: true, // Display the grid lines for the X-axis
         color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
@@ -71,28 +82,50 @@ const options = {
       position: "right",
       title: {
         display: true,
-        text: "∑ Mortalité PD (%)",
+        text: "∑ Mortalité / PD (%)",
+        color: "#005B41",
+        font: {
+          weight: "bold",
+        },
       },
       grid: {
         display: true,
         drawOnChartArea: true,
-        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
+        color: "rgba(0, 0, 0, 0)", // Color of the grid lines
       },
       scaleLabel: {
         display: true, // Display the x-axis label
         labelString: "X-Axis Label", // Specify the x-axis label text
       },
+      ticks: {
+        color: "#005B41",
+        font: {
+          weight: "bold",
+        },
+      },
     },
     y1: {
       type: "linear",
       display: true,
+      // stacked: true,
+
+      // max: 0.25,
+      ticks: {
+        beginAtZero: true,
+
+        color: "rgba(255, 99, 132)",
+        font: {
+          weight: "bold",
+        },
+      },
       position: "left",
       title: {
         display: true,
         text: "Mortalité / Semaine (%)",
-      },
-      grid: {
-        drawOnChartArea: false,
+        color: "rgba(255, 99, 132)",
+        font: {
+          weight: "bold",
+        },
       },
     },
   },
@@ -107,42 +140,65 @@ function MortChart({ mortData }) {
     datasets: [
       {
         type: "line",
-        label: "∑ moratilité PD",
+        label: "∑ % moratilité PD",
         borderColor: "#005B41",
         backgroundColor: "#005B41",
         borderWidth: 4, // Set the border width
-
+        yAxisID: "y",
         data: mortData?.mort_cuml,
       },
       {
         type: "line",
-        label: "Guide:∑ moratilité PD",
-        borderColor: "#C1D8C3a7",
-        backgroundColor: "#C1D8C3",
+        label: "Guide:∑ % moratilité PD",
+        borderColor: "#A2C579",
+        backgroundColor: "#A2C579",
         borderWidth: 8, // Set the border width
+        yAxisID: "y",
 
         data: mortData?.guide_mort_cuml,
       },
 
       {
         type: "bar",
-        label: "Mortalité / Semaine",
+        label: "% Mortalité / Semaine",
         backgroundColor: "rgba(255, 99, 132, 0.8)",
         barThickness: 5, // Customize the bar width here (in pixels)
         fill: false,
         data: mortData?.mort_sem,
         yAxisID: "y1",
       },
-      // {
-      //   type: "bar",
-      //   label: "Guide: moratilité/Semaine",
-      //   backgroundColor: "rgba(75, 192, 192,0.5)",
-      //   data: mortData.guide_mort_sem,
-      //   barThickness: 5, // Customize the bar width here (in pixels)
-      //   fill: false,
-      //   yAxisID: "y1",
-      //   display: true,
-      // },
+      {
+        type: "line",
+        borderColor: "green",
+        // backgroundColor: "white",
+        data: mortData?.bar1,
+        beginAtZero: false,
+        yAxisID: "y1",
+        fill: false,
+        borderDash: [5, 5],
+      },
+      {
+        type: "line",
+        borderColor: "#ED9526",
+        backgroundColor: "rgba(246, 202, 146, 0.8)",
+        fill: false,
+        data: mortData?.bar2,
+        yAxisID: "y1",
+        borderDash: [5, 5],
+
+        // beginAtZero: true,
+      },
+      {
+        type: "line",
+        borderColor: "red",
+        borderDash: [5, 5],
+
+        backgroundColor: "rgba(218, 16, 11, 0.5)",
+        data: mortData?.bar3,
+        yAxisID: "y1",
+        beginAtZero: true,
+        fill: false,
+      },
     ],
   };
   return <Chart type="bar" options={options} data={data} />;

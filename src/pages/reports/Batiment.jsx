@@ -1,8 +1,5 @@
 import React from "react";
-// import Production from "./Production";
-import Poussiniere from "./Poussiniere";
 
-import LotCreation from "./LotCreation";
 import BatimentSelection from "./BatimentSelection";
 import BatimentForm from "./BatimentForm";
 
@@ -25,9 +22,8 @@ function Batiment({ batiments, siteId }) {
       <div className="batiment-category">
         <DataProvider>
           <BatimentSelection BatimentIdent={fullBatiment} siteId={siteId} />
-          <BatimentForm siteId={siteId} />
+          <BatimentForm siteId={siteId} BatimentIdent={fullBatiment} />
         </DataProvider>
-
         {/* <LotCreation lotdata={batiments} /> */}
       </div>
     </>

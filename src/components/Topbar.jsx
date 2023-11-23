@@ -17,7 +17,6 @@ import { useContext } from "react";
 
 const Topbar = ({ isVisualize }) => {
   const status = useSelector((state) => state.toggleLeftBar.status);
-  const dropState = useSelector((state) => state.userDrop.dropState);
   const searchBarstatus = useSelector(
     (state) => state.openSearchBar.searchBarstatus
   );
@@ -62,7 +61,7 @@ const Topbar = ({ isVisualize }) => {
             justifyContent: "space-between",
           }}
         >
-          <Stack
+          {/* <Stack
             spacing={4}
             direction="row"
             sx={{ color: "action.active", margin: 2 }}
@@ -70,11 +69,10 @@ const Topbar = ({ isVisualize }) => {
             <Badge color="error" variant="dot">
               <HiMail style={{ fontSize: "20px", color: "#fff" }} />
             </Badge>
-          </Stack>
+          </Stack> */}
           <DropMenu />
         </div>
       )}
-      {dropState && <UserDrop />}
     </div>
   );
 };

@@ -4,11 +4,12 @@ import "./login.css";
 import { useSelector, useDispatch } from "react-redux";
 import { loginForm } from "../../slices/Login";
 import AuthContext from "../../context/AuthContext";
+import Loader from "../loader/Loader";
 
 let base_url = "https://pouliprod.savas.ma/api/";
 
 const Login = () => {
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser, loading } = useContext(AuthContext);
 
   const userRef = useRef();
   const errRef = useRef();
@@ -22,8 +23,11 @@ const Login = () => {
   return (
     <main className="login-page">
       <form className="login-form" onSubmit={loginUser}>
-        <p className="title">Login </p>
-        <p className="message">Login now and get full access to our app. </p>
+        <p className="title">Se Connecter </p>
+        <p className="message">
+          Connectez-vous maintenant et obtenez un accès complet à notre
+          application.
+        </p>
         <span ref={errRef} name="errMsg">
           {errMsg}
         </span>
@@ -41,7 +45,7 @@ const Login = () => {
               setUserName(e.target.value);
             }}
           />
-          <span>Username</span>
+          <span>Identifiant</span>
         </label>
 
         <label>
@@ -57,16 +61,17 @@ const Login = () => {
               setPassword(e.target.value);
             }}
           />
-          <span>Password</span>
+          <span>Mot de passe</span>
         </label>
 
-        <button className="submit">Submit</button>
-        <p className="signin">
-          You don't have an acount ?
+        <button className="submit">Soumettre</button>
+        {/* <p className="signin">
+          Vous n'avez pas de compte
           <Link to="/register">
-            <span>Signup</span>
+            <span>?Inscription</span>
           </Link>
-        </p>
+        </p> */}
+        {loading && <Loader />}
       </form>
     </main>
   );

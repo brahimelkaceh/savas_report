@@ -19,9 +19,9 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 1000,
+  width: 1200,
   boxShadow: 24,
-  p: 3,
+  p: 5,
 };
 
 export default function SwiperModal({ setOpen, open }) {

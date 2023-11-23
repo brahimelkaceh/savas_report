@@ -14,13 +14,13 @@ function FirstChart({ batSite, Sitesloading }) {
   const [value, setValue] = useState(0);
   const [label, setLabel] = useState(0);
   const chipData = [
-    { key: 0, label: "7 jours" },
-    { key: 1, label: "30 jours" },
+    { key: 0, label: "1S" },
+    { key: 1, label: "1M" },
   ];
   const [id, setId] = useState(null);
   const [date, setDate] = UseLocalStorageState("ProdTime", 0);
   const { data, loading } = useCustomFetch(
-    id ? id : batSite[0].id,
+    id ? id : batSite[0]?.id,
     date ? date : 0,
     "prod-chart"
   );
@@ -51,7 +51,6 @@ function FirstChart({ batSite, Sitesloading }) {
         <Box
           sx={{
             maxWidth: { xs: 320, sm: "100%" },
-            bgcolor: "#DAFFFB",
             borderTopRightRadius: "4px",
             borderTopLeftRadius: "4px",
           }}
@@ -68,15 +67,11 @@ function FirstChart({ batSite, Sitesloading }) {
                 <Tab
                   key={d.id}
                   label={d.name}
-                  sx={{
-                    fontSize: "14px",
-                    minWidth: "20px",
-                    minHeight: "20px",
-                  }}
+                  className="dashboard-tab"
                   onClick={() => fetchDataById(d.id)}
                 />
               ))}
-            {Sitesloading && <Skeleton height={40} width="100%" />}
+            {Sitesloading && <Skeleton height={20} width="100%" />}
           </Tabs>
         </Box>
         <>
@@ -99,7 +94,11 @@ function FirstChart({ batSite, Sitesloading }) {
             <Tabs
               value={label}
               onChange={handleChangeLabel}
-              style={{ maxWidth: "50%", width: "35%", margin: "0  auto" }}
+              style={{
+                maxWidth: "50%",
+                width: "fit-content",
+                margin: "0  auto",
+              }}
             >
               {chipData?.map((data) => {
                 return (
@@ -122,7 +121,6 @@ function FirstChart({ batSite, Sitesloading }) {
 
         {loading && <Loader />}
       </div>
-      {/* {loading && <SkeletonChart />} */}
     </>
   );
 }

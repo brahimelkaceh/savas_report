@@ -3,25 +3,57 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import { AiFillDelete } from "react-icons/ai";
+import { useState } from "react";
+import { getRefreshData, getRenderData } from "../../../slices/SiteData";
+import { useSelector, useDispatch } from "react-redux";
+let base_url = "https://farmdriver.savas.ma/api/";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  // width: 400,
-  //   bgcolor: "background.paper",
+  width: 400,
   border: "2px solid transparent",
-  // boxShadow: 24,
-  //   p: 4,
 };
 
 export default function DeleteReport({ openDeleteModal, setOpenDeleteModal }) {
+  const dispatch = useDispatch();
+  const id = useSelector((state) => state.editReport.id);
+  const [loading, setLoading] = useState(false);
   const handleClose = () => setOpenDeleteModal(false);
+  const deleteReport = async (id) => {
+    setLoading(true);
 
+    try {
+      const authTokens = JSON.parse(localStorage.getItem("authTokens"));
+      if (!authTokens || !authTokens.access) {
+        throw new Error("Access token not found");
+      }
+
+      const accessToken = authTokens.access;
+      const response = await fetch(`${base_url}delete-report/?id=${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+      if (response.ok) {
+        handleClose();
+        dispatch(getRefreshData(new Date().toString()));
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div>
       {/* <Button onClick={handleOpen}>Open modal</Button> */}
@@ -50,10 +82,10 @@ export default function DeleteReport({ openDeleteModal, setOpenDeleteModal }) {
                 <button
                   type=""
                   className="delete-btn"
-                  // onClick={(e) => {
-                  //   e.preventDefault();
-                  //   sendData();
-                  // }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    deleteReport(id);
+                  }}
                 >
                   {/* <div className="svg-wrapper-1"> */}
                   {/* <div className="svg-wrapper"> */}

@@ -2,11 +2,15 @@ import * as React from "react";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import "./popper.css";
+import { useEffect } from "react";
 // import egge90 from "./egge90";
+import { useSelector } from "react-redux";
 
 const HoverPopper = ({ data }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [text, setText] = React.useState(data?.period);
+  const [text, setText] = React.useState("");
+  const [replacedText, setReplacedText] = React.useState("");
+  let refreshData = useSelector((state) => state.getSiteData.refreshData);
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -17,14 +21,18 @@ const HoverPopper = ({ data }) => {
   };
 
   const open = Boolean(anchorEl);
-  let replacedText;
-
-  if (text) {
-    replacedText =
-      text?.replace(":", '<span class="replaced-text">h </span>') +
-      "<span class='replaced-text'>m</span>";
-  }
-
+  useEffect(() => {
+    if (text) {
+      setReplacedText(
+        text?.replace(":", '<span class="replaced-text">h </span>') +
+          "<span class='replaced-text'>m</span>"
+      );
+    }
+  }, [text, data, refreshData]);
+  useEffect(() => {
+    console.log("change text");
+    setText(data?.period);
+  }, [data?.period]);
   return (
     <div>
       <Typography

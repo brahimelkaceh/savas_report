@@ -2,9 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { useSelector, useDispatch } from "react-redux";
-import { clearInputs, handleCloseEditModal } from "../../../slices/LeftBar";
-
+import { getRefreshData, getRenderData } from "../../../slices/SiteData";
+import { useDispatch } from "react-redux";
 const style = {
   position: "absolute",
   top: "50%",
@@ -17,7 +16,7 @@ const style = {
 };
 
 export default function ConfirmModal({ setOpen, open, message, onSubmit }) {
-  console.log(open);
+  const dispatch = useDispatch();
   const handleClose = () => {
     setOpen(false);
     // console.log(editModal);
@@ -33,7 +32,7 @@ export default function ConfirmModal({ setOpen, open, message, onSubmit }) {
         // onClose={handleClose}
       >
         <Box sx={style} className="confirm-modal ">
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="p" component="h4">
             {message}
           </Typography>
           <div className="confirm-btns">
@@ -44,6 +43,9 @@ export default function ConfirmModal({ setOpen, open, message, onSubmit }) {
                 e.preventDefault();
                 handleClose();
                 onSubmit();
+                setTimeout(() => {
+                  dispatch(getRefreshData(new Date().toString()));
+                }, 500);
               }}
             >
               <span className="btn-txt">Ok</span>

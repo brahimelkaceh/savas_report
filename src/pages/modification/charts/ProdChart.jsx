@@ -47,16 +47,26 @@ const options = {
   plugins: {
     title: {
       display: true,
-      text: "Production",
+      text: "Production œufs",
+      font: {
+        weight: "bold",
+        size: "20px",
+      },
     },
     legend: {
       display: true,
-      position: "top", // 'top', 'bottom', 'left', 'right'
+      position: "bottom", // 'top', 'bottom', 'left', 'right'
     },
   },
   scales: {
     x: {
-      // X-axis grid customization
+      title: {
+        display: true,
+        text: "Age (semaine)",
+        font: {
+          weight: "bold",
+        },
+      },
       grid: {
         display: true, // Display the grid lines for the X-axis
         color: "rgba(0, 0, 0, 0.08  )", // Color of the grid lines
@@ -71,19 +81,86 @@ const options = {
       title: {
         display: true,
         text: "Ponte (%)",
+        font: {
+          weight: "bold",
+        },
+        color: "rgb(131, 53, 0)",
       },
       grid: {
         display: true,
         drawOnChartArea: true,
         color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
       },
+      ticks: {
+        font: {
+          weight: "bold",
+        },
+        color: "rgb(131, 53, 0)",
+      },
     },
     y1: {
       type: "linear",
-      display: false,
+      display: true,
+      max: 5,
       position: "right",
+      title: {
+        display: true,
+        text: "Declassées (%)",
+        font: {
+          weight: "bold",
+        },
+        color: "#E08E6D",
+      },
+      ticks: {
+        font: {
+          weight: "bold",
+        },
+        color: "#E08E6D",
+      },
+    },
+    // y3: {
+    //   type: "linear",
+    //   display: true,
+    //   position: "right",
+    //   max: 10,
+    //   grid: {
+    //     display: false,
+    //   },
+    //   title: {
+    //     display: true,
+    //     text: "NOPPP/Sem",
+    //     font: {
+    //       weight: "bold",
+    //     },
+    //     color: "#9FBB73",
+    //   },
+    //   ticks: {
+    //     font: {
+    //       weight: "bold",
+    //     },
+    //     color: "#9FBB73",
+    //   },
+    // },
+    y2: {
+      type: "linear",
+      display: true,
+      position: "left",
       grid: {
-        drawOnChartArea: false,
+        display: false,
+      },
+      title: {
+        display: true,
+        text: "∑ NOPPD",
+        font: {
+          weight: "bold",
+        },
+        color: "#FF8400",
+      },
+      ticks: {
+        font: {
+          weight: "bold",
+        },
+        color: "#FF8400",
       },
     },
   },
@@ -94,21 +171,52 @@ function ProdChart({ prodData }) {
   const xData = prodData?.declass;
   const zData = prodData?.ponte;
   const aData = prodData?.ponte_guide;
+  const bData = prodData?.pmo;
+  const cData = prodData?.pmo_guide;
+  const dData = prodData?.blancs;
+  const eData = prodData?.noppp_sem;
+  const eaData = prodData?.noppp_sem_guide;
+  const fData = prodData?.noppd_cuml;
+  const faData = prodData?.noppd_cuml_guide;
 
   const data = {
     labels,
     datasets: [
+      // {
+      //   label: "NOPPP/sem ",
+      //   data: eData,
+      //   borderColor: "#9FBB73",
+      //   backgroundColor: "#9FBB73",
+      //   borderWidth: 4,
+      //   yAxisID: "y3",
+      // },
+      // {
+      //   label: "Guide : NOPPP/sem  ",
+      //   data: eaData,
+      //   borderColor: "#FFEBD8",
+      //   backgroundColor: "#FFEBD8",
+      //   borderWidth: 4,
+      //   yAxisID: "y3",
+      // },
       {
-        label: "Declassé",
-        data: xData,
-        borderColor: "#abacea",
-        backgroundColor: "#abacea",
-        fill: true, // Add fill property to fill the area below the line
-
-        yAxisID: "y",
+        label: "∑ NOPPD ",
+        data: fData,
+        borderColor: "#FF8400",
+        backgroundColor: "#FF8400",
+        borderWidth: 4,
+        yAxisID: "y2",
       },
       {
-        label: "Ponte",
+        label: "Guide: ∑ NOPPD ",
+        data: faData,
+        borderColor: "#F7CCAC",
+        backgroundColor: "#F7CCAC",
+        borderWidth: 8,
+        yAxisID: "y2",
+      },
+
+      {
+        label: "Ponte (%)",
         data: zData,
         borderColor: "rgb(131, 53, 0)",
         backgroundColor: "rgb(131, 53, 0)",
@@ -118,12 +226,46 @@ function ProdChart({ prodData }) {
         yAxisID: "y",
       },
       {
-        label: "Guide: Ponte",
+        label: "Guide: Ponte (%)",
         data: aData,
         borderColor: "#f1910180",
         backgroundColor: "#F18F01",
-        borderWidth: 6,
+        borderWidth: 8,
         yAxisID: "y",
+      },
+      {
+        label: "PMO (g)",
+        data: bData,
+        borderColor: "#FFD93D",
+        backgroundColor: "#FFD93D",
+        borderWidth: 4,
+        // fill: "start", // Fill the area between the line and the x-axis
+
+        yAxisID: "y",
+      },
+      {
+        label: "Guide: PMO (g)",
+        data: cData,
+        borderColor: "#ECE3CE",
+        backgroundColor: "#ECE3CE",
+        borderWidth: 8,
+        yAxisID: "y",
+      },
+      {
+        label: "Blanc (%)",
+        data: dData,
+        borderColor: "transparent",
+        backgroundColor: "#F58869a4",
+        fill: true, // Add fill property to fill the area below the line
+        yAxisID: "y1",
+      },
+      {
+        label: "Declassées (%)",
+        data: xData,
+        borderColor: "#E08E6D",
+        backgroundColor: "#fce3dc",
+        fill: true, // Add fill property to fill the area below the line
+        yAxisID: "y1",
       },
     ],
   };

@@ -1,7 +1,6 @@
 import "./userDrop.css";
 import { FiLogOut } from "react-icons/fi";
 import { FaUser } from "react-icons/fa";
-import LinkBtn from "../buttons/LinkBtn";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 

@@ -2,7 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-
+import { useSelector, useDispatch } from "react-redux";
+import { getRenderData } from "../../../slices/SiteData";
 const style = {
   position: "absolute",
   top: "50%",
@@ -50,7 +51,7 @@ export default function ConfirmModal({ setOpen, open, message, onSubmit }) {
                 handleClose();
               }}
             >
-              <span>Cancel</span>
+              <span>Anuler</span>
             </button>
           </div>
         </Box>

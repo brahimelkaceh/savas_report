@@ -39,10 +39,7 @@ const Souches = () => {
       });
       const data = await response.json();
       if (response.status === 200) {
-        // console.log(typeof JSON.parse(data));
-        setGuideData(JSON.parse(data));
-        // console.log(response.status);
-      } else {
+        setGuideData(data);
         setLoading(false);
       }
     } catch (error) {
@@ -60,13 +57,13 @@ const Souches = () => {
         <Sidebar />
         <div className="souche-container">
           <div className="souche-header">
-            <h3>Gestion des Souches</h3>
+            <p className="title">Guides de normes</p>
             <Link className="add-btn" to="/souches/ajouter-guide">
               <MdAdd className="bell" />
             </Link>
           </div>
           <GuideTable GetGuideData={GetGuideData} />
-          <SoucheTable guideData={guideData} />
+          <SoucheTable guideData={guideData} loading={loading} />
         </div>
       </main>
     </>

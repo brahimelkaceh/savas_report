@@ -2,8 +2,8 @@ import { BsArrowDownSquare, BsArrowUpSquare } from "react-icons/bs";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
 import { useState } from "react";
 
-function Constats({ formik, last_rep }) {
-  const [isOpen, setIsOpen] = useState(false);
+function Constats({ formik, last_rep, open }) {
+  const [isOpen, setIsOpen] = useState(open ? open : false);
   // ! open close the boxes
   const toggleBox = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -52,6 +52,9 @@ function Constats({ formik, last_rep }) {
             <div className="inputs-container">
               <label>
                 <select
+                  style={{
+                    width: "100%",
+                  }}
                   id="qty_shell"
                   name="qty_shell"
                   className={
@@ -63,9 +66,7 @@ function Constats({ formik, last_rep }) {
                   value={formik.values.qty_shell}
                   onChange={formik.handleChange}
                 >
-                  <option value="" disabled>
-                    --
-                  </option>
+                  <option value="">--</option>
                   {Object.keys(qltLabel).map((key, i) => {
                     return (
                       <option key={i} value={key} className="input">
@@ -74,19 +75,19 @@ function Constats({ formik, last_rep }) {
                     );
                   })}
                 </select>
-                <span>Qualité </span>
+                <span>Qualité de coquille</span>
               </label>
               {formik.touched.qty_shell && formik.errors.qty_shell && (
                 <div className="error">{formik.errors.qty_shell}</div>
               )}
             </div>
-          </div>
-          <div className="inputs-group">
-            {/* Coloration*/}
 
             <div className="inputs-container">
               <label>
                 <select
+                  style={{
+                    width: "100%",
+                  }}
                   id="coloration"
                   name="coloration"
                   className={
@@ -98,9 +99,7 @@ function Constats({ formik, last_rep }) {
                   value={formik.values.coloration}
                   onChange={formik.handleChange}
                 >
-                  <option value="" disabled>
-                    --
-                  </option>
+                  <option value="">--</option>
                   {Object.keys(colorationLabel).map((key, i) => {
                     return (
                       <option key={i} value={key} className="input">
@@ -109,7 +108,7 @@ function Constats({ formik, last_rep }) {
                     );
                   })}
                 </select>
-                <span>Coloration</span>
+                <span>Coloration d'oeuf</span>
               </label>
 
               {formik.touched.coloration && formik.errors.coloration && (

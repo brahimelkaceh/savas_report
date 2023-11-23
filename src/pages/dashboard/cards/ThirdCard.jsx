@@ -28,17 +28,17 @@ const ThirdCard = ({ data }) => {
         </div>
       </div>
       <div className="card-item-footer">
-        <p className="card-item-footer-details">
-          Effictif present:{" "}
+        <div className="card-item-footer-details">
+          Effictif present:
           <span> {data?.effectifPresent ? data?.effectifPresent : "--"}</span>
-        </p>
+        </div>
 
-        <p className="card-item-footer-details">
+        <div className="card-item-footer-details">
           Age moyen: <span>{data?.ageMoy ? data?.ageMoy : "--"}</span>
-        </p>
-        <p className="card-item-footer-details">
+        </div>
+        <div className="card-item-footer-details">
           Production: <span>{data?.prodJour ? data?.prodJour : "--"}</span>
-        </p>
+        </div>
       </div>
       <div className="card-item-msg">
         {data?.siteIsGood ? (

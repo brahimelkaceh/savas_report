@@ -19,12 +19,12 @@ function FirstChart({ batSite, Sitesloading }) {
   const [id, setId] = useState(null);
   const [date, setDate] = UseLocalStorageState("ProdTime", 0);
   const chipData = [
-    { key: 0, label: "7 jours" },
-    { key: 1, label: "30 jours" },
+    { key: 0, label: "1S" },
+    { key: 1, label: "1M" },
   ];
 
   const { data, loading } = useCustomFetch(
-    id ? id : batSite[0].id,
+    id ? id : batSite[0]?.id,
     date ? date : 0,
     "mort-chart"
   );
@@ -56,9 +56,6 @@ function FirstChart({ batSite, Sitesloading }) {
         <Box
           sx={{
             maxWidth: { xs: 320, sm: "100%" },
-            bgcolor: "#DAFFFB",
-            borderTopRightRadius: "4px",
-            borderTopLeftRadius: "4px",
           }}
         >
           <Tabs
@@ -73,11 +70,6 @@ function FirstChart({ batSite, Sitesloading }) {
                 <Tab
                   key={d.id}
                   label={d.name}
-                  sx={{
-                    fontSize: "14px",
-                    minWidth: "20px",
-                    minHeight: "20px",
-                  }}
                   onClick={() => fetchDataById(d.id)}
                 />
               ))}
@@ -101,7 +93,11 @@ function FirstChart({ batSite, Sitesloading }) {
               <Tabs
                 value={label}
                 onChange={handleChangeLabel}
-                style={{ maxWidth: "50%", width: "35%", margin: "0  auto" }}
+                style={{
+                  maxWidth: "50%",
+                  width: "fit-content",
+                  margin: "0  auto",
+                }}
               >
                 {chipData?.map((data) => {
                   return (

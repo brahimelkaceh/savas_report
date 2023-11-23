@@ -10,6 +10,9 @@ import "../modals/style.css";
 import { useEffect } from "react";
 import { clearInputs } from "../../../slices/LeftBar";
 import { useFormik } from "formik";
+import SuccessModal from "../modals/SuccessModal";
+import Loader from "../../../components/loader/Loader";
+import { getRenderData } from "../../../slices/SiteData";
 
 let base_url = "https://farmdriver.savas.ma/api/";
 
@@ -28,37 +31,71 @@ export default function EditModal({
   openEditModal,
   setOpenEditModal,
   siteName,
+  userid,
 }) {
+  let renderData = useSelector((state) => state.getSiteData.renderData);
+
+  const predefinedOptions = [
+    { value: 2, label: "Admin" },
+    { value: 3, label: "Technicien" },
+    { value: 4, label: "Consultant d'un site" },
+    { value: 5, label: "Consultant global" },
+  ];
   let userName = useSelector((state) => state.toggleLeftBar.userName);
   let email = useSelector((state) => state.toggleLeftBar.email);
   let phone = useSelector((state) => state.toggleLeftBar.phone);
   let firstName = useSelector((state) => state.toggleLeftBar.firstName);
   let lastName = useSelector((state) => state.toggleLeftBar.lastName);
-  let isAdmin = useSelector((state) => state.toggleLeftBar.isAdmin);
+  let userRole = useSelector((state) => state.toggleLeftBar.userRole);
   let site = useSelector((state) => state.toggleLeftBar.site);
   let siteId = useSelector((state) => state.toggleLeftBar.siteId);
+  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
 
   const handleClose = () => setOpenEditModal(false);
-  const newSiteName = siteName.filter((site) => site.id !== siteId);
-  const currentSiteName = siteName.filter((site) => site.id === siteId);
+  const newSiteName = siteName?.filter((site) => site.id !== siteId);
+  const currentSiteName = siteName?.filter((site) => site.id === siteId);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      email: "",
-      phone: "",
-      first_name: "",
-      last_name: "",
-      isAdmin: "",
-      site: "",
-    },
-    onSubmit: (values) => {
-      console.log(values);
-      UpdateUser(values);
-    },
-  });
+
+  const disable = true;
+
+  let userNameRef = useRef();
+  let emailRef = useRef();
+  let phoneRef = useRef();
+  let firstNameRef = useRef();
+  let lastNameRef = useRef();
+  let userRoleRef = useRef();
+  let siteRef = useRef();
+
+  if (inputs) {
+    userNameRef.current.value = "";
+    emailRef.current.value = "";
+    phoneRef.current.value = "";
+    firstNameRef.current.value = "";
+    lastNameRef.current.value = "";
+    userRoleRef.current.value = "";
+    siteRef.current.value = "";
+  }
+  const sendData = () => {
+    let userData = {
+      user_id: userid,
+      username: userNameRef.current.value,
+      phone: phoneRef.current.value,
+      email: emailRef.current.value,
+      first_name: firstNameRef.current.value,
+      last_name: lastNameRef.current.value,
+      role: userRoleRef.current.value,
+      siteName: siteRef.current.value,
+    };
+
+    if (userData.username.trim() && userData.phone.trim()) {
+      UpdateUser(userData);
+    } else {
+      console.log("something wrong");
+    }
+  };
   const UpdateUser = async (data) => {
     setLoading(true);
     const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -72,15 +109,12 @@ export default function EditModal({
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      if (!response.ok) {
-        data = {};
-      }
-      const datas = await response.data;
-      console.log(datas);
+
       if (response.ok) {
         console.log("L'utilisateur a été modifié ");
         // handleOpen();
       } else {
+        data = {};
         setLoading(false);
         const errorMessage = "Un utilisateur avec ce identifiant existe déjà";
         throw new Error(errorMessage);
@@ -90,21 +124,10 @@ export default function EditModal({
       setLoading(false);
     }
   };
-  useEffect(() => {
-    formik.setValues({
-      ...formik.values,
-      username: userName,
-      email: email,
-      phone: phone,
-      first_name: firstName,
-      last_name: lastName,
-      isAdmin: isAdmin,
-      site: site,
-    });
-    console.log(formik.values.isAdmin);
-  }, []);
+
   return (
     <div>
+      {!loading && <Loader />}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -120,39 +143,41 @@ export default function EditModal({
       >
         <Fade in={openEditModal}>
           <Box sx={style} className="edit-modal">
-            <div className="edit-user slit-in-horizontal">
-              <h3>Modifier l'utilisateur </h3>
-
-              <form
-                className="settings-form"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  formik.handleSubmit();
-                }}
-              >
+            <div className="edit-site slit-in-horizontal">
+              {isModalOpen && (
+                <SuccessModal
+                  open={isModalOpen}
+                  setOpen={setIsModalOpen}
+                  onClose={handleClose}
+                  message={"Vos données ont été enregistrées avec succès."}
+                />
+              )}
+              <form className="settings-form">
+                <p className="title"> Modifier l'utilisateur </p>
                 <label>
                   <input
+                    disabled={disable}
                     id="username"
+                    ref={userNameRef}
                     name="username"
                     className="input"
                     type="text"
                     placeholder=" "
+                    defaultValue={userName}
                     onFocus={() => dispatch(clearInputs(false))}
-                    value={formik.values.username}
-                    onChange={formik.handleChange}
                   />
-                  <span>Identifiant*</span>
+                  {/* <span>Identifiant*</span> */}
                 </label>
 
                 <label>
                   <input
                     id="email"
+                    ref={emailRef}
+                    defaultValue={email}
                     name="email"
                     className="input"
                     type="email"
                     placeholder=" "
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
                     onFocus={() => dispatch(clearInputs(false))}
                   />
                   <span>E-mail</span>
@@ -160,12 +185,12 @@ export default function EditModal({
                 <label>
                   <input
                     id="phone"
+                    ref={phoneRef}
+                    defaultValue={phone}
                     name="phone"
                     className="input"
                     type="text"
                     placeholder=" "
-                    value={formik.values.phone}
-                    onChange={formik.handleChange}
                     onFocus={() => dispatch(clearInputs(false))}
                   />
                   <span>Télephone</span>
@@ -174,58 +199,62 @@ export default function EditModal({
                 <label>
                   <input
                     id="firstName"
+                    ref={firstNameRef}
+                    disabled={disable}
+                    defaultValue={firstName}
                     name="first_ame"
                     className="input"
                     type="text"
                     placeholder=" "
-                    value={formik.values.first_name}
-                    onChange={formik.handleChange}
                     onFocus={() => dispatch(clearInputs(false))}
                   />
-                  <span>Nom*</span>
+                  {/* <span>Nom*</span> */}
                 </label>
                 <label>
                   <input
                     id="lastName"
+                    ref={lastNameRef}
+                    defaultValue={lastName}
+                    disabled={disable}
                     name="last_name"
                     className="input"
                     type="text"
                     placeholder=" "
-                    value={formik.values.last_name}
-                    onChange={formik.handleChange}
                     onFocus={() => dispatch(clearInputs(false))}
                   />
-                  <span>Prénom*</span>
+                  {/* <span>Prénom*</span> */}
                 </label>
                 <div className="flex">
                   <label>
                     <select
                       id="admin"
-                      name="isAdmin"
+                      ref={userRoleRef}
+                      name="role"
                       className="input"
                       onFocus={() => dispatch(clearInputs(false))}
-                      value={formik.values.isAdmin}
-                      onChange={formik.handleChange}
                     >
-                      <option value={formik.values.isAdmin}>
-                        {formik.values.isAdmin == true ? "Oui" : "Non"}
+                      <option value="" disabled>
+                        --
                       </option>
-                      <option value={!formik.values.isAdmin}>
-                        {!formik.values.isAdmin ? "Oui" : "Non"}
-                      </option>
+                      {predefinedOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
-                    <span>Admin*</span>
+                    <span>Role*</span>
                   </label>
                   <label>
-                    <select
+                    <input
                       id="site"
                       name="site"
+                      ref={siteRef}
+                      disabled={disable}
+                      defaultValue={site}
                       className="input"
                       onFocus={() => dispatch(clearInputs(false))}
-                      value={formik.values.site}
-                      onChange={formik.handleChange}
                     >
-                      {currentSiteName.map((site) => (
+                      {/* {currentSiteName.map((site) => (
                         <option key={site.id} value={site.id}>
                           {site.name}
                         </option>
@@ -234,19 +263,27 @@ export default function EditModal({
                         <option key={s.id} value={s.id}>
                           {s.name}
                         </option>
-                      ))}
-                    </select>
-                    <span>Sites*</span>
+                      ))} */}
+                    </input>
+                    {/* <span>Sites*</span> */}
                   </label>
                 </div>
                 <div className="btns">
-                  <button type="submit" className="edit-btn">
+                  <button
+                    type="submit"
+                    className="edit-btn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      sendData();
+                      setIsModalOpen(true);
+                    }}
+                  >
                     <div className="svg-wrapper-1">
                       <div className="svg-wrapper">
                         <AiOutlineSend />
                       </div>
                     </div>
-                    <span>Submit</span>
+                    <span>Envoyer</span>
                   </button>
                   <button
                     type=""
@@ -257,7 +294,7 @@ export default function EditModal({
                       // sendData();
                     }}
                   >
-                    <span>Cancel</span>
+                    <span>Annuler</span>
                   </button>
                 </div>
               </form>

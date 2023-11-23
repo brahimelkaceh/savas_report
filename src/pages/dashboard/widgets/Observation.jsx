@@ -39,9 +39,11 @@ function Observation() {
 
   return (
     <div className="observations">
-      <h1 className="title">Observations </h1>
+      <p className="title" style={{ fontSize: "15px" }}>
+        Observations
+      </p>
       {data &&
-        data?.map((observ, index) => {
+        data.map((observ, index) => {
           return (
             <div key={index} className="card-item">
               <div className="card-content">

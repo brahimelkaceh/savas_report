@@ -28,7 +28,7 @@ ChartJS.register(
 const options = {
   elements: {
     point: {
-      radius: 0, // The radius of data points (default is 3)
+      radius: 2, // The radius of data points (default is 3)
       borderWidth: 1, // Border width of the data points
     },
     line: {
@@ -50,6 +50,9 @@ const options = {
     title: {
       display: true,
       text: "Temperature",
+      font: {
+        size: "20px",
+      },
     },
     legend: {
       display: true,
@@ -71,9 +74,16 @@ const options = {
       type: "linear",
       display: true,
       position: "top",
+      ticks: {
+        color: "#F05941",
+      },
       title: {
         display: true,
         text: "°C",
+        color: "#F05941",
+        font: {
+          weight: "bold",
+        },
       },
       grid: {
         display: true,
@@ -85,6 +95,7 @@ const options = {
       type: "linear",
       display: false,
       position: "right",
+
       grid: {
         drawOnChartArea: true,
       },
@@ -101,8 +112,8 @@ function LinearChart3({ tempData }) {
       {
         label: "Temperature maximum",
         data: tempData[1]?.max_tmp,
-        borderColor: "#D83F31",
-        backgroundColor: "#D83F31",
+        borderColor: "#F05941",
+        backgroundColor: "#F05941",
         borderWidth: 1,
         fill: false, // Add fill property to fill the area below the line
 
@@ -111,8 +122,8 @@ function LinearChart3({ tempData }) {
       {
         label: "Temperature minimum",
         data: tempData[2]?.min_tmp,
-        borderColor: "#219C90",
-        backgroundColor: "#219C90",
+        borderColor: "#87C4FF",
+        backgroundColor: "#87C4FF",
         borderWidth: 1,
 
         yAxisID: "y",

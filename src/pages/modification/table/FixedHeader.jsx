@@ -12,6 +12,11 @@ import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 import ConsoChartModel from "../models/ConsoChartModel";
 import ProdChartModel from "../models/ProdChartModel";
 import SwiperModal from "../models/SwiperModal";
+import SwiperIcModal from "../models/SwiperIcModal";
+import MasseOeufChartModal from "../models/MasseOeufChartModal";
+import { FaChartLine } from "react-icons/fa";
+// 'table-massoeuf-chart/',
+
 function FixedHeader({
   dailyData,
   homogPvData,
@@ -21,11 +26,16 @@ function FixedHeader({
   Peroformloading,
 }) {
   const [open, setOpen] = useState(false);
+  const [openIcModal, setOpenIcModal] = useState(false);
   const [openConsoChartModel, setOpenConsoChartModel] = useState(false);
   const [openProdChartModel, setOpenProdChartModel] = useState(false);
+  const [openMassOeufChartModal, setOpenMassOeufChartModal] = useState(false);
   return (
     <>
       {open && <SwiperModal open={open} setOpen={setOpen} />}
+      {openIcModal && (
+        <SwiperIcModal open={openIcModal} setOpen={setOpenIcModal} />
+      )}
       {openConsoChartModel && (
         <ConsoChartModel
           openConsoChartModel={openConsoChartModel}
@@ -38,21 +48,27 @@ function FixedHeader({
           setOpenProdChartModel={setOpenProdChartModel}
         />
       )}
+      {openMassOeufChartModal && (
+        <MasseOeufChartModal
+          openMassOeufChartModal={openMassOeufChartModal}
+          setOpenMassOeufChartModal={setOpenMassOeufChartModal}
+        />
+      )}
       <tr className="main-header">
         <th></th>
         <th colSpan={3} className="calendrie">
           <span>
-            Calendrie <TodayIcon></TodayIcon>
+            Calendrier <TodayIcon></TodayIcon>
           </span>
         </th>
-        <th className="ambiance" colSpan={3}>
+        <th className="ambiance" colSpan={4}>
           <span>
             Ambiance <SentimentSatisfiedIcon></SentimentSatisfiedIcon>
           </span>
         </th>
         <th className="viability" colSpan={6} onClick={() => setOpen(true)}>
           <span>
-            Viabilité <StreamIcon></StreamIcon> <SsidChartIcon></SsidChartIcon>
+            Viabilité <StreamIcon></StreamIcon> <FaChartLine></FaChartLine>
           </span>
         </th>
         <th
@@ -62,28 +78,38 @@ function FixedHeader({
         >
           <span>
             Consommation <CiWheat></CiWheat>
-            <SsidChartIcon></SsidChartIcon>
+            <FaChartLine></FaChartLine>
           </span>
         </th>
         <th
           className="production-header"
-          colSpan={5}
+          colSpan={8}
           onClick={() => setOpenProdChartModel(true)}
         >
           <span>
             Production <EggIcon></EggIcon>
-            <SsidChartIcon></SsidChartIcon>
+            <FaChartLine></FaChartLine>
           </span>
         </th>
-        <th colSpan={2} className="masse-oeuf">
+        <th
+          colSpan={4}
+          className="masse-oeuf"
+          onClick={() => setOpenMassOeufChartModal(true)}
+        >
           <span>
             Masse d'Oeuf <ScaleIcon></ScaleIcon>
+            <FaChartLine></FaChartLine>
           </span>
         </th>
-        <th colSpan={3} className="ic-header">
+        <th
+          colSpan={3}
+          className="ic-header"
+          onClick={() => setOpenIcModal(true)}
+        >
           <span>
-            indices de convertion{" "}
+            indices de conversion{" "}
             <PublishedWithChangesIcon></PublishedWithChangesIcon>
+            <FaChartLine></FaChartLine>
           </span>
         </th>
       </tr>

@@ -2,6 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { getRenderData } from "../../../slices/SiteData";
 
 const style = {
   position: "absolute",
@@ -13,7 +15,10 @@ const style = {
   p: 3,
 };
 
-export default function SuccessModal({ setOpen, open, message, onClose }) {
+export default function SuccessModal({ open, message, onClose }) {
+  let renderData = useSelector((state) => state.getSiteData.renderData);
+  const dispatch = useDispatch();
+
   return (
     <div>
       <Modal
@@ -28,7 +33,14 @@ export default function SuccessModal({ setOpen, open, message, onClose }) {
             {message}
           </Typography>
           <div className="confirm-btns">
-            <button className="confirm type1" type="submit" onClick={onClose}>
+            <button
+              className="confirm type1"
+              type="submit"
+              onClick={() => {
+                onClose();
+                dispatch(getRenderData(new Date().toISOString()));
+              }}
+            >
               <span className="btn-txt">Ok</span>
             </button>
           </div>
