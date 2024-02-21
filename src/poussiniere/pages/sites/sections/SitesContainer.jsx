@@ -18,7 +18,7 @@ function SitesContainer() {
       }
 
       const accessToken = authTokens.access;
-      const response = await fetch(`${base_url}get-sites/`, {
+      const response = await fetch(`${base_url}get-pouss-sites/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

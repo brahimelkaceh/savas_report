@@ -82,8 +82,9 @@ const ConsomationChart = ({ id, title }) => {
   }
   return (
     <Card
-      sx={{
-        height: "40vh",
+      style={{
+        height: "35vh",
+        paddingBottom: 30,
       }}
     >
       <Stack
@@ -95,7 +96,7 @@ const ConsomationChart = ({ id, title }) => {
         <Typography color="error" variant="caption">
           {title}
         </Typography>
-        <Typography color="primary" variant="subtitle2">
+        <Typography color="primary" variant="body2">
           Consommation (Aliment & Eau)
         </Typography>
         <IconButton

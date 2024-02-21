@@ -47,11 +47,13 @@ const Navbar = () => {
         <Toolbar disableGutters>
           <Box
             sx={{
-              width: "40px",
-              height: "40px",
+              width: "1.5%",
+              height: "1.5%",
+              padding: 1,
               display: { xs: "none", md: "flex" },
               alignItems: "center",
-              // borderRadius: ,
+              borderRadius: 1,
+              backgroundColor: "var(--dark-blue)",
             }}
           >
             <img src={fd} alt="Savas-logo" className="logo" />
@@ -115,12 +117,12 @@ const Navbar = () => {
           </Box>
           <Box
             sx={{
-              height: "4vh",
-              background: "#fff",
+              height: "1.5%",
               display: { xs: "flex", md: "none" },
-              width: { xs: "15vw", md: "6vw" },
+              width: { xs: "3vw", md: "5vw" },
               alignItems: "center",
               borderRadius: 2,
+              padding: 1,
             }}
           >
             <img src={fd} alt="Savas-logo" className="logo" />

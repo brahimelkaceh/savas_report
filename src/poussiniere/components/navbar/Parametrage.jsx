@@ -50,7 +50,7 @@ const Parametrage = ({ className }) => {
             <span>gestion guides</span>
           </NavLink>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        {/* <MenuItem onClick={handleClose}>
           <NavLink className="child-link " to="/poussinier/sites">
             <ViewColumnIcon className="sidebar-ico" />
             <span>gestion sites</span>
@@ -61,7 +61,7 @@ const Parametrage = ({ className }) => {
             <HomeIcon className="sidebar-ico" />
             <span>gestion bâtiments</span>
           </NavLink>
-        </MenuItem>
+        </MenuItem> */}
         {/*  <MenuItem onClick={handleClose}>
           <NavLink className="child-link " to="/utilisateurs">
             <ManageAccountsIcon className="sidebar-ico" />

@@ -16,6 +16,7 @@ import Parametrage from "./Parametrage";
 import PdfDownload from "./PdfDownload";
 import { Dashboard, NoteAdd, Vaccines } from "@mui/icons-material";
 import AccountMenu from "../../../components/DropDowns/AccountMenu";
+import fd from "../../../assets/fd-logo.png";
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -38,15 +39,16 @@ function Navbar() {
         <Toolbar disableGutters>
           <Box
             sx={{
-              width: "6vw",
-              height: "4vh",
-              background: "#fff",
+              width: "1.5%",
+              height: "1.5%",
+              padding: 1,
               display: { xs: "none", md: "flex" },
               alignItems: "center",
-              borderRadius: 2,
+              borderRadius: 1,
+              backgroundColor: "var(--dark-blue)",
             }}
           >
-            <img src={logo} alt="Savas-logo" className="logo" />
+            <img src={fd} alt="Savas-logo" className="logo" />
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -116,15 +118,16 @@ function Navbar() {
           </Box>
           <Box
             sx={{
-              height: "4vh",
-              background: "#fff",
+              height: "1.5%",
+              background: "var(--dark-blue)",
               display: { xs: "flex", md: "none" },
-              width: { xs: "15vw", md: "6vw" },
+              width: { xs: "3vw", md: "5vw" },
               alignItems: "center",
               borderRadius: 2,
+              padding: 1,
             }}
           >
-            <img src={logo} alt="Savas-logo" className="logo" />
+            <img src={fd} alt="Savas-logo" className="logo" />
           </Box>
           <Typography
             variant="h5"

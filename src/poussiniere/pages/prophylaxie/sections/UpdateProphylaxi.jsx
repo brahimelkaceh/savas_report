@@ -41,7 +41,7 @@ const UpdateProphylaxi = ({
       date: "",
       intervention: "",
       mode_administration: "",
-      controles: "",
+      // controles: "",
       note: "",
     },
     validationSchema: validationSchema,
@@ -96,7 +96,7 @@ const UpdateProphylaxi = ({
       date: data?.date,
       intervention: data?.intervention,
       mode_administration: data?.mode_administration,
-      controles: data?.controles,
+      // controles: data?.controles,
       doctor: data?.doctor,
       note: data?.note,
     });
@@ -199,7 +199,7 @@ const UpdateProphylaxi = ({
               </Typography>
             )}
         </label>
-        <label>
+        {/* <label>
           <input
             required
             name="controles"
@@ -210,7 +210,7 @@ const UpdateProphylaxi = ({
             placeholder=" "
           />
           <span>Contrôle</span>
-        </label>
+        </label> */}
         <label>
           <textarea
             required

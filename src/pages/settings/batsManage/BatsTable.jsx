@@ -11,22 +11,26 @@ import {
   getBatType,
   getBatName,
 } from "../../../slices/SiteData";
-import Loader from "../../../components/loader/Loader";
 import { Box, LinearProgress } from "@mui/material";
-function BatsTable({ siteName, loading, data }) {
+function BatsTable({ siteName, loading, bats }) {
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [batId, setBatId] = useState("");
   const dispatch = useDispatch();
 
   const handleOpen = () => setOpen(true);
-
   const handleModalOpen = () => setOpenDeleteModal(true);
+  const editbatiment = bats.filter((bat) => bat.id === batId);
 
   return (
     <div className="bats-table slit-in-horizontal">
       {open && (
-        <EditBatsModal open={open} setOpen={setOpen} siteName={siteName} />
+        <EditBatsModal
+          open={open}
+          setOpen={setOpen}
+          siteName={siteName}
+          batimentData={editbatiment}
+        />
       )}
       {openDeleteModal && (
         <DeleteBatsModal
@@ -46,8 +50,8 @@ function BatsTable({ siteName, loading, data }) {
           </tr>
         </thead>
         <tbody>
-          {data !== undefined &&
-            data?.map((bats) => (
+          {bats !== undefined &&
+            bats?.map((bats) => (
               <tr key={bats.id}>
                 <td>{bats.site_name}</td>
                 <td>{bats.name}</td>
@@ -81,6 +85,7 @@ function BatsTable({ siteName, loading, data }) {
                     onClick={() => {
                       handleOpen();
                       dispatch(getBatId(bats.id));
+                      setBatId(bats.id);
                       dispatch(getBatName(bats.name));
                       dispatch(getBatType(bats.type));
                       dispatch(getBatSite(bats.site_id));

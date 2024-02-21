@@ -143,7 +143,7 @@ export const ProhylaxieListTable = ({
           <TableCell>Age</TableCell>
           <TableCell>Interventions</TableCell>
           <TableCell>Mode d'administration</TableCell>
-          <TableCell width={"10%"}>Controles</TableCell>
+          {/* <TableCell width={"10%"}>Controles</TableCell> */}
           <TableCell width={"30%"}>Notes</TableCell>
           <TableCell>Statut</TableCell>
           <TableCell width="10%">Actions</TableCell>
@@ -171,7 +171,7 @@ export const ProhylaxieListTable = ({
               </TableCell>
               <TableCell>{prophy.intervention}</TableCell>
               <TableCell>{prophy.mode_administration}</TableCell>
-              <TableCell>{prophy.controles}</TableCell>
+              {/* <TableCell>{prophy.controles}</TableCell> */}
               <TableCell>
                 <ExpandableCell value={prophy.note} />
               </TableCell>

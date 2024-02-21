@@ -16,7 +16,7 @@ export default function BatsManage({ siteName }) {
     initialValues: {
       name: "",
       site: "",
-      typeOf: "production",
+      typeOf: "",
     },
     onSubmit: (values) => {
       CreateBatiment(values);
@@ -77,7 +77,21 @@ export default function BatsManage({ siteName }) {
           />
           <span>Bâtiment</span>
         </label>
-
+        <label>
+          <select
+            required
+            id="typeOf"
+            name="typeOf"
+            value={formik.values.typeOf}
+            onChange={formik.handleChange}
+            className="input"
+          >
+            <option value="">--</option>
+            <option value="production">Production</option>
+            <option value="poussiniere">Poussiniere</option>
+          </select>
+          <span> Production/Poussiniere*</span>
+        </label>
         <label>
           <select
             required

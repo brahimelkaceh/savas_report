@@ -3,14 +3,21 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import { AiOutlineSend } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../modals/style.css";
 import { useState } from "react";
-import SuccessModal from "../modals/SuccessModal";
-import { Button, DialogActions } from "@mui/material";
-let base_url = "https://farmdriver.savas.ma/api/";
+
+import {
+  Alert,
+  Button,
+  DialogActions,
+  LinearProgress,
+  Stack,
+} from "@mui/material";
+import { useFormik } from "formik";
+import { useEffect } from "react";
+import api from "../../../api/api";
+import { getRenderData } from "../../../slices/SiteData";
 
 const style = {
   position: "absolute",
@@ -21,75 +28,65 @@ const style = {
   width: 600,
 };
 
-export default function EditBatsModal({ siteName, open, setOpen }) {
-  const disable = true;
-  let batId = useSelector((state) => state.getSiteData.batId);
-  let batName = useSelector((state) => state.getSiteData.batName);
-  let batType = useSelector((state) => state.getSiteData.batType);
-  let batSite = useSelector((state) => state.getSiteData.batSite);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [batimentType, setBatimentType] = useState("");
-  let inputs = useSelector((state) => state.toggleLeftBar.inputs);
-
-  const newSiteName = siteName.filter((site) => site.id !== batSite);
-  const currentSiteName = siteName.filter((site) => site.id === batSite);
-
-  let batmntRef = useRef();
-  let siteNameRef = useRef();
-  let typeRef = useRef();
-
-  if (inputs) {
-    batmntRef.current.value = "";
-    siteNameRef.current.value = "";
-    typeRef.current.value = "";
-  }
-  const sendData = () => {
-    let batimentData = {
-      bat_id: batId,
-      name: batmntRef.current.value,
-      site_id: siteNameRef.current.value,
-      type: typeRef.current.value,
-    };
-
-    if (
-      batimentData.name.trim() &&
-      batimentData.site_id &&
-      batimentData.type.trim()
-    ) {
-      console.log(batimentData);
-      UpdateBatimentData(batimentData);
-    }
-  };
+export default function EditBatsModal({
+  siteName,
+  open,
+  setOpen,
+  batimentData,
+}) {
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleClose = () => setOpen(false);
 
-  // * Updating Bâtiments
-  const UpdateBatimentData = async (data) => {
-    // console.log(data);
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
+  // formik
+  const formik = useFormik({
+    initialValues: {
+      bat_id: "",
+      name: "",
+      site: "",
+      typeOf: "",
+    },
+    onSubmit: (values) => {
+      updateBatiment(values);
+    },
+  });
+  const updateBatiment = async (data) => {
     try {
-      const response = await fetch(`${base_url}update-batmnt/`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      if (response.ok) {
-        console.log("Vos modifications ont été enregistrées.");
-        setIsModalOpen(true);
+      setLoading(true);
+      const result = await api.updateBatiment(data);
+      if (!result) {
+        setError("Échec de la modification de bâtiment. Veuillez réessayer.");
+        setMessage("");
       } else {
-        data = {};
-        const errorMessage = "Bâtiment existe déjà";
-        throw new Error(errorMessage);
+        setMessage("Le bâtiment a été modifié avec succès!");
+        setError("");
+        dispatch(getRenderData(new Date().toISOString()));
+        setTimeout(() => {
+          setOpen(false);
+        }, 4500);
       }
     } catch (error) {
-      console.log(error.message);
+      setError("Échec de la modification de bâtiment. Veuillez réessayer.");
+    } finally {
+      setLoading(false);
+      setTimeout(() => {
+        setMessage("");
+        setError("");
+      }, 3500);
     }
   };
 
+  useEffect(() => {
+    formik.setValues({
+      bat_id: batimentData[0]?.id,
+      name: batimentData[0]?.name,
+      site: batimentData[0]?.site_id,
+      typeOf: batimentData[0]?.type,
+    });
+  }, []);
   return (
     <div>
       <Modal
@@ -108,66 +105,52 @@ export default function EditBatsModal({ siteName, open, setOpen }) {
         <Fade in={open}>
           <Box sx={style} className="edit-modal">
             <div className="edit-site slit-in-horizontal">
-              {isModalOpen && (
-                <SuccessModal
-                  open={isModalOpen}
-                  setOpen={setIsModalOpen}
-                  onClose={handleClose}
-                  message={"Vos données ont été enregistrées avec succès."}
-                />
-              )}
-              <form className="settings-form">
+              <form className="settings-form" onSubmit={formik.handleSubmit}>
                 <p className="title">Modifier</p>
                 <label>
                   <input
-                    ref={batmntRef}
+                    name="name"
                     id="batiment"
                     className="input"
                     type="text"
                     placeholder=" "
-                    defaultValue={batName}
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
                     required={true}
-                    // onFocus={() => dispatch(clearInputs(false))}
                   />
                   <span> Bâtiment*</span>
                 </label>
                 <label>
-                  <input
-                    ref={typeRef}
-                    id="production"
+                  <select
+                    name="typeOf"
                     className="input"
-                    disabled={disable}
-                    defaultValue={batType}
-                    // onChange={(e) => setBatimentType(e.target.value)}
-                    // onFocus={() => dispatch(clearInputs(false))}
+                    value={formik.values.typeOf}
+                    onChange={formik.handleChange}
                   >
-                    {/* <option
-                      value={
-                        batType == "production" ? "Production" : "Poussiniere"
-                      }
-                    >
-                      {batType == "production" ? "Production" : "Poussiniere"}
-                    </option>
-                    <option
-                      value={
-                        batType !== "production" ? "Production" : "Poussiniere"
-                      }
-                    >
-                      {batType !== "production" ? "Production" : "Poussiniere"}
-                    </option> */}
-                  </input>
-                  {/* <span> Production/Poussiniere*</span> */}
+                    <option value="production">Production</option>
+                    <option value="poussiniere">Poussiniere</option>
+                  </select>
+                  <span> Production/Poussiniere*</span>
                 </label>
 
                 <label>
-                  <input
+                  <select
                     required
-                    ref={siteNameRef}
-                    id="siteNames"
+                    id="site"
+                    name="site"
+                    value={formik.values.site}
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                    }}
                     className="input"
-                    disabled={disable}
-                    defaultValue={currentSiteName.map((site) => site?.name)}
-                  ></input>
+                  >
+                    {siteName?.map((site) => (
+                      <option key={site.id} value={site.id}>
+                        {site.name}
+                      </option>
+                    ))}
+                  </select>
+                  <span> Sites*</span>
                 </label>
 
                 <DialogActions>
@@ -182,15 +165,39 @@ export default function EditBatsModal({ siteName, open, setOpen }) {
                     autoFocus
                     variant="contained"
                     color="success"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      sendData();
-                    }}
+                    type="submit"
                   >
                     Enregistrer
                   </Button>
                 </DialogActions>
               </form>
+              {loading && <LinearProgress />}
+              <Stack mx={2}>
+                {error && (
+                  <Alert
+                    sx={{
+                      py: 0,
+                      mt: 1,
+                    }}
+                    variant="filled"
+                    severity="error"
+                  >
+                    {error}
+                  </Alert>
+                )}
+                {message && (
+                  <Alert
+                    sx={{
+                      py: 0,
+                      mt: 1,
+                    }}
+                    variant="filled"
+                    severity="success"
+                  >
+                    {message}
+                  </Alert>
+                )}
+              </Stack>{" "}
             </div>
           </Box>
         </Fade>

@@ -114,7 +114,7 @@ export default function EditLot({ lot, setRefetchData }) {
       id: "",
       site: lot?.site_id,
       batiment: lot?.batiment_id,
-      guide: "",
+      guideParent: "",
       code: "",
       effectifDP: 0,
       birthdate: "",
@@ -167,7 +167,7 @@ export default function EditLot({ lot, setRefetchData }) {
       id: lot?.id,
       site: lot?.site_id,
       batiment: lot?.batiment_id,
-      guide: lotData?.guide_id,
+      guideParent: lotData?.guide_id,
       code: lotData?.code,
       effectifDP: lotData?.effectifDP,
       birthdate: lotData?.birthDate,
@@ -285,9 +285,9 @@ export default function EditLot({ lot, setRefetchData }) {
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
-                      id="guide"
-                      name="guide"
-                      value={formik?.values?.guide || ""}
+                      id="guideParent"
+                      name="guideParent"
+                      value={formik?.values?.guideParent || ""}
                       onChange={formik?.handleChange}
                       label=""
                     >

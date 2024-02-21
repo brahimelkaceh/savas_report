@@ -64,11 +64,12 @@ const ProphylaxiForm = ({ data }) => {
     }
   };
   return (
-    <div
+    <Card
       className="batiment-form"
-      style={{
-        background: "none",
-        border: "none",
+      sx={{
+        // border: "none",
+        boxShadow: "none",
+        paddingBottom: 0.5,
       }}
     >
       {openModal && (
@@ -87,7 +88,7 @@ const ProphylaxiForm = ({ data }) => {
         alignItems={"center"}
         gap={5}
         mr={0}
-        mb={1}
+        my={1}
       >
         <Chip
           size="small"
@@ -120,7 +121,12 @@ const ProphylaxiForm = ({ data }) => {
           {data?.status == 2 ? "Terminer" : "Commencer"}
         </Button>
       </Stack>
-      <Accordion disabled={data?.status === 0}>
+      <Accordion
+        sx={{
+          boxShadow: "none",
+        }}
+        disabled={data?.status === 0}
+      >
         <AccordionSummary
           expandIcon={<ExpandMore />}
           aria-controls="panel1-content"
@@ -134,13 +140,13 @@ const ProphylaxiForm = ({ data }) => {
           </Typography>
         </AccordionSummary>
         <Divider />
-        <CardContent
+        <Box
           sx={{
             p: 1.5,
           }}
         >
           <Grid container spacing={1.5} mb={1}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Alert
                 icon={false}
                 severity="info"
@@ -162,7 +168,7 @@ const ProphylaxiForm = ({ data }) => {
                 </AlertTitle>
               </Alert>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Alert
                 icon={false}
                 severity="info"
@@ -183,7 +189,7 @@ const ProphylaxiForm = ({ data }) => {
                 </AlertTitle>
               </Alert>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <Alert
                 icon={false}
                 severity="info"
@@ -203,8 +209,8 @@ const ProphylaxiForm = ({ data }) => {
                   {data?.controles}
                 </AlertTitle>
               </Alert>
-            </Grid>
-            <Grid item xs={6}>
+            </Grid> */}
+            <Grid item xs={12}>
               <Alert
                 icon={false}
                 severity="info"
@@ -226,11 +232,10 @@ const ProphylaxiForm = ({ data }) => {
               </Alert>
             </Grid>
           </Grid>
-
           {data?.status == 2 && <NewProphylaxis data={data} />}
-        </CardContent>
+        </Box>
       </Accordion>
-    </div>
+    </Card>
   );
 };
 

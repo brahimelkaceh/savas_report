@@ -17,7 +17,6 @@ const style = {
 let base_url = "https://farmdriver.savas.ma/api/";
 
 export default function EditProphylaxi({ id, reftching, lotId }) {
-  console.log(lotId);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);

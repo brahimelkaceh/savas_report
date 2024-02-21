@@ -45,7 +45,7 @@ const Production = ({ data }) => {
                 <Typography color="error" variant="caption">
                   {code.lot}
                 </Typography>
-                <Typography color="primary" variant="subtitle2">
+                <Typography color="primary" variant="body2">
                   Production œufs
                 </Typography>
                 <IconButton

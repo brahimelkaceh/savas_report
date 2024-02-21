@@ -56,6 +56,7 @@ export default function ChartOptions({
             labelId="demo-multiple-checkbox-label"
             id="demo-multiple-checkbox"
             multiple
+            label="Sélectionnez une courbe"
             value={personName}
             onChange={handleChange}
             input={<OutlinedInput label="Select courbe" />}

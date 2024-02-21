@@ -12,7 +12,7 @@ import {
 import Loader from "../../../components/loader/Loader";
 import { Box, LinearProgress } from "@mui/material";
 
-function SitesTable({ data, loading }) {
+function SitesTable({ sites, loading }) {
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -42,8 +42,8 @@ function SitesTable({ data, loading }) {
           </tr>
         </thead>
         <tbody>
-          {data !== undefined &&
-            data?.map((site) => (
+          {sites !== undefined &&
+            sites?.map((site) => (
               <tr key={site.id}>
                 <td>{site.name}</td>
                 <td>{site.phone}</td>

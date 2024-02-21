@@ -75,6 +75,7 @@ const MortChart = ({ data, show }) => {
       chartArea={{ border: { width: 0 } }}
       tooltip={{ enable: true, shared: true }}
       width={Browser.isDevice ? "100%" : "100%"}
+      // height="100%"
       // title={`Mortalité`}
       titleStyle={{
         textAlignment: "Center",
@@ -126,7 +127,7 @@ const MortChart = ({ data, show }) => {
           }}
           minimum={0}
           maximum={0.4}
-          interval={0.01}
+          interval={0.005}
           visible={show}
         ></AxisDirective>
         <AxisDirective
@@ -144,7 +145,7 @@ const MortChart = ({ data, show }) => {
             color: "#F48FB1",
             size: "12px",
           }}
-          majorGridLines={{ width: 0, color: "#000" }}
+          majorGridLines={{ width: 1, color: "#F48FB1" }}
           minorTickLines={{ width: 0, color: "#F48FB1" }}
           lineStyle={{ width: 1, color: "#F48FB1" }}
           minimum={null}

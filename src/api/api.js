@@ -1,6 +1,7 @@
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const api = {
+  // production lots
   getLotTitles: async (id) => {
     if (!id) {
       return;
@@ -25,7 +26,8 @@ const api = {
       console.error(error);
     }
   },
-  getSites: async () => {
+  // Production sites
+  getProdSites: async () => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
@@ -46,6 +48,7 @@ const api = {
       console.error(error);
     }
   },
+  // Poussinieres sites
   getPoussSites: async () => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -67,6 +70,7 @@ const api = {
       console.error(error);
     }
   },
+  // Poussinieres lots
   getPoussLot: async (id) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -91,6 +95,50 @@ const api = {
       console.error(error);
     }
   },
+  // All sites
+  getAllSites: async () => {
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+      const response = await fetch(`${base_url}get-sites/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  // All Bats
+  getAllBats: async () => {
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+      const response = await fetch(`${base_url}get-bats/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  // Create Observation
   createObservation: async (observationData) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -172,6 +220,29 @@ const api = {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      return { response: response.ok };
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  // Update Batiment
+  updateBatiment: async (observationData) => {
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+      const response = await fetch(`${base_url}update-batmnt/`, {
+        method: "POST", // Assuming you use POST method for creating observations
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(observationData),
       });
 
       if (!response.ok) {

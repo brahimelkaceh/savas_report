@@ -89,7 +89,8 @@ const MasseContainer = ({ id, title }) => {
   return (
     <Card
       style={{
-        height: "40vh",
+        height: "35vh",
+        paddingBottom: 30,
       }}
     >
       <Stack
@@ -101,7 +102,7 @@ const MasseContainer = ({ id, title }) => {
         <Typography color="error" variant="caption">
           {title}
         </Typography>{" "}
-        <Typography color="primary" variant="subtitle2">
+        <Typography color="primary" variant="body2">
           Masse d'œufs{" "}
         </Typography>
         <IconButton

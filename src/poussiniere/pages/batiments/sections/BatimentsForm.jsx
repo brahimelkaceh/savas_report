@@ -15,7 +15,7 @@ export default function BatimentsForm({ siteName }) {
     initialValues: {
       name: "",
       site: "",
-      typeOf: 0,
+      typeOf: "poussiniere",
     },
     onSubmit: (values) => {
       CreateBatiment(values);
@@ -76,21 +76,7 @@ export default function BatimentsForm({ siteName }) {
           />
           <span>Bâtiment</span>
         </label>
-        <label>
-          <select
-            required
-            id="typeOf"
-            name="typeOf"
-            value={formik.values.typeOf}
-            onChange={formik.handleChange}
-            className="input"
-          >
-            <option value="">--</option>
-            <option value="production">Production</option>
-            <option value="poussiniere">Poussiniere</option>
-          </select>
-          <span> Production/Poussiniere*</span>
-        </label>
+
         <label>
           <select
             required

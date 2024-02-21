@@ -30,7 +30,7 @@ const AddProphylaxie = ({ onClose, reftching, lotId, setData }) => {
       date: "",
       intervention: "",
       mode_administration: "",
-      controles: "",
+      // controles: "",
       note: "",
     },
 
@@ -170,7 +170,7 @@ const AddProphylaxie = ({ onClose, reftching, lotId, setData }) => {
               </Typography>
             )}
         </label>
-        <label>
+        {/* <label>
           <input
             required
             name="controles"
@@ -181,7 +181,7 @@ const AddProphylaxie = ({ onClose, reftching, lotId, setData }) => {
             placeholder=" "
           />
           <span>Contrôle</span>
-        </label>
+        </label> */}
 
         <label>
           <textarea

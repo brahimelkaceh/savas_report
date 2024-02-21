@@ -35,7 +35,7 @@ export default function SelectedComponents({ formik }) {
     const fetchSites = async () => {
       try {
         setLoading(true);
-        const result = await api.getSites();
+        const result = await api.getAllSites();
         setSites(result);
       } catch (error) {
         setError(error.message);
