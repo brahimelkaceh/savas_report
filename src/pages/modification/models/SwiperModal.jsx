@@ -27,11 +27,11 @@ const style = {
 export default function SwiperModal({ setOpen, open }) {
   const lotTableId = useSelector((state) => state.toggleLeftBar.lotTableId);
   const mortChartApi = useMemo(
-    () => `${base_url}table-mort-chart/?lotId=${lotTableId}`,
+    () => `${base_url}table-mort-chart-new/?lotId=${lotTableId}`,
     [base_url, lotTableId]
   );
   const ApiUrl = useMemo(
-    () => `${base_url}homog-pv-chart/?lotId=${lotTableId}`,
+    () => `${base_url}homog-pv-chart-new/?lotId=${lotTableId}`,
     [base_url, lotTableId]
   );
   const { data: mortData, loading: mortLoading } = UseFetchData(
@@ -61,7 +61,7 @@ export default function SwiperModal({ setOpen, open }) {
               {error ? (
                 <p style={{ zIndex: 1000 }}>error</p>
               ) : (
-                <HomogPvChart homogPvData={data} />
+                <HomogPvChart data={data} show={true} />
               )}
               {loading && <Loader />}
             </SwiperSlide>
@@ -70,7 +70,7 @@ export default function SwiperModal({ setOpen, open }) {
               {!mortData ? (
                 <p>No Mort Chart data</p>
               ) : (
-                <MortChart mortData={mortData} />
+                <MortChart data={mortData} show={true} />
               )}
               {mortLoading && <Loader />}
             </SwiperSlide>

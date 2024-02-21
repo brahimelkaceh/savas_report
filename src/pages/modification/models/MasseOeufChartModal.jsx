@@ -25,7 +25,7 @@ export default function MasseOeufChartModal({
   const lotTableId = useSelector((state) => state.toggleLeftBar.lotTableId);
 
   const ApiUrl = useMemo(
-    () => `${base_url}table-massoeuf-chart/?lotId=${lotTableId}`,
+    () => `${base_url}table-massoeuf-chart-new/?lotId=${lotTableId}`,
     [base_url, lotTableId]
   );
 
@@ -46,7 +46,7 @@ export default function MasseOeufChartModal({
       >
         <Box sx={style} className="confirm-modal modal " id="chartDiv">
           <DownloadBtn />
-          {error ? <p>error</p> : <MasseOeufChart masseOeufData={data} />}
+          {error ? <p>error</p> : <MasseOeufChart data={data} show={true} />}
           {loading && <Loader />}
         </Box>
       </Modal>

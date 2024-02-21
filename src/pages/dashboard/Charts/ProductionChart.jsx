@@ -26,8 +26,8 @@ ChartJS.register(
 const options = {
   elements: {
     point: {
-      radius: 2, // The radius of data points (default is 3)
-      borderWidth: 1, // Border width of the data points
+      radius: 0, // The radius of data points (default is 3)
+      borderWidth: 0, // Border width of the data points
     },
     line: {
       tension: 0.1, // Adjust the line curvature (default is 0.4)
@@ -47,7 +47,7 @@ const options = {
   plugins: {
     title: {
       display: true,
-      text: "Production oeufs",
+      text: "Evolution production des oeufs",
       font: {
         size: "20",
       },
@@ -102,38 +102,39 @@ const options = {
 };
 
 function ProductionChart({ prodChart }) {
-  const labels = prodChart[0]?.dates;
-  const xData = prodChart[1]?.prodTotal;
-  const zData = prodChart[2]?.normaux;
-  const bData = prodChart[4]?.dj;
+  const labels = prodChart?.dates;
+  const xData = prodChart?.prodTotal;
+  const zData = prodChart?.declassed;
+  const bData = prodChart?.prev;
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Production Total",
+        label: "Production Totale",
         data: xData,
         borderColor: "#BA704F",
         backgroundColor: "#BA704F",
         fill: false,
         yAxisID: "y",
+        borderWidth: 4,
       },
       {
-        label: "Normaux",
+        label: "Declassés",
         data: zData,
-        borderColor: "rgb(131, 53, 0)",
-        backgroundColor: "rgb(131, 53, 0)",
+        borderColor: "#E08E6D",
+        backgroundColor: "#fce3dc",
         borderWidth: 1,
-
+        fill: true,
         yAxisID: "y",
       },
 
       {
-        label: "DJ",
+        label: "Prévisions",
         data: bData,
-        borderColor: "#FFC26F",
-        backgroundColor: "#FFC26F",
-        borderWidth: 1,
+        borderColor: "#D2DE32",
+        backgroundColor: "#D2DE32",
+        borderWidth: 6,
         yAxisID: "y",
       },
     ],

@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
+import { Button, DialogActions, Typography } from "@mui/material";
 import { AiOutlineSend } from "react-icons/ai";
 import Modal from "@mui/material/Modal";
 import DataTable from "../tables/DataTable";
@@ -47,35 +47,30 @@ export default function ReportModal({
           >
             Êtes-vous sûr de vouloir envoyer ces données ?
           </Typography>
-          <div className="btns">
-            <button
-              type=""
-              className="edit-btn"
+
+          <DialogActions>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClose();
+              }}
+            >
+              Annuler
+            </Button>
+            <Button
               onClick={(e) => {
                 e.preventDefault();
                 handleClose();
                 onSubmit();
               }}
+              autoFocus
+              variant="contained"
             >
-              <div className="svg-wrapper-1">
-                <div className="svg-wrapper">
-                  <AiOutlineSend />
-                </div>
-              </div>
-              <span>Submit</span>
-            </button>
-            <button
-              type=""
-              className="cancel-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                handleClose();
-                // sendData();
-              }}
-            >
-              <span>Cancel</span>
-            </button>
-          </div>
+              Accepter
+            </Button>
+          </DialogActions>
         </Box>
       </Modal>
     </div>

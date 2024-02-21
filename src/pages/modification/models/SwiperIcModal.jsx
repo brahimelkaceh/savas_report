@@ -29,7 +29,7 @@ const style = {
 export default function SwiperIcModal({ setOpen, open }) {
   const lotTableId = useSelector((state) => state.toggleLeftBar.lotTableId);
   const altoeufApi = useMemo(
-    () => `${base_url}table-altoeuf-chart/?lotId=${lotTableId}`,
+    () => `${base_url}table-altoeuf-chart-new/?lotId=${lotTableId}`,
     [base_url, lotTableId]
   );
   const ApiUrl = useMemo(
@@ -41,7 +41,6 @@ export default function SwiperIcModal({ setOpen, open }) {
     lotTableId
   );
   const { data, loading, error } = UseFetchData(ApiUrl, lotTableId);
-  console.log(data);
 
   const handleClose = () => {
     setOpen(false);
@@ -60,12 +59,12 @@ export default function SwiperIcModal({ setOpen, open }) {
           <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
             <SwiperSlide>
               <DownloadBtn />
-              {altData && <AltChart altOeufData={altData} />}
+              {altData && <AltChart data={altData} show={true} />}
               {loading && <Loader />}
             </SwiperSlide>
             <SwiperSlide>
               <DownloadBtn />
-              {data && <IcChart icData={data} />}
+              {data && <IcChart icData={data} show={true} />}
 
               {loading && <Loader />}
             </SwiperSlide>

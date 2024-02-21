@@ -6,7 +6,7 @@
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
   border-radius: var(--border-radius);
 
-  min-height: calc(90vh - 60px);
+  /* min-height: calc(90vh - 60px); */
   /* background: #fff; */
   /* overflow-y: scroll; */
 }
@@ -31,10 +31,10 @@
 
 .user-table {
   grid-area: user-table;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: var(--border-radius);
   padding-top: 0;
-  height: 500px;
+  height: 80vh;
   overflow-y: scroll;
   overflow-x: scroll;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
@@ -71,6 +71,12 @@
   background: royalblue;
   color: #fff;
 }
+.bats-poss-table .fixed-header,
+.user-poss-table .fixed-header,
+.site-poss-table .fixed-header {
+  background: #ff6c22;
+  color: #fff;
+}
 .site-table tr:nth-child(even),
 .bats-table tr:nth-child(even),
 .user-table tr:nth-child(even) {
@@ -79,7 +85,7 @@
 .create-user {
   padding: 10px;
   grid-area: create-user;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: var(--border-radius);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
@@ -87,12 +93,11 @@
 .edit-site {
   padding: 10px;
   /* grid-area: create-user; */
-  background: #f5f5f5;
+  background: #fff;
   border-radius: var(--border-radius);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-top: 6px solid #bf710f;
-
-  background: #f5f5f5;
+  background: #fff;
 }
 
 .sites-settings {
@@ -109,30 +114,31 @@
   /* grid-template-rows: 0fr 0fr 0fr; */
   gap: 15px 15px;
   grid-template-areas: "create-bats create-bats bats-table " ". . .";
-
   width: 100%;
 }
 .bats-table {
   grid-area: bats-table;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: var(--border-radius);
   padding-top: 0;
-  height: 302px;
+  height: 80vh;
   overflow-y: scroll;
   overflow-x: scroll;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 .create-bats {
   grid-area: create-bats;
+  min-height: 300px;
+  height: auto;
   padding: 10px;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: var(--border-radius);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
 .site-table {
   grid-area: site-table;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: var(--border-radius);
   padding-top: 0;
   height: 302px;
@@ -146,7 +152,7 @@
 .create-site {
   grid-area: create-site;
   padding: 10px;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: var(--border-radius);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
@@ -698,18 +704,14 @@
   position: relative;
   display: flex;
   align-items: center;
-  padding-left: 30px;
 }
 
-.settings-form .title::before,
-.settings-form .title::after {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 16px;
-  border-radius: 50%;
-  left: 0px;
-  background-color: royalblue;
+.settings-form-pouss .title {
+  color: #ff6c22;
+}
+
+.settings-form-pouss .input {
+  width: 96% !important;
 }
 
 .settings-form .title::before {
@@ -722,6 +724,10 @@
   width: 18px;
   height: 18px;
   animation: pulse 1s linear infinite;
+}
+.settings-form-pouss .title::before,
+.settings-form-pouss .title::after {
+  background-color: #ff6c22;
 }
 
 .message,
@@ -773,7 +779,7 @@
 .settings-form label .input + span {
   position: absolute;
   left: 10px;
-  top: 15px;
+  top: 25px;
   color: grey;
   font-size: 0.9em;
   cursor: text;

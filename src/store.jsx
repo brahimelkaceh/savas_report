@@ -12,6 +12,7 @@ import ShowfieldsReducer from "./slices/Showfields";
 import ModificationHeaderReducer from "./slices/ModificationHeader";
 import EditReportReducer from "./slices/EditReport";
 import batimentDataReducer from "./slices/batimentData";
+import batimentIdReducer from "./slices/SiteData";
 // import BatsDataReducer from "./slices/BatsData";
 
 const store = configureStore({
@@ -29,6 +30,7 @@ const store = configureStore({
     getSiteData: SiteDataReducer,
     editReport: EditReportReducer,
     batimentData: batimentDataReducer,
+    batimentId: batimentIdReducer,
     // getBatsData: BatsDataReducer,
   },
 });

@@ -1,2877 +1,330 @@
-<div
-        // display="flex"
-        // flexDirection="column"
-        // marginX="15px"
-        >
-          <div className="report">
-            <div className="table-static">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Batiment</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>Age (SEM)</th>
-                  </tr>
-                  <tr>
-                    <th>Souche</th>
-                  </tr>
-                  <tr>
-                    <th>Effectif Présent</th>
-                  </tr>
-                  <tr>
-                    <th>Performances</th>
-                  </tr>
-                  <tr>
-                    <th>Mortalité % Sem</th>
-                  </tr>
-                  <tr>
-                    <th>Mortalité Cumulée (%)</th>
-                  </tr>
-                  <tr>
-                    <th>Ponte (%)</th>
-                  </tr>
-                  <tr>
-                    <th>Aliment (g)/j/Sujet</th>
-                  </tr>
-                  <tr>
-                    <th>Nbre Oeufs Cuml (PD)</th>
-                  </tr>
-                  <tr>
-                    <th>Poids Vif (g)</th>
-                  </tr>
-                  <tr>
-                    <th>Homogénéité (%)</th>
-                  </tr>
-                  <tr>
-                    <th>Poids Oeufs (g)</th>
-                  </tr>
-                  <tr>
-                    <th>Aliment Cumule (kg)</th>
-                  </tr>
-                  <tr>
-                    <th>Aliment/Oeufs Cum (g/PD)</th>
-                  </tr>
-                  <tr>
-                    <th>Mass d’Oeufs Cumlée (kg)</th>
-                  </tr>
-                  <tr>
-                    <th>Mass d’Oeufs cuml/Sem (g)</th>
-                  </tr>
-                  <tr>
-                    <th>Indice de Conversion</th>
-                  </tr>
-                  <tr>
-                    <th>Eau (ml/sujet) | Ratio(Eau/Alt)</th>
-                  </tr>
-                  <tr>
-                    <th>Lumiére / Flash</th>
-                  </tr>
-                  <tr>
-                    <th>Formule en Place</th>
-                  </tr>
-                  <tr>
-                    <th style={{ padding: "4px" }}>Qualité de Coquille</th>
-                  </tr>
-                  <tr>
-                    <th style={{ padding: "36.5px" }}>Coloration oeuf</th>
-                  </tr>
-                  <tr>
-                    <th style={{ padding: "8px", borderBottom: "none" }}>
-                      Observation
-                    </th>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            {reports.map((report, i) => {
-              return (
-                <div className="table-dynamic" key={i}>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th colSpan="2">{report.batiment}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {/* !age */}
-                      <tr>
-                        <th colSpan="2">{report.age}</th>
-                      </tr>
-                      {/* souche */}
-                      <tr>
-                        <th colSpan="2">{report.souche}</th>
-                      </tr>
-                      {/* effectif present */}
-                      <tr>
-                        <th colSpan="2">{report.effectifPresent}</th>
-                      </tr>
-                      {/* performances */}
-                      <tr className="static-element">
-                        <th>Réel</th>
-                        <th>Ecart</th>
-                      </tr>
-                      {/*Mortalité % Sem  */}
-                      <tr>
-                        <th>0.11</th>
-                        <th style={{ backgroundColor: "#F7716E" }}>
-                          {report.mortSem}
-                        </th>
-                      </tr>
-                      {/* Mortalité Cumulée (%) */}
-                      <tr>
-                        <th>0.11</th>
-                        <th style={{ backgroundColor: "#F7716E" }}>
-                          {report.mortCum}
-                        </th>
-                      </tr>
-                      {/* Ponte (%) */}
-                      <tr>
-                        <th>4.3</th>
-                        <th
-                          style={{ backgroundColor: "#49A949", color: "#fff" }}
-                        >
-                          {report.pont}
-                        </th>
-                      </tr>
-                      <tr>
-                        {/* !Aliment (g)/j/Sujet */}
-                        <th>83.6</th>
-                        <th>
-                          <FaAngleDoubleUp
-                            sx={{ color: "#F5413D", fontSize: 16 }}
-                          />
-                        </th>
-                      </tr>
-                      {/*  Nbr Oeufs Cuml (PD)*/}
-                      <tr>
-                        <th>112</th>
-                        <th style={{ backgroundColor: "#F7716E" }}>
-                          {report.nbrOeufsCum}
-                        </th>
-                      </tr>
-                      {/* Poids Vif (g) */}
-                      <tr>
-                        <th>--</th>
-                        <th>{report.poidVif}</th>
-                      </tr>
-                      {/* Homogénéité (%) */}
-                      <tr>
-                        <th>--</th>
-                        <th>{report.homogeneite}</th>
-                      </tr>
-                      {/* Poids Oeufs (g) */}
-                      <tr>
-                        <th>63.1</th>
-                        <th style={{ backgroundColor: "#F7716E" }}>
-                          {report.poidsOeuf}
-                        </th>
-                      </tr>
-                      {/* Aliment Cumule (kg) */}
-                      <tr>
-                        <th>4.64</th>
-                        <th style={{ backgroundColor: "#F7716E" }}>
-                          {report.almCum}
-                        </th>
-                      </tr>
-                      {/* Aliment/Oeufs Cum (g/PD) */}
-                      <tr>
-                        <th>139.0</th>
-                        <th style={{ backgroundColor: "#F7716E" }}>
-                          {report.almSjt}
-                        </th>
-                      </tr>
-                      {/* Mass d’Oeufs Cumlée (kg) */}
-                      <tr>
-                        <th>367.9</th>
-                        <th
-                          style={{ backgroundColor: "#49A949", color: "#fff" }}
-                        >
-                          {report.masOeufCum}
-                        </th>
-                      </tr>
-                      {/* Mass d’Oeufs cuml/Sem (g) */}
-                      <tr>
-                        <th>18.60</th>
-                        <th style={{ backgroundColor: "#F7716E" }}>-0.10</th>
-                      </tr>
-                      {/* Indice de Conversion */}
-                      <tr>
-                        <th>4.64</th>
-                        <th style={{ backgroundColor: "#ED9526" }}>+2.73</th>
-                      </tr>
-                      {/* Eau (ml/sujet) | Ratio(Eau/Alt */}
-                      <tr>
-                        <th>464</th>
-                        <th style={{ backgroundColor: "#49A949" }}>
-                          {report.eau}
-                        </th>
-                      </tr>
-                      {/* Lumiére / Flash */}
-                      <tr>
-                        <th
-                          style={{
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                          }}
-                        >
-                          {report.lumH}h {report.lumM}m
-                        </th>
-                        <th
-                          style={{
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                          }}
-                        >
-                          {report.flashH}h {report.flashM}m
-                        </th>
-                      </tr>
-                      {/* Formule en Place */}
-                      <tr>
-                        <th colSpan="2">{report.formPlc}</th>
-                      </tr>
-                      {/* Qualité de Coquille */}
-                      <tr>
-                        <th colSpan="2" style={{ padding: "0%" }}>
-                          {qltCoqIcon(report.qltCoq)}
-                        </th>
-                      </tr>
-                      {/* Coloration oeuf */}
-                      <tr>
-                        <th colSpan="2">
-                          <img
-                            src={report.coloration === "90" ? egge90 : egge100}
-                            alt="Egge100"
-                          />
-                        </th>
-                      </tr>
-                      {/* Observation */}
-                      <tr>
-                        <th colSpan="2" style={{ borderBottom: "none" }}>
-                          {report.observation.map((observ, i) => {
-                            return (
-                              <li
-                                style={{
-                                  textAlign: "left",
-                                  wordWrap: "break-word",
-                                  listStyle: "none",
-                                  fontSize: "12px",
-                                }}
-                                key={i}
-                              >
-                                <TbCornerDownRightDouble fontSize="smallX" />{" "}
-                                {observ}
-                              </li>
-                            );
-                          })}
-                        </th>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-    
-    {
-    "date": "07/05/2022",
-    "semCivil": "18",
-    "age": 18,
-    "effectif": 99972,
-    "mort_sem": {
-        "reel": 0.03,
-        "guide": 0.1,
-        "ecart": -0.07,
-        "color": "green"
-    },
-    "mort_cuml": {
-        "reel": 0.03,
-        "guide": 0.05,
-        "ecart": -0.02,
-        "color": "green"
-    },
-    "reformed": 0,
-    "reformed_cuml": 0,
-    "ponte": {
-        "reel": 100.03,
-        "guide": 4.4,
-        "ecart": 95.63,
-        "color": "green"
-    },
-    "nbre_o_declass_sem": 100,
-    "nbre_o_declass_cuml": 580,
-    "cent_o_declass_sem": 0.1,
-    "cent_o_declass_cuml": 0.08,
-    "nopppSem": {
-        "reel": 7,
-        "guide": 0.31,
-        "ecart": 6.69,
-        "color": "green"
-    },
-    "noppdCuml": {
-        "reel": 7,
-        "guide": 0.3,
-        "ecart": 6.7,
-        "color": "green"
-    },
-    "poidVif": {
-        "reel": 1500,
-        "guide": 1610,
-        "ecart": -110,
-        "color": "red"
-    },
-    "homog": {
-        "reel": 50,
-        "guide": 80,
-        "ecart": -30,
-        "color": null
-    },
-    "pmo": {
-        "reel": 59.43,
-        "guide": 46.5,
-        "ecart": 12.93,
-        "color": "green"
-    },
-    "aps": {
-        "reel": 120.03,
-        "guide": 81,
-        "ecart": 39.03,
-        "color": "red"
-    },
-    "eau": {
-        "reel": 394.4,
-        "guide": 0,
-        "ecart": 394.4,
-        "color": null
-    },
-    "ratio": {
-        "reel": 3.29,
-        "guide": null,
-        "ecart": null,
-        "color": ""
-    },
-    "altCumlPD": {
-        "reel": 0.84,
-        "guide": 0.56,
-        "ecart": 0.28,
-        "color": "red"
-    },
-    "altCumlParOeufPD": {
-        "reel": 120,
-        "guide": 1878.33,
-        "ecart": -1758.33,
-        "color": "green"
-    },
-    "massOeParSemPP": {
-        "reel": 416,
-        "guide": 14.32,
-        "ecart": 401.68,
-        "color": "green"
-    },
-    "massOeCumlPPD": {
-        "reel": 416,
-        "guide": 14.3,
-        "ecart": 401.7,
-        "color": "green"
-    },
-    "icCuml": {
-        "reel": 0,
-        "guide": 39.36,
-        "ecart": -39.36,
-        "color": "green"
-    },
-    "lumiere": {
-        "starts_at": "00:20",
-        "ends_at": "01:20",
-        "period": "01:00"
-    },
-    "flash": {
-        "starts_at": "00:20",
-        "ends_at": "01:20",
-        "period": "01:00"
-    },
-    "observ": [
-        "observation 1"
-    ],
-    "formule_ep": "450",
-    "shell_qty": "4",
-    "fientes": "sanglant",
-    "coloration_o": "80",
-    "deletable": false
-}
-
-
-
-  <tr>
-        
-
-            {/* {viabiliteHeader[0].isActive && d.reformed > 1 && (
-            <td rowSpan={3}>{d.reformed}100</td>
-          )} */}
-            {viabiliteHeader[0].isActive && <td rowSpan={1}>100</td>}
-
-           
-            {/* </tr>
-            <tr> */}
-         
-
- <tbody>
-      <tr className="table-header-tr">
-        {/* Agenda */}
-        <th style={{ minWidth: "40px" }}>Date</th>
-        <th style={{ minWidth: "40px" }}>Sem civil</th>
-        <th style={{ minWidth: "40px" }}>
-          Age <br />
-          [jour]
-        </th>
-        <th style={{ minWidth: "40px" }}>Jour / semaine</th>
-        {/* Viabilité */}
-        <th style={{ minWidth: "40px" }}>Effectif Présent</th>
-        <th style={{ minWidth: "40px" }}>Mortailité</th>
-        <th style={{ minWidth: "40px" }}>∑ mortalité</th>
-        <th style={{ minWidth: "40px" }}>P.V (g)</th>
-        <th style={{ minWidth: "40px" }}>Homog (%)</th>
-        <th style={{ minWidth: "40px" }}>Lumiére</th>
-        <th style={{ minWidth: "40px" }}>Flash</th>
-        {/* Production */}
-        <th style={{ minWidth: "40px" }}>Ponte(%)[cent_ponte]</th>
-        <th style={{ minWidth: "40px" }}>Productions</th>
-        <th style={{ minWidth: "40px" }}>∑ Productions</th>
-        <th style={{ minWidth: "40px" }}>PMO (g)</th>
-        {/* Consomations */}
-        <th style={{ minWidth: "40px" }}>Aliment/jour</th>
-        <th style={{ minWidth: "40px" }}>∑ Aliment</th>
-        <th style={{ minWidth: "40px" }}>APS/jour (g)</th>
-        <th style={{ minWidth: "40px" }}>EPS/jour</th>
-        <th style={{ minWidth: "40px" }}>Eau (ml)</th>
-        <th style={{ minWidth: "40px" }}>∑ Eau (ml)</th>
-        <th style={{ minWidth: "40px" }}>Formule En place</th>
-        {/* Actions */}
-
-        <th style={{ minWidth: "40px" }}>Actions</th>
-      </tr>
-      {newDailyData &&
-        newDailyData.map((data) => {
-          return (
-            <tr key={data.date}>
-              <td>{data.date}</td>
-              <td>{data.semCivil}</td>
-              <td>{data.age}</td>
-              <td>{data.effectif_pres}</td>
-            </tr>
-          );
-        })}
-      <tr>
-        {agendaHeader[0].isActive && (
-          <td
-            style={{
-              whiteSpace: "noWrap",
-              backgroundColor: "#e9f6fb",
-            }}
-            rowSpan={3}
-          >
-            {weeklyData?.date}
-          </td>
-        )}
-        {agendaHeader[1].isActive && (
-          <td
-            style={{
-              whiteSpace: "noWrap",
-              backgroundColor: "#e9f6fb",
-            }}
-            rowSpan={3}
-          >
-            {weeklyData?.semCivil}
-          </td>
-        )}
-
-        {agendaHeader[2].isActive && <td rowSpan={3}>{weeklyData?.age}</td>}
-
-        {/* {viabiliteHeader[0].isActive && weeklyData?.reformed > 1 && (
-                          <td rowSpan={3}>{weeklyData?.reformed}100</td>
-                        )} */}
-        {viabiliteHeader[0].isActive && <td rowSpan={3}>100</td>}
-        {viabiliteHeader[1].isActive && (
-          <td style={{ color: "#2E3840", fontWeight: "bold" }} rowSpan={3}>
-            {weeklyData?.effectif}
-          </td>
-        )}
-      </tr>
-
-      <tr>
-        {viabiliteHeader[2].isActive && (
-          <td>
-            <MouseOverPopover
-              guide={weeklyData?.mort_sem?.guide}
-              reel={weeklyData?.mort_sem?.reel}
-              fontSize={15}
-            />
-          </td>
-        )}
-
-        {viabiliteHeader[3].isActive && (
-          <td>
-            <MouseOverPopover
-              guide={weeklyData?.mort_cuml?.guide}
-              reel={weeklyData?.mort_cuml?.reel}
-              fontSize={15}
-            />
-          </td>
-        )}
-
-        {viabiliteHeader[4].isActive && (
-          <td>
-            <MouseOverPopover
-              guide={weeklyData?.poidVif?.guide}
-              reel={weeklyData?.poidVif?.reel}
-              fontSize={15}
-            />
-          </td>
-        )}
-
-        {viabiliteHeader[5].isActive && (
-          <td>
-            <MouseOverPopover
-              guide={weeklyData?.homog?.guide}
-              reel={weeklyData?.homog?.reel}
-              fontSize={15}
-            />
-          </td>
-        )}
-
-        {viabiliteHeader[6].isActive && (
-          <td rowSpan={2} style={{ minWidth: "52px" }}>
-            <HoverPopper data={weeklyData?.lumiere} fontSize={15} />
-          </td>
-        )}
-        {viabiliteHeader[7]?.isActive && (
-          <td rowSpan={2} style={{ minWidth: "52px" }}>
-            <HoverPopper data={weeklyData?.flash} fontSize={15} />
-          </td>
-        )}
-
-        <td>
-          <MouseOverPopover
-            guide={weeklyData?.ponte?.guide}
-            reel={weeklyData?.ponte?.reel}
-            fontSize={15}
-          />
-        </td>
-
-        <td>
-          <MouseOverPopover
-            guide={weeklyData?.noppdCuml?.guide}
-            reel={weeklyData?.noppdCuml?.reel}
-            fontSize={15}
-          />
-        </td>
-
-        <td>
-          <MouseOverPopover
-            guide={weeklyData?.pmo?.guide}
-            reel={weeklyData?.pmo?.reel}
-            fontSize={15}
-          />
-        </td>
-        <td>
-          <MouseOverPopover
-            guide={weeklyData?.massOeParSemPP?.guide}
-            reel={weeklyData?.massOeParSemPP?.reel}
-            fontSize={15}
-          />
-        </td>
-        <td>
-          <MouseOverPopover
-            guide={weeklyData?.massOeCumlPPD?.guide}
-            reel={weeklyData?.massOeCumlPPD?.reel}
-            fontSize={15}
-          />
-        </td>
-        <td>
-          <MouseOverPopover
-            guide={weeklyData?.icCuml?.guide}
-            reel={weeklyData?.icCuml?.reel}
-            fontSize={15}
-          />
-        </td>
-        <td>
-          <MouseOverPopover
-            guide={weeklyData?.altCumlParOeufPD?.guide}
-            reel={weeklyData?.altCumlParOeufPD?.reel}
-            fontSize={15}
-          />
-        </td>
-        <td>
-          <MouseOverPopover
-            guide={weeklyData?.altCumlPD?.guide}
-            reel={weeklyData?.altCumlPD?.reel}
-            fontSize={15}
-          />
-        </td>
-
-        <td>
-          <MouseOverPopover
-            guide={weeklyData?.aps?.guide}
-            reel={weeklyData?.aps?.reel}
-            fontSize={15}
-          />
-        </td>
-
-        <td rowSpan={2}>{weeklyData?.eau?.reel}ml</td>
-        <td rowSpan={2}>{weeklyData?.ratio?.reel}</td>
-
-        <td rowSpan={2}>{weeklyData?.formule_ep}</td>
-
-        <td rowSpan={2}>
-          <Rating
-            name="read-only"
-            value={parseInt(weeklyData?.shell_qty)}
-            readOnly
-          />
-        </td>
-
-        <td rowSpan={2}>{weeklyData?.fientes}</td>
-        <td style={{ cursor: "pointer" }} rowSpan={2} className="coloration-o">
-          {/* <HoverPopper  /> */}
-          <ImgHoverPropper data={weeklyData?.coloration_o} />
-        </td>
-        <td rowSpan={2} className="observations" style={{ cursor: "pointer" }}>
-          {/* {weeklyData?.observations.slice(0, 30).concat("...")} */}
-          <PopperItem observation={weeklyData?.observ} />
-        </td>
-        <td rowSpan={2} className="actions">
-          {/* <ModificationModal open={open} setOpen={setOpen} data={weeklyData?} /> */}
-          <span
-            style={{
-              color: "#FF6000",
-            }}
-            title="Edit"
-            onClick={handleOpen}
-          >
-            <BiEdit />
-          </span>
-          {weeklyData?.deletable && (
-            <span
-              style={{
-                color: "#D21312",
-              }}
-              title="Delete"
-              onClick={() => deleteItem(i)}
-            >
-              <BiTrash />
-            </span>
-          )}
-
-          <span
-            style={{
-              color: "#5D9C59",
-            }}
-            title="Download"
-          >
-            <BiDownload />
-          </span>
-        </td>
-      </tr>
-    </tbody>
-
-
-
-
-     {datas?.map((d, i) =>
-                i !== datas.length - 1 ? (
-                  <>
-                    <tr>
-                      <td
-                        style={{
-                          whiteSpace: "noWrap",
-                          backgroundColor: "#e9f6fb",
-                        }}
-                        rowSpan={2}
-                      >
-                        {d.date}
-                      </td>
-
-                      <td
-                        style={{
-                          whiteSpace: "noWrap",
-                          backgroundColor: "#e9f6fb",
-                        }}
-                        rowSpan={2}
-                      >
-                        {d.semCivil}
-                      </td>
-
-                      <td rowSpan={2}>{d.age_j}</td>
-
-                      <td rowSpan={2}>{d.weekday}</td>
-                      <td
-                        style={{ color: "#2E3840", fontWeight: "bold" }}
-                        rowSpan={2}
-                      >
-                        {d.effectif_pres}
-                      </td>
-                      <td rowSpan={2}>{d.nbre_mort}</td>
-                      <td rowSpan={2}>{d.cuml_nbr_mort}</td>
-                      <td rowSpan={2}>{d.poid_vif}</td>
-                      <td rowSpan={2}>{d.homog}</td>
-
-                      <td rowSpan={2} style={{ minWidth: "52px" }}>
-                        <HoverPopper data={d.lumiere} fontSize={15} />
-                      </td>
-
-                      <td rowSpan={2} style={{ minWidth: "52px" }}>
-                        <HoverPopper data={d.flash} fontSize={15} />
-                      </td>
-
-                      <td rowSpan={2}>{d.cent_ponte}</td>
-                      <td rowSpan={2}>{d.production}</td>
-                      <td rowSpan={2}>{d.production_cuml}</td>
-                      <td rowSpan={2} colSpan={3}>
-                        {d.pmo}
-                      </td>
-                      <td rowSpan={2}>{d.alt_jour}</td>
-                      <td rowSpan={2}>{d.cuml_alt}</td>
-                      <td rowSpan={2}>{d.aps_j}</td>
-                      <td rowSpan={2}>{d.eps_j}</td>
-                      <td rowSpan={2}>{d.sum_eau}</td>
-                      <td rowSpan={2}>{d.cuml_sum_eau}</td>
-                      <td rowSpan={2}>{d.formule_ep}</td>
-
-                      {observationHeader[0].isActive && (
-                        <td rowSpan={2}>
-                          <Rating
-                            name="read-only"
-                            value={parseInt(d?.shell_qty)}
-                            readOnly
-                          />
-                        </td>
-                      )}
-                      {observationHeader[1].isActive && (
-                        <td rowSpan={2}>{d?.fientes}</td>
-                      )}
-                      {observationHeader[2].isActive && (
-                        <td
-                          style={{ cursor: "pointer" }}
-                          rowSpan={2}
-                          className="coloration-o"
-                        >
-                          {/* <HoverPopper  /> */}
-                          <ImgHoverPropper data={d?.coloration_o} />
-                        </td>
-                      )}
-                      {observationHeader[3].isActive && (
-                        <td
-                          rowSpan={2}
-                          className="observations"
-                          style={{ cursor: "pointer" }}
-                        >
-                          {/* {d.observations.slice(0, 30).concat("...")} */}
-                          <PopperItem observation={d?.observ} />
-                        </td>
-                      )}
-
-                      <td rowSpan={2} className="actions">
-                        <ModificationModal
-                          open={open}
-                          setOpen={setOpen}
-                          data={d}
-                        />
-                        <span
-                          style={{
-                            color: "#FF6000",
-                          }}
-                          title="Edit"
-                          onClick={handleOpen}
-                        >
-                          <BiEdit />
-                        </span>
-                        {d.deletable && (
-                          <span
-                            style={{
-                              color: "#D21312",
-                            }}
-                            title="Delete"
-                            onClick={() => deleteItem(i)}
-                          >
-                            <BiTrash />
-                          </span>
-                        )}
-
-                        <span
-                          style={{
-                            color: "#5D9C59",
-                          }}
-                          title="Download"
-                        >
-                          <BiDownload />
-                        </span>
-                      </td>
-                    </tr>
-                    <tr></tr>
-                  </>
-                ) : (
-                  <>
-                    <tr className="table-header-tr">
-                      {/* Agenda */}
-                      <th style={{ minWidth: "40px" }}>Date</th>
-                      <th style={{ minWidth: "40px" }}>Sem civil</th>
-                      <th style={{ minWidth: "40px" }} colSpan={2}>
-                        Age
-                      </th>
-
-                      {/* Viabilité */}
-                      <th style={{ minWidth: "40px" }}>Effectif Présent</th>
-                      <th style={{ minWidth: "40px" }}>Mortailité / Sem</th>
-                      <th style={{ minWidth: "40px" }}>∑ mortalité /PD(%)</th>
-                      <th style={{ minWidth: "40px" }}>P.V (g)</th>
-                      <th style={{ minWidth: "40px" }}>Homog (%)</th>
-                      <th style={{ minWidth: "40px" }}>Lumiére</th>
-                      <th style={{ minWidth: "40px" }}>Flash</th>
-                      {/* Production */}
-                      <th style={{ minWidth: "40px" }}>Ponte(%)</th>
-                      <th style={{ minWidth: "40px" }} colSpan={2}>
-                        ∑ d'oeufs /PD
-                      </th>
-                      <th style={{ minWidth: "40px" }}>PMO (g)</th>
-                      <th style={{ minWidth: "40px" }}>MOPPC (g)</th>
-                      <th style={{ minWidth: "40px" }}>MOPDC (kg)</th>
-                      <th style={{ minWidth: "40px" }}>IC (g)</th>
-                      <th style={{ minWidth: "40px" }}>APOPD (g)</th>
-                      {/* Consomations */}
-                      <th style={{ minWidth: "40px" }}>
-                        Aliment cummulé PD (kg)
-                      </th>
-                      <th style={{ minWidth: "40px" }}>APS(g)</th>
-                      <th style={{ minWidth: "40px" }}>Eau (ml)</th>
-                      <th style={{ minWidth: "40px" }}>Ratio (Eau/Alt)</th>
-                      <th style={{ minWidth: "40px" }}>Formule En place</th>
-                      {/* Observations */}
-                      <th style={{ minWidth: "40px" }}>Qualité de coquille</th>
-                      <th style={{ minWidth: "40px" }}>État de Fientes</th>
-                      <th style={{ minWidth: "40px" }}>Coloration d'oeufs</th>
-                      <th style={{ minWidth: "40px" }}>Observations</th>
-                      {/* Actions */}
-                      <th style={{ minWidth: "40px" }}>Actions</th>
-                    </tr>
-
-                    <tr>
-                      {agendaHeader[0].isActive && (
-                        <td
-                          style={{
-                            whiteSpace: "noWrap",
-                            backgroundColor: "#e9f6fb",
-                          }}
-                          rowSpan={2}
-                        >
-                          {d.date}
-                          {/* 12-05/2022 */}
-                        </td>
-                      )}
-                      {agendaHeader[1].isActive && (
-                        <td
-                          style={{
-                            whiteSpace: "noWrap",
-                            backgroundColor: "#e9f6fb",
-                          }}
-                          rowSpan={2}
-                        >
-                          {d.semCivil}
-                        </td>
-                      )}
-                      <td rowSpan={2} colSpan={2}>
-                        {d.age}
-                      </td>
-                      {viabiliteHeader[1].isActive && (
-                        <td
-                          style={{ color: "#2E3840", fontWeight: "bold" }}
-                          rowSpan={2}
-                        >
-                          {d.effectif}
-                        </td>
-                      )}
-                      {viabiliteHeader[2].isActive && (
-                        <td>
-                          <MouseOverPopover
-                            guide={d.mort_sem?.guide}
-                            reel={d.mort_sem?.reel}
-                            fontSize={15}
-                          />
-                        </td>
-                      )}
-                      {viabiliteHeader[3].isActive && (
-                        <td>
-                          <MouseOverPopover
-                            guide={d.mort_cuml?.guide}
-                            reel={d.mort_cuml?.reel}
-                            fontSize={15}
-                          />
-                        </td>
-                      )}
-                      {viabiliteHeader[4].isActive && (
-                        <td>
-                          <MouseOverPopover
-                            guide={d.poidVif?.guide}
-                            reel={d.poidVif?.reel}
-                            fontSize={15}
-                          />
-                        </td>
-                      )}
-                      {viabiliteHeader[5].isActive && (
-                        <td>
-                          <MouseOverPopover
-                            guide={d.homog?.guide}
-                            reel={d.homog?.reel}
-                            fontSize={15}
-                          />
-                        </td>
-                      )}
-                      <td rowSpan={2} style={{ minWidth: "52px" }}>
-                        <HoverPopper data={d.lumiere} fontSize={15} />
-                      </td>
-                      <td rowSpan={2} style={{ minWidth: "52px" }}>
-                        <HoverPopper data={d.flash} fontSize={15} />
-                      </td>
-                      <td>
-                        <MouseOverPopover
-                          guide={d.ponte?.guide}
-                          reel={d.ponte?.reel}
-                          fontSize={15}
-                        />
-                      </td>
-
-                      <td colSpan={2}>
-                        <MouseOverPopover
-                          guide={d.noppdCuml?.guide}
-                          reel={d.noppdCuml?.reel}
-                          fontSize={15}
-                        />
-                        {/* <MouseOverPopover
-                guide={d.noppdCuml?.guide}
-                reel={d.noppdCuml?.ecart}
-                fontSize={15}
-              /> */}
-                      </td>
-
-                      <td>
-                        <MouseOverPopover
-                          guide={d.pmo?.guide}
-                          reel={d.pmo?.reel}
-                          fontSize={15}
-                        />
-                      </td>
-
-                      {productionseHeader[3].isActive && (
-                        <td>
-                          <MouseOverPopover
-                            guide={d.massOeParSemPP?.guide}
-                            reel={d.massOeParSemPP?.reel}
-                            fontSize={15}
-                          />
-                        </td>
-                      )}
-                      {productionseHeader[4].isActive && (
-                        <td>
-                          <MouseOverPopover
-                            guide={d.massOeCumlPPD?.guide}
-                            reel={d.massOeCumlPPD?.reel}
-                            fontSize={15}
-                          />
-                        </td>
-                      )}
-                      {productionseHeader[5].isActive && (
-                        <td>
-                          <MouseOverPopover
-                            guide={d.icCuml?.guide}
-                            reel={d.icCuml?.reel}
-                            fontSize={15}
-                          />
-                        </td>
-                      )}
-                      {productionseHeader[6].isActive && (
-                        <td>
-                          <MouseOverPopover
-                            guide={d.altCumlParOeufPD?.guide}
-                            reel={d.altCumlParOeufPD?.reel}
-                            fontSize={15}
-                          />
-                        </td>
-                      )}
-                      {consommationeHeader[0].isActive && (
-                        <td>
-                          <MouseOverPopover
-                            guide={d.altCumlPD?.guide}
-                            reel={d.altCumlPD?.reel}
-                            fontSize={15}
-                          />
-                        </td>
-                      )}
-                      {consommationeHeader[1].isActive && (
-                        <td>
-                          <MouseOverPopover
-                            guide={d.aps?.guide}
-                            reel={d.aps?.reel}
-                            fontSize={15}
-                          />
-                        </td>
-                      )}
-                      {consommationeHeader[2].isActive && (
-                        <td rowSpan={2}>{d.eau?.reel}ml</td>
-                      )}
-                      {consommationeHeader[3].isActive && (
-                        <td rowSpan={2}>{d.ratio?.reel}</td>
-                      )}
-                      {consommationeHeader[4].isActive && (
-                        <td rowSpan={2}>{d?.formule_ep}</td>
-                      )}
-                      {observationHeader[0].isActive && (
-                        <td rowSpan={2}>
-                          <Rating
-                            name="read-only"
-                            value={parseInt(d?.shell_qty)}
-                            readOnly
-                          />
-                        </td>
-                      )}
-                      {observationHeader[1].isActive && (
-                        <td rowSpan={2}>{d?.fientes}</td>
-                      )}
-                      {observationHeader[2].isActive && (
-                        <td
-                          style={{ cursor: "pointer" }}
-                          rowSpan={2}
-                          className="coloration-o"
-                        >
-                          {/* <HoverPopper  /> */}
-                          <ImgHoverPropper data={d?.coloration_o} />
-                        </td>
-                      )}
-                      {observationHeader[3].isActive && (
-                        <td
-                          rowSpan={2}
-                          className="observations"
-                          style={{ cursor: "pointer" }}
-                        >
-                          {/* {d.observations.slice(0, 30).concat("...")} */}
-                          <PopperItem observation={d?.observ} />
-                        </td>
-                      )}
-                      <td rowSpan={2} className="actions">
-                        <ModificationModal
-                          open={open}
-                          setOpen={setOpen}
-                          data={d}
-                        />
-                        <span
-                          style={{
-                            color: "#FF6000",
-                          }}
-                          title="Edit"
-                          onClick={handleOpen}
-                        >
-                          <BiEdit />
-                        </span>
-                        {d.deletable && (
-                          <span
-                            style={{
-                              color: "#D21312",
-                            }}
-                            title="Delete"
-                            onClick={() => deleteItem(i)}
-                          >
-                            <BiTrash />
-                          </span>
-                        )}
-
-                        <span
-                          style={{
-                            color: "#5D9C59",
-                          }}
-                          title="Download"
-                        >
-                          <BiDownload />
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      {viabiliteHeader[2].isActive && (
-                        <td className={`ecart-${d.mort_sem?.color}`}>
-                          <MouseOverPopover
-                            guide={d.mort_sem?.guide}
-                            reel={d.mort_sem?.ecart}
-                            fontSize={12}
-                          />
-                        </td>
-                      )}
-
-                      {viabiliteHeader[3].isActive && (
-                        <td className={`ecart-${d.mort_cuml?.color}`}>
-                          <MouseOverPopover
-                            guide={d.mort_cuml?.guide}
-                            reel={d.mort_cuml?.ecart}
-                            fontSize={12}
-                          />
-                        </td>
-                      )}
-
-                      {viabiliteHeader[4].isActive && (
-                        <td className={`ecart-${d.poidVif?.color}`}>
-                          <MouseOverPopover
-                            guide={d.poidVif?.guide}
-                            reel={d.poidVif?.ecart}
-                            fontSize={12}
-                          />
-                        </td>
-                      )}
-                      {viabiliteHeader[5].isActive && (
-                        <td className={`ecart-${d.homog?.color}`}>
-                          <MouseOverPopover
-                            guide={d.homog?.guide}
-                            reel={d.homog?.ecart}
-                            fontSize={12}
-                          />
-                        </td>
-                      )}
-                      <td className={`ecart-${d.ponte?.color}`}>
-                        <MouseOverPopover
-                          guide={d.ponte?.guide}
-                          reel={d.ponte?.ecart}
-                          fontSize={12}
-                        />
-                      </td>
-                      <td className={`ecart-${d.noppdCuml?.color}`} colSpan={2}>
-                        <MouseOverPopover
-                          guide={d.noppdCuml?.guide}
-                          reel={d.noppdCuml?.ecart}
-                          fontSize={12}
-                        />
-                      </td>
-                      <td className={`ecart-${d.pmo?.color}`}>
-                        <MouseOverPopover
-                          guide={d.pmo?.guide}
-                          reel={d.pmo?.ecart}
-                          fontSize={12}
-                        />
-                      </td>
-                      <td className={`ecart-${d.massOeParSemPP?.color}`}>
-                        <MouseOverPopover
-                          guide={d.massOeParSemPP?.guide}
-                          reel={d.massOeParSemPP?.ecart}
-                          fontSize={12}
-                        />
-                      </td>
-
-                      <td className={`ecart-${d.massOeCumlPPD?.color}`}>
-                        <MouseOverPopover
-                          guide={d.massOeCumlPPD?.guide}
-                          reel={d.massOeCumlPPD?.ecart}
-                          fontSize={12}
-                        />
-                      </td>
-                      <td className={`ecart-${d.icCuml?.color}`}>
-                        <MouseOverPopover
-                          guide={d.icCuml?.guide}
-                          reel={d.icCuml?.ecart}
-                          fontSize={12}
-                        />
-                      </td>
-                      <td className={`ecart-${d.altCumlParOeufPD?.color}`}>
-                        <MouseOverPopover
-                          guide={d.altCumlParOeufPD?.guide}
-                          reel={d.altCumlParOeufPD?.ecart}
-                          fontSize={12}
-                        />
-                      </td>
-                      <td className={`ecart-${d.altCumlPD?.color}`}>
-                        <MouseOverPopover
-                          guide={d.altCumlPD?.guide}
-                          reel={d.altCumlPD?.ecart}
-                          fontSize={12}
-                        />
-                      </td>
-
-                      <td className={`ecart-${d.aps?.color}`}>
-                        <MouseOverPopover
-                          guide={d.aps?.guide}
-                          reel={d.aps?.ecart}
-                          fontSize={12}
-                        />
-                      </td>
-                    </tr>
-                  </>
-                )
-              )}
-
-
-              git add *
-              git commit -m "note"
-              git push 
-
-
-
-              <div className="container">
-          <div className="card-item">
-            <div className="card-item-content">
-              <div>
-                <p className="card-title">
-                  <span> Zoo-Tech</span>
-                </p>
-              </div>
-              <div className="card-item-icon">
-                <VscSettings style={{ fontSize: "25px" }} />
-              </div>
-            </div>
-            <div className="card-item-footer">
-              {/* <p className="ponte">
-                <span>Ponte: </span>
-                <TrendingUpIcon fontSize="small" sx={{ color: "#15803d" }} />
-                45%
-              </p> */}
-              <p className="moy-production">
-                <span>Production Total:</span> 1450000
-              </p>
-              <p className="moy-age">
-                <span>Age Moyen:</span> 35 Sem
-              </p>
-              <p className="total-eff">
-                <span>Total Effectif:</span> 1500000
-              </p>
-            </div>
-          </div>
-          <div className="card-item2">
-            <div className="card-item-content">
-              <div>
-                <p className="card-title">
-                  <span>Économique</span>
-                </p>
-              </div>
-              <div className="card-item-icon">
-                <TrendingUpIcon style={{ fontSize: "25px" }} />
-              </div>
-            </div>
-            <div className="card-item-footer">
-              {/* <p className="ponte">
-                <span>Ponte: </span>
-                <TrendingUpIcon fontSize="small" sx={{ color: "#15803d" }} />
-                45%
-              </p> */}
-              {/* <p className="moy-production">
-                <span>Production Total:</span> 1450000
-              </p>
-              <p className="moy-age">
-                <span>Age Moyen:</span> 35 Sem
-              </p>
-              <p className="total-eff">
-                <span>Total Effectif:</span> 1500000
-              </p> */}
-            </div>
-          </div>
-          <div className="card-item3">
-            <div className="card-item-content">
-              <div>
-                <p className="card-title">
-                  <span> Nutrition & FA</span>
-                </p>
-              </div>
-              <div className="card-item-icon">
-                <GiGrain style={{ fontSize: "25px" }} />
-              </div>
-            </div>
-            <div className="card-item-footer">
-            
-            </div>
-          </div>
-
-          {dashboardWidth <= 768 ? (
-            <RightBar />
-          ) : (
-            <div className="right-bar">
-              <div className="right-bar-title">Fils d'actualité</div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
-                </div>
-              </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
-                </div>
-              </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
-                </div>
-              </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
-                </div>
-              </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
-                </div>
-              </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
-                </div>
-              </div>
-              <div className="right-bar-content">
-                <div className="right-bar-content-header">
-                  <div className="avatar">
-                    <img src={avatar} alt="avatar" />
-                  </div>
-                  <span className="user-name">Ethan Noah</span>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium esse sequi aliquam nostrum! Rem, ex?
-                </p>
-                <div className="user-time">
-                  <span>Feb 2, 2023 19:28</span>
-                </div>
-              </div>
-            </div>
-          )}
-          {dashboardWidth <= 500 ? (
-            <MobileCharts />
-          ) : (
-            <>
-              <Charts /> <Charts />
-            </>
-          )}
-        </div>
-
-        data = {
-    'prod_normal': 20000,
-    'prod_dj': '',
-    'prod_blanc': 30,
-    'prod_casse': 40,
-    'prod_feles': 50,
-    'prod_elimne': 60,
-    'mort': 22,
-    'hensEliminated': 0,
-    'alimentDist': 5000,
-    'eauDist': 9000,
-    'pmo': 47.4,
-    'poidVif': 1800,
-    'homog': 80,
-    'lightOn': '05:30',
-    'lightOff': '19:30',
-    'flashOn': '23:30',
-    'flashOff': '01:30',
-    'formule': 'EEP',
-    'intensite': 60,
-    'temperatureMin': 20,
-    'temperatureMax': 28,
-    'temperatureMinExt': 17,
-    'temperatureMaxExt': 32,
-    'aspectPoulette': 'calme',
-    'coloration': 100,
-    'fientes': 'Normal',
-    'observ': 'Lorem ipsum dolor sit amet consectetur adipisicing elit.|@| Voluptas reiciendis molestiae pariatur|@| dolorem laborum optio aperiam, cupiditate ullam maiores illo',
-    'observ_urg': 1,
-    'qty_shell': '1',
-    'batiment': 1
-  }
-
-
-  
-      const [selectedTab, setSelectedTab] = useState(0);
-  const [openDialog, setOpenDialog] = useState(false);
-
-  const handleTabChange = (event, newValue) => {
-    setSelectedTab(newValue);
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
-  const handleConfirm = () => {
-    // Perform confirmation action here
-    setOpenDialog(false);
-  };
-  const [clicked, setClicked] = useState(null);
-  // const [open, setOpen] = useState(false);
-
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-  const handleConfirmChange = (sName) => {
-    dispatch(ProductionData(sName));
-    // console.log(sName);
-    // setOpen(false);
-  };
-  // const disabled = useSelector((state) => state.setDisabled.disabled);
-  const inputV = useSelector((state) => state.toggleFieldStatus.inputV);
-  const lotNextDate = useSelector((state) => state.ShowBatimentCat.lotNextDate);
-  // console.log(lotNextDate);
-  // console.log(inputV);
-  const [className, setClassName] = useState("site-button");
-  const dispatch = useDispatch();
-  // const [value, setValue] = useState(0);
-
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
-  // };
-  const [value, setValue] = useState(0);
-
-  const handleClick = (id) => {
-    // console.log(id);
-    if (clicked === id) {
-      setClicked(clicked);
-      // console.log(clicked, id);
-    } else {
-      setClicked(id);
-    }
-  };
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-
-    <Tabs
-        className="sites-bar"
-        value={selectedTab}
-        onChange={handleTabChange}
-        variant="scrollable"
-        scrollButtons
-        allowScrollButtonsMobile
-        aria-label="scrollable force example"
-      >
-        {siteData.map((sName) => (
-          <Tab
-            key={sName.site_id}
-            label={sName.name}
-            // disabled={inputV}
-            className="site-button"
-            onClick={() => {
-              GetBatimentData(sName.site_id);
-              dispatch(ShowBatimentCat());
-              handleConfirmChange(sName);
-              handleClick(sName.site_id);
-            }}
-          />
-        ))}
-      </Tabs>
-      aliment/oeuf: altoeuf-chart/
-      temperature: temp-chart/
-
-
-      //clicked on the site button :
-      - fetching site data 
-      including the batiment data and lot data 
-      -batiment data : production or Poussiniere 
-
-      if site including production and Poussiniere 
-          display production and Poussiniere 
-    else if site including production or Poussiniere 
-          display production or Poussiniere
-    else 
-    display nothing 
-
-
- import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import StarIcon from "@mui/icons-material/Star";
-import EggIcon from "@mui/icons-material/Egg";
-import { BiBorderRadius, BiCommentAdd } from "react-icons/bi";
-import { AiOutlineSend } from "react-icons/ai";
-import Rating from "@mui/material/Rating";
+import * as React from "react";
+import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
-
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import { AiOutlineSend } from "react-icons/ai";
+import { useEffect } from "react";
 import { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-const StyledRating = styled(Rating)({
-  "& .MuiRating-iconFilled": {
-    color: "#6C3428 ",
-  },
-  "& .MuiRating-iconHover": {
-    color: "#6C3428",
-  },
-});
-function ReportForm({ productionData }) {
-  // console.log(productionData)  ;
-  const [showProduction, setShowProduction] = useState(true);
-  const [showTemp, setShowTemp] = useState(true);
-  const [showLum, setShowLum] = useState(true);
-  const [showObservs, setShowObservs] = useState(false);
-  const [inputVal, setInputVal] = useState([]);
-  const [qltValue, setQltValue] = useState(0);
-  const [hoverQlt, setHoverQlt] = useState(-1);
-  const [colorationValue, setColorationValue] = useState(0);
-  const [hoverColoration, setHoverColoration] = useState(-1);
-  const [aspectPouletteValue, setAspectPouletteValue] = useState(0);
-  const [hoverAspectPouletteValue, setHoverAspectPouletteValue] = useState(-1);
-  const [fientesValue, setFientesValue] = useState(0);
-  const [hoverFientes, setHoverFientes] = useState(-1);
-  const initialValues = {
-    batiment: "",
-    mort: "",
-    prod_normal: "",
-    prod_dj: "",
-    prod_blanc: "",
-    prod_casse: "",
-    prod_feles: "",
-    prod_elimne: "",
-    //  if(reform) {
+import { useFormik } from "formik";
+import UseFetchData from "../../../../hooks/UseFetchData";
+import { useMemo } from "react";
+import SuccessModal from "../../../../pages/settings/modals/SuccessModal";
+let base_url = "https://farmdriver.savas.ma/api/";
 
-    //    hensEliminated: parseInt(hensEliminatedRef.current.value),
-    //  },
-    alimentDist: "",
-    eauDist: "",
-    pmo: "",
-    poidVif: "",
-    homog: "",
-    formule: "",
-    temperatureMin: "",
-    temperatureMax: "",
-    temperatureMinExt: "",
-    temperatureMaxExt: "",
-    lightOn: "",
-    lightOff: "",
-    flashOn: "",
-    flashOff: "",
-    intensite: "",
-    aspectPoulette: "",
-    coloration: colorationValue,
-    qty_shell: qltValue,
-    fientes: fientesValue,
-    // observ: mergedArray.toString().replaceAll(",", "|@|"),
-    // Add more form fields as needed...
-  };
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  boxShadow: 24,
+  width: 600,
+};
 
-  const colorationLabel = {
-    1: "70",
-    2: "80",
-    3: "90",
-    4: "100",
-    5: "110",
-  };
-  const aspectPouletteLabel = {
-    1: "Active",
-    2: "Calme",
-    3: "Nerveuse",
-    4: "Haléte",
-  };
-  const aspectPoulette = [
-    { id: 1, name: "Active" },
-    { id: 2, name: "Calme" },
-    { id: 3, name: "Nerveuse" },
-    { id: 4, name: "Nerveuse" },
-  ];
-  const qltLabel = {
-    1: "1",
-    2: "2",
-    3: "3",
-    4: "4",
-    5: "5",
-  };
-  const fientesLabel = {
-    1: "normal",
-    2: "diarrhee",
-    3: "sanglant",
-    4: "couleur anormale",
-    5: "nourriture non digeree",
-  };
-  const validationSchema = Yup.object({
-    batiment: Yup.string().required("Batiment is required"),
-    mort: Yup.number()
-      .required("Mortalité is required")
-      .positive("the number must be positive"),
-    prod_normal: Yup.number()
-      .required("Normaux is required")
-      .positive("the number must be positive"),
-    prod_dj: Yup.number()
-      .required("Double jaune is required")
-      .positive("the number must be positive"),
-    prod_blanc: Yup.number()
-      .required("Blanc is required")
-      .positive("the number must be positive"),
-    prod_casse: Yup.number()
-      .required("Casse is required")
-      .positive("the number must be positive"),
-    prod_feles: Yup.number()
-      .required("feles is required")
-      .positive("the number must be positive"),
-    prod_elimne: Yup.number()
-      .required("eliminé is required")
-      .positive("the number must be positive"),
-    alimentDist: Yup.number()
-      .required("aliment dist is required")
-      .positive("the number must be positive"),
-    eauDist: Yup.number()
-      .required("Eau dist is required")
-      .positive("the number must be positive"),
-    pmo: Yup.number()
-      .required("Poid moyen Oeuf is required")
-      .positive("the number must be positive"),
-    poidVif: Yup.number()
-      .required("Poid vif is required")
-      .positive("the number must be positive"),
-    homog: Yup.number()
-      .required("homogineité is required")
-      .positive("the number must be positive"),
-    formule: Yup.string().required("FEP is required"),
-    temperatureMin: Yup.number()
-      .required("Temp int min is required")
-      .positive("the number must be positive"),
-    temperatureMax: Yup.number()
-      .required("Temp int max is required")
-      .positive("the number must be positive"),
-    temperatureMinExt: Yup.number()
-      .required("Temp ext min is required")
-      .positive("the number must be positive"),
-    temperatureMaxExt: Yup.number()
-      .required("Temp ext max is required")
-      .positive("the number must be positive"),
-    lightOn: Yup.string().required("light on Oeuf is required"),
-    lightOff: Yup.string().required("light off Oeuf is required"),
-    flashOn: Yup.string().required("flash on Oeuf is required"),
-    flashOff: Yup.string().required("flash off Oeuf is required"),
-    intensite: Yup.number()
-      .required("intensité is required")
-      .positive("the number must be positive"),
-    // coloration: Yup.string().required(" coloration is required "),
-    // fientes: Yup.string().required(" fientes is required "),
-    // qty_shell: Yup.string().required(" qty shell is required"),
-    aspectPoulette: Yup.number()
-      .required("Aspect Poulette is required")
-      .min(1, "Rating must be at least 1")
-      .max(5, "Rating must not exceed 5"),
-    coloration: Yup.number()
-      .required("Coloration is required")
-      .min(1, "Rating must be at least 1")
-      .max(5, "Rating must not exceed 5"),
-    // rating2: Yup.number()
-    //   .required("Rating 2 is required")
-    //   .min(1, "Rating must be at least 1")
-    //   .max(5, "Rating must not exceed 5"),
-    // rating3: Yup.number()
-    //   .required("Rating 3 is required")
-    //   .min(1, "Rating must be at least 1")
-    //   .max(5, "Rating must not exceed 5"),
-    // rating4: Yup.number()
-    //   .required("Rating 4 is required")
-    //   .min(1, "Rating must be at least 1")
-    //   .max(5, "Rating must not exceed 5"),
-    // Define validation rules for other form fields...
-  });
-
-  //   ! Add New Input
-  const handleAdd = () => {
-    const val = [...inputVal, []];
-    setSelectedOption("");
-    // console.log(val);
-    setInputVal(val);
-  };
-  const handleSubmit = (values) => {
-    console.log(values);
-    // Handle form submission here (e.g., API calls, etc.)
-  };
-  // ! Geting Qlt Coquille Label Text From Rating
-  function getqltlabeltext(value) {
-    return `${value} Star${value !== 1 ? "s" : ""}, ${qltLabel[value]}`;
-  }
-  // ! Geting Coloration Label Text From Rating
-  function getColorationLabelText(value) {
-    return `${value} Star${value !== 1 ? "s" : ""}, ${colorationLabel[value]}`;
-  }
-  // ! Geting Ascpect Poulette Label Text From Rating
-  function getAscpectPouletteLabelText(value) {
-    return `${value} Star${value !== 1 ? "s" : ""}, ${
-      aspectPouletteLabel[value]
-    }`;
-  }
-  // ! Geting fientes Label Text From Rating
-  function getFientesLabelText(value) {
-    return `${value} Star${value !== 1 ? "s" : ""}, ${fientesLabel[value]}`;
-  }
-  return (
-    <>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <Form className="form">
-          <div className="input-container">
-            <label htmlFor="batiment" className="name">
-              Bâtiment
-            </label>
-            <Field
-              multiple={false}
-              as="select"
-              id="batiment"
-              name="batiment"
-              className="input"
-            >
-              <option value="">--</option>
-              {productionData.map((loc) => (
-                <option key={loc.id} value={loc.id}>
-                  {loc.name}
-                </option>
-              ))}
-            </Field>
-            <div className="underline"></div>
-
-            <ErrorMessage name="batiment" component="div" className="error" />
-          </div>
-          <div className="input-container">
-            <label htmlFor="mort" className="name">
-              Mortalité
-            </label>
-            <Field type="number" id="mort" name="mort" className="input" />
-            <div className="underline"></div>
-
-            <ErrorMessage name="mort" component="div" className="error" />
-          </div>
-
-          {/* ? Produciton */}
-          <div className=" ic2 feilds-container scale-up-ver-top">
-            <div className="toggle-switch ">
-              <label
-                onClick={() => {
-                  setShowProduction(!showProduction);
-                }}
-                className="toggle-label"
-                htmlFor="toggle"
-              >
-                {showProduction
-                  ? "masquer la production"
-                  : "afficher la production"}
-              </label>
-              <Field
-                className="toggle-input"
-                id="toggle"
-                type="checkbox"
-                hidden
-              />
-              <label
-                onClick={() => {
-                  setShowProduction(!showProduction);
-                }}
-                className="toggle-label"
-                htmlFor="toggle"
-              >
-                {!showProduction ? (
-                  <KeyboardArrowDownIcon />
-                ) : (
-                  <KeyboardArrowUpIcon />
-                )}
-              </label>
-            </div>
-
-            {showProduction && (
-              <div
-                className={
-                  showProduction ? "scale-up-ver-top" : "scale-out-ver-top"
-                }
-              >
-                <div className="input__container-box">
-                  <div className="input-container">
-                    <label htmlFor="prod_normal" className="name">
-                      Normaux
-                    </label>
-                    <Field
-                      id="prod_normal"
-                      className="input"
-                      name="prod_normal"
-                      // className="input input-disabled"
-                      type="number"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="prod_normal"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="input-container">
-                    <label htmlFor="prod_dj" className="name">
-                      Double Jaune
-                    </label>
-                    <Field
-                      id="prod_dj"
-                      className="input"
-                      // className="input input-disabled"
-                      type="number"
-                      name="prod_dj"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="prod_dj"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </div>
-                <div className="input__container-box">
-                  <div className="input-container">
-                    <label htmlFor="prod_blanc" className="name">
-                      Blanc
-                    </label>
-                    <Field
-                      id="prod_blanc"
-                      className="input"
-                      // className="input input-disabled"
-                      type="number"
-                      name="prod_blanc"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="prod_blanc"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="input-container">
-                    <label htmlFor="prod_casse" className="name">
-                      Cassé
-                    </label>
-                    <Field
-                      id="prod_casse"
-                      className="input"
-                      // className="input input-disabled"
-                      type="number"
-                      name="prod_casse"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="prod_casse"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </div>
-                <div className="input__container-box">
-                  <div className="input-container">
-                    <label htmlFor="prod_feles" className="name">
-                      Feles
-                    </label>
-                    <Field
-                      id="prod_feles"
-                      className="input"
-                      type="number"
-                      name="prod_feles"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="prod_feles"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="input-container">
-                    <label htmlFor="prod_elimne" className="name">
-                      Eliminé
-                    </label>
-                    <Field
-                      id="prod_elimne"
-                      className="input"
-                      type="number"
-                      name="prod_elimne"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="prod_elimne"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Aliment & Eau distribuer */}
-          <div className="input__container-box">
-            <div className="input-container">
-              <label htmlFor="alimentDist" className="name">
-                Aliment Distribué
-              </label>
-              <Field
-                id="alimentDist"
-                className="input"
-                type="number"
-                name="alimentDist"
-              />
-              <div className="underline"></div>
-
-              <ErrorMessage
-                name="alimentDist"
-                component="div"
-                className="error"
-              />
-            </div>
-            <div className="input-container">
-              <label htmlFor="eauDist" className="name">
-                Eau Distribué
-              </label>
-              <Field
-                id="eauDist"
-                className="input"
-                type="number"
-                name="eauDist"
-              />
-              <div className="underline"></div>
-
-              <ErrorMessage name="eauDist" component="div" className="error" />
-            </div>
-          </div>
-          {/* PMO */}
-          <div className="input-container">
-            <label htmlFor="pmo" className="name">
-              Poid moyen d'oeuf
-            </label>
-            <Field type="number" id="pmo" name="pmo" className="input" />
-            <div className="underline"></div>
-
-            <ErrorMessage name="pmo" component="div" className="error" />
-          </div>
-          {/* Piod vif */}
-          <div className="input__container-box">
-            <div className="input-container">
-              <label htmlFor="poidVif" className="name">
-                Poid vif
-              </label>
-              <Field
-                id="poidVif"
-                className="input"
-                type="number"
-                name="poidVif"
-              />
-              <div className="underline"></div>
-
-              <ErrorMessage name="poidVif" component="div" className="error" />
-            </div>
-            <div className="input-container">
-              <label htmlFor="homog" className="name">
-                Homogeneité
-              </label>
-              <Field id="homog" className="input" type="number" name="homog" />
-              <div className="underline"></div>
-
-              <ErrorMessage name="homog" component="div" className="error" />
-            </div>
-          </div>
-          {/* formule en place */}
-          <div className="input-container">
-            <label htmlFor="formule" className="name">
-              Formule en place
-            </label>
-            <Field type="text" id="formule" name="formule" className="input" />
-            <div className="underline"></div>
-
-            <ErrorMessage name="formule" component="div" className="error" />
-          </div>
-          {/* Temperature */}
-          <div className=" ic2 feilds-container scale-up-ver-top">
-            <div className="toggle-switch ">
-              <label
-                onClick={() => {
-                  setShowTemp(!showTemp);
-                }}
-                className="toggle-label"
-                htmlFor="toggle"
-              >
-                {showTemp
-                  ? "masquer la Temperature"
-                  : "afficher la Temperature"}
-              </label>
-              <Field
-                className="toggle-input"
-                id="toggle"
-                type="checkbox"
-                hidden
-              />
-              <label
-                onClick={() => {
-                  setShowTemp(!showTemp);
-                }}
-                className="toggle-label"
-                htmlFor="toggle"
-              >
-                {!showProduction ? (
-                  <KeyboardArrowDownIcon />
-                ) : (
-                  <KeyboardArrowUpIcon />
-                )}
-              </label>
-            </div>
-
-            {showTemp && (
-              <div
-                className={showTemp ? "scale-up-ver-top" : "scale-out-ver-top"}
-              >
-                <div className="input__container-box">
-                  <div className="input-container">
-                    <label htmlFor="temperatureMin" className="name">
-                      Temperature interne min
-                    </label>
-                    <Field
-                      id="temperatureMin"
-                      className="input"
-                      name="temperatureMin"
-                      // className="input input-disabled"
-                      type="number"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="temperatureMin"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="input-container">
-                    <label htmlFor="temperatureMax" className="name">
-                      Temperature interne max
-                    </label>
-                    <Field
-                      id="temperatureMax"
-                      className="input"
-                      // className="input input-disabled"
-                      type="number"
-                      name="temperatureMax"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="temperatureMax"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </div>
-                <div className="input__container-box">
-                  <div className="input-container">
-                    <label htmlFor="temperatureMinExt" className="name">
-                      Temperature externe min
-                    </label>
-                    <Field
-                      id="temperatureMinExt"
-                      className="input"
-                      name="temperatureMinExt"
-                      // className="input input-disabled"
-                      type="number"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="temperatureMinExt"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="input-container">
-                    <label htmlFor="temperatureMaxExt" className="name">
-                      Temperature externe max
-                    </label>
-                    <Field
-                      id="temperatureMaxExt"
-                      className="input"
-                      // className="input input-disabled"
-                      type="number"
-                      name="temperatureMaxExt"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="temperatureMaxExt"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-          {/* Lumiere */}
-          <div className=" ic2 feilds-container scale-up-ver-top">
-            <div className="toggle-switch ">
-              <label
-                onClick={() => {
-                  setShowLum(!showLum);
-                }}
-                className="toggle-label"
-                htmlFor="toggle"
-              >
-                {showLum ? "masquer la lumiere" : "afficher la lumiere"}
-              </label>
-              <Field
-                className="toggle-input"
-                id="toggle"
-                type="checkbox"
-                hidden
-              />
-              <label
-                onClick={() => {
-                  setShowLum(!showLum);
-                }}
-                className="toggle-label"
-                htmlFor="toggle"
-              >
-                {!showProduction ? (
-                  <KeyboardArrowDownIcon />
-                ) : (
-                  <KeyboardArrowUpIcon />
-                )}
-              </label>
-            </div>
-
-            {showLum && (
-              <div
-                className={showLum ? "scale-up-ver-top" : "scale-out-ver-top"}
-              >
-                <div className="input__container-box">
-                  <div className="input-container">
-                    <label htmlFor="lightOn" className="name">
-                      lumiere allumage
-                    </label>
-                    <Field
-                      id="lightOn"
-                      className="input"
-                      name="lightOn"
-                      // className="input input-disabled"
-                      type="time"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="lightOn"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="input-container">
-                    <label htmlFor="lightOff" className="name">
-                      lumiere eteinder
-                    </label>
-                    <Field
-                      id="lightOff"
-                      className="input"
-                      type="time"
-                      name="lightOff"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="lightOff"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </div>
-                <div className="input__container-box">
-                  <div className="input-container">
-                    <label htmlFor="flashOn" className="name">
-                      Flash allumage
-                    </label>
-                    <Field
-                      id="flashOn"
-                      className="input"
-                      name="flashOn"
-                      // className="input input-disabled"
-                      type="time"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="flashOn"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="input-container">
-                    <label htmlFor="flashOff" className="name">
-                      Flash eteinder
-                    </label>
-                    <Field
-                      id="flashOff"
-                      className="input"
-                      // className="input input-disabled"
-                      type="time"
-                      name="flashOff"
-                    />
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="flashOff"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-          {/* intensité */}
-          <div className="input-container">
-            <label htmlFor="intensite" className="name">
-              Intensité
-            </label>
-            <Field
-              type="number"
-              id="intensite"
-              name="intensite"
-              className="input"
-            />
-            <div className="underline"></div>
-
-            <ErrorMessage name="intensite" component="div" className="error" />
-          </div>
-          {/* Observations */}
-          <div className=" ic2 feilds-container scale-up-ver-top">
-            <div className="toggle-switch ">
-              <label
-                onClick={() => {
-                  setShowObservs(!showObservs);
-                }}
-                className="toggle-label"
-                htmlFor="toggle"
-              >
-                {showObservs
-                  ? "masquer l'observation "
-                  : "afficher l'observation"}
-              </label>
-              <Field
-                className="toggle-input"
-                id="toggle"
-                type="checkbox"
-                hidden
-              />
-              <label
-                onClick={() => {
-                  setShowObservs(!showObservs);
-                }}
-                className="toggle-label"
-                htmlFor="toggle"
-              >
-                {!showProduction ? (
-                  <KeyboardArrowDownIcon />
-                ) : (
-                  <KeyboardArrowUpIcon />
-                )}
-              </label>
-            </div>
-
-            {showObservs && (
-              <div
-                className={
-                  showObservs ? "scale-up-ver-top" : "scale-out-ver-top"
-                }
-              >
-                <div className="input__container-box">
-                  <div className="input-container">
-                    <label htmlFor="aspectPoulette" className="name">
-                      Aspect poulette
-                    </label>
-                    <div className="rating-container">
-                      <div className="rating">
-                        <Field
-                          value="5"
-                          name="aspectPoulette"
-                          id="aspectPoulette"
-                          type="radio"
-                        />
-                        <label htmlFor="aspectPoulette"></label>
-                        <Field
-                          value="4"
-                          name="aspectPoulette"
-                          id="aspectPoulette"
-                          type="radio"
-                        />
-                        <label htmlFor="aspectPoulette"></label>
-                        <Field
-                          value="3"
-                          name="aspectPoulette"
-                          id="aspectPoulette"
-                          type="radio"
-                        />
-                        <label htmlFor="aspectPoulette"></label>
-                        <Field
-                          value="2"
-                          name="aspectPoulette"
-                          id="aspectPoulette"
-                          type="radio"
-                        />
-                        <label htmlFor="aspectPoulette"></label>
-                        <Field
-                          value="1"
-                          name="aspectPoulette"
-                          id="aspectPoulette"
-                          type="radio"
-                        />
-                        <label htmlFor="aspectPoulette"></label>
-                        <div className="underline"></div>
-
-                        <ErrorMessage
-                          name="aspectPoulette"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="input-container">
-                    <label htmlFor="coloration" className="name">
-                      Coloration
-                    </label>
-                    <div className="rating-container">
-                      <StyledRating
-                        name="coloration"
-                        value={colorationValue}
-                        precision={1}
-                        getLabelText={getColorationLabelText}
-                        onChange={(event, newValue) => {
-                          setColorationValue(newValue);
-                          console.log(newValue);
-                        }}
-                        onChangeActive={(event, newHover) => {
-                          setHoverColoration(newHover);
-                        }}
-                        icon={<EggIcon fontSize="inherit" color="#6C3428" />}
-                        emptyIcon={
-                          <EggIcon
-                            style={{ opacity: 0.55, color: "#DFA878" }}
-                            fontSize="inherit"
-                          />
-                        }
-                      />
-                      {colorationValue !== null && (
-                        <Box sx={{ ml: 2 }}>
-                          {
-                            colorationLabel[
-                              hoverColoration !== -1
-                                ? hoverColoration
-                                : colorationValue
-                            ]
-                          }
-                        </Box>
-                      )}
-                    </div>
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="coloration"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  {/* Qlt Coquille */}
-                </div>
-                <div className="input__container-box">
-                  <div className="input-container">
-                    <label htmlFor="qty_shell" className="name">
-                      Qlt Coquille
-                    </label>
-                    <div className="rating-container">
-                      <Rating
-                        name="hover-feedback"
-                        value={qltValue}
-                        precision={1}
-                        getLabelText={getqltlabeltext}
-                        onChange={(event, newValue) => {
-                          setQltValue(newValue);
-                        }}
-                        onChangeActive={(event, newHover) => {
-                          setHoverQlt(newHover);
-                        }}
-                        emptyIcon={
-                          <StarIcon
-                            style={{ opacity: 0.55 }}
-                            fontSize="inherit"
-                          />
-                        }
-                      />
-                      {qltValue !== null && (
-                        <Box sx={{ ml: 2 }}>
-                          {qltLabel[hoverQlt !== -1 ? hoverQlt : qltValue]}
-                        </Box>
-                      )}
-                    </div>
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="qty_shell"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  {/* fientes */}
-
-                  <div className="input-container">
-                    <label htmlFor="fientes" className="name">
-                      Fientes
-                    </label>
-                    <div className="rating-container">
-                      <Rating
-                        name="hover-feedback"
-                        value={fientesValue}
-                        precision={1}
-                        getLabelText={getFientesLabelText}
-                        onChange={(event, newValue) => {
-                          setFientesValue(newValue);
-                        }}
-                        onChangeActive={(event, newHover) => {
-                          setHoverFientes(newHover);
-                        }}
-                        emptyIcon={
-                          <StarIcon
-                            style={{ opacity: 0.55 }}
-                            fontSize="inherit"
-                          />
-                        }
-                      />
-                      {fientesValue !== null && (
-                        <Box sx={{ ml: 2 }}>
-                          {
-                            fientesLabel[
-                              hoverFientes !== -1 ? hoverFientes : fientesValue
-                            ]
-                          }
-                        </Box>
-                      )}
-                    </div>
-                    <div className="underline"></div>
-
-                    <ErrorMessage
-                      name="fientes"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Add more input fields as needed... */}
-
-          <button type="submit">Submit</button>
-        </Form>
-      </Formik>
-    </>
-  );
-}
-
-export default ReportForm;
-<<<<<<< HEAD
-//////////////////////////////////////////
- const sites = useSelector((state) => state.ShowBatimentCat.sites);
-  const [isChecked, setIsChecked] = useState(false);
-  const [state, setState] = React.useState({
-    bottom: false,
-  });
+export default function EditLot({ open, setOpen, lotId }) {
   const [lotData, setLotData] = useState([]);
-  let batimentIdRef = useRef();
-  const handleCheckboxChange = (e) => {
-    setIsChecked(e.target.checked);
-  };
+  const [siteId, setSiteId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleClose = () => setOpen(false);
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
+  //? get Sites data
+  const SiteApiurl = useMemo(() => `${base_url}get-pouss-sites/`, [base_url]);
+  const { data: siteData, loading: siteLoading } = UseFetchData(SiteApiurl);
+  //? get Guide data
+  const apiGuideUrl = useMemo(
+    () => `${base_url}get-active-guides/?type=1`,
+    [base_url]
+  );
+  const { data: guideData, loading: guideLoading } = UseFetchData(apiGuideUrl);
 
-    setState({ ...state, [anchor]: open });
-  };
-  const placeDate = (dates) => {
-    const dateNaissance = document.getElementById("date-naissance");
-    const dateTransfert = document.getElementById("date-transfert");
-    const dateMep = document.getElementById("date-mise-place");
+  // ? Get Batiments data
+  const apiBatsUrl = useMemo(
+    () => `${base_url}get-pouss-bats/?site=${siteId}`,
+    [base_url, siteId]
+  );
+  const { data: batsData, loading: batsLoading } = UseFetchData(apiBatsUrl);
+  const formik = useFormik({
+    initialValues: {
+      site: "",
+      guide: "",
+      batiment: "",
+      code: "",
+      effectifDP: "",
+      birthDate: "",
+      transferDate: "",
+      lotId: "",
+    },
+    // validationSchema,
+    onSubmit: (values) => {
+      console.log("from on submit event");
+      UpdateLot(values);
+    },
+  });
 
-    dateNaissance.type = "text";
-    dateTransfert.type = "text";
-    dateMep.type = "text";
-
-    dateNaissance.value = dates.birthdate;
-    dateTransfert.value = dates.transfert_date;
-    dateMep.value = dates.mep_data;
-  };
-
-  const GetLotDetails = () => {
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
-    fetch(`${base_url}get-lot-data/`, {
-      method: "POST",
-      body: JSON.stringify({
-        "batiment": parseInt(batimentIdRef.current.value),
-      }),
-      headers: {
-        "Authorization": `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(JSON.parse(data));
-        setLotData(JSON.parse(data));
-        // placeDate(lotData.birth, lotData.transfert_date, lotData.mep_data);
-        placeDate(JSON.parse(data));
-      })
-      .catch((error) => console.error(error));
-  };
-  const handleFocusedElement = (e) => {
-    if (e.target.value.length == 0) {
-      e.target.type = "date";
-    }
-  };
-
-<div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        height: "fitContent",
-        zIndex: 10000,
-      }}
-      className="drawer-container"
-    >
-      {["bottom"].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)} className="top-drawer">
-            <MdOutlineKeyboardArrowUp
-              style={{ fontSize: "18px", color: "ff6000" }}
-            />
-          </Button>
-
-          <SwipeableDrawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, true)}
-            className="drawer-container"
-          >
-            <form className="form">
-              <div className="input-container ic2">
-                <select
-                  name=""
-                  className="input"
-                  id="batiment"
-                  ref={batimentIdRef}
-                  onChange={GetLotDetails}
-                  required
-                >
-                  <option value={null}>--</option>
-                  {sites.map((site) => (
-                    <option value={site.id} key={site.id}>
-                      {site.name} -{site.site} ({site.type})
-                    </option>
-                  ))}
-                </select>
-                <label htmlFor="coloration" className="placeholder">
-                  Bâtiment
-                </label>
-              </div>
-              <div className="input-container ic2">
-                <select name="souche" id="souche" className="input">
-                  <option value={lotData.souche_id}>{lotData.souche}</option>
-                  <option value="HISEX 2022">HISEX 2022</option>
-                  <option value="HYLINE 2018">HYLINE 2018</option>
-                  <option value="HYLINE 2022">HYLINE 2022</option>
-                  <option value="LOHMANNE 2022">LOHMANNE 2022</option>
-                </select>
-                <label htmlFor="souche" className="placeholder">
-                  Souches
-                </label>
-              </div>
-              <div className="input-container ic2">
-                <input
-                  id="lotCode"
-                  className="input"
-                  type="text"
-                  placeholder=" "
-                  name="lotCode"
-                  defaultValue={lotData.code}
-                />
-                <div className="cut"></div>
-                <label htmlFor="lotCode" className="placeholder">
-                  Lot Code
-                </label>
-              </div>
-              <div className="input-container ic2">
-                <input
-                  id="effectif"
-                  className="input"
-                  type="number"
-                  placeholder=" "
-                  defaultValue={lotData?.effectifDP}
-                  name="effectif"
-                />
-                <div className="cut"></div>
-                <label htmlFor="effectif" className="placeholder">
-                  Effectif
-                </label>
-              </div>
-
-              <div className="input-container ic2">
-                <input
-                  name="dateNaissance"
-                  id="date-naissance"
-                  className="input"
-                  type="text"
-                  placeholder=" "
-                  onFocus={handleFocusedElement}
-                  onChange={handleFocusedElement}
-                />
-                <div className="cut"></div>
-                <label htmlFor="date-naissance" className="placeholder">
-                  Date de naissance
-                </label>
-              </div>
-              <div className="input-container ic2">
-                <input
-                  name="dateMisePlace"
-                  id="date-mise-place"
-                  className="input"
-                  type="text"
-                  placeholder=" "
-                  onFocus={handleFocusedElement}
-                  onChange={handleFocusedElement}
-                />
-                <div className="cut"></div>
-                <label htmlFor="date-mise-place" className="placeholder">
-                  Date de mise en place
-                </label>
-              </div>
-              <div className="input-container ic2">
-                <input
-                  name="dateTransfert"
-                  id="date-transfert"
-                  className="input"
-                  type="text"
-                  onFocus={handleFocusedElement}
-                  onChange={handleFocusedElement}
-                  placeholder=" "
-                />
-                <div className="cut"></div>
-                <label htmlFor="date-transfert" className="placeholder">
-                  Date de transfert
-                </label>
-              </div>
-              <div
-                // className={`${
-                //   disabled
-                //     ? "checkbox-input-container-disabled ic2"
-                //     : "check-input-container ic2"
-                // }`}
-                className="check-input-container ic2"
-              >
-                <label htmlFor="reform-lot" className="placehold">
-                  En Reformée
-                </label>
-                <input
-                  type="checkbox"
-                  name="reformLot"
-                  id="reform-lot"
-                  className="checkbox-input"
-                  // disabled={modifyReform === false ? "disabled" : ""}
-                  // defaultChecked={modifyReform === true ? "" : "checked "}
-
-                  // disabled={!disabled}
-                />
-              </div>
-              <div className="input-container ic2">
-                <div className="cut"></div>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
-                  />
-                  <span className="slider"></span>
-                </label>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "10px",
-                }}
-              >
-                {/* <SendBtn /> */}
-              </div>
-            </form>
-          </SwipeableDrawer>
-        </React.Fragment>
-      ))}
-    </div>
-
-    /////////////////////////////////////////////
-      const FetchData = async (lotId) => {
-    setLoading(true);
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
+  const UpdateLot = async (data) => {
     try {
-      const response = await fetch(`${base_url}get-table-data/`, {
+      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+      const response = await fetch(`${base_url}update-lot/`, {
         method: "POST",
-        body: JSON.stringify({
-          "lotId": lotId,
-        }),
+        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const data = await response.json();
-      if (response.status === 200) {
-        setLoading(false);
-        setData(JSON.parse(data));
-        console.log(JSON.parse(data));
-      } else {
-        setLoading(false);
-        setData([]);
+      if (response.ok) {
+        setIsModalOpen(true);
+        formik.handleReset();
       }
-    } catch (error) {
-      setLoading(false);
-      setData([]);
+    } catch (err) {
+      setError(err.message);
+      // Handle the error as needed
+      // You can also log the error to the console if necessary
+      console.error("Error in CreateLot:", err);
     }
   };
 
-  const GetLotTitle = async () => {
-    setLoading(true);
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
+  const getLotById = async () => {
     try {
-      const response = await fetch(`${base_url}get-lots-titles/`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const data = await response.json();
-      if (response.status === 200) {
-        setLoading(false);
-        console.log(JSON.parse(data));
-        setLotTitle(JSON.parse(data));
+      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+      const response = await fetch(
+        `${base_url}get-lot-prefiled/?lotId=${lotId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        // Handle non-successful responses (e.g., 404 Not Found)
+        throw new Error(`Failed to fetch data for id ${lotId}`);
       }
+      const data = await response.json();
+      setLotData(data);
     } catch (error) {
-      console.error(error);
-      setLoading(false);
+      // Handle errors here (e.g., network error, parsing error)
+      console.error(`Error fetching data for id ${lotId}:`, error.message);
+      throw error; // Rethrow the error to allow the caller to handle it if needed
     }
   };
-
   useEffect(() => {
-    GetLotTitle();
-  }, []);
+    formik.initialValues;
+    // ! Get batiment Id
+    formik.setValues({
+      ...formik.values,
+      site: lotData.site_id,
+      batiment: lotData.batiment_id,
+      guide: lotData.guide_id,
+      birthDate: lotData.birthDate,
+      transferDate: lotData.mep,
+      effectifDP: lotData.effectifDP,
+      code: lotData.code,
+      modifiable: lotData.modifiable,
+      lotId: lotData.lotId,
+    });
+    setSiteId(siteId);
+  }, [lotData]);
+  useEffect(() => {
+    getLotById();
+  }, [lotId]);
+  return (
+    <div>
+      {isModalOpen && (
+        <SuccessModal
+          open={isModalOpen}
+          setOpen={setIsModalOpen}
+          onClose={handleClose}
+          message={"Vos données ont été enregistrées avec succès."}
+        />
+      )}
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style} className="edit-modal">
+            <div className="edit-site slit-in-horizontal">
+              <form
+                className="lot-form settings-form-pouss"
+                onSubmit={formik.handleSubmit}
+              >
+                <p className="title">
+                  Modifier lot :{" "}
+                  <span
+                    style={{
+                      fontSize: "18px",
+                      marginLeft: "20px",
+                    }}
+                  >
+                    {formik.values.code}
+                  </span>
+                </p>
+                <div className="flex">
+                  <label>
+                    <select
+                      id="guide"
+                      name="guide"
+                      className="input"
+                      placeholder=""
+                      value={formik.values.guide}
+                      onChange={formik.handleChange}
+                    >
+                      <option value="">--</option>
+                      {guideData &&
+                        guideData?.map((guide) => (
+                          <option
+                            key={guide.id}
+                            value={guide.id}
+                            className="input"
+                          >
+                            {guide.name}
+                          </option>
+                        ))}
+                    </select>
+                    <span>
+                      {guideLoading ? "loading..." : "Sélectionner guide"}
+                    </span>
+                  </label>
+                  <label>
+                    <select
+                      id="batiment"
+                      name="batiment"
+                      className="input"
+                      placeholder=""
+                      value={formik.values.batiment}
+                      onChange={formik.handleChange}
+                    >
+                      <option value={formik.values.batiment}>
+                        {formik.values.batiment}
+                      </option>
+                      <option value="">--</option>
+                      {batsData &&
+                        batsData?.map(
+                          (bat) =>
+                            bat.isEmpty && (
+                              <option
+                                key={bat.id}
+                                value={bat.id}
+                                className="input"
+                              >
+                                {bat.name}
+                              </option>
+                            )
+                        )}
+                    </select>
+                    <span>
+                      {batsLoading ? "loading..." : "Sélectionner bâtiment"}
+                    </span>
+                  </label>
+                  <label>
+                    <select
+                      id="site"
+                      name="site"
+                      className="input"
+                      placeholder=""
+                      value={formik.values.site}
+                      onChange={(e) => {
+                        formik.handleChange(e);
+                      }}
+                    >
+                      <option value="">--</option>
+                      {siteData &&
+                        siteData?.map((site) => (
+                          <option
+                            key={site.id}
+                            value={site.id}
+                            className="input"
+                          >
+                            {site.name}
+                          </option>
+                        ))}
+                    </select>
+                    <span>
+                      {" "}
+                      {siteLoading ? "loading..." : "Sélectionner site"}
+                    </span>
+                  </label>
+                </div>
+                <label>
+                  <input
+                    id="code"
+                    name="code"
+                    type="text"
+                    className="input"
+                    placeholder=""
+                    value={formik.values?.code}
+                    onChange={formik.handleChange}
+                  />
+                  <span>Code lot</span>
+                </label>
+                <label>
+                  <input
+                    id="effectifDP"
+                    name="effectifDP"
+                    type="number"
+                    className="input"
+                    placeholder=""
+                    value={formik.values?.effectifDP}
+                    onChange={formik.handleChange}
+                  />
+                  <span> Effectif logée</span>
+                </label>
+                <label>
+                  <input
+                    id="birthDate"
+                    name="birthDate"
+                    type="date"
+                    className="input"
+                    placeholder=""
+                    disabled={!formik.values.modifiable}
+                    value={formik.values.birthDate}
+                    onChange={formik.handleChange}
+                  />
+                  <span>
+                    {!formik.values.modifiable ? "" : "Date Naissance"}{" "}
+                  </span>
+                </label>
+                <label>
+                  <input
+                    id="transferDate"
+                    name="transferDate"
+                    type="date"
+                    className="input"
+                    placeholder=""
+                    value={formik.values.transferDate}
+                    onChange={formik.handleChange}
+                  />
+                  <span>Date transfert</span>
+                </label>
 
-  
-
-  data = {
-    'prod_normal': 3000,
-    'prod_dj': 100,
-    'prod_blanc': 50,
-    'prod_casse': 70,
-    'prod_feles': 20,
-    'prod_elimne': 10,
-    'mort': 5,
-    'hensEliminated': 1,
-    'alimentDist': 5000,
-    'eauDist': 10000,
-    'pmo': 43,
-    'poidVif': 1890,
-    'homog': 80,
-    'lightOn': '05:30',
-    'lightOff': '19:30',
-    'flashOn': '23:30',
-    'flashOff': '01:30',
-    'formule': 'EEP',
-    'intensite': 0,
-    'intensIsLux': false,
-    'temperatureMin': 0,
-    'temperatureMax': 0,
-    'temperatureMinExt': 0,
-    'temperatureMaxExt': 0,
-    'coloration': 1,
-    'qty_shell': '1',
-    'batiment': 1
-  }
-=======
->>>>>>> 844ea6db67c5fa449f99a6a16612e87e3513feda
+                <div className="bnts">
+                  <button type="submit" className="edit-btn">
+                    <div className="svg-wrapper-1">
+                      <div className="svg-wrapper">
+                        <AiOutlineSend />
+                      </div>
+                    </div>
+                    <span>Envoyer</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+    </div>
+  );
+}

@@ -15,6 +15,7 @@ function Observation() {
   const apiUrl = useMemo(() => `${base_url}observs-list/`, []);
 
   const { data, loading, error } = UseFetchData(apiUrl);
+
   if (error) {
     return <div className="card-item">Error occurred: {error.message}</div>;
   }

@@ -1,13 +1,22 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;500;700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;500;700&display=swap");
 /* @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"); */
 /* @import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300;400;500;600&display=swap"); */
 /* @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"); */
 
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap");
-
+@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-calendars/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-notifications/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-react-grids/styles/material.css";
 * {
-  --dark-blue: #0071ce;
+  --dark-blue: #0085ff;
   /* --dark-blue: #0072cf; */
   --background-color: #efefef;
   --light-blue: #a3aed0;
@@ -22,6 +31,8 @@
   --red-color: #eb455f;
   --green-color: #368753;
   --border-radius: 4px;
+  --box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 html,
 body,
@@ -93,24 +104,65 @@ h3 {
   height: var(--swiper-navigation-size);
   margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
   z-index: 10;
-  font-size: 28px;
+  font-size: 22px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: tomato;
+  color: #fff;
+  background-color: #ffffff2c;
+  padding: 0px 15px;
+  border-radius: 4px;
+}
+#chartDiv .swiper-button-next::after,
+#chartDiv .swiper-button-prev::after {
+  position: absolute;
+  top: var(--swiper-navigation-top-offset, 50%);
+  /* width: calc(var(--swiper-navigation-size) / 44 * 27); */
+  height: var(--swiper-navigation-size);
+  margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+  z-index: 10;
+  font-size: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark-blue);
+  /* background-color: var(--bar-blue); */
+  padding: 0px 10px;
+  border-radius: 4px;
 }
 
 .swiper-button-prev {
-  left: 0;
-  top: 2%;
+  left: 75%;
+  top: 7%;
 }
 .swiper-button-next {
-  right: 0;
-  top: 2%;
+  right: 10px;
+  top: 7%;
+}
+#chartDiv .swiper-button-prev {
+  left: 1%;
+  top: 5%;
+}
+#chartDiv .swiper-button-next {
+  right: 10px;
+  top: 5%;
 }
 
 .css-tkn350-MuiTabs-root {
   height: fit-content !important;
   min-height: fit-content !important;
+}
+.css-1e7cuzv-MuiFormControl-root {
+  margin: 1px !important;
+}
+.error-message {
+  color: #f44336;
+}
+.css-j204z7-MuiFormControlLabel-root {
+  margin: 0 !important;
+}
+.css-o4b71y-MuiAccordionSummary-content {
+  margin: 0 !important;
 }

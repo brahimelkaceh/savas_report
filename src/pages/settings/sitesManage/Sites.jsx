@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 import "./style.css";
-function Sites() {
+function SitesContainer() {
   let renderData = useSelector((state) => state.getSiteData.renderData);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -53,4 +53,4 @@ function Sites() {
   );
 }
 
-export default Sites;
+export default SitesContainer;

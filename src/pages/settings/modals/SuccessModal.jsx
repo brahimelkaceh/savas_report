@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { getRenderData } from "../../../slices/SiteData";
+import { Button } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -33,16 +34,17 @@ export default function SuccessModal({ open, message, onClose }) {
             {message}
           </Typography>
           <div className="confirm-btns">
-            <button
-              className="confirm type1"
-              type="submit"
+            <Button
               onClick={() => {
                 onClose();
                 dispatch(getRenderData(new Date().toISOString()));
               }}
+              autoFocus
+              variant="outlined"
+              color="success"
             >
-              <span className="btn-txt">Ok</span>
-            </button>
+              Ok
+            </Button>
           </div>
         </Box>
       </Modal>

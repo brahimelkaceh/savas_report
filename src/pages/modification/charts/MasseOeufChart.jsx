@@ -1,186 +1,251 @@
-import React from "react";
+/**
+ * Sample for Line Series
+ */
+import * as React from "react";
+import { useEffect } from "react";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
+  ChartComponent,
+  SeriesCollectionDirective,
+  SeriesDirective,
+  Inject,
+  LineSeries,
   Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  DateTime,
   Tooltip,
-  Legend
-);
+  Highlight,
+  Double,
+  DataLabel,
+  AxesDirective,
+  AxisDirective,
+  SplineSeries,
+  SplineAreaSeries,
+  AreaSeries,
+  ColumnSeries,
+} from "@syncfusion/ej2-react-charts";
+import { Browser } from "@syncfusion/ej2-base";
 
-const options = {
-  elements: {
-    point: {
-      radius: 0, // The radius of data points (default is 3)
-      borderWidth: 0.5, // Border width of the data points
-      hoverRadius: 3, // Radius of data points on hover
-    },
-    line: {
-      tension: 0, // Adjust the line curvature (default is 0.4)
-      borderColor: "rgba(255, 0, 0, 1)", // Color of the line
-      borderWidth: 1.8, // Width of the line
-      borderCapStyle: "round", // Line cap style ('butt', 'round', 'square')
-      //   borderDash: [5, 5], // Dashed line pattern (e.g., [5, 5] for dashes)
-    },
-  },
-
-  responsive: true,
-  interaction: {
-    mode: "index",
-    intersect: false,
-  },
-  stacked: false,
-  plugins: {
-    title: {
-      display: true,
-      text: "Masse d'oeuf",
-      font: {
-        weight: "bold",
-        size: "20px",
-      },
-    },
-    legend: {
-      display: true,
-      position: "bottom", // 'top', 'bottom', 'left', 'right'
-    },
-  },
-  scales: {
-    x: {
-      title: {
-        display: true,
-        text: "Age (semaine)",
-        font: {
-          weight: "bold",
-        },
-      },
-      grid: {
-        display: true, // Display the grid lines for the X-axis
-        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
-        borderWidth: 1, // Width of the grid lines
-        drawTicks: false, // Whether to draw tick marks on the grid lines
-      },
-    },
-    y: {
-      type: "linear",
-      display: true,
-      position: "left",
-      max: 500,
-
-      title: {
-        display: true,
-        text: "Masse d'oeuf hebdomadaire (g)", // Specify the y-axis label text
-        position: "left", // Position of the y-axis label (can be 'top', 'bottom', 'left', or 'right')
-        font: {
-          weight: "bold",
-        },
-        color: "#8B4513",
-      },
-      grid: {
-        display: true,
-        drawOnChartArea: true,
-        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
-      },
-      scaleLabel: {
-        display: true, // Display the x-axis label
-        labelString: "X-Axis Label", // Specify the x-axis label text
-      },
-      ticks: {
-        font: {
-          weight: "bold",
-        },
-        color: "#8B4513",
-      },
-    },
-    y1: {
-      type: "linear",
-      display: true,
-      max: 35,
-      position: "right",
-      grid: {
-        drawOnChartArea: false,
-      },
-      title: {
-        display: true,
-        text: "∑ Masse Oeuf (kg)", // Specify the y-axis label text
-        position: "left", // Position of the y-axis label (can be 'top', 'bottom', 'left', or 'right')
-        font: {
-          weight: "bold",
-        },
-        color: "#FF5B22",
-      },
-      ticks: {
-        font: {
-          weight: "bold",
-        },
-        color: "#FF5B22",
-      },
-    },
-  },
-};
-
-function MasseOeufChart({ masseOeufData }) {
-  const labels = masseOeufData?.ages;
-  const yData = masseOeufData?.guideMassCuml;
-  const zData = masseOeufData?.massCuml;
-  const xData = masseOeufData?.guideMassSem;
-  const wData = masseOeufData?.massSem;
-
-  // return;
-  //   const zData = [10, 69, 60, 18, 10, 5, 15, 22, 49, 8];
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: "Masse Oeuf",
-        data: wData,
-        borderColor: "#8B4513",
-        backgroundColor: "#8B4513",
-        borderWidth: 4,
-        yAxisID: "y",
-      },
-      {
-        label: "Guide : Masse Oeuf ",
-        data: xData,
-        borderColor: "#8b45135f",
-        backgroundColor: "#8b45135f",
-        yAxisID: "y",
-        borderWidth: 8,
-      },
-      {
-        label: "∑ Masse Oeuf",
-        data: zData,
-        borderColor: "#FF5B22",
-        backgroundColor: "#FF5B22",
-        borderWidth: 4,
-        yAxisID: "y1",
-      },
-      {
-        label: "Guide : ∑ Masse Oeuf",
-        data: yData,
-        borderColor: "#FF5B225f",
-        backgroundColor: "#FF5B225f",
-        yAxisID: "y1",
-        borderWidth: 8,
-      },
-    ],
+const MassOeufChart = ({ data, show }) => {
+  const onChartLoad = (args) => {
+    let chart = document.getElementById(`chart_masse`);
+    chart.setAttribute("title", "");
   };
-  return <Line options={options} data={data} />;
-}
+  const load = (args) => {
+    let selectedTheme = location.hash.split("/")[1];
+    selectedTheme = selectedTheme ? selectedTheme : "Material";
+    args.chart.theme = (
+      selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)
+    )
+      .replace(/-dark/i, "Dark")
+      .replace(/contrast/i, "Contrast");
+  };
 
-export default MasseOeufChart;
+  const lines = { width: 1 };
+  const style = {
+    " #chart_ChartTitle": {
+      color: "red !important",
+    },
+  };
 
-// 'table-conso-chart/': consommation
-// 'table-prod-chart/': % ponte + pmo +  % declassé
+  return (
+    <ChartComponent
+      id={`chart_masse`}
+      // style={{ textAlign: "center" }}
+      style={style}
+      primaryxAxis={{
+        valueType: "Double",
+        title: "Overs",
+        labelFormat: "age",
+      }}
+      // load={load.bind(this)}
+      primaryYAxis={{
+        title: "∑ Massse d'œuf (kg)",
+        rangePadding: "None",
+        minimum: 0,
+        maximum: 40,
+        interval: 5,
+        lineStyle: { width: 0 },
+        majorTickLines: { width: 0 },
+        majorGridLines: {
+          width: 2,
+        },
+        minorTickLines: { width: 0, color: "#E5890A" },
+        titleStyle: {
+          textAlignment: "Center",
+          size: "12px",
+          fontWeight: "bold",
+          color: "#E5890A",
+        },
+        labelStyle: {
+          color: "#E5890A",
+          size: "11px",
+        },
+      }}
+      chartArea={{ border: { width: 0 } }}
+      tooltip={{ enable: true, shared: true }}
+      legendSettings={{ enableHighlight: true }}
+      width={Browser.isDevice ? "100%" : "100%"}
+      // height={"100%"}
+      // title={`Masse d'œufs`}
+      titleStyle={{
+        textAlignment: "Center",
+        size: "15px",
+        fontWeight: "bold",
+        color: "#994D1C",
+      }}
+
+      // loaded={onChartLoad.bind(this)}
+    >
+      <Inject
+        services={[
+          LineSeries,
+          DateTime,
+          Legend,
+          Tooltip,
+          Highlight,
+          DataLabel,
+          SplineAreaSeries,
+          AreaSeries,
+          ColumnSeries,
+        ]}
+      />
+      <AxesDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisC"
+          opposedPosition={true}
+          title="Massse d'œuf hebdomadaire(g)"
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "bold",
+            color: "#994D1C",
+          }}
+          labelStyle={{
+            color: "#994D1C",
+            size: "12px",
+          }}
+          majorGridLines={{ width: 0, color: "#000" }}
+          minorTickLines={{ width: 0, color: "#994D1C" }}
+          lineStyle={{ width: 1, color: "#994D1C" }}
+          minimum={0}
+          maximum={500}
+          interval={50}
+          // visible={show}
+        ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisA"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "400",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={lines}
+          minorTickLines={lines}
+          lineStyle={{
+            width: 0,
+          }}
+          majorTickLines={{
+            width: 0,
+          }}
+          minimum={0}
+          maximum={10}
+          interval={0.25}
+          visible={show}
+        ></AxisDirective>
+      </AxesDirective>
+      <SeriesCollectionDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"gMassSem"}
+          name={show ? "Guide: Massse d'œuf" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#C7B7A3"
+          opacity={0.5}
+          type="Line"
+          yAxisName="yAxisC"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"massSem"}
+          name={show ? "Massse d'œuf" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#994D1C"
+          type="Line"
+          yAxisName="yAxisC"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"gMassCuml"}
+          name={show ? "Guide: ∑ Massse d'œuf" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#F5CCA0"
+          opacity={0.5}
+          type="Line"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"massCuml"}
+          name={show ? "∑ Massse d'œuf" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#E5890A"
+          type="Line"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName="y"
+          name=""
+          width={1.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+      </SeriesCollectionDirective>
+    </ChartComponent>
+  );
+};
+export default MassOeufChart;

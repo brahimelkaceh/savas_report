@@ -16,7 +16,7 @@
 
 .site-button {
   font-size: 18px !important;
-  color: var(--dark-blue) !important;
+  color: #555555 !important;
   font-family: inherit !important;
   font-weight: 600 !important;
   cursor: pointer;
@@ -116,6 +116,7 @@
   gap: 10px;
   margin: 10px;
   margin-bottom: 0;
+  align-items: flex-start;
 }
 
 .batiment-category label {
@@ -300,7 +301,7 @@
   cursor: pointer;
   background-color: #00bfff;
   /* width: 100%; */
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .box-header.viability {
   background: #ffe0c8;
@@ -313,6 +314,10 @@
 .box-header.consommation {
   background: #61bc84;
   color: #1e1e1e;
+}
+.box-header.reforme {
+  background: #546e7a;
+  color: #eceff1;
 }
 .box-header.ambiance {
   background: #61dafb;
@@ -337,7 +342,7 @@
   gap: 5px 40px;
   padding: 8.5px;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .box-content .inputs-container {
   margin-top: 5px;
@@ -365,6 +370,12 @@
 }
 .box-content.consommation {
   border: 2px solid #61bc84;
+  border-top: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+.box-content.reforme {
+  border: 2px solid #546e7a;
   border-top: 0;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
@@ -903,6 +914,7 @@
   justify-content: space-around;
   width: 100%;
   height: fit-content;
+  margin-bottom: 5px;
   /* gap: 150px; */
 }
 .form-header .next-send {
@@ -926,9 +938,10 @@
   height: 100%;
   background-color: #fff;
   border: 0.5px solid #000;
-  border-radius: 8px;
-  margin: 0 10px;
-  padding: 5px 10px;
+  border-radius: 4px;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  margin-bottom: 5px;
 }
 .batiment-form form {
   display: flex;
@@ -982,4 +995,21 @@
 
 .batiment-form .form-box label .input:valid + span {
   color: green;
+}
+.observation-modal .input {
+  width: 100%;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  background: #fff;
+  border-radius: 5px;
+}
+.observation-modal .input + span {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
 }

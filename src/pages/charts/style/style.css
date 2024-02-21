@@ -1,8 +1,57 @@
 .charts-container {
-  height: 85vh;
+  height: 100%;
+  padding: 5px;
+}
+.charts-container .chart-header-container {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  background-color: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 0px 10px;
+}
+.charts-container .chart-body-container {
+  height: 100%;
   /* width: 100%; */
   background-color: #fff;
-  padding: 15px;
+  padding: 15px 5px;
+  margin-top: 10px;
+  border-radius: var(--border-radius);
+}
+.charts-container .chart-body-container .chart-footer-container {
+  margin-top: 5px;
+}
+.charts-container .charts-box-container {
+  /* width: 100%; */
+  min-height: 100%;
+  /* padding: 10px; */
+  margin-top: 5px;
+  /* border: 0.5px solid #333; */
+  border-radius: var(--border-radius);
+  /* overflow: scroll; */
+}
+@media screen and (max-width: 767px) {
+  .charts-box-container {
+    grid-template-columns: unset; /* or grid-template-columns: auto; */
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .charts-box-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.chart-box {
+  border: 0.2px solid #999;
+  border-radius: var(--border-radius);
+  border-radius: 2px;
+  height: fit-content;
+  position: relative;
+}
+.charts-container .full-chart-screen {
+  background-color: red;
 }
 .charts-container h2 {
   font-size: 18px;
@@ -19,86 +68,29 @@
   width: 100%;
   z-index: 100;
 }
-.main-box .box-1 {
-  position: absolute;
-  height: 8%;
-  width: 15%;
-  border-radius: var(--border-radius);
-  top: 100%;
-  left: 0;
-  transform: translateY(-100%);
-  transition: all 0.3s linear;
-  border: 0.5px solid #000;
+.chart-body-container .production {
   background: #8b4513;
   color: #fff;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
 }
-.main-box .box-2 {
-  position: absolute;
-  height: 8%;
-  width: 15%;
-  border-radius: var(--border-radius);
-  top: 80%;
-  left: 0%;
-  transform: translate(-0%, -0%);
-  transition: all 0.3s linear;
-  border: 0.5px solid #000;
+.chart-body-container .production:hover {
+  color: #8b4513;
+}
+.chart-body-container .consommation {
   background: #61bc84;
   color: #1e1e1e;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
 }
-.main-box .box-3 {
-  position: absolute;
-  height: 8%;
-  width: 15%;
-  border-radius: var(--border-radius);
-  top: 17%;
-  left: 0%;
-  transform: translate(-0%, -0%);
-  transition: all 0.3s linear;
-  border: 0.5px solid #000;
+.chart-body-container .mortalite {
   background-color: #ffe992;
   color: #1e1e1e;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
 }
-.main-box .box-4 {
-  position: absolute;
-  height: 8%;
-  width: 15%;
-  border-radius: var(--border-radius);
-  top: 56%;
-  left: 0%;
-  transform: translate(-0%, -0%);
-  transition: all 0.3s linear;
-  border: 0.5px solid #000;
+.chart-body-container .masse {
   background-color: #eb9c64;
   color: #1e1e1e;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
 }
 
-.main-box .box-5 {
-  position: absolute;
-  height: 8%;
-  width: 15%;
-  border-radius: var(--border-radius);
-  top: 74%;
-  left: 0%;
-  transform: translate(0%, -70%);
-  transition: all 0.3s linear;
-  border: 0.5px solid #000;
+.chart-body-container .ic {
   background: #ffe0c8;
   color: #0d1f2d;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
 }
 .main-box .box-6 {
   position: absolute;
@@ -175,4 +167,17 @@
   left: 100%;
   transform: translateX(-100%);
   cursor: pointer;
+}
+
+.css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root {
+  transform: translate(0, 10px) scale(1) !important;
+}
+.css-ueukts-MuiButtonBase-root-MuiToggleButton-root {
+  padding: 5px 12px !important;
+}
+.charts-box {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  /* gap: 10px; */
 }

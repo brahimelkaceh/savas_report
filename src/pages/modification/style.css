@@ -3,10 +3,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
 .modification-container {
   background: #d3d3d3;
-  height: calc(100vh - 95px);
+  height: calc(100vh - 55px);
   padding: 0 15px;
   overflow: hidden;
   position: relative;
+}
+p {
+  margin: 0;
 }
 .modification-container .modification-table-footer {
   margin-top: 15px;
@@ -30,14 +33,15 @@
 }
 
 .modification-container .modification-table-header {
-  background: #fff;
+  /* background: #fff; */
   border-radius: 6px;
   padding: 5px;
-  margin-top: 8px;
   /* padding-bottom: 25px; */
   display: flex;
-  gap: 15px;
+  gap: 7px;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .modification-table-header .input-container {
   display: flex;
@@ -50,14 +54,12 @@
 .input-container .fetch-btn {
   border: none;
   height: fit-content;
-  position: absolute;
+  position: relative;
   right: 0;
-
-  background-color: #88c1ff;
-  padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: 700;
+  /* font-weight: 700; */
+  font-size: 15px;
   word-spacing: 2px;
 }
 /* Input field */
@@ -108,11 +110,15 @@
   + .input-highlight {
   width: 100%;
 }
-.modification-table-header .header-lot-container {
+.modification-table-header .header-lot-container,
+.batiment-form .header-lot-container {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   gap: 10px;
   width: 100%;
+  background: #fff;
+  padding: 4px;
+  border-radius: 6px;
 }
 .header-lot-container .content-box {
   background: #eee;
@@ -120,14 +126,15 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  width: 100%;
+  width: 48%;
+  padding: 5px;
 }
 .header-lot-container .content-box .header-content {
   display: flex;
   align-items: center;
 }
 .header-content span {
-  color: #e86a33;
+  /* color: #e86a33; */
   text-transform: uppercase;
   font-weight: bold;
   font-size: 12px;
@@ -135,10 +142,10 @@
 
 .modification-container .modification-table-container {
   background: #fff;
-  margin-top: 10px;
   margin-bottom: 60px;
-  /* border-radius: 6px; */
-  padding: 5px;
+  border-radius: 6px;
+  padding: 0;
+  padding-top: 0;
   position: relative;
   overflow-y: scroll;
   overflow-x: scroll;
@@ -153,7 +160,7 @@
   position: relative;
 }
 .modification-table-container table .main-header {
-  background-color: #4d3c77;
+  background-color: #673ab7;
   color: #fff;
 }
 
@@ -224,14 +231,14 @@
   color: #333 !important;
 }
 .modification-table-container table td {
-  width: 100%;
+  /* width: 100%; */
   /* padding: 2px; */
   /* font-size: 13px; */
   font-weight: 400;
   text-align: center;
   border-right: 1px solid #111;
   border-top: 0.5px solid #111;
-  border-bottom: 0.5px solid #fce3dc;
+  border-bottom: 0.5px solid #9e9e9e;
   white-space: nowrap;
   padding: 2px 4px;
   font-weight: 500;
@@ -305,7 +312,7 @@ table .daily-data div {
 .actions button {
   border: none;
   background: none;
-  padding: 2px 5px;
+  /* padding: 2px 5px; */
   margin: 2px;
 }
 .actions button svg {
@@ -327,6 +334,7 @@ table .daily-data div {
   right: 5%;
   width: fit-content;
 }
+
 .download.download-btn span {
   margin-right: 4px;
   font-size: 15px;
@@ -540,6 +548,7 @@ table .daily-data div {
   /* background: #8b4513; */
   color: #fff;
 }
+
 .main-header .consommation {
   background: #61bc84;
   color: #1e1e1e;
@@ -548,6 +557,11 @@ table .daily-data div {
   /* background: #61bc84; */
   color: #1e1e1e;
 }
+.main-header .reforme {
+  background: #546e7a;
+  color: #eceff1;
+}
+
 .calendrie {
   /* background: #ff7f50; */
   color: #1e1e1e;
@@ -583,7 +597,8 @@ table .daily-data div {
 .calendrie span,
 .masse-oeuf span,
 .ic-header span,
-.ambiance span {
+.ambiance span,
+.reforme span {
   display: flex;
   justify-content: center;
   align-items: center;

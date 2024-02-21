@@ -28,8 +28,8 @@ ChartJS.register(
 const options = {
   elements: {
     point: {
-      radius: 2, // The radius of data points (default is 3)
-      borderWidth: 1, // Border width of the data points
+      radius: 0, // The radius of data points (default is 3)
+      borderWidth: 0, // Border width of the data points
     },
     line: {
       tension: 0.1, // Adjust the line curvature (default is 0.4)
@@ -104,14 +104,14 @@ const options = {
 };
 
 function LinearChart3({ tempData }) {
-  const labels = tempData[0]?.dates;
+  const labels = tempData?.dates;
 
   const data = {
     labels,
     datasets: [
       {
         label: "Temperature maximum",
-        data: tempData[1]?.max_tmp,
+        data: tempData?.max_tmp,
         borderColor: "#F05941",
         backgroundColor: "#F05941",
         borderWidth: 1,
@@ -121,7 +121,7 @@ function LinearChart3({ tempData }) {
       },
       {
         label: "Temperature minimum",
-        data: tempData[2]?.min_tmp,
+        data: tempData?.min_tmp,
         borderColor: "#87C4FF",
         backgroundColor: "#87C4FF",
         borderWidth: 1,

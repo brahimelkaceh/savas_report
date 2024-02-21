@@ -15,14 +15,13 @@ import MyMarquee from "../../components/marquees/MyMarquee";
 import UseFetchData from "../../hooks/UseFetchData";
 import Loader from "../../components/loader/Loader";
 import "./dashboard.css";
+import Navbar from "../../components/navbar/Navbar";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
 let base_url = "https://farmdriver.savas.ma/api/";
 
 function Dashboard() {
-  const status = useSelector((state) => state.toggleLeftBar.status);
-  const isVisualize = useSelector((state) => state.openSearchBar.isVisualize);
-  const dropState = useSelector((state) => state.userDrop.dropState);
-  const dispatch = useDispatch();
   const apiUrl = useMemo(() => `${base_url}get-site-or-bats/`, []);
 
   const { data, loading, error } = UseFetchData(apiUrl);
@@ -33,7 +32,7 @@ function Dashboard() {
 
   if (!data || loading) {
     return (
-      <main className={status === true ? "page page-with-sidebar " : "page"}>
+      <main className="page">
         <Loader />
       </main>
     );
@@ -41,12 +40,9 @@ function Dashboard() {
 
   return (
     <>
-      <main className={status === true ? "page page-with-sidebar " : "page"}>
-        <Topbar
-          isVisualize={!isVisualize}
-          onClick={() => dropState && dispatch(closeDrop())}
-        />
-        <Sidebar />
+      <main className="page">
+        <Topbar />
+        <Navbar />
         <div className="container">
           <FirstCard />
           <div className="cards-swiper">
@@ -62,7 +58,7 @@ function Dashboard() {
             {/* <Profylax /> */}
           </div>
           <div className="card-5">
-            <div className="chart-box1">
+            {/* <div className="chart-box1">
               <div className="chart-1">
                 <FirstChart batSite={data} Sitesloading={loading} />
               </div>
@@ -77,7 +73,34 @@ function Dashboard() {
               <div className="chart-4">
                 <FourthChart batSite={data} Sitesloading={loading} />
               </div>
-            </div>
+            </div> */}
+            <Swiper
+              slidesPerView={1}
+              spaceBetween={10}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+              // pagination={{
+              //   clickable: true,
+              // }}
+              navigation={{ clickable: true }}
+              modules={[Navigation]}
+              className="charts-swiper"
+            >
+              <SwiperSlide>
+                <FirstChart batSite={data} Sitesloading={loading} />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SecondChart batSite={data} Sitesl oading={loading} />
+              </SwiperSlide>
+              <SwiperSlide>
+                <ThirdChart batSite={data} Sitesloading={loading} />
+              </SwiperSlide>
+              <SwiperSlide>
+                <FourthChart batSite={data} Sitesloading={loading} />
+              </SwiperSlide>
+            </Swiper>
           </div>
         </div>
       </main>

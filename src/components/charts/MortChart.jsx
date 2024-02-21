@@ -26,8 +26,8 @@ ChartJS.register(
 const options = {
   elements: {
     point: {
-      radius: 2, // The radius of data points (default is 3)
-      borderWidth: 1, // Border width of the data points
+      radius: 0, // The radius of data points (default is 3)
+      borderWidth: 0, // Border width of the data points
     },
     line: {
       tension: 0.1, // Adjust the line curvature (default is 0.4)
@@ -47,7 +47,7 @@ const options = {
   plugins: {
     title: {
       display: true,
-      text: "Mortalité",
+      text: "Evolution Mortalité",
       font: {
         size: "20px",
       },
@@ -92,31 +92,32 @@ const options = {
   },
 };
 function MortChart({ mortData }) {
-  const labels = mortData[0]?.dates;
+  const labels = mortData?.dates;
+  const mortTotal = mortData?.mortTotal;
+  console.log(mortTotal);
 
   const data = {
     labels,
     datasets: [
       {
         type: "line",
-        label: "moratilité total",
+        label: "Moratilité",
         borderColor: "#FA7070",
         backgroundColor: "#FA7070",
-        borderWidth: 2, // Set the border width
-        yAxisID: "y1",
-
-        data: mortData[1]?.mortTotal,
-      },
-      {
-        type: "line",
-        label: "Guide : moratilité total",
-        borderColor: "#FA707069",
-        backgroundColor: "#FA7070",
-        yAxisID: "y1",
         borderWidth: 4, // Set the border width
-
-        data: mortData[2]?.mortGuide,
+        yAxisID: "y1",
+        data: mortTotal,
       },
+      // {
+      //   type: "line",
+      //   label: "Guide : moratilité total",
+      //   borderColor: "#FA707069",
+      //   backgroundColor: "#FA7070",
+      //   yAxisID: "y1",
+      //   borderWidth: 4, // Set the border width
+
+      //   data: mortData[2]?.mortGuide,
+      // },
     ],
   };
   return <Chart options={options} data={data} />;

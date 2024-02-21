@@ -15,6 +15,8 @@ import SwiperModal from "../models/SwiperModal";
 import SwiperIcModal from "../models/SwiperIcModal";
 import MasseOeufChartModal from "../models/MasseOeufChartModal";
 import { FaChartLine } from "react-icons/fa";
+import LightChartModal from "../models/LightChartModal";
+import { ShoppingCartCheckout } from "@mui/icons-material";
 // 'table-massoeuf-chart/',
 
 function FixedHeader({
@@ -24,12 +26,14 @@ function FixedHeader({
   consoData,
   prodData,
   Peroformloading,
+  isReform,
 }) {
   const [open, setOpen] = useState(false);
   const [openIcModal, setOpenIcModal] = useState(false);
   const [openConsoChartModel, setOpenConsoChartModel] = useState(false);
   const [openProdChartModel, setOpenProdChartModel] = useState(false);
   const [openMassOeufChartModal, setOpenMassOeufChartModal] = useState(false);
+  const [openLightsChartModel, setOpenLightsChartModel] = useState(false);
   return (
     <>
       {open && <SwiperModal open={open} setOpen={setOpen} />}
@@ -54,6 +58,12 @@ function FixedHeader({
           setOpenMassOeufChartModal={setOpenMassOeufChartModal}
         />
       )}
+      {openLightsChartModel && (
+        <LightChartModal
+          openLightsChartModel={openLightsChartModel}
+          setOpenLightsChartModel={setOpenLightsChartModel}
+        />
+      )}
       <tr className="main-header">
         <th></th>
         <th colSpan={3} className="calendrie">
@@ -61,7 +71,11 @@ function FixedHeader({
             Calendrier <TodayIcon></TodayIcon>
           </span>
         </th>
-        <th className="ambiance" colSpan={4}>
+        <th
+          className="ambiance"
+          colSpan={4}
+          onClick={() => setOpenLightsChartModel(true)}
+        >
           <span>
             Ambiance <SentimentSatisfiedIcon></SentimentSatisfiedIcon>
           </span>
@@ -112,6 +126,14 @@ function FixedHeader({
             <FaChartLine></FaChartLine>
           </span>
         </th>
+        {isReform && (
+          <th colSpan={5} className="reforme">
+            <span>
+              Réforme
+              <ShoppingCartCheckout />
+            </span>
+          </th>
+        )}
       </tr>
       {
         <DailyTableHeader
@@ -121,6 +143,7 @@ function FixedHeader({
           consoData={consoData}
           prodData={prodData}
           Peroformloading={Peroformloading}
+          isReform={isReform}
         />
       }
     </>

@@ -16,13 +16,13 @@ function createData(name, value) {
 export default function DataTable(data) {
   let batimentName = useSelector((state) => state.getSiteData.batimentName);
   const rows = [
-    createData("Batiment", batimentName || "--"),
-    createData("Mortalité", data?.data?.mort || "--"),
-    createData("Sujet éliminées", data?.data?.sjt_elm || "--"),
-    createData("Homogeneité", data?.data?.homog || "--"),
-    createData("Aliment Distribué", data?.data?.alimentDist || "--"),
-    createData("Réference aliment", data?.data?.formule || "--"),
-    createData("Eau Distribué", data?.data?.eauDist || "--"),
+    createData("Bâtiment", batimentName || "--"),
+    createData("Mortalité (sujet)", data?.data?.mort || "--"),
+    createData("Triage (sujet)", data?.data?.hensEliminated || "--"),
+    createData("Homogénéité (%)", data?.data?.homog || "--"),
+    createData("Aliment consommé (Kg)", data?.data?.alimentDist || "--"),
+    createData("Référence d'aliment", data?.data?.formule || "--"),
+    createData("Eau consommée (Litre)", data?.data?.eauDist || "--"),
     createData("Normal", data?.data?.prod_normal || "--"),
     createData("Double jaune", data?.data?.prod_dj || "--"),
     createData("Blanc", data?.data?.prod_blanc || "--"),

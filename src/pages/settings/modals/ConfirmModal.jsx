@@ -1,61 +1,42 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { useSelector, useDispatch } from "react-redux";
-import { getRenderData } from "../../../slices/SiteData";
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 500,
-  boxShadow: 24,
-  p: 3,
-};
 
-export default function ConfirmModal({ setOpen, open, message, onSubmit }) {
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+
+export default function AlertDialog({ setOpen, open, message, onSubmit }) {
   const handleClose = () => {
     setOpen(false);
   };
 
   return (
-    <div>
-      <Modal
+    <React.Fragment>
+      <Dialog
         open={open}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className=""
         onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-        <Box sx={style} className="confirm-modal ">
-          <Typography id="modal-modal-title" variant="p" component="h4">
-            {message}
-          </Typography>
-          <div className="confirm-btns">
-            <button
-              className="confirm type1"
-              type="submit"
-              onClick={() => {
-                onSubmit();
-                handleClose();
-              }}
-            >
-              <span className="btn-txt">Ok</span>
-            </button>
-            <button
-              type=""
-              className="cancel-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                handleClose();
-              }}
-            >
-              <span>Anuler</span>
-            </button>
-          </div>
-        </Box>
-      </Modal>
-    </div>
+        <DialogTitle id="alert-dialog-title">{message}</DialogTitle>
+        <DialogContent></DialogContent>
+        <DialogActions>
+          <Button variant="outlined" color="error" onClick={handleClose}>
+            Annuler
+          </Button>
+          <Button
+            onClick={() => {
+              onSubmit();
+              handleClose();
+            }}
+            autoFocus
+            variant="contained"
+          >
+            Accepter
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </React.Fragment>
   );
 }

@@ -1,177 +1,236 @@
-import React from "react";
+/**
+ * Sample for Line Series
+ */
+import * as React from "react";
+import { useEffect } from "react";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
+  ChartComponent,
+  SeriesCollectionDirective,
+  SeriesDirective,
+  Inject,
+  LineSeries,
   Legend,
-  Filler,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  DateTime,
   Tooltip,
-  Legend,
-  Filler
-);
-const options = {
-  responsive: true,
-  elements: {
-    point: {
-      radius: 0, // The radius of data points (default is 3)
-      borderWidth: 0.5, // Border width of the data points
-      hoverRadius: 3, // Radius of data points on hover
-    },
-    line: {
-      tension: 0.4, // Adjust the line curvature (default is 0.4)
-      borderColor: "rgba(255, 0, 0, 1)", // Color of the line
-      borderWidth: 0.5, // Width of the line
-      borderCapStyle: "round", // Line cap style ('butt', 'round', 'square')
-      //   borderDash: [5, 5], // Dashed line pattern (e.g., [5, 5] for dashes)
-    },
-  },
-  interaction: {
-    mode: "index",
-    intersect: false,
-  },
-  stacked: false,
-  plugins: {
-    datalabels: {
-      display: true,
-      color: "red",
-    },
-    legend: {
-      display: true,
-      position: "bottom", // 'top', 'bottom', 'left', 'right'
-    },
-    title: {
-      display: true,
-      text: " Poids corporel & Homogénéité",
-      font: {
-        weight: "bold",
-        size: "20px",
-      },
-    },
-  },
-  scales: {
-    x: {
-      title: {
-        display: true,
-        text: "Age (semaine)",
-        font: {
-          weight: "bold",
-        },
-      },
-    },
-    y: {
-      type: "linear",
-      display: true,
-      position: "left",
-      max: 100,
-      title: {
-        display: true,
-        text: "Homogénéité (%)", // Specify the y-axis label text
-        position: "left", // Position of the y-axis label (can be 'top', 'bottom', 'left', or 'right')
-        color: "rgb(48, 214, 48)",
-        font: {
-          weight: "bold",
-        },
-      },
-      beginAtZero: true,
-      ticks: {
-        stepSize: 1,
-        color: "rgb(48, 214, 48)",
-        font: {
-          weight: "bold",
-        },
-      },
-    },
-    y1: {
-      type: "linear",
-      display: true,
-      max: 2500,
-      min: 0,
-      position: "right",
-      ticks: {
-        color: "#71c4ef",
-        font: {
-          weight: "bold",
-        },
-      },
-      title: {
-        display: true,
-        text: "Poids corporel (g)", // Specify the y-axis label text
-        position: "left", // Position of the y-axis label (can be 'top', 'bottom', 'left', or 'right')
-        color: "#71c4ef",
-        font: {
-          weight: "bold",
-        },
-      },
+  Highlight,
+  Double,
+  DataLabel,
+  AxesDirective,
+  AxisDirective,
+  SplineSeries,
+  SplineAreaSeries,
+  AreaSeries,
+} from "@syncfusion/ej2-react-charts";
+import { Browser } from "@syncfusion/ej2-base";
 
-      grid: {
-        drawOnChartArea: false,
-      },
-    },
-  },
-};
-const getGradient = (chart) => {
-  const {
-    ctx,
-    chartArea: { top, bottom, left, right },
-  } = chart;
-  const gradientSegment = ctx.createLinearGradient(left, 0, right, 0);
-  gradientSegment.addColorStop(0, "red");
-  gradientSegment.addColorStop(0.5, "blue");
-  gradientSegment.addColorStop(1, "green");
-};
-function HomogPvChart({ homogPvData }) {
-  const labels = homogPvData?.ages;
-  const xData = homogPvData?.homog;
-  const yData = homogPvData?.pv;
-  const zData = homogPvData?.pv_guide;
-  // console.log(homogPvData);
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: "Homogénéité",
-        data: xData,
-        borderColor: "rgb(48, 214, 48)",
-        backgroundColor: "rgba(48, 214, 48, 0.09)",
-
-        borderWidth: 1,
-        yAxisID: "y",
-        fill: true,
-      },
-      {
-        label: "Poids corporel ",
-        data: yData,
-        borderColor: "#00668c",
-        backgroundColor: "#00668c",
-        borderWidth: 4,
-        yAxisID: "y1",
-      },
-      {
-        label: "Guide: Poids corporel ",
-        data: zData,
-        borderColor: "#71c4efa9",
-        backgroundColor: "#71c4ef",
-        borderWidth: 8,
-        yAxisID: "y1",
-      },
-    ],
+const HomogPvChart = ({ data, show }) => {
+  console.log("conso data", data);
+  const onChartLoad = (args) => {
+    let chart = document.getElementById(`chart_homog`);
+    chart.setAttribute("title", "");
   };
-  return <Line options={options} data={data} />;
-}
+  const load = (args) => {
+    let selectedTheme = location.hash.split("/")[1];
+    selectedTheme = selectedTheme ? selectedTheme : "Material";
+    args.chart.theme = (
+      selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)
+    )
+      .replace(/-dark/i, "Dark")
+      .replace(/contrast/i, "Contrast");
+  };
 
+  const lines = { width: 1 };
+  const style = {
+    " #chart_ChartTitle": {
+      color: "red !important",
+    },
+  };
+
+  return (
+    <ChartComponent
+      id={`chart_homog`}
+      // style={{ textAlign: "center" }}
+      style={style}
+      primaryxAxis={{
+        valueType: "Double",
+        title: "Overs",
+        labelFormat: "age",
+      }}
+      // load={load.bind(this)}
+      primaryYAxis={{
+        title: "Homogénéité (%)",
+        rangePadding: "None",
+        minimum: 0,
+        maximum: 100,
+        interval: 10,
+        lineStyle: { width: 0 },
+        majorTickLines: { width: 1, color: "#65B741" },
+
+        majorGridLines: {
+          width: 0,
+        },
+        minorTickLines: { width: 0, color: "#65B741" },
+        titleStyle: {
+          textAlignment: "Center",
+          size: "12px",
+          fontWeight: "bold",
+          color: "#65B741",
+        },
+        labelStyle: {
+          color: "#65B741",
+          size: "11px",
+        },
+      }}
+      chartArea={{ border: { width: 0 } }}
+      tooltip={{ enable: true, shared: true }}
+      legendSettings={{ enableHighlight: true }}
+      width={Browser.isDevice ? "100%" : "100%"}
+      height={"100%"}
+      // title={`Poids corporel & Homogénéité`}
+      titleStyle={{
+        textAlignment: "Center",
+        size: "15px",
+        fontWeight: "600",
+        color: "#0E49B5",
+      }}
+
+      // loaded={onChartLoad.bind(this)}
+    >
+      <Inject
+        services={[
+          LineSeries,
+          DateTime,
+          Legend,
+          Tooltip,
+          Highlight,
+          DataLabel,
+          SplineAreaSeries,
+          AreaSeries,
+        ]}
+      />
+      <AxesDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisC"
+          opposedPosition={true}
+          title="Poids corporel(g)"
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "500",
+            color: "#0E49B5",
+          }}
+          labelStyle={{
+            color: "#0E49B5",
+            size: "12px",
+          }}
+          majorGridLines={{ width: 1 }}
+          majorTickLines={{ width: 1, color: "#0E49B5" }}
+          minorTickLines={{ width: 1, color: "#0E49B5" }}
+          lineStyle={{ width: 1, color: "#0E49B5" }}
+          minimum={0}
+          maximum={2500}
+          interval={250}
+        ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisA"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "400",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={lines}
+          majorTickLines={{ width: 0 }}
+          minorTickLines={{ width: 0 }}
+          lineStyle={{ width: 0 }}
+          minimum={0}
+          maximum={100}
+          interval={2.5}
+          visible={show}
+        ></AxisDirective>
+      </AxesDirective>
+      <SeriesCollectionDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"homog"}
+          name={show ? "Homogénéité" : " "}
+          width={1}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#9ADE7B"
+          type="Area"
+          border={{
+            width: 2,
+          }}
+          opacity={0.3}
+          // yAxisName="yAxisA"
+        ></SeriesDirective>
+
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"gPv"}
+          name={show ? "Guide: Poids corporel" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#B4D4FF"
+          opacity={0.5}
+          type="Line"
+          yAxisName="yAxisC"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"pv"}
+          name={show ? "Poids corporel" : " "}
+          width={2.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#0E49B5"
+          type="Line"
+          yAxisName="yAxisC"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName="y"
+          name=""
+          width={1.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+      </SeriesCollectionDirective>
+    </ChartComponent>
+  );
+};
 export default HomogPvChart;

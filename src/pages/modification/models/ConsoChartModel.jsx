@@ -25,7 +25,7 @@ export default function ConsoChartModel({
   const lotTableId = useSelector((state) => state.toggleLeftBar.lotTableId);
 
   const ApiUrl = useMemo(
-    () => `${base_url}table-conso-chart/?lotId=${lotTableId}`,
+    () => `${base_url}table-conso-chart-new/?lotId=${lotTableId}`,
     [base_url, lotTableId]
   );
 
@@ -45,8 +45,8 @@ export default function ConsoChartModel({
         onClose={handleClose}
       >
         <Box sx={style} className="confirm-modal modal " id="chartDiv">
-          <DownloadBtn />
-          {error ? <p>error</p> : <ConsoChart consoData={data} />}
+          <DownloadBtn pdfname="consommation" />
+          {error ? <p>error</p> : <ConsoChart data={data} show={true} />}
           {loading && <Loader />}
         </Box>
       </Modal>

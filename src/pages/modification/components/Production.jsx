@@ -114,7 +114,7 @@ const Production = ({ formik }) => {
                 ? "input-field"
                 : "input-field-valid input-field"
             }
-            placeholder="Liquide (Litre)"
+            placeholder="Liquide (Kg)"
             type="number"
             name="prod_liquide"
             value={formik.values.prod_liquide}
@@ -123,7 +123,7 @@ const Production = ({ formik }) => {
           />
 
           <label htmlFor="input-field" className="input-label">
-            Liquide (Litre)
+            Liquide (Kg)
           </label>
           <span className="input-highlight"></span>
         </div>

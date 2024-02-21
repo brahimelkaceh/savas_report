@@ -3,7 +3,7 @@ import * as Yup from "yup";
 const validationSchema = Yup.object().shape({
   batiment: Yup.string().required("Batiment is required"),
   mort: Yup.number(),
-  sjt_elm: Yup.number(),
+  hensEliminated: Yup.number(),
   prod_normal: Yup.number(),
   prod_dj: Yup.number(),
   prod_blanc: Yup.number(),

@@ -1,266 +1,336 @@
-import React from "react";
+/**
+ * Sample for Line Series
+ */
+import * as React from "react";
+import { useEffect } from "react";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
+  ChartComponent,
+  SeriesCollectionDirective,
+  SeriesDirective,
+  Inject,
+  LineSeries,
   Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-import { left, right } from "@popperjs/core";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  DateTime,
   Tooltip,
-  Legend
-);
+  Highlight,
+  Double,
+  DataLabel,
+  AxesDirective,
+  AxisDirective,
+  SplineSeries,
+  SplineAreaSeries,
+  AreaSeries,
+} from "@syncfusion/ej2-react-charts";
+import { Browser } from "@syncfusion/ej2-base";
 
-const options = {
-  elements: {
-    point: {
-      radius: 0, // The radius of data points (default is 3)
-      borderWidth: 0.5, // Border width of the data points
-      hoverRadius: 3, // Radius of data points on hover
-    },
-    line: {
-      tension: 0, // Adjust the line curvature (default is 0.4)
-      borderColor: "rgba(255, 0, 0, 1)", // Color of the line
-      borderWidth: 1.8, // Width of the line
-      borderCapStyle: "round", // Line cap style ('butt', 'round', 'square')
-      //   borderDash: [5, 5], // Dashed line pattern (e.g., [5, 5] for dashes)
-    },
-  },
-
-  responsive: true,
-  interaction: {
-    mode: "index",
-    intersect: false,
-  },
-  stacked: false,
-  plugins: {
-    title: {
-      display: true,
-      text: "Consommation (Aliment & Eau)",
-      position: "top",
-      font: {
-        weight: "bold",
-        size: "20px",
-      },
-    },
-
-    legend: {
-      display: true,
-      position: "bottom", // 'top', 'bottom', 'left', 'right'
-    },
-  },
-  scales: {
-    x: {
-      title: {
-        display: true,
-        text: "Age (semaine)",
-        font: {
-          weight: "bold",
-        },
-      },
-      grid: {
-        display: true, // Display the grid lines for the X-axis
-        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
-        borderWidth: 1, // Width of the grid lines
-        drawTicks: false, // Whether to draw tick marks on the grid lines
-      },
-    },
-    z: {
-      type: "linear",
-      display: true,
-      position: "left",
-      min: 50,
-      max: 270,
-      ticks: {
-        color: "#83A2FF",
-        font: {
-          weight: "bold",
-        },
-      },
-      title: {
-        display: true,
-        text: "Eau consommée (ml/j)", // Specify the y-axis label text
-        position: "left",
-        color: "#83A2FF",
-
-        font: {
-          weight: "bold",
-        },
-      },
-      grid: {
-        display: false,
-        drawOnChartArea: true,
-        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
-      },
-      scaleLabel: {
-        display: true, // Display the x-axis label
-        labelString: "X-Axis Label", // Specify the x-axis label text
-      },
-    },
-    y: {
-      type: "linear",
-      display: true,
-      position: "left",
-      max: 150,
-      ticks: {
-        color: "#17594A",
-        font: {
-          weight: "bold",
-          color: "#17594A",
-        },
-      },
-      title: {
-        display: true,
-        text: "Aliment consommé (g/j)", // Specify the y-axis label text
-        color: "#17594A",
-        position: "left",
-        font: {
-          weight: "bold",
-        },
-      },
-      grid: {
-        display: true,
-        drawOnChartArea: true,
-        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
-      },
-      scaleLabel: {
-        display: true, // Display the x-axis label
-        labelString: "X-Axis Label", // Specify the x-axis label text
-      },
-    },
-    y1: {
-      type: "linear",
-      display: true,
-      position: "right",
-      ticks: {
-        color: "#008000",
-        font: {
-          weight: "bold",
-        },
-      },
-      grid: {
-        drawOnChartArea: false,
-      },
-      title: {
-        display: true,
-        text: "∑ Aliment consommé (kg)", // Specify the y-axis label text
-        position: "left",
-        color: "#008000",
-        font: {
-          weight: "bold",
-        },
-      },
-    },
-    y2: {
-      max: 10,
-      type: "linear",
-      display: true,
-      position: "right",
-      ticks: {
-        color: "#97e0ff",
-        font: {
-          weight: "bold",
-        },
-      },
-      scalePositionLeft: left,
-      grid: {
-        drawOnChartArea: false,
-      },
-      title: {
-        display: true,
-        text: "Ratio (Eau/Alt)", // Specify the y-axis label text
-        position: "left", // Position of the y-axis label (can be 'top', 'bottom', 'left', or 'right')
-        color: "#97e0ff",
-        font: {
-          weight: "bold",
-        },
-      },
-    },
-  },
-};
-
-function MortChart({ consoData }) {
-  const labels = consoData?.ages;
-  const yData = consoData?.aps_cuml;
-  const xData = consoData?.aps;
-  const zData = consoData?.guide_aps_cuml;
-  const aData = consoData?.ratio;
-  const bData = consoData?.aps_guide;
-  const cData = consoData?.eps;
-  console.log(consoData);
-  //   const zData = [10, 69, 60, 18, 10, 5, 15, 22, 49, 8];
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: "Eau",
-        data: cData,
-        borderColor: "#83A2FF",
-        backgroundColor: "#fff",
-        yAxisID: "z",
-        borderWidth: 3,
-
-        borderDash: [5, 5],
-      },
-      {
-        label: "Aliment/sujet",
-        data: xData,
-        borderColor: "#17594A",
-        backgroundColor: "#17594A",
-        yAxisID: "y",
-        borderWidth: 4,
-      },
-      {
-        label: "Guide :  Aliment/sujet",
-        data: bData,
-        borderColor: "#17594A88",
-        backgroundColor: "#17594A88",
-        yAxisID: "y",
-        borderWidth: 4,
-      },
-      {
-        label: "∑ Aliment/sujet",
-        data: yData,
-        borderColor: "#008000",
-        backgroundColor: "#008000",
-        yAxisID: "y1",
-        borderWidth: 4,
-      },
-      {
-        label: "Guide: ∑ Aliment/sujet ",
-        data: zData,
-        borderColor: "#0080006a",
-        backgroundColor: "#0080006a",
-        borderWidth: 8,
-        yAxisID: "y1",
-      },
-      {
-        label: "Ratio Eau/Aliment",
-        data: aData,
-        borderColor: "#97e0ff",
-        backgroundColor: "#97e0ff74",
-        borderWidth: 2,
-        yAxisID: "y2",
-        fill: true,
-        borderDash: [5, 5],
-      },
-    ],
+const ConsoChart = ({ data, show }) => {
+  console.log("conso data", data);
+  const onChartLoad = (args) => {
+    let chart = document.getElementById(`chart_conso`);
+    chart.setAttribute("title", "");
   };
-  return <Line options={options} data={data} />;
-}
+  const load = (args) => {
+    let selectedTheme = location.hash.split("/")[1];
+    selectedTheme = selectedTheme ? selectedTheme : "Material";
+    args.chart.theme = (
+      selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)
+    )
+      .replace(/-dark/i, "Dark")
+      .replace(/contrast/i, "Contrast");
+  };
 
-export default MortChart;
+  const lines = { width: 1 };
+  const style = {
+    " #chart_ChartTitle": {
+      color: "red !important",
+    },
+  };
 
-// 'table-conso-chart/': consommation
-// 'table-prod-chart/': % ponte + pmo +  % declassé
+  return (
+    <ChartComponent
+      id={`chart_conso`}
+      // style={{ textAlign: "center" }}
+      style={style}
+      primaryxAxis={{
+        valueType: "Double",
+        title: "Overs",
+        labelFormat: "age",
+      }}
+      // load={load.bind(this)}
+      primaryYAxis={{
+        title: "Eau Consommée (ml/j)",
+        rangePadding: "None",
+        minimum: 0,
+        maximum: 280,
+        interval: 25,
+        lineStyle: { width: 0 },
+        majorTickLines: { width: 0 },
+        majorGridLines: {
+          width: 2,
+        },
+        minorTickLines: { width: 0, color: "#86A7FC" },
+        titleStyle: {
+          textAlignment: "Center",
+          size: "12px",
+          fontWeight: "bold",
+          color: "#86A7FC",
+        },
+        labelStyle: {
+          color: "#86A7FC",
+          size: "11px",
+        },
+      }}
+      chartArea={{ border: { width: 0 } }}
+      tooltip={{ enable: true, shared: true }}
+      legendSettings={{ enableHighlight: true }}
+      width={Browser.isDevice ? "100%" : "100%"}
+      height={"100%"}
+      // title={`Consommation (Aliment & Eau)`}
+      titleStyle={{
+        textAlignment: "Center",
+        size: "15px",
+        fontWeight: "600",
+        color: "#50623A",
+      }}
+
+      // loaded={onChartLoad.bind(this)}
+    >
+      <Inject
+        services={[
+          LineSeries,
+          DateTime,
+          Legend,
+          Tooltip,
+          Highlight,
+          DataLabel,
+          SplineAreaSeries,
+          AreaSeries,
+        ]}
+      />
+      <AxesDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisB"
+          opposedPosition={false}
+          title="Aliment / sujet"
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "500",
+            color: "#557C55",
+          }}
+          labelStyle={{
+            color: "#557C55",
+            size: "12px",
+          }}
+          majorGridLines={{ width: 0, color: "#557C55" }}
+          minorTickLines={{ width: 1, color: "#557C55" }}
+          lineStyle={{ width: 1, color: "#557C55" }}
+          minimum={0}
+          maximum={180}
+          interval={20}
+          visible={show}
+        ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisC"
+          opposedPosition={true}
+          title="∑ Aliment consommée (kg)"
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "500",
+            color: "#557C55",
+          }}
+          labelStyle={{
+            color: "#557C55",
+            size: "12px",
+          }}
+          majorGridLines={{ width: 0, color: "#557C55" }}
+          minorTickLines={{ width: 1, color: "#557C55" }}
+          lineStyle={{ width: 1, color: "#557C55" }}
+          minimum={0}
+          maximum={70}
+          interval={10}
+          // visible={show}
+        ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisD"
+          opposedPosition={true}
+          title="Ratio (Eau/alt)"
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "500",
+            color: "#525CEB",
+          }}
+          labelStyle={{
+            color: "#525CEB",
+            size: "12px",
+          }}
+          majorGridLines={{ width: 0, color: "#525CEB" }}
+          minorTickLines={{ width: 1, color: "#525CEB" }}
+          lineStyle={{ width: 1, color: "#525CEB" }}
+          minimum={0}
+          maximum={10}
+          interval={1}
+          visible={show}
+        ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisA"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "400",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={{ width: 1 }}
+          minorTickLines={{ width: 0 }}
+          lineStyle={{
+            width: 0,
+          }}
+          majorTickLines={{ width: 0 }}
+          minimum={0}
+          maximum={280}
+          interval={5}
+          visible={show}
+        ></AxisDirective>
+      </AxesDirective>
+      <SeriesCollectionDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"ratio"}
+          name={show ? "Ratio" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          dashArray="5,5"
+          border={{ width: 1, color: "#B4D4FF" }}
+          fill="#B4D4FF"
+          opacity={0.5}
+          type="Area"
+          yAxisName="yAxisD"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"eps"}
+          name={show ? "Eau" : " "}
+          width={show ? 3.5 : 2.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          dashArray={show ? "8,5" : "4,4"}
+          fill="#86A7FC"
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"aps"}
+          name={show ? "Aliment / sujet" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#557C55"
+          type="Line"
+          yAxisName="yAxisB"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="G_age"
+          yName={"G_aps"}
+          name={show ? "Guide: Aliment / sujet" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#557C55"
+          opacity={0.5}
+          type="Line"
+          yAxisName="yAxisB"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"apsCuml"}
+          name={show ? "∑ Aliment / sujet" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#7A9D54"
+          type="Line"
+          yAxisName="yAxisC"
+        ></SeriesDirective>
+
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="G_age"
+          yName={"G_altCumlPD"}
+          name={show ? "Guide: ∑ Aliment / sujet" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#7A9D54"
+          opacity={0.5}
+          type="Line"
+          yAxisName="yAxisC"
+        ></SeriesDirective>
+
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="G_age"
+          yName="y"
+          name=""
+          width={1.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+      </SeriesCollectionDirective>
+    </ChartComponent>
+  );
+};
+export default ConsoChart;

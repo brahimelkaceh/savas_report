@@ -1,31 +1,34 @@
 import PlaceIcon from "@mui/icons-material/Place";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 import { MdErrorOutline } from "react-icons/md";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { MdCheckCircle } from "react-icons/md";
 import { WiHumidity } from "react-icons/wi";
 import { TbTemperatureCelsius } from "react-icons/tb";
+import { Chip } from "@mui/material";
 const ThirdCard = ({ data }) => {
   return (
-    <div className="card-1 card-item">
+    <div className="slider-card">
       <div className="card-1__header">
         <div className="site-last-update">
           <p className="site-local">
             <PlaceIcon fontSize="10px"></PlaceIcon>{" "}
             <span>{data.placeName}</span>
           </p>
-          <span>MAJ: {data?.lastUpdate}</span>
+          <span>
+            MAJ:{" "}
+            {data?.lastUpdate && (
+              <Chip
+                label={data?.lastUpdate}
+                sx={{
+                  height: "15px",
+                  fontWeight: "regular",
+                  backgroundColor: "#DEECFF",
+                  color: "var(--dark-blue)",
+                }}
+              ></Chip>
+            )}
+          </span>
         </div>{" "}
-        <div className="site-atmos">
-          <p>
-            <ThermostatIcon fontSize="10px" />
-            <span>{data?.currentTemp ? data?.currentTemp : "--"}</span>
-            <TbTemperatureCelsius />
-          </p>
-          <p>
-            <WiHumidity />
-            <span>{data?.humidity ? data?.humidity : "--"}</span>
-          </p>
-        </div>
       </div>
       <div className="card-item-footer">
         <div className="card-item-footer-details">
@@ -42,11 +45,16 @@ const ThirdCard = ({ data }) => {
       </div>
       <div className="card-item-msg">
         {data?.siteIsGood ? (
-          <CheckCircleIcon style={{ fontSize: "10px !important" }} />
+          <MdCheckCircle style={{ color: "green" }} />
         ) : (
           <MdErrorOutline style={{ color: "red" }} />
         )}
-        <span style={{ color: data?.siteIsGood ? "green" : "red" }}>
+        <span
+          style={{
+            color: data?.siteIsGood ? "green" : "red",
+            fontSize: "9px",
+          }}
+        >
           {data?.statusMsg ? data?.statusMsg : "--"}
         </span>
       </div>

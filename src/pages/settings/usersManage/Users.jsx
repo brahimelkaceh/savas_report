@@ -35,7 +35,6 @@ function Users({ siteName }) {
       const data = await response.json();
 
       if (data) {
-        console.log(data);
         setData(data);
       }
     } catch (error) {
@@ -49,8 +48,7 @@ function Users({ siteName }) {
   }, [renderData]);
   return (
     <div className="users-settings">
-      <UsersTable siteName={siteName} data={data} />
-      {loading && <Loader />}
+      <UsersTable siteName={siteName} data={data} loading={loading} />
       <UsersManage siteName={siteName} />
     </div>
   );

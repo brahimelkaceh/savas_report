@@ -2,14 +2,15 @@
 import axios from "axios";
 
 const API_BASE_URL = "https://farmdriver.savas.ma/api/";
-const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+// const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+// console.log(accessToken);
 
 const apiService = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${accessToken}`,
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem("authTokens"))}`,
   },
 });
 

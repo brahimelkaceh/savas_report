@@ -8,7 +8,6 @@ import Error from "./pages/Error";
 import Modification from "./pages/modification/Modification";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
 import "./styles/animations.css";
 import PrivateRoutes from "./components/utils/PrivateRoutes";
 import { AuthProvider } from "./context/AuthContext";
@@ -17,82 +16,31 @@ import Charts from "./pages/charts/Charts";
 import Souches from "./pages/souches/Souches";
 import Help from "./pages/help/Help";
 import AddGuide from "./pages/souches/AddGuide";
-import Lots from "./pages/lots/Lots";
+import Users from "./pages/settings/Users";
+import Sites from "./pages/settings/Sites";
+import Container from "./pages/dashboard/Container";
+import Comparatif from "./pages/comparasion/Container";
+import Parametre from "./pages/comparasion/Features/Container";
+import Poussinere from "./poussiniere/Poussinere";
+import CreateRepport from "./poussiniere/pages/CreateRepport";
+import Performance from "./poussiniere/pages/Performance";
+import Prophylaxie from "./poussiniere/pages/prophylaxie/Prophylaxie";
+import PerformanceCharts from "./poussiniere/pages/performance-charts/PerformanceCharts";
+import LotsPouss from "./poussiniere/pages/lots/Index";
+import Guides from "./poussiniere/pages/guides/Index";
+import PoussSites from "./poussiniere/pages/sites/Index";
+import Batiments from "./poussiniere/pages/batiments/Index";
+import Lots from "./pages/lots/Index";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const App = () => {
-  const CreateReports = (data) => {
-    const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
-    fetch(`${base_url}add-report-prod/`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(JSON.parse(data));
-      })
-      .catch((error) => console.error(error));
-
-    // .catch((error) => console.log("somthing xwrong"));
-  };
-
-  const [reports, setReports] = useState([]);
-  const [lots, setLots] = useState([]);
-
-  // const FetchData = async () => {
-  //   // setLoading(true);
-  //   const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
-  //   try {
-  //     const response = await fetch(`${base_url}get-finished-report/`, {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-  //     // console.log(response);
-  //     const data = await response.json();
-  //     if (response.status === 200) {
-  //       // setLoading(false);
-  //       // console.log(JSON.stringify(data));
-  //       // setData(JSON.parse(data));
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     // setLoading(false);
-  //   }
-  // };
-  // const FetchLotData = (lot) => {
-  //   const url = `https://savas-app-2000-default-rtdb.firebaseio.com/${lot}.json`;
-  //   axios
-  //     .get(url)
-  //     .then((res) => res.data)
-  //     .then((data) => {
-  //       let lotData = [];
-  //       for (let key in data) {
-  //         lotData.push({ ...data[key], id: key });
-  //       }
-  //       setLots(lotData);
-  //     });
-  // };
-  useEffect(() => {
-    // FetchData();
-    // FetchLotData("lot");
-  }, [0]);
-  console.log(reports);
-
   return (
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route element={<PrivateRoutes />}>
-          <Route exact path="/" element={<Dashboard />} />
+          <Route exact path="/" element={<Container />} />
           <Route path="/report" element={<Report />} />
           <Route
             path="/visualize"
@@ -103,16 +51,45 @@ const App = () => {
             }
           />
 
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/bâtiments" element={<Settings />} />
           <Route path="/souches" element={<Souches />} />
           <Route path="/souches/ajouter-guide" element={<AddGuide />} />
           <Route path="/help" element={<Help />} />
           <Route path="/lots" element={<Lots />} />
+          <Route path="/utilisateurs" element={<Users />} />
+          <Route path="/sites" element={<Sites />} />
+          <Route path="/comparatif" element={<Comparatif />} />
+          <Route path="/comparatif/paramétre" element={<Parametre />} />
           <Route
             path="/modification"
             element={<Modification base_url={base_url} />}
           />
           <Route path="/charts" element={<Charts />} />
+          <Route path="/poussiniere" element={<Poussinere />} exact />
+          <Route
+            path="/poussinier/saisie-donnees"
+            element={<CreateRepport />}
+            exact
+          />
+          <Route
+            path="/poussinier/performances-chiffres"
+            element={<Performance />}
+            exact
+          />
+          <Route
+            path="/poussinier/performances-courbes"
+            element={<PerformanceCharts />}
+            exact
+          />
+          <Route
+            path="/poussinier/prophylaxie"
+            element={<Prophylaxie />}
+            exact
+          />
+          <Route path="/poussinier/lots" element={<LotsPouss />} exact />
+          <Route path="/poussinier/souches" element={<Guides />} exact />
+          <Route path="/poussinier/sites" element={<PoussSites />} exact />
+          <Route path="/poussinier/bâtiments" element={<Batiments />} exact />
 
           <Route path="*" element={<Error />} />
         </Route>

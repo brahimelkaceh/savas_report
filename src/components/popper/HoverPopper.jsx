@@ -30,7 +30,6 @@ const HoverPopper = ({ data }) => {
     }
   }, [text, data, refreshData]);
   useEffect(() => {
-    console.log("change text");
     setText(data?.period);
   }, [data?.period]);
   return (

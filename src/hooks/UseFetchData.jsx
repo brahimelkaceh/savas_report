@@ -24,7 +24,7 @@ function UseFetchData(url, open, openDeleteModal) {
         const response = await fetch(url, requestOptions);
 
         const result = await response.json();
-        if (response.status === 200) {
+        if (response.ok) {
           setData(result);
         } else {
           setData([]);

@@ -30,13 +30,16 @@ const PdfDownloadBtn = ({ content, date }) => {
 
       // Create a temporary URL for the received blob
       const url = window.URL.createObjectURL(blob);
-
+      console.log(response.headers);
       // Create a hidden anchor element for downloading
+      let fileName = response.headers.get("Content-Disposition").substring(21);
+
       const a = document.createElement("a");
+      // fileName = fileName;
+
       a.style.display = "none";
       a.href = url;
-      a.download = "week_report.pdf"; // Change the file name if needed
-
+      a.download = fileName;
       // Append the anchor element to the DOM
       document.body.appendChild(a);
 

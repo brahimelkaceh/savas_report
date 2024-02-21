@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import { getRenderData } from "../../../slices/SiteData";
 import { clearInputs } from "../../../slices/LeftBar";
 import ConfirmModal from "../modals/ConfirmModal";
+import { Button } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 function UsersManage({ siteName }) {
@@ -88,7 +89,7 @@ function UsersManage({ siteName }) {
           e.preventDefault();
         }}
       >
-        <p className="title">Utilisateurs </p>
+        <p className="title">Déclarer un utilisateur</p>
         {/* <p className="message">Login now and get full access to our app. </p> */}
 
         <label>
@@ -218,7 +219,9 @@ function UsersManage({ siteName }) {
           </label>
         </div>
         <div className="btns">
-          <button
+          <Button
+            color="success"
+            variant="contained"
             disabled={
               !formik.values.email ||
               !formik.values.first_name ||
@@ -233,13 +236,8 @@ function UsersManage({ siteName }) {
             className="edit-btn"
             onClick={(e) => setOpen(true)}
           >
-            <div className="svg-wrapper-1">
-              <div className="svg-wrapper">
-                <AiOutlineSend />
-              </div>
-            </div>
-            <span>Envoyer</span>
-          </button>
+            Envoyer
+          </Button>
         </div>
       </form>
     </div>

@@ -26,8 +26,8 @@ ChartJS.register(
 const options = {
   elements: {
     point: {
-      radius: 1, // The radius of data points (default is 3)
-      borderWidth: 1, // Border width of the data points
+      radius: 0, // The radius of data points (default is 3)
+      borderWidth: 0, // Border width of the data points
     },
     line: {
       tension: 0.1, // Adjust the line curvature (default is 0.4)
@@ -47,7 +47,7 @@ const options = {
   plugins: {
     title: {
       display: true,
-      text: "Alimentation",
+      text: "Indice  APO",
       font: {
         weight: "bold",
         size: "20px",
@@ -102,14 +102,14 @@ const options = {
 };
 
 function AltChart({ altData }) {
-  const labels = altData[0]?.dates;
+  const labels = altData?.dates;
 
   const data = {
     labels,
     datasets: [
       {
         label: "Alt/Oeuf",
-        data: altData[1]?.altOeufReel,
+        data: altData?.altOeufReel,
         borderColor: "#557C55",
         backgroundColor: "#557C55",
         borderWidth: 2,
@@ -117,15 +117,15 @@ function AltChart({ altData }) {
 
         yAxisID: "y",
       },
-      {
-        label: "Guide: alt/Oeuf",
-        data: altData[2]?.altOeufGuide,
-        borderColor: "#C5F88888",
-        backgroundColor: "#C5F88888",
-        borderWidth: 4,
+      // {
+      //   label: "Guide: alt/Oeuf",
+      //   data: altData[2]?.altOeufGuide,
+      //   borderColor: "#C5F88888",
+      //   backgroundColor: "#C5F88888",
+      //   borderWidth: 4,
 
-        yAxisID: "y",
-      },
+      //   yAxisID: "y",
+      // },
     ],
   };
   return <Line options={options} data={data} />;

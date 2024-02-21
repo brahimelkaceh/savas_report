@@ -1,5 +1,5 @@
 import React from "react";
-function DailyTableHeader() {
+function DailyTableHeader({ isReform }) {
   return (
     <>
       <tr className="second-header  scale-in-ver-top ">
@@ -33,7 +33,7 @@ function DailyTableHeader() {
         </td>
         {/* Consommations */}
         <td title="Eau consommée (m³)">Eau (m³)</td>
-        <td title="Aliment consommée (tonne) ">Aliment (t)</td>
+        <td title="Aliment consommé (tonne) ">Aliment (t)</td>
         <td title="Eau par Sujet (ml)">EPS(ml)</td>
         <td title="Aliment par sujet (g)">APS(g)</td>
         <td title="Aliment par sujet cumulé(kg)">∑ APS(kg)</td>
@@ -80,6 +80,11 @@ function DailyTableHeader() {
         <td title="Cumul Aliment/cumul Mass d'œuf" className="border-right">
           IC
         </td>
+        {isReform && (
+          <td title="Effectif sortie normal" className="border-right">
+            Effectif sortie
+          </td>
+        )}
       </tr>
     </>
   );

@@ -14,16 +14,16 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import TableDetailModal from "../models/TableDetailModal";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import Loader from "../../../components/loader/Loader";
+import { Box, CircularProgress } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
-function DataTable() {
+function DataTable({ setLoading, loading, isReform }) {
   const lotTableId = useSelector((state) => state.toggleLeftBar.lotTableId);
   let renderData = useSelector((state) => state.getSiteData.renderData);
   let refreshData = useSelector((state) => state.getSiteData.refreshData);
 
   const [age, setAge] = useState("");
   const [tableData, setTableData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTableDetailModal, setOpenTableDetailModal] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
@@ -39,7 +39,7 @@ function DataTable() {
   };
   const getRepportData = async (id) => {
     setLoading(true);
-
+    setTableData([]);
     try {
       const authTokens = JSON.parse(localStorage.getItem("authTokens"));
       if (!authTokens || !authTokens.access) {
@@ -61,6 +61,7 @@ function DataTable() {
       const data = await response.json();
       if (response.ok) {
         setTableData(data);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error fetching user data:", error.message);
@@ -108,11 +109,13 @@ function DataTable() {
       const a = document.createElement("a");
       a.style.display = "none";
       a.href = url;
-      a.download = "week_report.pdf"; // Change the file name if needed
+      // Change the file name if needed
 
       // Append the anchor element to the DOM
       document.body.appendChild(a);
-
+      let fileName = response.headers.get("Content-Disposition").substring(21);
+      console.log(fileName);
+      a.download = fileName;
       // Trigger a click event on the anchor element to initiate the download
       a.click();
 
@@ -152,6 +155,11 @@ function DataTable() {
 
   return (
     <div className="modification-table-container">
+      {pdfLoading && (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <CircularProgress fourColor size={25} />
+        </Box>
+      )}
       {openDeleteModal && (
         <DeleteReport
           openDeleteModal={openDeleteModal}
@@ -173,12 +181,12 @@ function DataTable() {
         />
       )}
 
-      {loading && <Loader />}
-      {pdfLoading && <Loader />}
-
       <table>
         <thead className="sticky-header">
-          <FixedHeader elementVisibility={elementVisibility} />
+          <FixedHeader
+            elementVisibility={elementVisibility}
+            isReform={isReform}
+          />
         </thead>
 
         {newWeeklyData &&
@@ -196,6 +204,7 @@ function DataTable() {
                     i={i}
                     setOpenDeleteModal={setOpenDeleteModal}
                     setOpenEditModal={setOpenEditModal}
+                    isReform={isReform}
                   />
                 )}
                 <WeeklyTableHeader i={i} toggleVisibility={toggleVisibility} />
@@ -215,7 +224,6 @@ function DataTable() {
                       <button className="download">
                         <DownloadIcon
                           onClick={() => {
-                            console.log();
                             handleWeekPdfClick(
                               lotTableId,
                               newWeeklyData[i]?.calendrier?.age
@@ -223,6 +231,7 @@ function DataTable() {
                           }}
                         />
                       </button>
+
                       <button
                         className="download"
                         style={{ backgroundColor: "#194058", color: "#FFFFFF" }}
@@ -408,7 +417,7 @@ function DataTable() {
                       fontSize={15}
                     /> */}
                   </td>
-                  <td rowSpan={2}>{newWeeklyData[i]?.production?.declassed}</td>
+                  <td>{newWeeklyData[i]?.production?.declassed}</td>
                   {/* Mass OEUF */}
 
                   <td>{newWeeklyData[i]?.mass_oeuf?.mass_oeuf_sem_pp.reel}</td>
@@ -449,6 +458,11 @@ function DataTable() {
                       fontSize={15}
                     /> */}
                   </td>
+                  {isReform && (
+                    <td rowSpan={2} className="border-right">
+                      {newWeeklyData[i]?.reform?.reform || "--"}
+                    </td>
+                  )}
                 </tr>
                 <tr
                   className={
@@ -591,6 +605,7 @@ function DataTable() {
                       fontSize={15}
                     />
                   </td>
+                  <td>{newWeeklyData[i]?.production?.declassed_cent}%</td>
                   {/* Mass OEUF */}
                   <td
                     className={

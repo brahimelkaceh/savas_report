@@ -1,7 +1,7 @@
 import React from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import { Avatar } from "@mui/material";
+import { Avatar, Box, LinearProgress } from "@mui/material";
 import { useState, useEffect, useMemo } from "react";
 import UseFetchData from "../../../hooks/UseFetchData";
 import { useSelector, useDispatch } from "react-redux";
@@ -51,7 +51,7 @@ function stringAvatar(name) {
   };
 }
 
-function UsersTable({ siteName, data }) {
+function UsersTable({ siteName, data, loading }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [useRId, setUserId] = useState("");
@@ -141,6 +141,11 @@ function UsersTable({ siteName, data }) {
             })}
         </tbody>
       </table>
+      {loading && (
+        <Box sx={{ width: "100%" }}>
+          <LinearProgress />
+        </Box>
+      )}
     </div>
   );
 }

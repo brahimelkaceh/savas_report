@@ -11,19 +11,22 @@ import LinearChart3 from "../../../components/charts/LinearChart3";
 import Loader from "../../../components/loader/Loader";
 import UseLocalStorageState from "../../../hooks/UseLocalStorageState";
 import useCustomFetch from "../hooks/UseFetchData";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 function ThirdChart({ batSite, Sitesloading }) {
   const [value, setValue] = useState(0);
   const [label, setLabel] = useState(1);
   const chipData = [
-    { key: 0, label: "1S" },
-    { key: 1, label: "1M" },
+    { key: 7, label: "1S" },
+    { key: 30, label: "1M" },
+    { key: 365, label: "1AN" },
+    { key: 0, label: "MAX" },
   ];
   const [id, setId] = useState(null);
-  const [date, setDate] = UseLocalStorageState("ProdTime", 0);
+  const [date, setDate] = UseLocalStorageState("ProdTime", 7);
   const { data, loading } = useCustomFetch(
     id ? id : batSite[0]?.id,
-    date ? date : 0,
+    date || date == 0 ? date : 7,
     "temp-chart"
   );
   const fetchDataById = (id) => {
@@ -44,82 +47,86 @@ function ThirdChart({ batSite, Sitesloading }) {
   };
 
   useEffect(() => {
-    const savedLabel = localStorage.getItem("tempTime") || 0;
+    const savedLabel = localStorage.getItem("tempTime") || 7;
     setLabel(Number(savedLabel));
+    setValue(batSite[0].id);
   }, []);
 
   return (
     <>
-      <div className="First-chart">
-        <Box
-          sx={{
-            maxWidth: { xs: 320, sm: "100%" },
-          }}
-        >
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            variant="scrollable"
-            scrollButtons={false}
-            aria-label="scrollable auto tabs example"
-          >
-            {batSite !== null &&
-              batSite?.map((d) => (
-                <Tab
-                  key={d.id}
-                  label={d.name}
-                  onClick={() => fetchDataById(d.id)}
-                />
-              ))}
-            {Sitesloading && <Skeleton height={40} width="100%" />}
-          </Tabs>
-        </Box>
-        {data !== null ? (
-          <>
-            {/* <LinearChart tempData={tempData} /> */}
-            <LinearChart3 tempData={data} />
-            <Paper
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                flexWrap: "wrap",
-                listStyle: "none",
-                p: 0.2,
-                m: 0,
-              }}
-              component="ul"
-            >
-              <Tabs
-                value={label}
-                onChange={handleChangeLabel}
-                style={{
-                  maxWidth: "50%",
-                  width: "fit-content",
-                  margin: "0  auto",
-                }}
+      <ToggleButtonGroup
+        sx={{
+          display: "flex",
+          justifyContent: "start",
+          gap: "15px",
+          flexWrap: "wrap",
+          listStyle: "none",
+          backgroundColor: "#c5dcfa80",
+          boxShadow:
+            " 0px 2px 4px 0px rgba(97, 97, 97, 0.2) inset, 0px 1px 2px 0px rgba(97, 97, 97, 0.2) inset",
+          p: 0.2,
+          m: 1,
+        }}
+        exclusive
+        value={value}
+        onChange={handleChange}
+        aria-label="text alignment"
+      >
+        {batSite !== null &&
+          batSite?.map((data) => {
+            return (
+              <ToggleButton
+                key={data?.id}
+                value={data?.id}
+                aria-label="left aligned"
+                onClick={() => fetchDataById(data.id)}
               >
-                {chipData?.map((data) => {
-                  return (
-                    <Tab
-                      key={data.key}
-                      label={data.label}
-                      style={{ textTransform: "capitalize" }}
-                      size="small"
-                      color="primary"
-                      variant="variant"
-                      onClick={() => fetchDataByDate(data.key)}
-                    />
-                  );
-                })}
-              </Tabs>
-            </Paper>
-          </>
-        ) : (
-          <SkeletonBox />
-        )}
-        {loading && <Loader />}
-      </div>
-      {/* {loading && <SkeletonChart />} */}
+                {data?.name}
+              </ToggleButton>
+            );
+          })}
+      </ToggleButtonGroup>
+      {data !== null ? (
+        <>
+          {/* <LinearChart tempData={tempData} /> */}
+          <LinearChart3 tempData={data} />
+          <ToggleButtonGroup
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "15px",
+              flexWrap: "wrap",
+              listStyle: "none",
+              backgroundColor: "#c5dcfa80",
+              boxShadow:
+                " 0px 2px 4px 0px rgba(97, 97, 97, 0.2) inset, 0px 1px 2px 0px rgba(97, 97, 97, 0.2) inset",
+              p: 0.2,
+              m: 1,
+            }}
+            value={label}
+            exclusive
+            onChange={handleChangeLabel}
+            aria-label="text alignment"
+          >
+            {chipData?.map((data) => {
+              console.log(data);
+              return (
+                <ToggleButton
+                  key={data?.key}
+                  value={data?.key}
+                  aria-label="left aligned"
+                  onClick={() => fetchDataByDate(data.key)}
+                >
+                  {data?.label}
+                </ToggleButton>
+              );
+            })}
+          </ToggleButtonGroup>
+        </>
+      ) : (
+        <SkeletonBox />
+      )}
+      {loading && <Loader />}
     </>
   );
 }

@@ -9,6 +9,7 @@ import { useRef } from "react";
 import "../modals/style.css";
 import { useState } from "react";
 import SuccessModal from "../modals/SuccessModal";
+import { Button, DialogActions } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const style = {
@@ -116,7 +117,7 @@ export default function EditBatsModal({ siteName, open, setOpen }) {
                 />
               )}
               <form className="settings-form">
-                <p className="title">Modifier bâtiment</p>
+                <p className="title">Modifier</p>
                 <label>
                   <input
                     ref={batmntRef}
@@ -166,49 +167,29 @@ export default function EditBatsModal({ siteName, open, setOpen }) {
                     className="input"
                     disabled={disable}
                     defaultValue={currentSiteName.map((site) => site?.name)}
-                    // onFocus={() => dispatch(clearInputs(false))}
-                    // onChange={(e) => SetSite(e.target.value)}
-                  >
-                    {/* {currentSiteName.map((site) => (
-                      <option key={site.id} value={site.id}>
-                        {site.name}
-                      </option>
-                    ))}
-                    {newSiteName.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.name}
-                      </option>
-                    ))} */}
-                  </input>
-                  {/* <span>Sites*</span> */}
+                  ></input>
                 </label>
-                <div className="btns">
-                  <button
-                    type=""
-                    className="edit-btn"
+
+                <DialogActions>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={handleClose}
+                  >
+                    Annuler
+                  </Button>
+                  <Button
+                    autoFocus
+                    variant="contained"
+                    color="success"
                     onClick={(e) => {
                       e.preventDefault();
                       sendData();
                     }}
                   >
-                    <div className="svg-wrapper-1">
-                      <div className="svg-wrapper">
-                        <AiOutlineSend />
-                      </div>
-                    </div>
-                    <span>Envoyer</span>
-                  </button>
-                  <button
-                    type=""
-                    className="cancel-btn"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleClose();
-                    }}
-                  >
-                    <span>Annuler</span>
-                  </button>
-                </div>
+                    Enregistrer
+                  </Button>
+                </DialogActions>
               </form>
             </div>
           </Box>

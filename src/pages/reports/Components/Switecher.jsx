@@ -1,22 +1,32 @@
-import { useState } from "react";
-import Switch from "@mui/material/Switch";
+import { useEffect, useState } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import Checkbox from "@mui/material/Checkbox";
+import {
+  Chip,
+  FormControl,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Stack,
+} from "@mui/material";
 const Switecher = ({ formik }) => {
   return (
-    <label className="cyberpunk-checkbox-label">
-      <input
-        type="checkbox"
-        className="switch"
+    <FormControl>
+      <RadioGroup
+        aria-labelledby="demo-row-radio-buttons-group-label"
         name="intensIsLux"
-        checked={formik.values.intensIsLux}
-        onChange={(e) => {
-          formik.handleChange(e);
-        }}
-      />
-      {formik.values.intensIsLux ? "lux" : "%"}
-    </label>
+        row
+        value={formik.values.intensIsLux}
+        onChange={formik?.handleChange}
+      >
+        <Stack flexDirection={"row"} alignItems={"center"}>
+          <FormLabel id="demo-row-radio-buttons-group-label">
+            <Chip size="small" label="Intensité" color="info" />
+          </FormLabel>
+          <FormControlLabel value={false} control={<Radio />} label="%" />
+          <FormControlLabel value={true} control={<Radio />} label="Lux" />
+        </Stack>
+      </RadioGroup>
+    </FormControl>
   );
 };
 

@@ -23,7 +23,7 @@ export default function ProdChartModel({
 }) {
   const lotTableId = useSelector((state) => state.toggleLeftBar.lotTableId);
   const ApiUrl = useMemo(
-    () => `${base_url}table-prod-chart/?lotId=${lotTableId}`,
+    () => `${base_url}table-prod-chart-new/?lotId=${lotTableId}`,
     [base_url, lotTableId]
   );
   const { data, loading, error } = UseFetchData(ApiUrl, "GET", lotTableId);
@@ -42,7 +42,7 @@ export default function ProdChartModel({
       >
         <Box sx={style} className="confirm-modal modal " id="chartDiv">
           <DownloadBtn />
-          {error ? <p>error</p> : <ProdChart prodData={data} />}
+          {error ? <p>error</p> : <ProdChart data={data} show={true} />}
           {loading && <Loader />}
         </Box>
       </Modal>

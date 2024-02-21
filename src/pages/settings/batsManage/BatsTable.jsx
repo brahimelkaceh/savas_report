@@ -12,6 +12,7 @@ import {
   getBatName,
 } from "../../../slices/SiteData";
 import Loader from "../../../components/loader/Loader";
+import { Box, LinearProgress } from "@mui/material";
 function BatsTable({ siteName, loading, data }) {
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -90,7 +91,11 @@ function BatsTable({ siteName, loading, data }) {
             ))}
         </tbody>
       </table>
-      {loading && <Loader />}
+      {loading && (
+        <Box sx={{ width: "100%" }}>
+          <LinearProgress />
+        </Box>
+      )}
     </div>
   );
 }

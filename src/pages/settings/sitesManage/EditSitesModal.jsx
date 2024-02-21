@@ -11,6 +11,7 @@ import { useState, useMemo } from "react";
 import SuccessModal from "../modals/SuccessModal";
 import { getRenderData } from "../../../slices/SiteData";
 import { render } from "react-dom";
+import { Button, DialogActions } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const style = {
@@ -118,7 +119,7 @@ export default function EditSitesModal({ open, setOpen }) {
                 />
               )}
               <form className="settings-form">
-                <p className="title">Modifier Site </p>
+                <p className="title">Modifier</p>
 
                 <label>
                   <input
@@ -145,34 +146,30 @@ export default function EditSitesModal({ open, setOpen }) {
                   <span>Télephone*</span>
                 </label>
 
-                <div className="btns">
-                  <button
-                    type="submit"
-                    className="edit-btn"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      sendData();
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    <div className="svg-wrapper-1">
-                      <div className="svg-wrapper">
-                        <AiOutlineSend />
-                      </div>
-                    </div>
-                    <span>Envoyer</span>
-                  </button>
-                  <button
-                    type=""
-                    className="cancel-btn"
+                <DialogActions>
+                  <Button
+                    variant="outlined"
+                    color="error"
                     onClick={(e) => {
                       e.preventDefault();
                       handleClose();
                     }}
                   >
-                    <span>Annuler</span>
-                  </button>
-                </div>
+                    Annuler
+                  </Button>
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      sendData();
+                      setIsModalOpen(true);
+                    }}
+                    autoFocus
+                    variant="contained"
+                    color="success"
+                  >
+                    Enregistrer
+                  </Button>
+                </DialogActions>
               </form>
             </div>
           </Box>

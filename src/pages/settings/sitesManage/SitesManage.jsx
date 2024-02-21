@@ -5,6 +5,7 @@ import { getRenderData } from "../../../slices/SiteData";
 import { clearInputs } from "../../../slices/LeftBar";
 import { useState } from "react";
 import { useFormik } from "formik";
+import { Button } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 function SitesManage() {
@@ -65,7 +66,7 @@ function SitesManage() {
           e.preventDefault();
         }}
       >
-        <p className="title">Sites </p>
+        <p className="title">Déclarer un Site </p>
         <label>
           <input
             required
@@ -97,7 +98,6 @@ function SitesManage() {
         <div className="flex">
           <label>
             <input
-              required
               id="longtitude"
               name="longtitude"
               value={formik.values.longtitude}
@@ -110,7 +110,6 @@ function SitesManage() {
           </label>
           <label>
             <input
-              required
               id="latitude"
               name="latitude"
               value={formik.values.latitude}
@@ -124,15 +123,11 @@ function SitesManage() {
         </div>
 
         <div className="btns">
-          <button
-            className="edit-btn"
+          <Button
+            color="success"
+            variant="contained"
             type="submit"
-            disabled={
-              !formik.values.name.length ||
-              !formik.values.phone.length ||
-              !formik.values.latitude ||
-              !formik.values.longtitude
-            }
+            disabled={!formik.values.name.length || !formik.values.phone.length}
             onClick={(e) => {
               setMessage(
                 "Êtes-vous sûr(e) de vouloir soumettre ce formulaire ?"
@@ -140,13 +135,8 @@ function SitesManage() {
               setOpen(true);
             }}
           >
-            <div className="svg-wrapper-1">
-              <div className="svg-wrapper">
-                <AiOutlineSend />
-              </div>
-            </div>
-            <span>Envoyer</span>
-          </button>
+            Envoyer
+          </Button>
         </div>
       </form>
     </div>

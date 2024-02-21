@@ -1,25 +1,24 @@
-import { useSelector, useDispatch } from "react-redux";
 import Topbar from "../../components/Topbar";
-import Sidebar from "../../components/Sidebar";
 import Header from "./Header";
 import DataTable from "./table/DataTable";
+import Navbar from "../../components/navbar/Navbar";
+import { useState } from "react";
 function Modification() {
-  const status = useSelector((state) => state.toggleLeftBar.status);
-  const isVisualize = useSelector((state) => state.openSearchBar.isVisualize);
-  const dropState = useSelector((state) => state.userDrop.dropState);
-  const dispatch = useDispatch();
-
+  const [loading, setLoading] = useState(false);
+  const [isReform, setIsReform] = useState(false);
   return (
     <>
-      <main className={status === true ? "page page-with-sidebar " : "page"}>
-        <Topbar
-          isVisualize={!isVisualize}
-          onClick={() => dropState && dispatch(closeDrop())}
-        />
-        <Sidebar />
+      <main className="page">
+        {/* <Topbar /> */}
+        <Navbar />
+
         <div className="modification-container">
-          <Header />
-          <DataTable />
+          <Header dataLoading={loading} setIsReform={setIsReform} />
+          <DataTable
+            loading={loading}
+            setLoading={setLoading}
+            isReform={isReform}
+          />
         </div>
       </main>
     </>

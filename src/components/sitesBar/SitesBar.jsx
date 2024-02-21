@@ -55,11 +55,8 @@ const SitesBar = ({ siteData }) => {
   const GetBatimentData = (id) => {
     const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
-    fetch(`${base_url}get-site-bats/`, {
-      method: "POST",
-      body: JSON.stringify({
-        "site": id ? id : 1,
-      }),
+    fetch(`${base_url}get-site-bats/?site=${id}`, {
+      method: "GET",
       headers: {
         "Authorization": `Bearer ${accessToken}`,
         "Content-Type": "application/json",

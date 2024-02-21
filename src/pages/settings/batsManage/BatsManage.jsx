@@ -5,6 +5,7 @@ import ConfirmModal from "../modals/ConfirmModal";
 import SuccessModal from "../modals/SuccessModal";
 import { getRenderData } from "../../../slices/SiteData";
 import { useFormik } from "formik";
+import { Button } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 export default function BatsManage({ siteName }) {
@@ -15,7 +16,7 @@ export default function BatsManage({ siteName }) {
     initialValues: {
       name: "",
       site: "",
-      typeOf: 0,
+      typeOf: "production",
     },
     onSubmit: (values) => {
       CreateBatiment(values);
@@ -63,7 +64,7 @@ export default function BatsManage({ siteName }) {
           e.preventDefault();
         }}
       >
-        <p className="title">Bâtiments </p>
+        <p className="title">Déclarer une bâtiment</p>
         <label>
           <input
             required
@@ -76,21 +77,7 @@ export default function BatsManage({ siteName }) {
           />
           <span>Bâtiment</span>
         </label>
-        <label>
-          <select
-            required
-            id="typeOf"
-            name="typeOf"
-            value={formik.values.typeOf}
-            onChange={formik.handleChange}
-            className="input"
-          >
-            <option value="">--</option>
-            <option value="production">Production</option>
-            <option value="poussiniere">Poussiniere</option>
-          </select>
-          <span> Production/Poussiniere*</span>
-        </label>
+
         <label>
           <select
             required
@@ -115,13 +102,11 @@ export default function BatsManage({ siteName }) {
           <span> Sites*</span>
         </label>
         <div className="btns">
-          <button
+          <Button
+            color="success"
+            variant="contained"
             type="submit"
-            disabled={
-              !formik.values.name ||
-              !formik.values.typeOf ||
-              !formik.values.site
-            }
+            disabled={!formik.values.name || !formik.values.site}
             className="edit-btn"
             onClick={(e) => {
               e.preventDefault();
@@ -129,13 +114,8 @@ export default function BatsManage({ siteName }) {
               // sendData();
             }}
           >
-            <div className="svg-wrapper-1">
-              <div className="svg-wrapper">
-                <AiOutlineSend />
-              </div>
-            </div>
-            <span>Envoyer</span>
-          </button>
+            Envoyer
+          </Button>
         </div>
       </form>
     </div>

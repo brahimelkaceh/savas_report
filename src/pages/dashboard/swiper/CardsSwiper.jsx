@@ -1,10 +1,9 @@
 import { useMemo } from "react";
 import UseFetchData from "../../../hooks/UseFetchData";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
-import ThirdCard from "../cards/ThirdCard";
 import "./style.css";
+import ThirdCard from "../cards/ThirdCard";
 import SkeletonBlock from "../skeletons/SkeletonBlock";
 import { Skeleton } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
@@ -32,7 +31,7 @@ export default function App() {
 
   return (
     <Swiper
-      slidesPerView={2}
+      slidesPerView={3}
       spaceBetween={10}
       autoplay={{
         delay: 2500,

@@ -8,16 +8,12 @@ import UserManage from "./usersManage/Users";
 import Sites from "./sitesManage/Sites";
 import Bats from "./batsManage/Bats";
 import "./settings.css";
+import Navbar from "../../components/navbar/Navbar";
 
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const Settings = () => {
   const status = useSelector((state) => state.toggleLeftBar.status);
-
-  const isVisualize = useSelector((state) => state.openSearchBar.isVisualize);
-  const dropState = useSelector((state) => state.userDrop.dropState);
-
-  const dispatch = useDispatch();
 
   const apiUrl = useMemo(() => `${base_url}get-sites/`, [base_url]);
 
@@ -26,15 +22,10 @@ const Settings = () => {
   return (
     <>
       <main className={status === true ? "page page-with-sidebar " : "page"}>
-        <Topbar
-          isVisualize={!isVisualize}
-          onClick={() => dropState && dispatch(closeDrop())}
-        />
-        <Sidebar />
+        {/* <Topbar /> */}
+        <Navbar />
 
         <div className="settings-container">
-          <UserManage siteName={data} />
-          <Sites />
           <Bats siteName={data} />
         </div>
       </main>

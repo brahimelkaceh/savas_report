@@ -33,6 +33,7 @@
 .card-1__header .site-local {
   display: flex;
   align-items: center;
+  color: var(--dark-blue);
 }
 .card-1__header .site-local span {
   font-size: 15px;
@@ -72,9 +73,7 @@
 
 .card-item-msg {
   margin: 2px;
-  /* margin-bottom: 0; */
   padding: 0 4px;
-  border: 0.5px solid #ef9595;
   border-radius: 40px;
   width: fit-content;
   display: flex;

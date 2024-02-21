@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
 import "./souches.css";
+import Navbar from "../../components/navbar/Navbar";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const Souches = () => {
@@ -50,11 +51,12 @@ const Souches = () => {
   return (
     <>
       <main className={status === true ? "page page-with-sidebar " : "page"}>
-        <Topbar
+        {/* <Topbar
           isVisualize={!isVisualize}
           onClick={() => dropState && dispatch(closeDrop())}
         />
-        <Sidebar />
+        <Sidebar /> */}
+        <Navbar />
         <div className="souche-container">
           <div className="souche-header">
             <p className="title">Guides de normes</p>

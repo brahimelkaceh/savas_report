@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Loader from "../../components/loader/Loader";
 function SoucheTable(guideData, loading) {
-  console.log(loading);
   return (
     <div className="souche-table slit-in-horizontal">
       <table className="">

@@ -1,159 +1,206 @@
-import React from "react";
+/**
+ * Sample for Line Series
+ */
+import * as React from "react";
+import { useEffect } from "react";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
+  ChartComponent,
+  SeriesCollectionDirective,
+  SeriesDirective,
+  Inject,
+  LineSeries,
   Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  DateTime,
   Tooltip,
-  Legend
-);
+  Highlight,
+  Double,
+  DataLabel,
+  AxesDirective,
+  AxisDirective,
+  SplineSeries,
+  SplineAreaSeries,
+  AreaSeries,
+} from "@syncfusion/ej2-react-charts";
+import { Browser } from "@syncfusion/ej2-base";
 
-const options = {
-  elements: {
-    point: {
-      radius: 0, // The radius of data points (default is 3)
-      borderWidth: 0.5, // Border width of the data points
-      hoverRadius: 3, // Radius of data points on hover
+const AltChart = ({ data, show }) => {
+  const lines = { width: 1 };
+  const style = {
+    " #chart_ChartTitle": {
+      color: "red !important",
     },
-    line: {
-      tension: 0, // Adjust the line curvature (default is 0.4)
-      borderColor: "rgba(255, 0, 0, 1)", // Color of the line
-      borderWidth: 1.8, // Width of the line
-      borderCapStyle: "round", // Line cap style ('butt', 'round', 'square')
-      //   borderDash: [5, 5], // Dashed line pattern (e.g., [5, 5] for dashes)
-    },
-  },
-
-  responsive: true,
-  interaction: {
-    mode: "index",
-    intersect: false,
-  },
-  stacked: false,
-  plugins: {
-    title: {
-      display: true,
-      text: "Aliment / Oeuf",
-      font: {
-        weight: "bold",
-        size: "20px",
-      },
-    },
-    legend: {
-      display: true,
-      position: "top", // 'top', 'bottom', 'left', 'right'
-    },
-  },
-  scales: {
-    x: {
-      // X-axis grid customization
-      title: {
-        display: true,
-        text: "Age (semaine)",
-        font: {
-          weight: "bold",
-        },
-      },
-      grid: {
-        display: true, // Display the grid lines for the X-axis
-        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
-        borderWidth: 1, // Width of the grid lines
-        drawTicks: false, // Whether to draw tick marks on the grid lines
-      },
-    },
-    y: {
-      type: "linear",
-      display: true,
-      position: "left",
-      ticks: {
-        stepSize: 500,
-      },
-      min: 0,
-      title: {
-        display: true,
-        text: "Aliment/Oeuf ", // Specify the y-axis label text
-        position: "left", // Position of the y-axis label (can be 'top', 'bottom', 'left', or 'right')
-        font: {
-          weight: "bold",
-        },
-      },
-      grid: {
-        display: true,
-        drawOnChartArea: true,
-        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
-      },
-      scaleLabel: {
-        display: true, // Display the x-axis label
-        labelString: "X-Axis Label", // Specify the x-axis label text
-      },
-    },
-  },
-};
-
-function AltChart({ altOeufData }) {
-  const labels = altOeufData?.ages;
-  const yData = altOeufData?.altoeufCuml;
-  const zData = altOeufData?.guideAltoeufCuml;
-  const xData = altOeufData?.altoeufSem;
-  const wData = altOeufData?.guideAltoeufSem;
-  // return;
-  //   const zData = [10, 69, 60, 18, 10, 5, 15, 22, 49, 8];
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: "Aliment/Oeuf",
-        // data: labels.map(() => faker.datatype.number({ min: -1, max: 10 })),
-        data: xData,
-        borderColor: "#8f1e00",
-        backgroundColor: "#8f1e00",
-        yAxisID: "y",
-        borderWidth: 4,
-      },
-      {
-        label: "∑ Aliment/oeuf",
-        data: yData,
-        borderColor: "#1F3A5F",
-        backgroundColor: "#1F3A5F",
-        yAxisID: "y",
-        borderWidth: 4,
-      },
-      {
-        label: "Guide: ∑ Aliment/Oeuf  ",
-        data: zData,
-        borderColor: "#1F3A5F6a",
-        backgroundColor: "#1F3A5F6a",
-        borderWidth: 8,
-        yAxisID: "y",
-      },
-      {
-        label: "Guide: Aliment/Oeuf   ",
-        data: wData,
-
-        borderColor: "#8f1e006a",
-        backgroundColor: "#8f1e006a",
-        borderWidth: 8,
-        yAxisID: "y",
-      },
-    ],
   };
-  return <Line options={options} data={data} />;
-}
 
+  return (
+    <ChartComponent
+      id={`chart_alt`}
+      style={style}
+      primaryxAxis={{
+        valueType: "Double",
+        title: "Overs",
+        labelFormat: "age",
+      }}
+      // load={load.bind(this)}
+      primaryYAxis={{
+        title: "APO (g)",
+        rangePadding: "None",
+        minimum: null,
+        maximum: null,
+        interval: null,
+        lineStyle: { width: 0 },
+        majorTickLines: { width: 0 },
+        majorGridLines: {
+          width: show ? 0 : 1,
+        },
+        minorTickLines: { width: 0, color: "#6B240C" },
+        titleStyle: {
+          textAlignment: "Center",
+          size: "12px",
+          fontWeight: "bold",
+          color: "#6B240C",
+        },
+        labelStyle: {
+          color: "#6B240C",
+        },
+      }}
+      chartArea={{ border: { width: 0 } }}
+      tooltip={{ enable: true, shared: true }}
+      legendSettings={{ enableHighlight: true }}
+      width={Browser.isDevice ? "100%" : "100%"}
+      height={"100%"}
+      // title={`Aliment / Oeufs`}
+      titleStyle={{
+        textAlignment: "Center",
+        size: "15px",
+        fontWeight: "600",
+        color: "rgb(131, 53, 0)",
+      }}
+
+      // loaded={onChartLoad.bind(this)}
+    >
+      <Inject
+        services={[
+          LineSeries,
+          DateTime,
+          Legend,
+          Tooltip,
+          Highlight,
+          DataLabel,
+          SplineAreaSeries,
+          AreaSeries,
+        ]}
+      />
+      <AxesDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisA"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "400",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={lines}
+          minorTickLines={lines}
+          lineStyle={lines}
+          minimum={0}
+          maximum={100}
+          interval={2.5}
+          visible={show}
+        ></AxisDirective>
+      </AxesDirective>
+      <SeriesCollectionDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"altOeufCuml"}
+          name={show ? "Guide: ∑ APO (g)" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#FFA447"
+          opacity={0.5}
+          type="Line"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"altOeufSem"}
+          name={show ? "Guide: APO (g)" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#191919"
+          opacity={0.5}
+          type="Line"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"altOeufCuml"}
+          name={show ? "∑ APO (g)" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#FFA447"
+          opacity={0.5}
+          type="Line"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"altOeufSem"}
+          name={show ? "APO (g)" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#191919"
+          opacity={0.5}
+          type="Line"
+        ></SeriesDirective>
+
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName="y"
+          name=""
+          width={1.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+      </SeriesCollectionDirective>
+    </ChartComponent>
+  );
+};
 export default AltChart;
-
-// 'table-conso-chart/': consommation
-// 'table-prod-chart/': % ponte + pmo +  % declassé

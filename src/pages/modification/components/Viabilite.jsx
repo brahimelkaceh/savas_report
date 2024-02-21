@@ -29,14 +29,14 @@ const Viabilite = ({ formik }) => {
         <div className="input-container">
           <input
             className={
-              formik.values.sjt_elm?.length === 0
+              formik.values.hensEliminated?.length === 0
                 ? "input-field"
                 : "input-field-valid input-field"
             }
             placeholder="sujet elimines"
-            name="sjt_elm"
+            name="hensEliminated"
             type="number"
-            value={formik.values.sjt_elm}
+            value={formik.values.hensEliminated}
             onChange={formik.handleChange}
           />
 

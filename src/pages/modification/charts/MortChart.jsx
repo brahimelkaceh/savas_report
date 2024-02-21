@@ -1,207 +1,293 @@
-import React from "react";
+/**
+ * Sample for Line Series
+ */
+import * as React from "react";
+import { useEffect } from "react";
 import {
-  Chart as ChartJS,
-  LinearScale,
-  CategoryScale,
-  BarElement,
-  PointElement,
-  LineElement,
+  ChartComponent,
+  SeriesCollectionDirective,
+  SeriesDirective,
+  Inject,
+  LineSeries,
   Legend,
+  DateTime,
   Tooltip,
-  LineController,
-  BarController,
-} from "chart.js";
-import { Chart } from "react-chartjs-2";
+  Highlight,
+  Double,
+  DataLabel,
+  AxesDirective,
+  AxisDirective,
+  SplineSeries,
+  SplineAreaSeries,
+  AreaSeries,
+  ColumnSeries,
+} from "@syncfusion/ej2-react-charts";
+import { Browser } from "@syncfusion/ej2-base";
 
-ChartJS.register(
-  LinearScale,
-  CategoryScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Legend,
-  Tooltip,
-  LineController,
-  BarController
-);
-const options = {
-  elements: {
-    point: {
-      radius: 0, // The radius of data points (default is 3)
-      borderWidth: 0.5, // Border width of the data points
-      hoverRadius: 3, // Radius of data points on hover
+const MortChart = ({ data, show }) => {
+  const lines = { width: 1 };
+  const style = {
+    " #chart_ChartTitle": {
+      color: "red !important",
     },
-    line: {
-      tension: 0.4, // Adjust the line curvature (default is 0.4)
-      borderColor: "rgba(0, 102, 140,0)", // Color of the line
-      borderCapStyle: "round", // Line cap style ('butt', 'round', 'square')
-      //   borderDash: [5, 5], // Dashed line pattern (e.g., [5, 5] for dashes)
-    },
-  },
-
-  responsive: true,
-  interaction: {
-    mode: "index",
-    intersect: false,
-  },
-  stacked: false,
-  plugins: {
-    title: {
-      display: true,
-      text: " % Mortalité",
-      font: {
-        weight: "bold",
-        size: "20px",
-      },
-    },
-    legend: {
-      display: true,
-      position: "bottom", // 'top', 'bottom', 'left', 'right'
-    },
-  },
-  scales: {
-    x: {
-      // X-axis grid customization
-      title: {
-        display: true,
-        text: "Age (semaine)",
-        font: {
-          weight: "bold",
-        },
-      },
-      grid: {
-        display: true, // Display the grid lines for the X-axis
-        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
-        borderWidth: 1, // Width of the grid lines
-        drawTicks: false, // Whether to draw tick marks on the grid lines
-      },
-    },
-    y: {
-      type: "linear",
-      display: true,
-      position: "right",
-      title: {
-        display: true,
-        text: "∑ Mortalité / PD (%)",
-        color: "#005B41",
-        font: {
-          weight: "bold",
-        },
-      },
-      grid: {
-        display: true,
-        drawOnChartArea: true,
-        color: "rgba(0, 0, 0, 0)", // Color of the grid lines
-      },
-      scaleLabel: {
-        display: true, // Display the x-axis label
-        labelString: "X-Axis Label", // Specify the x-axis label text
-      },
-      ticks: {
-        color: "#005B41",
-        font: {
-          weight: "bold",
-        },
-      },
-    },
-    y1: {
-      type: "linear",
-      display: true,
-      // stacked: true,
-
-      // max: 0.25,
-      ticks: {
-        beginAtZero: true,
-
-        color: "rgba(255, 99, 132)",
-        font: {
-          weight: "bold",
-        },
-      },
-      position: "left",
-      title: {
-        display: true,
-        text: "Mortalité / Semaine (%)",
-        color: "rgba(255, 99, 132)",
-        font: {
-          weight: "bold",
-        },
-      },
-    },
-  },
-};
-function MortChart({ mortData }) {
-  // console.log(mortData);
-  // console.log(mortData.mort_sem?.map((data) => data));
-  const labels = mortData?.ages;
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        type: "line",
-        label: "∑ % moratilité PD",
-        borderColor: "#005B41",
-        backgroundColor: "#005B41",
-        borderWidth: 4, // Set the border width
-        yAxisID: "y",
-        data: mortData?.mort_cuml,
-      },
-      {
-        type: "line",
-        label: "Guide:∑ % moratilité PD",
-        borderColor: "#A2C579",
-        backgroundColor: "#A2C579",
-        borderWidth: 8, // Set the border width
-        yAxisID: "y",
-
-        data: mortData?.guide_mort_cuml,
-      },
-
-      {
-        type: "bar",
-        label: "% Mortalité / Semaine",
-        backgroundColor: "rgba(255, 99, 132, 0.8)",
-        barThickness: 5, // Customize the bar width here (in pixels)
-        fill: false,
-        data: mortData?.mort_sem,
-        yAxisID: "y1",
-      },
-      {
-        type: "line",
-        borderColor: "green",
-        // backgroundColor: "white",
-        data: mortData?.bar1,
-        beginAtZero: false,
-        yAxisID: "y1",
-        fill: false,
-        borderDash: [5, 5],
-      },
-      {
-        type: "line",
-        borderColor: "#ED9526",
-        backgroundColor: "rgba(246, 202, 146, 0.8)",
-        fill: false,
-        data: mortData?.bar2,
-        yAxisID: "y1",
-        borderDash: [5, 5],
-
-        // beginAtZero: true,
-      },
-      {
-        type: "line",
-        borderColor: "red",
-        borderDash: [5, 5],
-
-        backgroundColor: "rgba(218, 16, 11, 0.5)",
-        data: mortData?.bar3,
-        yAxisID: "y1",
-        beginAtZero: true,
-        fill: false,
-      },
-    ],
   };
-  return <Chart type="bar" options={options} data={data} />;
-}
 
+  return (
+    <ChartComponent
+      id={`chart_mort`}
+      style={style}
+      legendSettings={{ enableHighlight: true }}
+      primaryXAxis={{
+        labelIntersectAction: Browser.isDevice ? "None" : "Trim",
+        labelRotation: Browser.isDevice ? -45 : 0,
+        valueType: "Double",
+        title: "",
+        rangePadding: "Round",
+        interval: 5,
+        majorGridLines: { width: 1 },
+        majorTickLines: { width: 1 },
+        rangePadding: "None",
+      }}
+      primaryYAxis={{
+        title: "∑ % Mortalité PD",
+        // rangePadding: "None",
+        opposedPosition: true,
+        minimum: null,
+        maximum: null,
+        interval: null,
+        lineStyle: { width: 1 },
+        majorTickLines: { width: 1 },
+        majorGridLines: {
+          width: 0,
+        },
+        minorTickLines: { width: 0, color: "#79AC78" },
+        titleStyle: {
+          textAlignment: "Center",
+          size: "12px",
+          fontWeight: "bold",
+          color: "#79AC78",
+        },
+        labelStyle: {
+          color: "#79AC78",
+          size: "11px",
+        },
+      }}
+      chartArea={{ border: { width: 0 } }}
+      tooltip={{ enable: true, shared: true }}
+      width={Browser.isDevice ? "100%" : "100%"}
+      // title={`Mortalité`}
+      titleStyle={{
+        textAlignment: "Center",
+        size: "15px",
+        fontWeight: "bold",
+        color: "#F48FB1",
+      }}
+
+      // loaded={onChartLoad.bind(this)}
+    >
+      <Inject
+        services={[
+          LineSeries,
+          DateTime,
+          Legend,
+          Tooltip,
+          Highlight,
+          DataLabel,
+          SplineAreaSeries,
+          AreaSeries,
+          ColumnSeries,
+        ]}
+      />
+      <AxesDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisB"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "400",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={{
+            width: 1,
+          }}
+          minorTickLines={{
+            width: 1,
+          }}
+          lineStyle={{
+            width: 0,
+          }}
+          majorTickLines={{
+            width: 0,
+          }}
+          minimum={0}
+          maximum={0.4}
+          interval={0.01}
+          visible={show}
+        ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisC"
+          opposedPosition={false}
+          title="Mortalité / Semaine (%)"
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "bold",
+            color: "#F48FB1",
+          }}
+          labelStyle={{
+            color: "#F48FB1",
+            size: "12px",
+          }}
+          majorGridLines={{ width: 0, color: "#000" }}
+          minorTickLines={{ width: 0, color: "#F48FB1" }}
+          lineStyle={{ width: 1, color: "#F48FB1" }}
+          minimum={null}
+          maximum={null}
+          interval={null}
+        ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisA"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "400",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={lines}
+          minorTickLines={lines}
+          lineStyle={{
+            width: 0,
+          }}
+          majorTickLines={{
+            width: 0,
+          }}
+          minimum={0}
+          maximum={10}
+          interval={0.25}
+          visible={show}
+        ></AxisDirective>
+      </AxesDirective>
+      <SeriesCollectionDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"mortSem"}
+          name={show ? "% Mortalité / Semaine" : " "}
+          width={3.5}
+          fill="#F48FB1"
+          type="Column"
+          yAxisName="yAxisB"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"bar3"}
+          name={" "}
+          width={2.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#D80032"
+          type="Line"
+          dashArray="5,5"
+          yAxisName="yAxisC"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"bar2"}
+          name={" "}
+          width={2.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#EC8F5E"
+          type="Line"
+          dashArray="5,5"
+          yAxisName="yAxisC"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"bar1"}
+          name={" "}
+          width={2.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#9ADE7B"
+          type="Line"
+          dashArray="5,5"
+          yAxisName="yAxisC"
+        ></SeriesDirective>
+
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"mortCuml"}
+          name={show ? "∑ % Mortalité PD" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#79AC78"
+          type="Line"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"gMortCuml"}
+          name={show ? "Guide: ∑ % Mortalité PD" : " "}
+          width={5.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#79AC78"
+          opacity={0.5}
+          type="Line"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName=""
+          name=""
+          type="Line"
+          columnSpacing={0.1}
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+      </SeriesCollectionDirective>
+    </ChartComponent>
+  );
+};
 export default MortChart;

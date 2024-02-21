@@ -4,10 +4,11 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
-import { IconButton } from "@mui/material";
+import { Button, Grid, IconButton } from "@mui/material";
 import { useState, useMemo, useEffect } from "react";
 import UseFetchData from "../../../hooks/UseFetchData";
 import ConfirmModel from "./ConfirmModel";
+import * as Yup from "yup";
 
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
@@ -15,11 +16,12 @@ import { AiOutlineSend } from "react-icons/ai";
 
 import "./style.css";
 // import Viabilite from "../components/Viabilite";
-import Viabilite from "../../reports/Components/Viabilite";
-import Production from "../../reports/Components/Production";
-import Consommation from "../../reports/Components/Consommation";
-import Constats from "../../reports/Components/Constats";
-import Ambiance from "../../reports/Components/Ambiance";
+import Viabilite from "../../../components/report-form/Viabilite";
+import Production from "../../../components/report-form/Production";
+import Consommation from "../../../components/report-form/Consommation";
+import Constats from "../../../components/report-form/Constats";
+import Ambiance from "../../../components/report-form/Ambiance";
+import Reforme from "../../../components/report-form/Reforme";
 
 let base_url = "https://farmdriver.savas.ma/api/";
 const style = {
@@ -28,8 +30,9 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   boxShadow: 24,
-  width: "100%",
-  // height: "0%",
+  width: "80%",
+  height: "auto",
+  overflow: "scroll",
 };
 
 export default function EditRepport({ openEditModal, setOpenEditModal }) {
@@ -40,14 +43,108 @@ export default function EditRepport({ openEditModal, setOpenEditModal }) {
   // ! OBSERVATIONS HANDLING ///////////////////////////
   const handleClose = () => setOpenEditModal(false);
   // ! Validation Edit Form
-
-  // !Fetching Data
-
+  const validationSchema = Yup.object().shape({
+    mort: Yup.number()
+      .typeError("Le nombre de mortalités doit être une valeur positive.")
+      .min(0, "Le nombre de mortalités doit être une valeur positive."),
+    hensEliminated: Yup.number()
+      .typeError("Le nombre des sujets éliminés doit être une valeur positive.")
+      .min(0, "Le nombre des sujets éliminés doit être une valeur positive."),
+    poidVif: Yup.number()
+      .typeError("Le Poids corporel doit être une valeur positive.")
+      .min(0, "Le Poids corporel doit être une valeur positive."),
+    homog: Yup.number()
+      .typeError("L'homogeneité doit être une valeur positive.")
+      .min(0, "L'homogeneité doit être une valeur positive.")
+      .max(100, "L'homogeneité  doit être inférieure ou égale à 100"),
+    alimentDist: Yup.number()
+      .typeError("Aliment consommé doit être une valeur positive.")
+      .min(0, "Aliment consommé doit être une valeur positive."),
+    eauDist: Yup.number()
+      .typeError("Eau consommée doit être une valeur positive.")
+      .min(0, "Eau consommée doit être une valeur positive."),
+    prod_normal: Yup.number()
+      .typeError("Œufs normaux doit être une valeur positive.")
+      .min(0, "Œufs normaux doit être une valeur positive."),
+    prod_dj: Yup.number()
+      .typeError("Œufs double jaune doit être une valeur positive.")
+      .min(0, "Œufs double jaune doit être une valeur positive."),
+    prod_feles: Yup.number()
+      .typeError("Sale doit être une valeur positive.")
+      .min(0, "Sale doit être une valeur positive."),
+    prod_casse: Yup.number()
+      .typeError("Cassé doit être une valeur positive.")
+      .min(0, "Cassé doit être une valeur positive."),
+    prod_blanc: Yup.number()
+      .typeError("Œufs blancs doit être une valeur positive.")
+      .min(0, "Œufs blancs doit être une valeur positive."),
+    prod_liquide: Yup.number()
+      .typeError("Liquide doit être une valeur positive.")
+      .min(0, "Liquide doit être une valeur positive."),
+    prod_elimne: Yup.number()
+      .typeError("Triage doit être une valeur positive.")
+      .min(0, "Triage doit être une valeur positive."),
+    pmo: Yup.number()
+      .typeError("PMO doit être une valeur positive.")
+      .min(0, "PMO doit être une valeur positive."),
+    hensReformed: Yup.number()
+      .typeError("Sujets normaux doit être une valeur positive.")
+      .min(0, "Sujets normaux doit être une valeur positive."),
+    hensReformedFree: Yup.number()
+      .typeError("Sujets gratuits doit être une valeur positive.")
+      .min(0, "Sujets gratuits doit être une valeur positive."),
+    hensReformedTriage: Yup.number()
+      .typeError("Sujets triage doit être une valeur positive.")
+      .min(0, "Sujets triage doit être une valeur positive."),
+    price: Yup.number()
+      .typeError("Prix unitaire doit être une valeur positive.")
+      .min(0, "Prix unitaire doit être une valeur positive."),
+    temperatureMin: Yup.number()
+      .typeError("Température intérieure minimale doit être un nombre.")
+      .max(
+        100,
+        "La température intérieure minimale doit être inférieure ou égale à 100."
+      )
+      .min(
+        -100,
+        "La température intérieure minimale doit être supérieure ou égale à -100."
+      ),
+    temperatureMax: Yup.number()
+      .typeError("Température intérieure maximale doit être un nombre.")
+      .max(
+        100,
+        "La température intérieure maximale doit être inférieure ou égale à 100."
+      )
+      .min(
+        -100,
+        "La température intérieure maximale doit être supérieure ou égale à -100."
+      ),
+    temperatureMinExt: Yup.number()
+      .typeError("Température extérieure minimale doit être un nombre.")
+      .max(
+        100,
+        "La température extérieure minimale doit être inférieure ou égale à 100."
+      )
+      .min(
+        -100,
+        "La température extérieure minimale doit être supérieure ou égale à -100."
+      ),
+    temperatureMaxExt: Yup.number()
+      .typeError("Température extérieure maximale doit être un nombre.")
+      .max(
+        100,
+        "La température extérieure maximale doit être inférieure ou égale à 100."
+      )
+      .min(
+        -100,
+        "La température extérieure maximale doit être supérieure ou égale à -100."
+      ),
+  });
   const formik = useFormik({
     initialValues: {
       id: "",
       mort: "",
-      sjt_elm: "",
+      hensEliminated: "",
       poidVif: "",
       homog: "",
       prod_normal: "",
@@ -74,8 +171,13 @@ export default function EditRepport({ openEditModal, setOpenEditModal }) {
       intensIsLux: "",
       coloration: "",
       qty_shell: "",
+      hensReformed: "",
+      hensReformedFree: "",
+      hensReformedTriage: "",
+      isKg: "",
+      price: "",
     },
-    // validationSchema,
+    validationSchema: validationSchema, // pass the Yup schema here
     onSubmit: (values) => {
       console.log("from on submit event");
       // console.log(JSON.stringify(values, null, 2));
@@ -118,7 +220,7 @@ export default function EditRepport({ openEditModal, setOpenEditModal }) {
       ...formik.values,
       id: id,
       mort: data?.mort,
-      sjt_elm: data?.sujet_elimines,
+      hensEliminated: data?.sujet_elimines,
       poidVif: data?.poidVif,
       homog: data?.homog,
       prod_normal: data?.prod_normal,
@@ -146,9 +248,14 @@ export default function EditRepport({ openEditModal, setOpenEditModal }) {
       intensIsLux: data?.intensIsLux,
       coloration: data?.coloration,
       qty_shell: data?.coquille,
+      hensReformed: data?.hensReformed,
+      hensReformedFree: data?.hensReformedFree,
+      hensReformedTriage: data?.hensReformedTriage,
+      isKg: data?.isKg,
+      price: data?.price,
     });
   }, [data]);
-
+  console.log(formik?.values);
   return (
     <div>
       {openConfirm && (
@@ -174,10 +281,7 @@ export default function EditRepport({ openEditModal, setOpenEditModal }) {
       >
         <Fade in={openEditModal}>
           <Box sx={style} className="edit-modal">
-            <div
-              className="edit-site slit-in-horizontal"
-              // style={{ height: "90%" }}
-            >
+            <div className="edit-site slit-in-horizontal">
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <p className="title" style={{ fontSize: "18px" }}>
                   Modifier rapport
@@ -194,39 +298,41 @@ export default function EditRepport({ openEditModal, setOpenEditModal }) {
               {/* <button onClick={handleClose}>close</button> */}
               <form
                 action=""
-                className=" edit-form"
                 onSubmit={(e) => {
                   e.preventDefault();
                 }}
               >
-                <div className="form-box">
-                  <Viabilite formik={formik} open={openEditModal} />
-                </div>
-                <div className="form-box">
-                  <Production formik={formik} open={openEditModal} />
-                </div>
-                <div className="form-box">
-                  <Consommation formik={formik} open={openEditModal} />
-                  <Constats formik={formik} open={openEditModal} />
-                </div>
-                <div className="form-box">
-                  <Ambiance formik={formik} open={openEditModal} />
-                </div>
+                <Grid container spacing={1} mb={1}>
+                  <Grid item xs={6}>
+                    <Viabilite formik={formik} open={openEditModal} />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Ambiance formik={formik} open={openEditModal} />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Production formik={formik} open={openEditModal} />{" "}
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Constats formik={formik} open={openEditModal} />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <Consommation formik={formik} open={openEditModal} />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Reforme formik={formik} open={openEditModal} />{" "}
+                  </Grid>
+                </Grid>
               </form>
-              <button
-                className="edit-btn edit-btn-position"
+              <Button
+                variant="contained"
+                color="success"
                 onClick={() => {
-                  console.log("clikced");
                   setOpenConfirm(true);
                 }}
               >
-                <div className="svg-wrapper-1">
-                  <div className="svg-wrapper">
-                    <AiOutlineSend />
-                  </div>
-                </div>
-                <span>Envoyer</span>
-              </button>
+                Enregistrer
+              </Button>
             </div>
           </Box>
         </Fade>

@@ -26,8 +26,11 @@ Sidebar
 } */
 .logo {
   justify-self: center;
-  height: 60px;
+  /* /* height: 60px;  */
+  height: 100%;
+  width: 100%;
   transition: 0.4s ease-in-out;
+  object-fit: cover;
 }
 .links {
   /* padding: 0 20px; */
@@ -126,13 +129,11 @@ ul .sub-links {
   font-size: 14px;
   font-weight: 600;
   display: block;
-  /* margin-top: 10px; */
   padding: 10px 5px;
   padding-bottom: 0;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  /* text-align: center; */
   width: 100%;
   color: #fff;
   transition: 0.4s ease-in;
@@ -165,10 +166,10 @@ ul .sub-links {
   transition: 0.4s ease-in-out;
   border-bottom: 1px solid var(--light-blue);
 } */
-.active {
-  color: #ffc107 !important;
-  /* background-color: #19366dde; */
-}
+/* .active { */
+/* color: #ffc107 !important; */
+/* background-color: #19366dde; */
+/* } */
 
 /* .links a:hover { */
 /* border-radius: 8px;

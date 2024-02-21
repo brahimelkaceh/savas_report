@@ -14,6 +14,7 @@ function DailyData({
   openEditModal,
   i,
   showDailyTable,
+  isReform,
 }) {
   // showDailyTable && console.log(i);
   //! This function is used to open the delete modal.
@@ -295,6 +296,11 @@ function DailyData({
                     ? data?.indice_conver?.ic_sem
                     : data?.indice_conver?.ic}
                 </td>
+                {isReform && (
+                  <td className="border-top border-right" rowSpan={2}>
+                    {data?.reform?.hensReformed}
+                  </td>
+                )}
               </tr>
               <tr>
                 <td

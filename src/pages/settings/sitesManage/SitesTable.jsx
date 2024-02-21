@@ -10,10 +10,12 @@ import {
   getSitePhone,
 } from "../../../slices/SiteData";
 import Loader from "../../../components/loader/Loader";
+import { Box, LinearProgress } from "@mui/material";
 
 function SitesTable({ data, loading }) {
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
   const [siteId, setSiteId] = useState("");
   const dispatch = useDispatch();
 
@@ -81,7 +83,11 @@ function SitesTable({ data, loading }) {
             ))}
         </tbody>
       </table>
-      {loading && <Loader />}
+      {loading && (
+        <Box sx={{ width: "100%" }}>
+          <LinearProgress />
+        </Box>
+      )}
     </div>
   );
 }

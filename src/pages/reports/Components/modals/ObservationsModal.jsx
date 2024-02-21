@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
+import { Button, DialogActions, Typography } from "@mui/material";
 import { AiOutlineSend } from "react-icons/ai";
 import Modal from "@mui/material/Modal";
 
@@ -9,9 +9,9 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "50%",
   boxShadow: 24,
-  p: 3,
+  p: 2,
   textAlign: "left",
 };
 
@@ -38,13 +38,10 @@ export default function ObservationsModal({
         onClose={handleClose}
       >
         <Box sx={style} className="confirm-modal ">
-          <Typography id="modal-modal-title" variant="p" component="h3">
+          <Typography id="modal-modal-title" variant="p" component="h4" mb={1}>
             Êtes-vous sûr de vouloir envoyer ces données ?
           </Typography>
-          <div>
-            observation de : <span>{date}</span> <b>|</b> Lot :{" "}
-            <span>{lotId}</span>
-          </div>
+
           {observationobjects?.map((data, index) => {
             return (
               <div
@@ -79,35 +76,23 @@ export default function ObservationsModal({
               </div>
             );
           })}
-          <div className="btns">
-            <button
-              type=""
-              className="edit-btn"
+
+          <DialogActions>
+            <Button color="error" variant="outlined" onClick={handleClose}>
+              Annuler
+            </Button>
+            <Button
+              color="success"
+              variant="contained"
               onClick={(e) => {
                 e.preventDefault();
                 handleClose();
                 onSubmit();
               }}
             >
-              <div className="svg-wrapper-1">
-                <div className="svg-wrapper">
-                  <AiOutlineSend />
-                </div>
-              </div>
-              <span>Envoyer</span>
-            </button>
-            <button
-              type=""
-              className="cancel-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                handleClose();
-                // sendData();
-              }}
-            >
-              <span>Annuler</span>
-            </button>
-          </div>
+              Envoyer
+            </Button>
+          </DialogActions>
         </Box>
       </Modal>
     </div>

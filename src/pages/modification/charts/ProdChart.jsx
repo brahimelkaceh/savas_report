@@ -1,275 +1,347 @@
-import React from "react";
+/**
+ * Sample for Line Series
+ */
+import * as React from "react";
+import { useEffect } from "react";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
+  ChartComponent,
+  SeriesCollectionDirective,
+  SeriesDirective,
+  Inject,
+  LineSeries,
   Legend,
-  Filler,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  DateTime,
   Tooltip,
-  Legend,
-  Filler
-);
+  Highlight,
+  Double,
+  DataLabel,
+  AxesDirective,
+  AxisDirective,
+  SplineSeries,
+  SplineAreaSeries,
+  AreaSeries,
+} from "@syncfusion/ej2-react-charts";
+import { Browser } from "@syncfusion/ej2-base";
 
-const options = {
-  elements: {
-    point: {
-      radius: 0, // The radius of data points (default is 3)
-      borderWidth: 1, // Border width of the data points
-    },
-    line: {
-      tension: 0.1, // Adjust the line curvature (default is 0.4)
-      borderColor: "rgba(255, 0, 0, 1)", // Color of the line
-      borderWidth: 1.8, // Width of the line
-      borderCapStyle: "round", // Line cap style ('butt', 'round', 'square')
-      //   borderDash: [5, 5], // Dashed line pattern (e.g., [5, 5] for dashes)
-    },
-  },
-
-  responsive: true,
-  interaction: {
-    mode: "index",
-    intersect: false,
-  },
-  stacked: false,
-  plugins: {
-    title: {
-      display: true,
-      text: "Production œufs",
-      font: {
-        weight: "bold",
-        size: "20px",
-      },
-    },
-    legend: {
-      display: true,
-      position: "bottom", // 'top', 'bottom', 'left', 'right'
-    },
-  },
-  scales: {
-    x: {
-      title: {
-        display: true,
-        text: "Age (semaine)",
-        font: {
-          weight: "bold",
-        },
-      },
-      grid: {
-        display: true, // Display the grid lines for the X-axis
-        color: "rgba(0, 0, 0, 0.08  )", // Color of the grid lines
-        borderWidth: 1, // Width of the grid lines
-        drawTicks: false, // Whether to draw tick marks on the grid lines
-      },
-    },
-    y: {
-      type: "linear",
-      display: true,
-      position: "left",
-      title: {
-        display: true,
-        text: "Ponte (%)",
-        font: {
-          weight: "bold",
-        },
-        color: "rgb(131, 53, 0)",
-      },
-      grid: {
-        display: true,
-        drawOnChartArea: true,
-        color: "rgba(0, 0, 0, 0.08)", // Color of the grid lines
-      },
-      ticks: {
-        font: {
-          weight: "bold",
-        },
-        color: "rgb(131, 53, 0)",
-      },
-    },
-    y1: {
-      type: "linear",
-      display: true,
-      max: 5,
-      position: "right",
-      title: {
-        display: true,
-        text: "Declassées (%)",
-        font: {
-          weight: "bold",
-        },
-        color: "#E08E6D",
-      },
-      ticks: {
-        font: {
-          weight: "bold",
-        },
-        color: "#E08E6D",
-      },
-    },
-    // y3: {
-    //   type: "linear",
-    //   display: true,
-    //   position: "right",
-    //   max: 10,
-    //   grid: {
-    //     display: false,
-    //   },
-    //   title: {
-    //     display: true,
-    //     text: "NOPPP/Sem",
-    //     font: {
-    //       weight: "bold",
-    //     },
-    //     color: "#9FBB73",
-    //   },
-    //   ticks: {
-    //     font: {
-    //       weight: "bold",
-    //     },
-    //     color: "#9FBB73",
-    //   },
-    // },
-    y2: {
-      type: "linear",
-      display: true,
-      position: "left",
-      grid: {
-        display: false,
-      },
-      title: {
-        display: true,
-        text: "∑ NOPPD",
-        font: {
-          weight: "bold",
-        },
-        color: "#FF8400",
-      },
-      ticks: {
-        font: {
-          weight: "bold",
-        },
-        color: "#FF8400",
-      },
-    },
-  },
-};
-
-function ProdChart({ prodData }) {
-  const labels = prodData?.ages;
-  const xData = prodData?.declass;
-  const zData = prodData?.ponte;
-  const aData = prodData?.ponte_guide;
-  const bData = prodData?.pmo;
-  const cData = prodData?.pmo_guide;
-  const dData = prodData?.blancs;
-  const eData = prodData?.noppp_sem;
-  const eaData = prodData?.noppp_sem_guide;
-  const fData = prodData?.noppd_cuml;
-  const faData = prodData?.noppd_cuml_guide;
-
-  const data = {
-    labels,
-    datasets: [
-      // {
-      //   label: "NOPPP/sem ",
-      //   data: eData,
-      //   borderColor: "#9FBB73",
-      //   backgroundColor: "#9FBB73",
-      //   borderWidth: 4,
-      //   yAxisID: "y3",
-      // },
-      // {
-      //   label: "Guide : NOPPP/sem  ",
-      //   data: eaData,
-      //   borderColor: "#FFEBD8",
-      //   backgroundColor: "#FFEBD8",
-      //   borderWidth: 4,
-      //   yAxisID: "y3",
-      // },
-      {
-        label: "∑ NOPPD ",
-        data: fData,
-        borderColor: "#FF8400",
-        backgroundColor: "#FF8400",
-        borderWidth: 4,
-        yAxisID: "y2",
-      },
-      {
-        label: "Guide: ∑ NOPPD ",
-        data: faData,
-        borderColor: "#F7CCAC",
-        backgroundColor: "#F7CCAC",
-        borderWidth: 8,
-        yAxisID: "y2",
-      },
-
-      {
-        label: "Ponte (%)",
-        data: zData,
-        borderColor: "rgb(131, 53, 0)",
-        backgroundColor: "rgb(131, 53, 0)",
-        borderWidth: 4,
-        // fill: "start", // Fill the area between the line and the x-axis
-
-        yAxisID: "y",
-      },
-      {
-        label: "Guide: Ponte (%)",
-        data: aData,
-        borderColor: "#f1910180",
-        backgroundColor: "#F18F01",
-        borderWidth: 8,
-        yAxisID: "y",
-      },
-      {
-        label: "PMO (g)",
-        data: bData,
-        borderColor: "#FFD93D",
-        backgroundColor: "#FFD93D",
-        borderWidth: 4,
-        // fill: "start", // Fill the area between the line and the x-axis
-
-        yAxisID: "y",
-      },
-      {
-        label: "Guide: PMO (g)",
-        data: cData,
-        borderColor: "#ECE3CE",
-        backgroundColor: "#ECE3CE",
-        borderWidth: 8,
-        yAxisID: "y",
-      },
-      {
-        label: "Blanc (%)",
-        data: dData,
-        borderColor: "transparent",
-        backgroundColor: "#F58869a4",
-        fill: true, // Add fill property to fill the area below the line
-        yAxisID: "y1",
-      },
-      {
-        label: "Declassées (%)",
-        data: xData,
-        borderColor: "#E08E6D",
-        backgroundColor: "#fce3dc",
-        fill: true, // Add fill property to fill the area below the line
-        yAxisID: "y1",
-      },
-    ],
+const ProductionChart = ({ data, show }) => {
+  const onChartLoad = (args) => {
+    let chart = document.getElementById(`chart`);
+    chart.setAttribute("title", "");
   };
-  return <Line options={options} data={data} />;
-}
+  const load = (args) => {
+    let selectedTheme = location.hash.split("/")[1];
+    selectedTheme = selectedTheme ? selectedTheme : "Material";
+    args.chart.theme = (
+      selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)
+    )
+      .replace(/-dark/i, "Dark")
+      .replace(/contrast/i, "Contrast");
+  };
 
-export default ProdChart;
+  const lines = { width: 1 };
+  const style = {
+    " #chart_ChartTitle": {
+      color: "red !important",
+    },
+  };
+
+  return (
+    <ChartComponent
+      id={`chart`}
+      // style={{ textAlign: "center" }}
+      style={style}
+      primaryxAxis={{
+        valueType: "Double",
+        title: "Overs",
+        labelFormat: "age",
+      }}
+      // load={load.bind(this)}
+      primaryYAxis={{
+        title: "Ponte %",
+        rangePadding: "None",
+        minimum: null,
+        maximum: null,
+        interval: null,
+        lineStyle: { width: 0 },
+        majorTickLines: { width: 0 },
+        majorGridLines: {
+          width: 2,
+        },
+        minorTickLines: { width: 0, color: "#834218" },
+        titleStyle: {
+          textAlignment: "Center",
+          size: "12px",
+          fontWeight: "bold",
+          color: "#834218",
+        },
+        labelStyle: {
+          color: "#834218",
+        },
+      }}
+      chartArea={{ border: { width: 0 } }}
+      tooltip={{ enable: true, shared: true }}
+      legendSettings={{ enableHighlight: true }}
+      width={Browser.isDevice ? "100%" : "100%"}
+      height={"100%"}
+      title={``}
+      titleStyle={{
+        textAlignment: "Center",
+        size: "15px",
+        fontWeight: "bold",
+        color: "rgb(131, 53, 0)",
+      }}
+
+      // loaded={onChartLoad.bind(this)}
+    >
+      <Inject
+        services={[
+          LineSeries,
+          DateTime,
+          Legend,
+          Tooltip,
+          Highlight,
+          DataLabel,
+          SplineAreaSeries,
+          AreaSeries,
+        ]}
+      />
+      <AxesDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisB"
+          opposedPosition={true}
+          title="∑ NOPPD"
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "bold",
+            color: "#E48F45",
+          }}
+          labelStyle={{
+            color: "#E48F45",
+            size: "12px",
+          }}
+          majorGridLines={{ width: 0, color: "#E48F45" }}
+          minorTickLines={{ width: 1, color: "#E48F45" }}
+          lineStyle={{ width: 1, color: "#E48F45" }}
+          minimum={null}
+          maximum={null}
+          interval={null}
+        ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisC"
+          opposedPosition={true}
+          title="Déclassées"
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "bold",
+            color: "#F39F5A",
+          }}
+          labelStyle={{
+            color: "#F39F5A",
+            size: "12px",
+          }}
+          majorGridLines={{ width: 0, color: "#F39F5A" }}
+          minorTickLines={{ width: 1, color: "#F39F5A" }}
+          lineStyle={{ width: 1, color: "#F39F5A" }}
+          minimum={0}
+          maximum={15}
+          interval={1.5}
+          visible={show}
+        ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisA"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            fontWeight: "bold",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={lines}
+          minorTickLines={lines}
+          lineStyle={{
+            width: 0,
+          }}
+          majorTickLines={{
+            width: 0,
+          }}
+          minimum={0}
+          maximum={100}
+          interval={2.5}
+          visible={show}
+        ></AxisDirective>
+      </AxesDirective>
+      <SeriesCollectionDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"G_ponte"}
+          name={show ? "Guide: Ponte (%)" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#FFA447"
+          opacity={0.5}
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"G_pmo"}
+          name={show ? "Guide: PMO (g)" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#C7B7A3"
+          opacity={0.8}
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName={"G_noppdCuml"}
+          name={show ? "Guide: ∑ NOPPD" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#F0DBAF"
+          opacity={0.8}
+          type="Line"
+          yAxisName="yAxisB"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"ponte"}
+          name={show ? "Ponte (%)" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#834218"
+          // opacity={0.5}
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"pmo"}
+          name={show ? "PMO (g)" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#D3A41C"
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"noppdCuml"}
+          name={show ? "∑ NOPPD" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#E48F45"
+          type="Line"
+          yAxisName="yAxisB"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"declasse"}
+          name={show ? "Déclassées (%)" : " "}
+          width={1}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#F39F5A"
+          border={{
+            width: 2,
+            color: "#F39F5A",
+          }}
+          opacity={0.3}
+          type="Area"
+          yAxisName="yAxisC"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"blancs"}
+          name={show ? "Blancs (%)" : " "}
+          width={1}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#F39F5A"
+          type="Area"
+          yAxisName={"yAxisC"}
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.guide}
+          xName="age"
+          yName="y"
+          name=""
+          width={1.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+      </SeriesCollectionDirective>
+    </ChartComponent>
+  );
+};
+export default ProductionChart;

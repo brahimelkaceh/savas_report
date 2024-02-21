@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import UseFetchData from "../../../hooks/UseFetchData";
 import { useState } from "react";
 import Loader from "../../../components/loader/Loader";
+import { Button } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const style = {
@@ -26,13 +27,9 @@ export default function DeleteSiteModal({
   setOpenDeleteModal,
   id,
 }) {
-  let renderData = useSelector((state) => state.getSiteData.renderData);
-
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(false);
   const deleteSiteData = async (id) => {
-    setLoading(true);
     try {
       const authTokens = JSON.parse(localStorage.getItem("authTokens"));
       if (!authTokens || !authTokens.access) {
@@ -61,7 +58,6 @@ export default function DeleteSiteModal({
     } catch (error) {
       console.error("Error deleting user data:", error.message);
     } finally {
-      setLoading(false);
     }
   };
 
@@ -92,9 +88,9 @@ export default function DeleteSiteModal({
               </p>
 
               <div className="btns">
-                <button
-                  type=""
-                  className="delete-btn"
+                <Button
+                  color="error"
+                  variant="contained"
                   onClick={(e) => {
                     e.preventDefault();
                     deleteSiteData(id);
@@ -104,8 +100,7 @@ export default function DeleteSiteModal({
                   }}
                 >
                   Supprimer
-                  <AiFillDelete />
-                </button>
+                </Button>
               </div>
             </div>
           </Box>

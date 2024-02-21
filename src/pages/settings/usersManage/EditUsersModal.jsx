@@ -13,6 +13,7 @@ import { useFormik } from "formik";
 import SuccessModal from "../modals/SuccessModal";
 import Loader from "../../../components/loader/Loader";
 import { getRenderData } from "../../../slices/SiteData";
+import { Button, DialogActions } from "@mui/material";
 
 let base_url = "https://farmdriver.savas.ma/api/";
 
@@ -127,7 +128,6 @@ export default function EditModal({
 
   return (
     <div>
-      {!loading && <Loader />}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -153,7 +153,7 @@ export default function EditModal({
                 />
               )}
               <form className="settings-form">
-                <p className="title"> Modifier l'utilisateur </p>
+                <p className="title"> Modifier</p>
                 <label>
                   <input
                     disabled={disable}
@@ -268,35 +268,28 @@ export default function EditModal({
                     {/* <span>Sites*</span> */}
                   </label>
                 </div>
-                <div className="btns">
-                  <button
-                    type="submit"
-                    className="edit-btn"
+
+                <DialogActions>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={handleClose}
+                  >
+                    Annuler
+                  </Button>
+                  <Button
                     onClick={(e) => {
                       e.preventDefault();
                       sendData();
                       setIsModalOpen(true);
                     }}
+                    autoFocus
+                    variant="contained"
+                    color="success"
                   >
-                    <div className="svg-wrapper-1">
-                      <div className="svg-wrapper">
-                        <AiOutlineSend />
-                      </div>
-                    </div>
-                    <span>Envoyer</span>
-                  </button>
-                  <button
-                    type=""
-                    className="cancel-btn"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleClose();
-                      // sendData();
-                    }}
-                  >
-                    <span>Annuler</span>
-                  </button>
-                </div>
+                    Enregistrer
+                  </Button>
+                </DialogActions>
               </form>
             </div>
           </Box>

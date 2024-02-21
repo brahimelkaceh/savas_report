@@ -33,7 +33,8 @@ function Bats({ siteName }) {
       const data = await response.json();
 
       if (data) {
-        setData(data);
+        const productionData = data?.filter((d) => d.type === "production");
+        setData(productionData);
       }
     } catch (error) {
       console.error("Error fetching sites data:", error.message);

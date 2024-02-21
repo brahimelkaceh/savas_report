@@ -7,6 +7,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRenderData } from "../../../slices/SiteData";
+import { Button, DialogActions } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const style = {
@@ -85,10 +86,12 @@ export default function DeleteBatsModal({
                 Êtes-vous sûr(e) de vouloir supprimer cet élément ? Cette action
                 ne peut pas être annulée
               </p>
-              <div className="btns">
-                <button
-                  type=""
-                  className="delete-btn"
+
+              <DialogActions>
+                <Button variant="outlined" color="error" onClick={handleClose}>
+                  Annuler
+                </Button>
+                <Button
                   onClick={(e) => {
                     e.preventDefault();
                     deleteBatiment(id);
@@ -98,26 +101,13 @@ export default function DeleteBatsModal({
                       handleClose();
                     }, [200]);
                   }}
+                  autoFocus
+                  variant="contained"
+                  color="error"
                 >
-                  {/* <div className="svg-wrapper-1"> */}
-                  {/* <div className="svg-wrapper"> */}
-                  <AiFillDelete />
-                  {/* </div>
-                </div> */}
-                  <span>Supprimer</span>
-                </button>
-                <button
-                  type=""
-                  className="cancel-btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleClose();
-                    // sendData();
-                  }}
-                >
-                  <span>Annuler</span>
-                </button>
-              </div>
+                  Supprimer
+                </Button>
+              </DialogActions>
             </div>
           </Box>
         </Fade>

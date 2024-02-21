@@ -119,6 +119,15 @@
 .edit-form .box-content.consommation .inputs-group {
   width: 90%;
 }
+.edit-form .box-content.reforme {
+  border-top: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  width: auto;
+}
+.edit-form .box-content.reforme .inputs-group {
+  width: 90%;
+}
 .edit-form .box-content.ambiance {
   border-top: 0;
   border-top-right-radius: 0;
@@ -176,7 +185,7 @@
   gap: 8px;
 }
 /* ! OBSERVATION BOX CONTENT */
-.edit-inputs-container .observation-box .delete {
+.observation-box .delete {
   margin: 0;
   border: 0;
   color: var(--red-color);
@@ -187,10 +196,27 @@
   background-color: #fff;
   border: 0.5px solid var(--red-color);
 }
-.edit-inputs-container .delete:hover {
+.observation-box .delete:hover {
   transition: 0.4s ease-in-out;
   font-size: 40px;
   background-color: var(--red-color);
+  color: #fff;
+}
+.observation-box .edit {
+  margin: 0;
+  border: 0;
+  color: #e86a33;
+  padding: 4px;
+  cursor: pointer;
+  font-size: 35px;
+  border-radius: 4px;
+  background-color: #fff;
+  border: 0.5px solid #e86a33;
+}
+.observation-box .edit:hover {
+  transition: 0.4s ease-in-out;
+  font-size: 40px;
+  background-color: #e86a33;
   color: #fff;
 }
 
