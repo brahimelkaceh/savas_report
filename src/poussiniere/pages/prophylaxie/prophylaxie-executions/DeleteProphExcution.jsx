@@ -9,16 +9,23 @@ import Slide from "@mui/material/Slide";
 import { Alert, IconButton, Stack, SvgIcon } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { useState } from "react";
+import api from "../../../../api/api";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DeleteProphExecution({ id }) {
+export default function DeleteProphExecution({
+  id,
+  executId,
+  fetchData,
+  setSuccess,
+}) {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -31,21 +38,13 @@ export default function DeleteProphExecution({ id }) {
     try {
       setLoading(true);
       setError(null);
-      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
-      const response = await fetch(
-        `${base_url}delete-execution-proph-program/?id=${id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
+      const response = await api.deleteExecPrphProg(id);
+      console.log(response);
       if (response.ok) {
         setLoading(false);
+        setSuccess("Le programme a été supprimé avec succès.");
+        setError(null);
+        fetchData(executId);
       } else {
         setError(
           "Veuillez réessayer, une erreur est survenue lors de la suppression de ce programme."
@@ -55,11 +54,13 @@ export default function DeleteProphExecution({ id }) {
       setError(
         "Veuillez réessayer, une erreur est survenue lors de la suppression de ce programme."
       );
-      console.error("Error in Delete Lot:", err);
     } finally {
       setLoading(false);
+
       setTimeout(() => {
         setOpen(false);
+        setSuccess(false);
+        setError(false);
       }, 3000);
       // await reftching(lotId);
     }
@@ -97,12 +98,15 @@ export default function DeleteProphExecution({ id }) {
               Annuller
             </Button>
           </DialogActions>
+        </Stack>
+
+        <DialogActions>
           {error && (
             <Alert severity="error" onClose={() => setError(false)}>
               {error}
             </Alert>
           )}
-        </Stack>
+        </DialogActions>
       </Dialog>
     </React.Fragment>
   );

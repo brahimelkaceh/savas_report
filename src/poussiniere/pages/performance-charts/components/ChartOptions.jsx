@@ -54,7 +54,7 @@ export default function ChartOptions({
     >
       <FormControl sx={{ m: 1, width: 300 }}>
         <InputLabel id="demo-multiple-checkbox-label">
-          Sélectionnez un courbe
+          Sélectionnez une courbe
         </InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"

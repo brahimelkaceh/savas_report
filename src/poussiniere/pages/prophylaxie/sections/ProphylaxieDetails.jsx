@@ -5,6 +5,7 @@ import Slide from "@mui/material/Slide";
 import {
   Alert,
   IconButton,
+  LinearProgress,
   Stack,
   SvgIcon,
   Table,
@@ -13,15 +14,13 @@ import {
   TableHead,
   TableRow,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { Close, Delete, Edit } from "@mui/icons-material";
 import EditProphExcution from "../prophylaxie-executions/EditProhpExecution";
 import DeleteProphExecution from "../prophylaxie-executions/DeleteProphExcution";
-let base_url = "https://farmdriver.savas.ma/api/";
+import api from "../../../../api/api";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -32,6 +31,7 @@ export default function ProphylaxieDetails({ id }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [successDeleteMessage, setSuccessDeleteMessage] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
     fetchData(id);
@@ -43,32 +43,20 @@ export default function ProphylaxieDetails({ id }) {
   const fetchData = async (id) => {
     try {
       setLoading(true);
-      const authTokens = JSON.parse(localStorage.getItem("authTokens"));
-      if (!authTokens || !authTokens.access) {
-        throw new Error("Access token not found");
-      }
-      const accessToken = authTokens.access;
-
-      const response = await fetch(
-        `${base_url}get-execution-proph-program/?prophylaxis=${id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      const fetchedData = await response.json();
-      if (response.ok) {
-        setData(fetchedData);
+      const response = await api.getExecPrphProg(id);
+      if (response.response.ok) {
+        setData(response.data);
         setError("");
       } else {
-        setError("Introuvable");
+        setError(
+          "Veuillez réessayer, une erreur est survenue lors de la récupération des données pour ce programme."
+        );
         setData([]);
       }
     } catch (error) {
-      setError("Introuvable");
+      setError(
+        "Veuillez réessayer, une erreur est survenue lors de la récupération des données pour ce programme."
+      );
       setData([]);
     } finally {
       setLoading(false);
@@ -97,11 +85,16 @@ export default function ProphylaxieDetails({ id }) {
         <Stack
           flexDirection="row"
           alignItems="center"
-          justifyContent={data?.length == 0 ? "space-between" : "end"}
+          justifyContent={successDeleteMessage ? "space-between" : "end"}
           // width="100%"
           m={1}
         >
-          {data?.length == 0 && (
+          {successDeleteMessage && (
+            <Alert severity="success" variant="filled">
+              {successDeleteMessage}
+            </Alert>
+          )}
+          {error && (
             <Alert
               variant="filled"
               severity="error"
@@ -110,7 +103,7 @@ export default function ProphylaxieDetails({ id }) {
                 py: 0,
               }}
             >
-              Aucune donnée à afficher.
+              {error}
             </Alert>
           )}
           <IconButton size="small" color="error" onClick={handleClose}>
@@ -119,6 +112,7 @@ export default function ProphylaxieDetails({ id }) {
             </SvgIcon>
           </IconButton>
         </Stack>
+        {loading && <LinearProgress />}
         <Table sx={{ minWidth: 1150 }}>
           <TableHead>
             <TableRow
@@ -139,11 +133,10 @@ export default function ProphylaxieDetails({ id }) {
           </TableHead>
           <TableBody>
             {data?.length > 0 &&
-              data?.map((proph) => {
+              data?.map((proph, i) => {
                 const team = proph?.proph_equipe?.split("|");
-                console.log(proph, id);
                 return (
-                  <TableRow hover>
+                  <TableRow hover key={i}>
                     <TableCell>{proph?.date}</TableCell>
                     <TableCell>{proph?.proph_intervention}</TableCell>
                     <TableCell>{proph?.proph_mode_admin}</TableCell>
@@ -162,7 +155,13 @@ export default function ProphylaxieDetails({ id }) {
                     </TableCell>
                     <TableCell width="10%">
                       <EditProphExcution proph={proph} />
-                      <DeleteProphExecution id={proph?.id} />
+                      <DeleteProphExecution
+                        id={proph?.id}
+                        onClick={handleClose}
+                        executId={id}
+                        fetchData={fetchData}
+                        setSuccess={setSuccessDeleteMessage}
+                      />
                     </TableCell>
                   </TableRow>
                 );

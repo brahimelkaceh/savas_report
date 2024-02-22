@@ -119,6 +119,21 @@ function Constats({ formik, last_rep, isProduction }) {
             </FormControl>
           </Grid>
         )}
+        {!isProduction && (
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Humidité (%)"
+              name="humidty"
+              size="small"
+              value={formik.values.humidty}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.errors.humidty && Boolean(formik.errors.humidty)}
+              helperText={formik.touched.humidty && formik.errors.humidty}
+            />
+          </Grid>
+        )}
         <Grid item xs={12} md={12}>
           <TextField
             fullWidth

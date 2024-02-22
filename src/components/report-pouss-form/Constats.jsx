@@ -1,0 +1,72 @@
+import FindInPageIcon from "@mui/icons-material/FindInPage";
+import {
+  Accordion,
+  AccordionSummary,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+} from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
+
+function Constats({ formik, isProduction }) {
+  return (
+    <Accordion
+      sx={{
+        p: 1,
+      }}
+    >
+      <AccordionSummary
+        expandIcon={<ExpandMore />}
+        aria-controls="panel1-content"
+        id="panel1-header"
+        sx={{
+          background: "#ffc000",
+          color: "#333",
+          p: 1,
+          mb: 1,
+          fontWeight: "bold",
+          borderRadius: 1,
+        }}
+      >
+        <Stack flexDirection={"row"} gap={1} alignItems={"center"}>
+          <FindInPageIcon /> Constats
+        </Stack>
+      </AccordionSummary>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="Humidité (%)"
+            name="humidty"
+            size="small"
+            value={formik.values.humidty}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.humidty && Boolean(formik.errors.humidty)}
+            helperText={formik.touched.humidty && formik.errors.humidty}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={12}>
+          <TextField
+            fullWidth
+            id="standard-multiline-static"
+            label="Observation"
+            name="observation"
+            value={formik.values.observation}
+            onChange={formik.handleChange}
+            multiline
+            rows={4}
+            variant="outlined"
+          />
+        </Grid>
+      </Grid>
+    </Accordion>
+  );
+}
+
+export default Constats;

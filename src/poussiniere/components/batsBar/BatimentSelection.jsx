@@ -7,12 +7,9 @@ import { useData } from "../../context/DataProvider";
 import { Card, CardContent, CircularProgress } from "@mui/material";
 const BatimentSelection = ({
   BatimentIdent,
-  siteId,
   batimentId,
   setBatimentId,
-  nextSendData,
-  setId,
-  loading,
+  fetchNextSend,
 }) => {
   const { dispatch } = useData();
 
@@ -35,7 +32,7 @@ const BatimentSelection = ({
           onChange={(e) => {
             setBatimentId(e.target.value);
             dispatch(getBatimentName(e.target.value));
-            setId(e.target.value);
+            fetchNextSend(e.target.value);
           }}
         >
           <option value="">--</option>
@@ -50,7 +47,6 @@ const BatimentSelection = ({
         </select>
         <span> Select bâtiment*</span>
       </label>
-      {loading && <CircularProgress size={22} />}
     </div>
   );
 };

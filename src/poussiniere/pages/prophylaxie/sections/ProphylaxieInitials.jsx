@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import {
+  Alert,
   Button,
   Chip,
   CircularProgress,
@@ -20,7 +21,14 @@ import {
   Tooltip,
 } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
-import { Create, DeleteOutline, Publish } from "@mui/icons-material";
+import {
+  Check,
+  Close,
+  Create,
+  Delete,
+  DeleteOutline,
+  Publish,
+} from "@mui/icons-material";
 import ExcelDownloadButton from "../components/ExcelDownloadButton";
 import InitialProphylaxi from "../components/InitialProphylaxi";
 import { useEffect, useState } from "react";
@@ -66,6 +74,9 @@ export const ProphylaxieInitials = ({
           "Veuillez réessayer, une erreur est survenue lors de la suppression de ce programme."
         );
       }
+      if (response.status == 401) {
+        setError("Impossible de supprimer ce lot.");
+      }
     } catch (err) {
       setError(
         "Veuillez réessayer, une erreur est survenue lors de la suppression de ce programme."
@@ -89,7 +100,17 @@ export const ProphylaxieInitials = ({
       }}
     >
       <Divider />
-
+      {error && (
+        <Alert
+          severity="error"
+          variant="filled"
+          sx={{
+            mb: 1,
+          }}
+        >
+          {error}
+        </Alert>
+      )}
       <Table>
         <TableBody>
           {selectedLot.prophylaxis ? (
@@ -157,49 +178,52 @@ export const ProphylaxieInitials = ({
                   />
 
                   <ExcelDownloadButton />
-
-                  <Tooltip title="Supprimer" placement="top">
-                    <IconButton
-                      color="error"
-                      size="small"
-                      onClick={() => setOpen(true)}
-                      sx={{
-                        backgroundColor: "#ffc3d4",
-                      }}
-                      disabled={open}
-                    >
-                      <DeleteOutline />{" "}
-                    </IconButton>
-                  </Tooltip>
+                  {!open && (
+                    <Tooltip title="Supprimer" placement="top">
+                      <IconButton
+                        color="error"
+                        size="small"
+                        onClick={() => setOpen(true)}
+                        sx={{
+                          backgroundColor: "#ffc3d4",
+                        }}
+                        disabled={open}
+                      >
+                        <DeleteOutline />{" "}
+                      </IconButton>
+                    </Tooltip>
+                  )}
                   {open && (
                     <Stack
                       flexDirection="row"
-                      gap={1}
+                      gap={0}
                       border={1}
-                      p={0.5}
+                      p={0}
                       borderRadius={1}
                       borderColor="#333"
                     >
-                      <LoadingButton
-                        loading={loading}
-                        color="error"
-                        variant="outlined"
-                        onClick={() =>
-                          handleDelete(selectedLot?.prophylaxis?.id)
-                        }
-                        loadingIndicator="Suppression…"
-                      >
-                        <span>Supprimer</span>
-                      </LoadingButton>
-
-                      <Button
-                        color="error"
-                        onClick={() => setOpen(false)}
-                        variant="contained"
-                        size="small"
-                      >
-                        Annuller
-                      </Button>
+                      <Tooltip title="Confirmer" placement="top">
+                        <LoadingButton
+                          loading={loading}
+                          color="error"
+                          variant="text"
+                          onClick={() =>
+                            handleDelete(selectedLot?.prophylaxis?.id)
+                          }
+                          startIcon={<Check />}
+                        />
+                      </Tooltip>
+                      <Tooltip title="Annuler" placement="top">
+                        <IconButton
+                          color="error"
+                          onClick={() => setOpen(false)}
+                          size="small"
+                        >
+                          <SvgIcon>
+                            <Close />
+                          </SvgIcon>
+                        </IconButton>
+                      </Tooltip>
                     </Stack>
                   )}
                 </Stack>

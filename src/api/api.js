@@ -1,7 +1,7 @@
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const api = {
-  // production lots
+  //! production lots
   getLotTitles: async (id) => {
     if (!id) {
       return;
@@ -26,7 +26,8 @@ const api = {
       console.error(error);
     }
   },
-  // Production sites
+
+  //! Production sites
   getProdSites: async () => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -48,7 +49,8 @@ const api = {
       console.error(error);
     }
   },
-  // Poussinieres sites
+
+  //! Poussinieres sites
   getPoussSites: async () => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -70,7 +72,8 @@ const api = {
       console.error(error);
     }
   },
-  // Poussinieres lots
+
+  //! Poussinieres lots
   getPoussLot: async (id) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -95,7 +98,34 @@ const api = {
       console.error(error);
     }
   },
-  // All sites
+
+  //! get next send in poussiniere
+  getPoussNext: async (id) => {
+    if (!id) {
+      return;
+    }
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+      const response = await fetch(`${base_url}get-pouss-next/?lotId=${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
+  //! All sites
   getAllSites: async () => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -117,7 +147,7 @@ const api = {
       console.error(error);
     }
   },
-  // All Bats
+  //! All Bats
   getAllBats: async () => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -138,7 +168,7 @@ const api = {
       console.error(error);
     }
   },
-  // Create Observation
+  //! Create Observation
   createObservation: async (observationData) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -161,6 +191,7 @@ const api = {
       console.error(error);
     }
   },
+  // !
   getMultiCharts: async (lot, courbeId) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -187,6 +218,7 @@ const api = {
       console.error(error);
     }
   },
+  // ! Create a new prophylaxis programm
   createProphylaxi: async (data) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -209,6 +241,35 @@ const api = {
       console.error(error);
     }
   },
+  //! Delete Prophylaxis programm
+  deleteProhpylaxi: async (id) => {
+    if (!id) {
+      return;
+    }
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+      const response = await fetch(
+        `${base_url}delete-prophylaxis-program/?id=${id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  //! Change the status of the prophylaxis
   changeProphylaxiStatus: async (data) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -226,12 +287,69 @@ const api = {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      return { response: response.ok };
+      const status = await response.json();
+
+      return { response, status };
     } catch (error) {
       console.error(error);
     }
   },
-  // Update Batiment
+  // ! Get Execution Prphylaxis program
+  getExecPrphProg: async (id) => {
+    if (!id) {
+      return;
+    }
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+      const response = await fetch(
+        `${base_url}get-execution-proph-program/?prophylaxis=${id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      return { data, response };
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  // ! Delete Execution Prphylaxis program
+  deleteExecPrphProg: async (id) => {
+    if (!id) {
+      return;
+    }
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
+
+      const response = await fetch(
+        `${base_url}delete-execution-proph-program/?id=${id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  //! Update Batiment
   updateBatiment: async (observationData) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
@@ -257,3 +375,16 @@ const api = {
 };
 
 export default api;
+
+// const fetchLotData = async (id) => {
+//   try {
+//     setLoading(true);
+//     const result = await api.getLotTitles(id);
+//     console.log(result);
+//     setLotData(result);
+//   } catch (error) {
+//     setError("failed to fetch");
+//   } finally {
+//     setLoading(false);
+//   }
+// };

@@ -10,9 +10,10 @@ import Loader from "../../../../components/loader/Loader";
 
 import Typography from "@mui/material/Typography";
 import { Grid, IconButton } from "@mui/material";
-import Viabilite from "../../../../components/report-form/Viabilite";
-import Consommation from "../../../../components/report-form/Consommation";
-import Ambiance from "../../../../components/report-form/Ambiance";
+import Viabilite from "../../../../components/report-pouss-form/Viabilite";
+import Consommation from "../../../../components/report-pouss-form/Consommation";
+import Ambiance from "../../../../components/report-pouss-form/Ambiance";
+import Constats from "../../../../components/report-pouss-form/Constats";
 import { useMemo } from "react";
 import UseFetchData from "../../../../hooks/UseFetchData";
 import { useFormik } from "formik";
@@ -28,8 +29,8 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   boxShadow: 24,
-  width: "50%",
-  // height: "50%",
+  width: "80%",
+  height: "auto",
 };
 export default function EditModal({ id, open, setOpen }) {
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -181,16 +182,18 @@ export default function EditModal({ id, open, setOpen }) {
                 }}
               >
                 <Grid container spacing={1} mb={1}>
-                  <Grid item sm={12}>
+                  <Grid item sm={12} md={6}>
                     <Viabilite formik={formik} />
                   </Grid>
 
-                  <Grid item sm={12}>
+                  <Grid item sm={12} md={6}>
+                    <Ambiance formik={formik} />
+                  </Grid>
+                  <Grid item sm={12} md={6}>
                     <Consommation formik={formik} />
                   </Grid>
-
-                  <Grid item sm={12}>
-                    <Ambiance formik={formik} />
+                  <Grid item sm={12} md={6}>
+                    <Constats formik={formik} />
                   </Grid>
                 </Grid>{" "}
               </form>

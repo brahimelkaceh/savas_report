@@ -8,10 +8,6 @@ function FormHeader({ nextReport, lot_code, loading }) {
     setReportDate(nextReport);
     setCodeLot(lot_code);
   }, [nextReport, lot_code]);
-  // useEffect(() => {
-  //   setReportDate("");
-  //   setCodeLot("");
-  // }, [siteId]);
 
   return (
     <Stack

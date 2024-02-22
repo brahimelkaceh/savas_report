@@ -19,9 +19,9 @@ import "./style.css";
 import Viabilite from "../../../components/report-form/Viabilite";
 import Production from "../../../components/report-form/Production";
 import Consommation from "../../../components/report-form/Consommation";
-import Constats from "../../../components/report-form/Constats";
 import Ambiance from "../../../components/report-form/Ambiance";
 import Reforme from "../../../components/report-form/Reforme";
+import EditConstats from "../../../components/report-form/Edit-Constats";
 
 let base_url = "https://farmdriver.savas.ma/api/";
 const style = {
@@ -176,6 +176,7 @@ export default function EditRepport({ openEditModal, setOpenEditModal }) {
       hensReformedTriage: "",
       isKg: "",
       price: "",
+      observation: "",
     },
     validationSchema: validationSchema, // pass the Yup schema here
     onSubmit: (values) => {
@@ -313,7 +314,7 @@ export default function EditRepport({ openEditModal, setOpenEditModal }) {
                     <Production formik={formik} open={openEditModal} />{" "}
                   </Grid>
                   <Grid item xs={6}>
-                    <Constats formik={formik} open={openEditModal} />
+                    <EditConstats formik={formik} open={openEditModal} />
                   </Grid>
 
                   <Grid item xs={6}>

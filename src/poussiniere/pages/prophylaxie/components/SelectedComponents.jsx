@@ -82,7 +82,7 @@ export default function SelectedComponents({
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             label="Age"
-            value={lotId}
+            value={lotId ?? ""}
             disabled={lotDataLoading}
             onChange={(e) => {
               setLotId(e.target.value);

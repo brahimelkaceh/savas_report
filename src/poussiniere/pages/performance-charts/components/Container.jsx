@@ -79,7 +79,7 @@ const Container = () => {
           {personName?.length > 0 ? (
             displaySelectedItems()
           ) : (
-            <p>veuillez choisir un courbe !!</p>
+            <p>veuillez choisir une courbe !!</p>
           )}
         </div>
       </div>

@@ -15,6 +15,7 @@ import { AiFillEye } from "react-icons/ai";
 import EditProphylaxi from "./EditProphylaxi";
 import DeleteProphylaxie from "./DeleteProphylaxie";
 import ProphylaxieDetails from "./ProphylaxieDetails";
+import api from "../../../../api/api";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 const getStatusPill = (orderStatus, id, lotId, reftching) => {
@@ -22,33 +23,19 @@ const getStatusPill = (orderStatus, id, lotId, reftching) => {
   const [newStatus, setNewStatus] = useState("");
 
   const ChangeProphylaxiStatus = async (data) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-
-      const response = await fetch(`${base_url}change-proph-status/`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
+      const response = await api.changeProphylaxiStatus(data);
       // Check if the request was successful (status code 2xx)
-      const status = await response.json();
-
-      if (response.ok) {
+      if (response) {
         console.log("Prophylaxi Status changed successfully");
-
-        // Only update if the status has changed
-        if (newStatus !== status) {
-          setNewStatus(status?.status);
-          console.log(status?.status);
+        setLoading(false);
+        if (newStatus !== response.status.status) {
+          setNewStatus(response.status?.status);
+          console.log(response.status?.status);
           reftching(lotId);
         }
-
-        setLoading(false);
+        // dispatch(getRenderData(new Date().toString()));
       } else {
         // Handle non-successful responses (status code other than 2xx)
         console.error(
@@ -125,6 +112,7 @@ export const ProhylaxieListTable = ({
   lotId,
   setRefresh,
   setData,
+  setSuccessDeleteMessage,
 }) => (
   <Box
     sx={{
@@ -188,6 +176,7 @@ export const ProhylaxieListTable = ({
                   lotId={lotId}
                   setRefresh={setRefresh}
                   setData={setData}
+                  setSuccessDeleteMessage={setSuccessDeleteMessage}
                 />
                 <ProphylaxieDetails id={prophy?.id} />
               </TableCell>

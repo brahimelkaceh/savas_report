@@ -2,12 +2,14 @@ import { AiOutlineSend } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import Viabilite from "../../../components/report-form/Viabilite";
-import Consommation from "../../../components/report-form/Consommation";
-import Ambiance from "../../../components/report-form/Ambiance";
+import Viabilite from "../../../components/report-pouss-form/Viabilite";
+import Consommation from "../../../components/report-pouss-form/Consommation";
+import Ambiance from "../../../components/report-pouss-form/Ambiance";
 import ReportModal from "../modals/ReportModal";
 import SuccessAlert from "../../../components/alerts/SuccessAlert";
 import { getBatimentName, getRenderData } from "../../../slices/SiteData";
+import * as Yup from "yup";
+
 import {
   Alert,
   Button,
@@ -16,9 +18,9 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { useData } from "../../context/DataProvider";
-import Constats from "../../../components/report-form/Constats";
+import Constats from "../../../components/report-pouss-form/Constats";
 let base_url = "https://farmdriver.savas.ma/api/";
-const BatimentForm = ({ siteId, batimentId, setId, nextSend }) => {
+const BatimentForm = ({ siteId, batimentId, nextSend }) => {
   console.log("closed alt", nextSend?.closeAlt);
   const dispatch = useDispatch();
   const { data } = useData();
@@ -26,6 +28,45 @@ const BatimentForm = ({ siteId, batimentId, setId, nextSend }) => {
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const validationSchema = Yup.object().shape({
+    mort: Yup.number()
+      .typeError("Le nombre de mortalités doit être une valeur positive.")
+      .min(0, "Le nombre de mortalités doit être une valeur positive."),
+    hensEliminated: Yup.number()
+      .typeError("Le nombre des sujets éliminés doit être une valeur positive.")
+      .min(0, "Le nombre des sujets éliminés doit être une valeur positive."),
+    poidVif: Yup.number()
+      .typeError("Le Poids corporel doit être une valeur positive.")
+      .min(0, "Le Poids corporel doit être une valeur positive."),
+    homog: Yup.number()
+      .typeError("L'homogeneité doit être une valeur positive.")
+      .min(0, "L'homogeneité doit être une valeur positive.")
+      .max(100, "L'homogeneité  doit être inférieure ou égale à 100"),
+    temperatureMin: Yup.number()
+      .typeError("Température intérieure minimale doit être un nombre.")
+      .max(
+        100,
+        "La température intérieure minimale doit être inférieure ou égale à 100."
+      )
+      .min(
+        -100,
+        "La température intérieure minimale doit être supérieure ou égale à -100."
+      ),
+    temperatureMax: Yup.number()
+      .typeError("Température intérieure maximale doit être un nombre.")
+      .max(
+        100,
+        "La température intérieure maximale doit être inférieure ou égale à 100."
+      )
+      .min(
+        -100,
+        "La température intérieure maximale doit être supérieure ou égale à -100."
+      ),
+    humidty: Yup.number()
+      .typeError("Humidité doit être un nombre.")
+      .max(100, "Humidité doit être inférieure ou égale à 100.")
+      .min(0, "Humidité doit être supérieure ou égale à 0."),
+  });
   const formik = useFormik({
     initialValues: {
       batiment: batimentId,
@@ -47,8 +88,9 @@ const BatimentForm = ({ siteId, batimentId, setId, nextSend }) => {
       intensite: "",
       intensIsLux: "",
       observation: "",
+      humidty: "",
     },
-    // validationSchema: validationSchema, // pass the Yup schema here
+    validationSchema: validationSchema, // pass the Yup schema here
     onSubmit: (values) => {
       values.batiment = batimentId;
       console.log("poussiniere", values);

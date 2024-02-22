@@ -3,16 +3,12 @@ import Navbar from "../../components/navbar/Navbar";
 import {
   Alert,
   Box,
-  Button,
   Card,
-  CircularProgress,
   Container,
   LinearProgress,
   Stack,
 } from "@mui/material";
 import { ProhylaxieListTable } from "./sections/ProhylaxieListTable";
-import CreateProphylaxi from "./sections/CreateProphylaxi";
-import { Sync } from "@mui/icons-material";
 import { ProphylaxieInitials } from "./sections/ProphylaxieInitials";
 import SelectedComponents from "./components/SelectedComponents";
 let base_url = "https://farmdriver.savas.ma/api/";
@@ -20,6 +16,7 @@ let base_url = "https://farmdriver.savas.ma/api/";
 const Prophylaxie = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [sendFileMessage, setSendFileMessage] = useState(null);
+  const [successDeleteMessage, setSuccessDeleteMessage] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -82,7 +79,6 @@ const Prophylaxie = () => {
         <Container maxWidth="xl">
           <Card>
             <div className="settings-container">
-              {/* <CreateProphylaxi reftching={fetchData} lotId={lotId} /> */}
               {error && (
                 <Alert
                   severity="error"
@@ -94,7 +90,12 @@ const Prophylaxie = () => {
                   {error}
                 </Alert>
               )}
-              <Stack flexDirection="row" gap={2} justifyContent="space-between">
+              <Stack
+                alignItems={"center"}
+                flexDirection="row"
+                gap={2}
+                justifyContent="space-between"
+              >
                 <SelectedComponents
                   setLotId={setLotId}
                   lotId={lotId}
@@ -104,6 +105,20 @@ const Prophylaxie = () => {
                   setSelectedFile={setSelectedFile}
                   sendFileMessage={sendFileMessage}
                 />
+                {successDeleteMessage && (
+                  <Alert
+                    // icon={false}
+                    severity="success"
+                    color="info"
+                    variant="outlined"
+                    sx={{
+                      p: 0,
+                      px: 1,
+                    }}
+                  >
+                    {successDeleteMessage}
+                  </Alert>
+                )}
               </Stack>
             </div>
             {loading && <LinearProgress />}
@@ -127,6 +142,7 @@ const Prophylaxie = () => {
                   lotId={lotId}
                   setRefresh={setRefresh}
                   setData={setData}
+                  setSuccessDeleteMessage={setSuccessDeleteMessage}
                 />
               )}
             </Stack>

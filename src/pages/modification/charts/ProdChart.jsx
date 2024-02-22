@@ -59,13 +59,13 @@ const ProductionChart = ({ data, show }) => {
       primaryYAxis={{
         title: "Ponte %",
         rangePadding: "None",
-        minimum: null,
-        maximum: null,
-        interval: null,
+        minimum: 0,
+        maximum: 110,
+        interval: 10,
         lineStyle: { width: 0 },
         majorTickLines: { width: 0 },
         majorGridLines: {
-          width: 2,
+          width: show ? 0 : 2,
         },
         minorTickLines: { width: 0, color: "#834218" },
         titleStyle: {

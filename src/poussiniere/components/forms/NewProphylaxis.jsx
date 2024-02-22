@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import ConfirmModal from "../../../pages/settings/modals/ConfirmModal";
 import * as Yup from "yup";
+import api from "../../../api/api";
 
 const NewProphylaxis = ({ data }) => {
   const [open, setOpen] = useState(false);
