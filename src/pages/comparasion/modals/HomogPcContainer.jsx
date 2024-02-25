@@ -1,7 +1,10 @@
 import {
+  AppBar,
   Box,
+  Button,
   Dialog,
   DialogContent,
+  Divider,
   FormControl,
   IconButton,
   InputLabel,
@@ -10,6 +13,7 @@ import {
   Slide,
   Stack,
   SvgIcon,
+  Toolbar,
 } from "@mui/material";
 import React, { forwardRef, useState } from "react";
 import HomogPcChart from "./charts/HomogPcChart";
@@ -40,45 +44,51 @@ const HomogPcContainer = ({ data, onClose, open }) => {
         transitionDuration={350}
         keepMounted={true}
       >
-        <Stack
-          flexDirection={"row"}
-          justifyContent={"space-between"}
-          gap={2}
-          alignItems={"center"}
-          m={1}
+        <AppBar
+          color="transparent"
+          sx={{ position: "relative", boxShadow: "none" }}
         >
-          <FormControl
-            fullWidth
-            xs={{
-              m: 1,
-              maxWidth: "50%",
-            }}
-          >
-            <InputLabel id="demo-simple-select-label">
-              Sélectionnez un Paramétre
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={param}
-              label="Sélectionnez un Courbe"
-              onChange={handleChange}
-              autoWidth
+          <Toolbar>
+            <FormControl
+              color="primary"
+              fullWidth
+              xs={{
+                m: 1,
+                maxWidth: "50%",
+                color: "#fff",
+              }}
             >
-              {params?.map((param) => (
-                <MenuItem key={param.id} value={param.id}>
-                  {param.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Box width={"100%"}></Box>
-          <IconButton color="error" onClick={onClose}>
-            <SvgIcon>
-              <Close />
-            </SvgIcon>
-          </IconButton>
-        </Stack>
+              <InputLabel id="demo-simple-select-label">
+                Sélectionnez un Paramétre
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={param}
+                label="Sélectionnez un Paramétre"
+                onChange={handleChange}
+                fullWidth
+              >
+                {params?.map((param) => (
+                  <MenuItem key={param.id} value={param.id}>
+                    {param.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Box width={"100%"}></Box>
+
+            <Button
+              autoFocus
+              color="error"
+              variant="outlined"
+              onClick={onClose}
+            >
+              fermer
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Divider variant="middle"></Divider>
         <DialogContent>
           <HomogPcChart data={data} param={param} />
         </DialogContent>

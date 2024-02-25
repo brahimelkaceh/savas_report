@@ -114,6 +114,7 @@ h3 {
   padding: 0px 15px;
   border-radius: 4px;
 }
+
 #chartDiv .swiper-button-next::after,
 #chartDiv .swiper-button-prev::after {
   position: absolute;
@@ -142,12 +143,12 @@ h3 {
   top: 7%;
 }
 #chartDiv .swiper-button-prev {
-  left: 1%;
-  top: 5%;
+  left: 0%;
+  top: 4%;
 }
 #chartDiv .swiper-button-next {
-  right: 10px;
-  top: 5%;
+  right: 0px;
+  top: 4%;
 }
 
 .css-tkn350-MuiTabs-root {

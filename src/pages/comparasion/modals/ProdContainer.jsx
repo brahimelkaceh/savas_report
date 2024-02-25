@@ -1,7 +1,10 @@
 import {
+  AppBar,
   Box,
+  Button,
   Dialog,
   DialogContent,
+  Divider,
   FormControl,
   IconButton,
   InputLabel,
@@ -10,6 +13,8 @@ import {
   Stack,
   SvgIcon,
   Switch,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import React, { forwardRef, useState } from "react";
 import GlobalChart from "./charts/GlobalChart";
@@ -23,18 +28,6 @@ const params = [
   { id: 3, label: "Blancs" },
   { id: 4, label: "Declassés" },
 ];
-const style = {
-  position: "relative",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "80vw",
-  height: "80vh",
-  boxShadow: 24,
-  p: 1,
-  zIndex: 10000,
-  pb: 4,
-};
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -59,85 +52,59 @@ const ProdContainer = ({ data, onClose, open }) => {
         transitionDuration={350}
         keepMounted={true}
       >
-        <Stack
-          flexDirection={"row"}
-          justifyContent={"space-between"}
-          gap={2}
-          alignItems={"center"}
-          m={1}
+        <AppBar
+          color="transparent"
+          sx={{ position: "relative", boxShadow: "none" }}
         >
-          <FormControl
-            fullWidth
-            xs={{
-              m: 1,
-              maxWidth: "50%",
-            }}
-          >
-            <InputLabel id="demo-simple-select-label">
-              Sélectionnez un Paramétre
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={param}
-              label="Sélectionnez un Courbe"
-              onChange={handleChange}
-              autoWidth
+          <Toolbar>
+            <FormControl
+              color="primary"
+              fullWidth
+              xs={{
+                m: 1,
+                maxWidth: "50%",
+                color: "#fff",
+              }}
             >
-              {params?.map((param) => (
-                <MenuItem key={param.id} value={param.id}>
-                  {param.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Box width={"100%"}></Box>
-          <IconButton color="error" onClick={onClose}>
-            <SvgIcon>
-              <Close />
-            </SvgIcon>
-          </IconButton>
-        </Stack>
+              <InputLabel id="demo-simple-select-label">
+                Sélectionnez un Paramétre
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={param}
+                label="Sélectionnez un Courbe"
+                onChange={handleChange}
+                fullWidth
+              >
+                {params?.map((param) => (
+                  <MenuItem key={param.id} value={param.id}>
+                    {param.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Box width={"100%"}></Box>
+
+            {/* <Typography variant="caption"> {code.lot}</Typography> */}
+
+            <Button
+              autoFocus
+              color="error"
+              variant="outlined"
+              onClick={onClose}
+            >
+              fermer
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Divider variant="middle" />
+
         <DialogContent>
           <GlobalChart data={data} param={param} />
         </DialogContent>
       </Dialog>
     </>
-  );
-  return (
-    <Box sx={style} className="confirm-modal  modal">
-      <Stack
-        flexDirection={"row"}
-        justifyContent={"end"}
-        gap={2}
-        alignItems={"center"}
-      >
-        <FormControl>
-          <InputLabel id="demo-simple-select-label">
-            Sélectionnez un Paramétre
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={param}
-            label="Sélectionnez un Courbe"
-            onChange={handleChange}
-          >
-            {params?.map((param) => (
-              <MenuItem key={param.id} value={param.id}>
-                {param.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <IconButton color="error" onClick={onClose}>
-          <SvgIcon>
-            <Close />
-          </SvgIcon>
-        </IconButton>
-      </Stack>
-      <GlobalChart data={data} param={param} />
-    </Box>
   );
 };
 

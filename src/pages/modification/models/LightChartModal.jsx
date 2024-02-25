@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -7,24 +7,24 @@ import DownloadBtn from "../components/DownloadBtn";
 import Loader from "../../../components/loader/Loader";
 import UseFetchData from "../../../hooks/UseFetchData";
 import LightChart from "../charts/LightChart";
+import {
+  AppBar,
+  Button,
+  Dialog,
+  DialogContent,
+  Slide,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 1200,
-  height: "60%",
-  boxShadow: 24,
-  p: 3,
-};
-
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 export default function LightChartModal({
   openLightsChartModel,
   setOpenLightsChartModel,
 }) {
   const lotTableId = useSelector((state) => state.toggleLeftBar.lotTableId);
-  console.log("lot id :", lotTableId);
   const ApiUrl = useMemo(
     () => `${base_url}table-light-chart/?lotId=${lotTableId}`,
     [base_url, lotTableId]
@@ -33,7 +33,40 @@ export default function LightChartModal({
   const handleClose = () => {
     setOpenLightsChartModel(false);
   };
-
+  return (
+    <Dialog
+      fullScreen
+      open={openLightsChartModel}
+      onClose={handleClose}
+      TransitionComponent={Transition}
+    >
+      <AppBar
+        color="transparent"
+        sx={{ position: "relative", marginBottom: 1 }}
+      >
+        <Toolbar>
+          <DownloadBtn pdfname={"Courbe-de-Lumiére-Intensité"} />
+          <Typography
+            sx={{ ml: 2, flex: 1 }}
+            variant="h6"
+            component="div"
+          ></Typography>
+          <Button
+            autoFocus
+            color="error"
+            variant="outlined"
+            onClick={handleClose}
+          >
+            Fermer
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <DialogContent className="modal " id="chartDiv">
+        {error ? <p>error</p> : <LightChart data={data} show={true} />}
+        {loading && <Loader />}
+      </DialogContent>
+    </Dialog>
+  );
   return (
     <div>
       <Modal

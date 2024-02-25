@@ -58,6 +58,7 @@ const ProductionChart = ({ data, show }) => {
       // load={load.bind(this)}
       primaryYAxis={{
         title: "Ponte %",
+        labelFormat: "{value}%",
         rangePadding: "None",
         minimum: 0,
         maximum: 110,
@@ -79,7 +80,20 @@ const ProductionChart = ({ data, show }) => {
         },
       }}
       chartArea={{ border: { width: 0 } }}
-      tooltip={{ enable: true, shared: true }}
+      tooltip={{
+        enable: true,
+        shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
+      }}
       legendSettings={{ enableHighlight: true }}
       width={Browser.isDevice ? "100%" : "100%"}
       height={"100%"}
@@ -150,6 +164,7 @@ const ProductionChart = ({ data, show }) => {
           maximum={15}
           interval={1.5}
           visible={show}
+          labelFormat="{value}%"
         ></AxisDirective>
         <AxisDirective
           rowIndex={0}
@@ -175,6 +190,7 @@ const ProductionChart = ({ data, show }) => {
           minimum={0}
           maximum={100}
           interval={2.5}
+          labelFormat="{value}g"
           visible={show}
         ></AxisDirective>
       </AxesDirective>
@@ -195,7 +211,22 @@ const ProductionChart = ({ data, show }) => {
           fill="#FFA447"
           opacity={0.5}
           type="Line"
-          yAxisName="yAxisA"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"ponte"}
+          name={show ? "Ponte (%)" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#834218"
+          type="Line"
         ></SeriesDirective>
         <SeriesDirective
           dataSource={data?.guide}
@@ -212,6 +243,23 @@ const ProductionChart = ({ data, show }) => {
           }}
           fill="#C7B7A3"
           opacity={0.8}
+          type="Line"
+          yAxisName="yAxisA"
+        ></SeriesDirective>
+        <SeriesDirective
+          dataSource={data?.reel}
+          xName="age"
+          yName={"pmo"}
+          name={show ? "PMO (g)" : " "}
+          width={3.5}
+          marker={{
+            visible: false,
+            width: 7,
+            height: 7,
+            shape: "Circle",
+            isFilled: true,
+          }}
+          fill="#D3A41C"
           type="Line"
           yAxisName="yAxisA"
         ></SeriesDirective>
@@ -233,41 +281,7 @@ const ProductionChart = ({ data, show }) => {
           type="Line"
           yAxisName="yAxisB"
         ></SeriesDirective>
-        <SeriesDirective
-          dataSource={data?.reel}
-          xName="age"
-          yName={"ponte"}
-          name={show ? "Ponte (%)" : " "}
-          width={3.5}
-          marker={{
-            visible: false,
-            width: 7,
-            height: 7,
-            shape: "Circle",
-            isFilled: true,
-          }}
-          fill="#834218"
-          // opacity={0.5}
-          type="Line"
-          yAxisName="yAxisA"
-        ></SeriesDirective>
-        <SeriesDirective
-          dataSource={data?.reel}
-          xName="age"
-          yName={"pmo"}
-          name={show ? "PMO (g)" : " "}
-          width={3.5}
-          marker={{
-            visible: false,
-            width: 7,
-            height: 7,
-            shape: "Circle",
-            isFilled: true,
-          }}
-          fill="#D3A41C"
-          type="Line"
-          yAxisName="yAxisA"
-        ></SeriesDirective>
+
         <SeriesDirective
           dataSource={data?.reel}
           xName="age"

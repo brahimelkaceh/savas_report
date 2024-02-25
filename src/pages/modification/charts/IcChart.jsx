@@ -50,13 +50,13 @@ const options = {
     },
     legend: {
       display: true,
-      position: "top", // 'top', 'bottom', 'left', 'right'
+      position: "bottom", // 'top', 'bottom', 'left', 'right'
     },
   },
   scales: {
     x: {
       title: {
-        display: true,
+        display: false,
         text: "Age (semaine)",
         font: {
           weight: "bold",

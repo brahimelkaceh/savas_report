@@ -22,7 +22,7 @@ import {
 } from "@syncfusion/ej2-react-charts";
 import { Browser } from "@syncfusion/ej2-base";
 
-const MasseChart = ({ code, i }) => {
+const MasseChart = ({ code, i, show }) => {
   const onChartLoad = (args) => {
     let chart = document.getElementById(`chart${i}`);
     chart.setAttribute("title", "");
@@ -63,6 +63,7 @@ const MasseChart = ({ code, i }) => {
         lineStyle: { width: 0 },
         majorTickLines: { width: 0 },
         minorTickLines: { width: 0 },
+        majorGridLines: { width: 2 },
         titleStyle: {
           textAlignment: "Center",
           size: "10px",
@@ -74,7 +75,7 @@ const MasseChart = ({ code, i }) => {
       tooltip={{ enable: true }}
       legendSettings={{ enableHighlight: true }}
       width={Browser.isDevice ? "100%" : "100%"}
-      title={`Masse d'Oeuf ${code.lot} `}
+      // title={`Masse d'Oeuf ${code.lot} `}
       titleStyle={{
         textAlignment: "Center",
         size: "12px",
@@ -106,11 +107,34 @@ const MasseChart = ({ code, i }) => {
             fontWeight: "400",
             color: "#FF5B22",
           }}
-          majorGridLines={lines}
-          minorTickLines={lines}
-          lineStyle={lines}
+          majorGridLines={{ width: 0 }}
+          minorTickLines={{ width: 1 }}
+          lineStyle={{ width: 1 }}
           minimum={0}
           maximum={35}
+          interval={5}
+        ></AxisDirective>
+        <AxisDirective
+          visible={show}
+          rowIndex={0}
+          name="yAxis2"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "10px",
+            fontWeight: "400",
+            color: "#FF5B22",
+          }}
+          majorGridLines={{ width: 1 }}
+          minorTickLines={{ width: 0 }}
+          majorTickLines={{ width: 0 }}
+          lineStyle={{ width: 0 }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          minimum={0}
+          maximum={500}
           interval={5}
         ></AxisDirective>
       </AxesDirective>
@@ -119,8 +143,8 @@ const MasseChart = ({ code, i }) => {
           dataSource={code?.massSem}
           xName="age"
           yName="massSem"
-          name="Masse Oeuf"
-          width={1.5}
+          name={show ? "Masse Oeuf" : " "}
+          width={show ? 3 : 1.5}
           fill="#8B4513"
           type="Line"
         ></SeriesDirective>
@@ -128,8 +152,8 @@ const MasseChart = ({ code, i }) => {
           dataSource={code?.ages}
           xName="age"
           yName="g_masse_sem"
-          name="Guide : Masse Oeuf"
-          width={2.5}
+          name={show ? "Guide : Masse Oeuf" : " "}
+          width={show ? 5 : 2.5}
           fill="#C69774"
           opacity={0.5}
           type="Line"
@@ -138,8 +162,8 @@ const MasseChart = ({ code, i }) => {
           dataSource={code?.massCuml}
           xName="age"
           yName="massCuml"
-          name="∑ Masse Oeuf"
-          width={1.5}
+          name={show ? "∑ Masse Oeuf" : " "}
+          width={show ? 3 : 1.5}
           fill="#FF5B22"
           type="Line"
           yAxisName="yAxis1"
@@ -148,8 +172,8 @@ const MasseChart = ({ code, i }) => {
           dataSource={code?.ages}
           xName="age"
           yName="g_masse_cuml"
-          name="Guide : ∑ Masse Oeuf"
-          width={2.5}
+          name={show ? "Guide : ∑ Masse Oeuf" : " "}
+          width={show ? 5 : 2.5}
           opacity={0.5}
           fill="#FF5B22"
           type="Line"
@@ -169,6 +193,7 @@ const MasseChart = ({ code, i }) => {
             isFilled: true,
           }}
           type="Line"
+          yAxisName="yAxis2"
         ></SeriesDirective>
       </SeriesCollectionDirective>
     </ChartComponent>

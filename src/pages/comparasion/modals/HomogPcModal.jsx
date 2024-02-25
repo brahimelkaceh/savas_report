@@ -15,13 +15,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Close, Fullscreen } from "@mui/icons-material";
-import ProductionChart from "../charts/ProductionChart";
+import ConsommationChart from "../charts/ConsommationChart";
+import HomogPcChart from "../charts/HomogPcChart";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ProductionModal({ code, i, open, setOpen }) {
+export default function HomogPCModal({ code, i, open, setOpen }) {
   const handleClose = () => {
     setOpen(false);
   };
@@ -41,7 +42,7 @@ export default function ProductionModal({ code, i, open, setOpen }) {
         <Toolbar>
           <Typography variant="caption"> {code.lot}</Typography>
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-            Production œufs
+            Poids corporel & Homogénéité
           </Typography>
           <Button autoFocus color="inherit" onClick={handleClose}>
             fermer
@@ -55,7 +56,7 @@ export default function ProductionModal({ code, i, open, setOpen }) {
             height: "100%",
           }}
         >
-          <ProductionChart show={open} code={code} i={i} />
+          <HomogPcChart show={open} code={code} i={i} />
         </div>
       </DialogContent>
     </Dialog>

@@ -4,27 +4,23 @@ import { useState } from "react";
 import BatimentSelection from "./BatimentSelection";
 import ProphylaxiForm from "./ProphylaxiForm";
 import { useData } from "../../context/DataProvider";
-import { Alert, Grid, LinearProgress } from "@mui/material";
+import { Alert, Grid, LinearProgress, Stack } from "@mui/material";
 import FormHeader from "../../../pages/reports/Components/FormHeader";
 import api from "../../../api/api";
+import toast, { Toaster } from "react-hot-toast";
 
 function Batiment({ batiments, siteId }) {
   const [batimentId, setBatimentId] = useState(null);
   const { dispatch } = useData();
   const [nextData, setNextData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
   const fetchNextSend = async (id) => {
     try {
       setLoading(true);
       const result = await api.getPoussNext(id);
       setNextData(result);
-      setError("");
     } catch (error) {
-      setError(
-        "Échec de récupération des données. Veuillez vérifier votre connexion internet et réessayer ultérieurement."
-      );
+      toast.error("Échec de récupération les données; Veuillez réessayer.");
       setNextData([]);
     } finally {
       setLoading(false);
@@ -40,6 +36,7 @@ function Batiment({ batiments, siteId }) {
   }, [nextData, dispatch]);
   return (
     <>
+      <Toaster gutter={8} position="bottom-right" reverseOrder={false} />
       <div className="batiment-category">
         {loading && <LinearProgress />}
         <BatimentSelection
@@ -51,13 +48,6 @@ function Batiment({ batiments, siteId }) {
           fetchNextSend={fetchNextSend}
         />
         <Grid container spacing={0} mb={0}>
-          <Grid item xs={12}>
-            {error && (
-              <Alert variant="standard" severity="error">
-                {error}
-              </Alert>
-            )}
-          </Grid>
           {nextData?.length > 0 &&
             nextData?.map((nextSend, i) => {
               return (
@@ -87,9 +77,9 @@ function Batiment({ batiments, siteId }) {
         </Grid>
         <Grid container flexDirection="row" spacing={2} mb={4}>
           {nextData &&
-            nextData?.map((nextSend) => {
+            nextData?.map((nextSend, i) => {
               return (
-                <Grid item xl={6} md={12} sm={12}>
+                <Grid key={i} item xl={6} md={12} sm={12}>
                   <BatimentForm
                     siteId={siteId}
                     BatimentIdent={batiments}

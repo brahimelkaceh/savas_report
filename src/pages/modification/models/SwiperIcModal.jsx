@@ -4,7 +4,7 @@ import DownloadBtn from "../components/DownloadBtn";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MortChart from "../charts/MortChart";
 import HomogPvChart from "../charts/HomogPvChart";
-import { useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 import { useSelector } from "react-redux";
 import UseFetchData from "../../../hooks/UseFetchData";
 import Loader from "../../../components/loader/Loader";
@@ -13,18 +13,18 @@ let base_url = "https://farmdriver.savas.ma/api/";
 import { Navigation } from "swiper/modules";
 import AltChart from "../charts/AltChart";
 import IcChart from "../charts/IcChart";
-
-// import required modules
-// import required modules
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 1200,
-  boxShadow: 24,
-  p: 3,
-};
+import {
+  AppBar,
+  Button,
+  Dialog,
+  DialogContent,
+  Slide,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function SwiperIcModal({ setOpen, open }) {
   const lotTableId = useSelector((state) => state.toggleLeftBar.lotTableId);
@@ -45,32 +45,44 @@ export default function SwiperIcModal({ setOpen, open }) {
   const handleClose = () => {
     setOpen(false);
   };
-
   return (
-    <div>
-      <Modal
-        open={open}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className=""
-        onClose={handleClose}
-      >
-        <Box sx={style} className="confirm-modal modal " id="chartDiv">
-          <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
-            <SwiperSlide>
-              <DownloadBtn />
-              {altData && <AltChart data={altData} show={true} />}
-              {loading && <Loader />}
-            </SwiperSlide>
-            <SwiperSlide>
-              <DownloadBtn />
-              {data && <IcChart icData={data} show={true} />}
+    <Dialog
+      fullScreen
+      open={open}
+      onClose={handleClose}
+      TransitionComponent={Transition}
+    >
+      <AppBar color="transparent" sx={{ position: "relative" }}>
+        <Toolbar>
+          <DownloadBtn pdfname={"courbe"} />
+          <Typography
+            sx={{ ml: 2, flex: 1 }}
+            variant="h6"
+            component="div"
+          ></Typography>
+          <Button
+            autoFocus
+            color="error"
+            variant="outlined"
+            onClick={handleClose}
+          >
+            Fermer
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <DialogContent className="modal " id="chartDiv">
+        <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+          <SwiperSlide>
+            {altData && <AltChart data={altData} show={true} />}
+            {loading && <Loader />}
+          </SwiperSlide>
+          <SwiperSlide>
+            {data && <IcChart icData={data} show={true} />}
 
-              {loading && <Loader />}
-            </SwiperSlide>
-          </Swiper>
-        </Box>
-      </Modal>
-    </div>
+            {loading && <Loader />}
+          </SwiperSlide>
+        </Swiper>
+      </DialogContent>
+    </Dialog>
   );
 }

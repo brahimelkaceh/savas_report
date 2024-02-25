@@ -2,7 +2,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useMemo, useState, useEffect } from "react";
 
-function SitesBar({ sites, setSiteId }) {
+function SitesBar({ sites, setSiteId, fetchLotData }) {
   const [value, setValue] = useState(0);
   const [activeTab, setActiveTab] = useState(0);
   const handleChange = (event, newValue) => {
@@ -36,6 +36,7 @@ function SitesBar({ sites, setSiteId }) {
               onClick={() => {
                 handleChangeSite(i);
                 setSiteId(site?.id);
+                fetchLotData(site?.id);
               }}
               label={site?.name}
             />

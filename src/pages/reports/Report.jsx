@@ -16,7 +16,7 @@ function Report() {
 
   const [sites, setSites] = useState("");
   const [siteId, setSiteId] = useState("");
-  const SiteApiurl = useMemo(() => `${base_url}get-sites/`, [base_url]);
+  const SiteApiurl = useMemo(() => `${base_url}get-sites-titles/`, [base_url]);
   const { data, loading, error } = UseFetchData(SiteApiurl, "GET");
 
   const FetchData = (id) => {
@@ -41,14 +41,12 @@ function Report() {
   return (
     <>
       <main className="page">
-        {/* <Topbar /> */}
         <Navbar />
         <SitesBar siteData={data} FetchData={FetchData} />
         {loading && <LinearProgress />}
         <DataProvider>
           {sites && <Batiment batiments={sites} siteId={siteId} />}
         </DataProvider>
-        {/* <Test /> */}
       </main>
     </>
   );

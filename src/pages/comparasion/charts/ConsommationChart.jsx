@@ -22,7 +22,7 @@ import {
 } from "@syncfusion/ej2-react-charts";
 import { Browser } from "@syncfusion/ej2-base";
 
-const ConsommationChart = ({ code, i }) => {
+const ConsommationChart = ({ code, i, show }) => {
   const onChartLoad = (args) => {
     let chart = document.getElementById(`chart${i}`);
     chart.setAttribute("title", "");
@@ -63,6 +63,7 @@ const ConsommationChart = ({ code, i }) => {
         lineStyle: { width: 0 },
         majorTickLines: { width: 0 },
         minorTickLines: { width: 0 },
+        majorGridLines: { width: 0 },
         titleStyle: {
           textAlignment: "Center",
           size: "10px",
@@ -74,7 +75,7 @@ const ConsommationChart = ({ code, i }) => {
       tooltip={{ enable: true }}
       legendSettings={{ enableHighlight: true }}
       width={Browser.isDevice ? "100%" : "100%"}
-      title={`Consommation : ${code.lot} `}
+      // title={`Consommation : ${code.lot} `}
       titleStyle={{
         textAlignment: "Center",
         size: "12px",
@@ -106,7 +107,7 @@ const ConsommationChart = ({ code, i }) => {
             fontWeight: "bold",
             color: "#17594A",
           }}
-          majorGridLines={{ width: 0 }}
+          majorGridLines={{ width: show ? 0 : 1 }}
           minorTickLines={{ width: 0 }}
           lineStyle={{ width: 1 }}
           minimum={0}
@@ -149,14 +150,37 @@ const ConsommationChart = ({ code, i }) => {
           maximum={10}
           interval={2}
         ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          visible={show}
+          name="yAxis5"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "10px",
+            fontWeight: "400",
+            color: "#97e0ff",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={{ width: 1 }}
+          minorTickLines={{ width: 0 }}
+          lineStyle={{ width: 0 }}
+          majorTickLines={{ width: 0 }}
+          minimum={0}
+          maximum={100}
+          interval={1.5}
+        ></AxisDirective>
       </AxesDirective>
       <SeriesCollectionDirective>
         <SeriesDirective
           dataSource={code?.ratio}
           xName="age"
           yName="ratio"
-          name="Ratio Eau/Aliment"
-          width={1.5}
+          name={show ? "Ratio Eau/Aliment" : " "}
+          width={show ? 3 : 1.5}
           marker={{
             visible: false,
             width: 7,
@@ -174,8 +198,8 @@ const ConsommationChart = ({ code, i }) => {
           dataSource={code?.eps}
           xName="age"
           yName="eps"
-          name="Eau"
-          width={1.5}
+          name={show ? "Eau" : " "}
+          width={show ? 3 : 1.5}
           marker={{
             visible: false,
             width: 7,
@@ -191,8 +215,8 @@ const ConsommationChart = ({ code, i }) => {
           dataSource={code?.aps}
           xName="age"
           yName="aps"
-          name="Aliment/sujet"
-          width={1.5}
+          name={show ? "Aliment/sujet" : " "}
+          width={show ? 3 : 1.5}
           marker={{
             visible: false,
             width: 7,
@@ -208,8 +232,8 @@ const ConsommationChart = ({ code, i }) => {
           dataSource={code?.ages}
           xName="age"
           yName="g_aps"
-          name="Guide : Aliment/sujet"
-          width={2.5}
+          name={show ? "Guide : Aliment/sujet" : " "}
+          width={show ? 5 : 2.5}
           fill="#597E52"
           opacity={0.5}
           type="Line"
@@ -220,8 +244,8 @@ const ConsommationChart = ({ code, i }) => {
           dataSource={code?.aps_cuml}
           xName="age"
           yName="aps_cuml"
-          name="∑ Aliment/sujet"
-          width={1.5}
+          name={show ? "∑ Aliment/sujet" : " "}
+          width={show ? 3 : 1.5}
           marker={{
             visible: false,
             width: 7,
@@ -237,8 +261,8 @@ const ConsommationChart = ({ code, i }) => {
           dataSource={code?.ages}
           xName="age"
           yName="g_apscuml"
-          name="Guide : ∑ Aliment/sujet"
-          width={1.5}
+          name={show ? "Guide : ∑ Aliment/sujet" : " "}
+          width={show ? 3 : 1.5}
           fill="#88AB8E"
           type="Line"
           yAxisName="yAxis3"
@@ -258,6 +282,7 @@ const ConsommationChart = ({ code, i }) => {
             isFilled: true,
           }}
           type="Line"
+          yAxisName="yAxis5"
         ></SeriesDirective>
       </SeriesCollectionDirective>
     </ChartComponent>

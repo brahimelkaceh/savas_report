@@ -1,10 +1,5 @@
-import { useMemo, useState, useEffect } from "react";
-let base_url = "https://farmdriver.savas.ma/api/";
-import { useSelector, useDispatch } from "react-redux";
-import FormHeader from "../../../pages/reports/Components/FormHeader";
 import { getBatimentName } from "../../../slices/SiteData";
 import { useData } from "../../context/DataProvider";
-import { Card, CardContent, CircularProgress } from "@mui/material";
 const BatimentSelection = ({
   BatimentIdent,
   batimentId,

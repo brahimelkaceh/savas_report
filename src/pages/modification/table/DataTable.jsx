@@ -14,7 +14,9 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import TableDetailModal from "../models/TableDetailModal";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import Loader from "../../../components/loader/Loader";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, LinearProgress } from "@mui/material";
+import api from "../../../api/api";
+import toast, { Toaster } from "react-hot-toast";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 function DataTable({ setLoading, loading, isReform }) {
@@ -27,6 +29,7 @@ function DataTable({ setLoading, loading, isReform }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTableDetailModal, setOpenTableDetailModal] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
+
   const [openEditModal, setOpenEditModal] = useState(false);
 
   const [elementVisibility, setElementVisibility] = useState({});
@@ -63,7 +66,7 @@ function DataTable({ setLoading, loading, isReform }) {
         setTableData(data);
         setLoading(false);
       }
-    } catch (error) {
+    } catch (pdfError) {
       console.error("Error fetching user data:", error.message);
     } finally {
       setLoading(false);
@@ -73,65 +76,22 @@ function DataTable({ setLoading, loading, isReform }) {
   //! Extract the last element from each sub-array in 'data'
   const [weeklyData, setWeeklyData] = useState([]);
   const [newWeeklyData, setNewWeeklyData] = useState([]);
-  // useEffect(() => {
-  //   tableData?.length > 0
-  //     ? setWeeklyData(tableData?.map((d) => d[d.length - 1]))
-  //     : setWeeklyData([]);
-  // }, [tableData]);
 
   const handleWeekPdfClick = async (id, age) => {
-    setPdfLoading(true);
     try {
-      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
-      const response = await fetch(
-        `${base_url}pdf-week/?lot_id=${id}&age=${age}`,
-        {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      if (response.ok) {
-        setPdfLoading(false);
-      }
-      const blob = await response.blob();
-
-      // Create a temporary URL for the received blob
-      const url = window.URL.createObjectURL(blob);
-
-      // Create a hidden anchor element for downloading
-      const a = document.createElement("a");
-      a.style.display = "none";
-      a.href = url;
-      // Change the file name if needed
-
-      // Append the anchor element to the DOM
-      document.body.appendChild(a);
-      let fileName = response.headers.get("Content-Disposition").substring(21);
-      console.log(fileName);
-      a.download = fileName;
-      // Trigger a click event on the anchor element to initiate the download
-      a.click();
-
-      // Remove the anchor element from the DOM
-      document.body.removeChild(a);
-
-      // Revoke the object URL to free up resources
-      window.URL.revokeObjectURL(url);
+      setPdfLoading(true);
+      setPdfError(null);
+      await api.productionWeekPdf(id, age);
+      toast.success("PDF téléchargé avec succès !");
     } catch (error) {
       console.error("Error:", error);
-      // Handle the error as needed
+      toast.error(
+        "Échec du téléchargement du PDF. Veuillez réessayer plus tard."
+      );
     } finally {
-      setIsLoading(false); // Set loading to false when the fetch is complete
+      setPdfLoading(false); // Set loading to false when the fetch is complete
     }
   };
-  const initialLotTableId = useRef(null); // Create a ref to store the previous lotTableId
   useEffect(() => {
     getRepportData(lotTableId);
   }, [lotTableId, refreshData]);
@@ -155,11 +115,8 @@ function DataTable({ setLoading, loading, isReform }) {
 
   return (
     <div className="modification-table-container">
-      {pdfLoading && (
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <CircularProgress fourColor size={25} />
-        </Box>
-      )}
+      <Toaster gutter={8} position="bottom-right" reverseOrder={false} />
+      {pdfLoading && <LinearProgress color="success" />}
       {openDeleteModal && (
         <DeleteReport
           openDeleteModal={openDeleteModal}

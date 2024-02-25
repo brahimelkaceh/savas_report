@@ -1,9 +1,21 @@
-import React, { useMemo, useState } from "react";
+import React, { forwardRef, useMemo, useState } from "react";
 import MasseOeufChart from "../../../modification/charts/MasseOeufChart";
 import UseFetchData from "../../../../hooks/UseFetchData";
 import Loader from "../../../../components/loader/Loader";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
-import { Box, Card, IconButton, Modal, Stack, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  Card,
+  Dialog,
+  IconButton,
+  Modal,
+  Slide,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import CloseIcon from "@mui/icons-material/Close";
@@ -19,6 +31,9 @@ const style = {
   boxShadow: 24,
   p: 3,
 };
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const MasseContainer = ({ id, title }) => {
   const [fullScreen, setFullScreen] = useState(false);
 
@@ -34,56 +49,30 @@ const MasseContainer = ({ id, title }) => {
   };
   if (fullScreen) {
     return (
-      <Modal
+      <Dialog
+        fullScreen
         open={fullScreen}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className=""
         onClose={handleClose}
+        TransitionComponent={Transition}
       >
-        <Box sx={style} className="confirm-modal modal " id="chartDiv">
-          <Stack
-            flexDirection={"row"}
-            justifyContent={"center"}
-            gap={2}
-            alignItems={"center"}
-          >
-            <Typography color="primary" variant="h6">
+        <AppBar color="primary" sx={{ position: "relative", marginBottom: 2 }}>
+          <Toolbar>
+            <Typography variant="caption">{title}</Typography>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Masse d'œufs
             </Typography>
-            <Typography color="error" variant="caption">
-              {title}
-            </Typography>{" "}
-          </Stack>
-          <IconButton
-            sx={{
-              margin: 0,
-              position: "absolute",
-              top: "0%",
-              left: "100%",
-              transform: "translate(-100%, -0%)",
-              backgroundColor: "#f44336",
-              color: "#e3f2fd",
-              borderRadius: 0,
-              borderBottomLeftRadius: 4,
-            }}
-            size="small"
-            disableFocusRipple={true}
-            disableRipple={true}
-            onClick={() => {
-              setFullScreen(!fullScreen);
-            }}
-          >
-            <CloseIcon></CloseIcon>
-          </IconButton>
-          {error ? (
-            <p>error</p>
-          ) : (
-            <MasseOeufChart data={data} show={fullScreen} />
-          )}
-          {loading && <Loader />}
-        </Box>
-      </Modal>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              fermer
+            </Button>
+          </Toolbar>
+        </AppBar>
+        {error ? (
+          <p>error</p>
+        ) : (
+          <MasseOeufChart data={data} show={fullScreen} />
+        )}{" "}
+        {loading && <Loader />}
+      </Dialog>
     );
   }
   return (

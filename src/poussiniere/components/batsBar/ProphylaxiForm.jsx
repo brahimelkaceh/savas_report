@@ -21,7 +21,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { AiOutlineSend } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
@@ -35,23 +35,26 @@ import SuccessAlert from "../../../components/alerts/SuccessAlert";
 import { ExpandMore } from "@mui/icons-material";
 import api from "../../../api/api";
 import NewProphylaxis from "../forms/NewProphylaxis";
+import toast, { Toaster } from "react-hot-toast";
 
 const ProphylaxiForm = ({ data }) => {
   const [openModal, setOpenModal] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const [newStatus, setNewStatus] = useState(null);
   const dispatch = useDispatch();
 
   const ChangeProphylaxiStatus = async (data) => {
-    setLoading(true);
     try {
+      setLoading(true);
       const response = await api.changeProphylaxiStatus(data);
-      // Check if the request was successful (status code 2xx)
       if (response) {
-        console.log("Prophylaxi Status changed successfully");
+        setNewStatus(response.status.status);
         setLoading(false);
         dispatch(getRenderData(new Date().toString()));
+        toast.success("Changement de statut de la prophylaxie réussi !");
+        setOpenModal(false);
       } else {
-        // Handle non-successful responses (status code other than 2xx)
+        toast.error("Échec de modification du statut de la prophylaxie.");
         console.error(
           `Failed to change prophylaxi status. Status: ${response.status}`
         );
@@ -60,9 +63,13 @@ const ProphylaxiForm = ({ data }) => {
     } catch (error) {
       // Handle any other errors that may occur during the request
       console.error("An error occurred:", error);
+      toast.error("Échec de modification du statut de la prophylaxie.");
       setLoading(false);
     }
   };
+  useEffect(() => {
+    setNewStatus(data.status);
+  }, [data.status]);
   return (
     <Card
       className="batiment-form"
@@ -72,12 +79,14 @@ const ProphylaxiForm = ({ data }) => {
         paddingBottom: 0.5,
       }}
     >
+      <Toaster gutter={8} position="bottom-right" reverseOrder={false} />
       {openModal && (
         <ConfirmationModal
           open={openModal}
           setOpen={setOpenModal}
           onSubmit={ChangeProphylaxiStatus}
-          data={{ id: data?.id, status: data?.status }}
+          loading={loading}
+          data={{ id: data?.id, status: newStatus }}
           message={"Êtes-vous sûr de vouloir envoyer ces données ?"}
         />
       )}
@@ -93,19 +102,15 @@ const ProphylaxiForm = ({ data }) => {
         <Chip
           size="small"
           color={
-            data?.status == 1
-              ? "success"
-              : data?.status == 0
-              ? "info"
-              : "warning"
+            newStatus == 1 ? "success" : newStatus == 0 ? "info" : "warning"
           }
           sx={{
             color: "#fff !important",
           }}
           label={
-            data?.status == 1
+            newStatus == 1
               ? "Exécuté"
-              : data?.status == 0
+              : newStatus == 0
               ? "En Programme"
               : "En cours"
           }
@@ -118,14 +123,14 @@ const ProphylaxiForm = ({ data }) => {
             setOpenModal(true);
           }}
         >
-          {data?.status == 2 ? "Terminer" : "Commencer"}
+          {newStatus == 2 ? "Terminer" : "Commencer"}
         </Button>
       </Stack>
       <Accordion
         sx={{
           boxShadow: "none",
         }}
-        disabled={data?.status === 0}
+        disabled={newStatus === 0}
       >
         <AccordionSummary
           expandIcon={<ExpandMore />}
@@ -232,7 +237,7 @@ const ProphylaxiForm = ({ data }) => {
               </Alert>
             </Grid>
           </Grid>
-          {data?.status == 2 && <NewProphylaxis data={data} />}
+          {newStatus == 2 && <NewProphylaxis data={data} />}
         </Box>
       </Accordion>
     </Card>

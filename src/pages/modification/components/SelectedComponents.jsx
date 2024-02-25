@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { getRenderData } from "../../../slices/SiteData";
 import UseFetchData from "../../../hooks/UseFetchData";
 import { getLotId } from "../../../slices/LeftBar";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 export default function SelectedComponents({
@@ -20,7 +20,6 @@ export default function SelectedComponents({
   siteId,
   setIsReform,
 }) {
-  console.log(lotTitlesData);
   const dispatch = useDispatch();
   const handleChange = (event) => {
     setLotId(event.target.value);
@@ -36,55 +35,63 @@ export default function SelectedComponents({
   );
   const { data, loading, error } = UseFetchData(sitesTitlesApiUrl, "GET");
   return (
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={6}>
+        <FormControl fullWidth variant="standard" sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-standard-label">
+            {loading ? "chargement..." : "Sélectionnez un Site"}
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={siteId}
+            disabled={loading}
+            onChange={(e) => {
+              setSiteId(e.target.value);
+            }}
+            label="Age"
+          >
+            <MenuItem value=""></MenuItem>
+            {data &&
+              data?.map((site) => {
+                return (
+                  <MenuItem key={site.id} value={site.id}>
+                    {site.name}
+                  </MenuItem>
+                );
+              })}
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <FormControl fullWidth variant="standard" sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-standard-label">
+            {lotTitlesLoading ? "chargement..." : "Sélectionnez un LOT"}
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={lotId}
+            disabled={lotTitlesLoading}
+            onChange={handleChange}
+            label="Age"
+          >
+            <MenuItem value=""></MenuItem>
+            {lotTitlesData &&
+              lotTitlesData?.map((title) => {
+                return (
+                  <MenuItem key={title.id} value={title.id}>
+                    {title.batiment} ({title.code})
+                  </MenuItem>
+                );
+              })}
+          </Select>
+        </FormControl>
+      </Grid>
+    </Grid>
+  );
+  return (
     <div style={{ display: "flex" }}>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
-        <InputLabel id="demo-simple-select-standard-label">
-          {loading ? "chargement..." : "Sélectionnez un Site"}
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={siteId}
-          disabled={loading}
-          onChange={(e) => {
-            setSiteId(e.target.value);
-          }}
-          label="Age"
-        >
-          <MenuItem value=""></MenuItem>
-          {data &&
-            data?.map((site) => {
-              return (
-                <MenuItem key={site.id} value={site.id}>
-                  {site.name}
-                </MenuItem>
-              );
-            })}
-        </Select>
-      </FormControl>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
-        <InputLabel id="demo-simple-select-standard-label">
-          {lotTitlesLoading ? "chargement..." : "Sélectionnez un LOT"}
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={lotId}
-          disabled={lotTitlesLoading}
-          onChange={handleChange}
-          label="Age"
-        >
-          <MenuItem value=""></MenuItem>
-          {lotTitlesData &&
-            lotTitlesData?.map((title) => {
-              return (
-                <MenuItem key={title.id} value={title.id}>
-                  {title.batiment} ({title.code})
-                </MenuItem>
-              );
-            })}
-        </Select>
-      </FormControl>
       {dataLoading && (
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <CircularProgress fourColor size={25} />

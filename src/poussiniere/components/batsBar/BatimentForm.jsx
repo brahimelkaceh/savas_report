@@ -19,15 +19,14 @@ import {
 } from "@mui/material";
 import { useData } from "../../context/DataProvider";
 import Constats from "../../../components/report-pouss-form/Constats";
+import api from "../../../api/api";
+import toast, { Toaster } from "react-hot-toast";
 let base_url = "https://farmdriver.savas.ma/api/";
 const BatimentForm = ({ siteId, batimentId, nextSend }) => {
-  console.log("closed alt", nextSend?.closeAlt);
   const dispatch = useDispatch();
   const { data } = useData();
   const [open, setOpen] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const validationSchema = Yup.object().shape({
     mort: Yup.number()
       .typeError("Le nombre de mortalités doit être une valeur positive.")
@@ -93,7 +92,6 @@ const BatimentForm = ({ siteId, batimentId, nextSend }) => {
     validationSchema: validationSchema, // pass the Yup schema here
     onSubmit: (values) => {
       values.batiment = batimentId;
-      console.log("poussiniere", values);
       CreateReports(formik.values);
     },
   });
@@ -101,27 +99,15 @@ const BatimentForm = ({ siteId, batimentId, nextSend }) => {
   const CreateReports = async (data) => {
     try {
       setLoading(true);
-      const accessToken = JSON.parse(localStorage.getItem("authTokens")).access;
 
-      const response = await fetch(`${base_url}add-pouss-report/`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (response.ok) {
-        dispatch(getRenderData(new Date().toISOString()));
+      const response = await api.createPoussReport(data);
+      if (response.response) {
         formik.handleReset();
-        setShowAlert(true);
         setLoading(false);
-
-        setError(false);
-        // setId("");
+        dispatch(getRenderData(new Date().toISOString()));
+        toast.success("Les données ont été enregistrées avec succès !");
       } else {
-        setError(
+        toast.error(
           "Veuillez réessayer, une erreur est survenue lors de la création le rapport."
         );
         console.log("something went wrong");
@@ -129,13 +115,10 @@ const BatimentForm = ({ siteId, batimentId, nextSend }) => {
       // You can add additional logic here based on the response if needed
     } catch (error) {
       console.error(error);
-      setError(
+      toast.error(
         "Veuillez réessayer, une erreur est survenue lors de la création le rapport."
-      ); // Handle the error as needed, you may want to show an error message to the user
+      );
     } finally {
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 35000);
       setLoading(false);
       // Code that will run whether there was an error or not
     }
@@ -163,6 +146,7 @@ const BatimentForm = ({ siteId, batimentId, nextSend }) => {
   }, [siteId]);
   return (
     <div className="batiment-form">
+      <Toaster gutter={8} position="bottom-right" reverseOrder={false} />
       {open && (
         <ReportModal
           open={open}
@@ -208,29 +192,6 @@ const BatimentForm = ({ siteId, batimentId, nextSend }) => {
           {loading ? "En cours..." : "Enregistrer"}
         </Button>
       </form>
-      {showAlert && (
-        <Alert
-          sx={{
-            my: 1,
-          }}
-          variant="filled"
-          severity="success"
-        >
-          Les données ont été enregistrées avec succès !
-        </Alert>
-      )}
-      {error && (
-        <Alert
-          severity="error"
-          variant="filled"
-          onClose={() => setError(false)}
-          sx={{
-            my: 1,
-          }}
-        >
-          {error}
-        </Alert>
-      )}
       {loading && <LinearProgress size={20} />}
     </div>
   );

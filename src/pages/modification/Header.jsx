@@ -5,11 +5,22 @@ let base_url = "https://farmdriver.savas.ma/api/";
 import "./style.css";
 import UseFetchData from "../../hooks/UseFetchData";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
   Box,
   Button,
+  Card,
   CircularProgress,
+  Divider,
+  Grid,
   IconButton,
+  LinearProgress,
+  ListItemText,
   Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { getRefreshData, getRenderData } from "../../slices/SiteData";
 import { getBatimentName } from "../../slices/SiteData";
@@ -17,6 +28,8 @@ import SelectedComponents from "./components/SelectedComponents";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Loader from "../../components/loader/Loader";
+import { ArrowDownward } from "@mui/icons-material";
+import { BsEye } from "react-icons/bs";
 function Header({ dataLoading, setIsReform }) {
   const dispatch = useDispatch();
   const [lotId, setLotId] = useState("");
@@ -68,176 +81,218 @@ function Header({ dataLoading, setIsReform }) {
       </div>
     );
   }
-
   return (
-    <div className="modification-table-header">
-      <IconButton
-        color="primary"
-        onClick={() => setShow(!show)}
-        sx={{
-          position: "absolute",
-          top: "-5px",
-          left: "-1%",
-          transform: "translateY(-10px , 1%)",
-        }}
-      >
-        {show ? <VisibilityOffIcon /> : <VisibilityIcon />}
-      </IconButton>
-      <div className="header-lot-container">
-        {show && (
-          <>
-            <div className="content-box slide-in-blurred-right">
-              <div className="header-content">
-                <p>Site :</p>{" "}
-                {lotTitlesLoading ? (
-                  <span className="loading-text">Loading...</span>
-                ) : (
-                  <span>
-                    {lotIdentificationData?.site_name
-                      ? lotIdentificationData?.site_name
-                      : "--"}
-                  </span>
-                )}
-              </div>
-              <div className="header-content">
-                <p>Bâtiment :</p>
-                {lotTitlesLoading ? (
-                  <span className="loading-text">Loading...</span>
-                ) : (
-                  <span>
-                    {lotIdentificationData?.batiment
-                      ? lotIdentificationData?.batiment
-                      : "--"}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="content-box slide-in-blurred-right ">
-              <div className="header-content">
-                <p>Souche :</p>
-                {lotTitlesLoading ? (
-                  <span className="loading-text">Loading...</span>
-                ) : (
-                  <span>
-                    {lotIdentificationData?.souche
-                      ? lotIdentificationData?.souche
-                      : "--"}
-                  </span>
-                )}
-              </div>
-              <div className="header-content">
-                <p>Date naissance :</p>{" "}
-                {lotTitlesLoading ? (
-                  <span className="loading-text">Loading...</span>
-                ) : (
-                  <span>
-                    {lotIdentificationData?.birth_date
-                      ? lotIdentificationData?.birth_date
-                      : "--"}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="content-box slide-in-blurred-right">
-              <div className="header-content">
-                <p>Age Actuel :</p>
-                {lotTitlesLoading ? (
-                  <span className="loading-text">Loading...</span>
-                ) : (
-                  <span>
-                    {lotIdentificationData?.curr_age
-                      ? lotIdentificationData?.curr_age
-                      : "--"}
-                  </span>
-                )}
-              </div>
-              <div className="header-content">
-                <p>Effectif Départ :</p>
-                {lotTitlesLoading ? (
-                  <span className="loading-text">Loading...</span>
-                ) : (
-                  <span>
-                    {lotIdentificationData?.effectifD
-                      ? lotIdentificationData?.effectifD
-                      : "--"}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="content-box slide-in-blurred-right">
-              <div className="header-content">
-                <p>Transfert :</p>
-                {lotTitlesLoading ? (
-                  <span className="loading-text">Loading...</span>
-                ) : (
-                  <span>
-                    {lotIdentificationData?.birth_mep
-                      ? lotIdentificationData?.birth_mep
-                      : "--"}
-                  </span>
-                )}
-              </div>
-              <div className="header-content">
-                <p>Code lot :</p>
-                {lotTitlesLoading ? (
-                  <span className="loading-text">Loading...</span>
-                ) : (
-                  <span>
-                    {lotIdentificationData?.lot
-                      ? lotIdentificationData?.lot
-                      : "--"}
-                  </span>
-                )}
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-
-      <IconButton
-        color="primary"
-        onClick={() => setOpen(!open)}
-        sx={{
-          position: "absolute",
-          top: open ? "45%" : "65%",
-          left: "-1%",
-          // transform: open
-          //   ? "translateY(-30% , -60%)"
-          //   : "translateY(-70% , -40%)",
-          transform: "translateY(-30% , -40%)",
-        }}
-      >
-        {open ? <VisibilityOffIcon /> : <VisibilityIcon />}
-      </IconButton>
-      <div className="header-lot-container">
-        {open && (
-          <>
-            <SelectedComponents
-              lotTitlesLoading={lotTitlesLoading}
-              lotTitlesData={prodLot}
-              setLotId={setLotId}
-              lotId={lotId}
-              setSiteId={setSiteId}
-              siteId={siteId}
-              dataLoading={dataLoading}
-              setIsReform={setIsReform}
-            />
-
-            <Button
-              variant="contained"
-              disabled={!lotId}
-              className="fetch-btn"
-              onClick={() => {
-                dispatch(getLotId(lotId));
-                dispatch(getRefreshData(new Date().toString()));
-              }}
-            >
-              Afficher les donnees
-            </Button>
-          </>
-        )}
-      </div>
-    </div>
+    <Card sx={{ my: 1 }}>
+      <Accordion defaultExpanded>
+        <AccordionSummary
+          expandIcon={<BsEye />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        ></AccordionSummary>
+        <Divider />
+        <AccordionDetails>
+          <Grid container spacing={1}>
+            <Grid item container spacing={1} xs={12} color={"success"}>
+              <Grid item xs={12} md={6} lg={3}>
+                <Alert
+                  sx={{
+                    py: 0,
+                  }}
+                  severity="info"
+                  icon={false}
+                >
+                  <Stack flexDirection={"row"} alignItems={"end"}>
+                    <Typography variant="caption" color="text.secondary">
+                      Site :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={"bold"}
+                      color="error"
+                    >
+                      {lotTitlesLoading
+                        ? "..."
+                        : lotIdentificationData?.site_name
+                        ? lotIdentificationData?.site_name
+                        : "--"}
+                    </Typography>
+                  </Stack>
+                  <Stack flexDirection={"row"} alignItems={"end"}>
+                    <Typography variant="caption" color="text.secondary">
+                      Bâtiment :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={"bold"}
+                      color="error"
+                    >
+                      {lotTitlesLoading
+                        ? "..."
+                        : lotIdentificationData?.batiment
+                        ? lotIdentificationData?.batiment
+                        : "--"}
+                    </Typography>
+                  </Stack>
+                </Alert>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <Alert
+                  sx={{
+                    py: 0,
+                  }}
+                  severity="info"
+                  icon={false}
+                >
+                  <Stack flexDirection={"row"} alignItems={"end"}>
+                    <Typography variant="caption" color="text.secondary">
+                      Souche :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={"bold"}
+                      color="error"
+                    >
+                      {lotTitlesLoading
+                        ? "..."
+                        : lotIdentificationData?.souche
+                        ? lotIdentificationData?.souche
+                        : "--"}
+                    </Typography>
+                  </Stack>
+                  <Stack flexDirection={"row"} alignItems={"end"}>
+                    <Typography variant="caption" color="text.secondary">
+                      Date naissance :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={"bold"}
+                      color="error"
+                    >
+                      {lotTitlesLoading
+                        ? "..."
+                        : lotIdentificationData?.birth_date
+                        ? lotIdentificationData?.birth_date
+                        : "--"}
+                    </Typography>
+                  </Stack>
+                </Alert>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <Alert
+                  sx={{
+                    py: 0,
+                  }}
+                  severity="info"
+                  icon={false}
+                >
+                  <Stack flexDirection={"row"} alignItems={"end"}>
+                    <Typography variant="caption" color="text.secondary">
+                      Age Actuel :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={"bold"}
+                      color="error"
+                    >
+                      {lotTitlesLoading
+                        ? "..."
+                        : lotIdentificationData?.curr_age
+                        ? lotIdentificationData?.curr_age
+                        : "--"}
+                    </Typography>
+                  </Stack>
+                  <Stack flexDirection={"row"} alignItems={"end"}>
+                    <Typography variant="caption" color="text.secondary">
+                      Effectif Départ :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={"bold"}
+                      color="error"
+                    >
+                      {lotTitlesLoading
+                        ? "..."
+                        : lotIdentificationData?.effectifD
+                        ? lotIdentificationData?.effectifD
+                        : "--"}
+                    </Typography>
+                  </Stack>
+                </Alert>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <Alert
+                  sx={{
+                    py: 0,
+                  }}
+                  severity="info"
+                  icon={false}
+                >
+                  <Stack flexDirection={"row"} alignItems={"end"}>
+                    <Typography variant="caption" color="text.secondary">
+                      Transfert :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={"bold"}
+                      color="error"
+                    >
+                      {lotTitlesLoading
+                        ? "..."
+                        : lotIdentificationData?.birth_mep
+                        ? lotIdentificationData?.birth_mep
+                        : "--"}
+                    </Typography>
+                  </Stack>
+                  <Stack flexDirection={"row"} alignItems={"end"}>
+                    <Typography variant="caption" color="text.secondary">
+                      Code lot :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={"bold"}
+                      color="error"
+                    >
+                      {lotTitlesLoading
+                        ? "..."
+                        : lotIdentificationData?.lot
+                        ? lotIdentificationData?.lot
+                        : "--"}
+                    </Typography>
+                  </Stack>
+                </Alert>
+              </Grid>
+            </Grid>
+            <Grid item container spacing={2} alignItems="flex-end" xs={12}>
+              <Grid item lg={5} md={6} xs={12}>
+                <SelectedComponents
+                  lotTitlesLoading={lotTitlesLoading}
+                  lotTitlesData={prodLot}
+                  setLotId={setLotId}
+                  lotId={lotId}
+                  setSiteId={setSiteId}
+                  siteId={siteId}
+                  dataLoading={dataLoading}
+                  setIsReform={setIsReform}
+                />
+              </Grid>
+              <Grid item lg={3} md={3} xs={12}>
+                <Button
+                  variant="contained"
+                  disabled={!lotId}
+                  onClick={() => {
+                    dispatch(getLotId(lotId));
+                    dispatch(getRefreshData(new Date().toString()));
+                  }}
+                >
+                  Afficher les donnees
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </AccordionDetails>
+      </Accordion>
+      {dataLoading && <LinearProgress />}
+    </Card>
   );
 }
 

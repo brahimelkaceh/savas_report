@@ -59,6 +59,7 @@ const HomogPvChart = ({ data, show }) => {
       // load={load.bind(this)}
       primaryYAxis={{
         title: "Homogénéité (%)",
+        labelFormat: "{value}%",
         rangePadding: "None",
         minimum: 0,
         maximum: 100,
@@ -114,6 +115,7 @@ const HomogPvChart = ({ data, show }) => {
           name="yAxisC"
           opposedPosition={true}
           title="Poids corporel(g)"
+          labelFormat="{value}g"
           titleStyle={{
             textAlignment: "Center",
             size: "12px",

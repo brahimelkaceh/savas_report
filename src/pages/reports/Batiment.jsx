@@ -14,6 +14,7 @@ function Batiment({ batiments, siteId }) {
   const { dispatch } = useData();
   const [nextSendData, setNextSendData] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const getBatData = async (id) => {
     try {
       setLoading(true);

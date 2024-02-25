@@ -21,6 +21,7 @@ import {
   SplineAreaSeries,
   AreaSeries,
   ColumnSeries,
+  Logarithmic,
 } from "@syncfusion/ej2-react-charts";
 import { Browser } from "@syncfusion/ej2-base";
 
@@ -40,16 +41,16 @@ const MortChart = ({ data, show }) => {
       primaryXAxis={{
         labelIntersectAction: Browser.isDevice ? "None" : "Trim",
         labelRotation: Browser.isDevice ? -45 : 0,
-        valueType: "Double",
         title: "",
-        rangePadding: "Round",
         interval: 5,
         majorGridLines: { width: 1 },
         majorTickLines: { width: 1 },
         rangePadding: "None",
+        valueType: "Double",
       }}
       primaryYAxis={{
         title: "∑ % Mortalité PD",
+        labelFormat: `{value}%`,
         // rangePadding: "None",
         opposedPosition: true,
         minimum: null,
@@ -97,6 +98,7 @@ const MortChart = ({ data, show }) => {
           SplineAreaSeries,
           AreaSeries,
           ColumnSeries,
+          Logarithmic,
         ]}
       />
       <AxesDirective>
@@ -104,7 +106,6 @@ const MortChart = ({ data, show }) => {
           rowIndex={0}
           name="yAxisB"
           opposedPosition={true}
-          title=""
           titleStyle={{
             textAlignment: "Center",
             size: "12px",
@@ -129,8 +130,10 @@ const MortChart = ({ data, show }) => {
           maximum={0.4}
           interval={0.005}
           visible={show}
+          labelFormat="n2"
         ></AxisDirective>
         <AxisDirective
+          valueType="Double"
           rowIndex={0}
           name="yAxisC"
           opposedPosition={false}
@@ -151,6 +154,7 @@ const MortChart = ({ data, show }) => {
           minimum={null}
           maximum={null}
           interval={null}
+          // labelFormat={"p1"}
         ></AxisDirective>
         <AxisDirective
           rowIndex={0}
@@ -181,7 +185,7 @@ const MortChart = ({ data, show }) => {
       </AxesDirective>
       <SeriesCollectionDirective>
         <SeriesDirective
-          dataSource={data?.reel}
+          dataSource={data?.reel / 100}
           xName="age"
           yName={"mortSem"}
           name={show ? "% Mortalité / Semaine" : " "}

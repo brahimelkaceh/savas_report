@@ -30,7 +30,7 @@ function FormHeader({ nextReport, lot_code, loading }) {
         }}
       >
         <h4 style={{ display: "inline" }}> Rapport de : </h4>
-        {loading ? " loading..." : reportDate}
+        {loading ? " en cours..." : reportDate}
       </Alert>
       <Alert
         icon={false}
@@ -41,7 +41,7 @@ function FormHeader({ nextReport, lot_code, loading }) {
       >
         <h4 style={{ display: "inline" }}>Code lot :</h4>
 
-        {loading ? "loading..." : codeLot}
+        {loading ? "en cours..." : codeLot}
       </Alert>
     </Stack>
   );

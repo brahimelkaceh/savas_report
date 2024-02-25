@@ -1,8 +1,20 @@
-import React, { useMemo, useState } from "react";
+import React, { forwardRef, useMemo, useState } from "react";
 import ConsoChart from "../../../modification/charts/ConsoChart";
 import UseFetchData from "../../../../hooks/UseFetchData";
 import Loader from "../../../../components/loader/Loader";
-import { Box, Card, IconButton, Modal, Stack, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  Card,
+  Dialog,
+  IconButton,
+  Modal,
+  Slide,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import CloseIcon from "@mui/icons-material/Close";
 let base_url = "https://farmdriver.savas.ma/api/";
@@ -17,6 +29,9 @@ const style = {
   boxShadow: 24,
   p: 3,
 };
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const ConsomationChart = ({ id, title }) => {
   const [fullScreen, setFullScreen] = useState(false);
 
@@ -30,6 +45,28 @@ const ConsomationChart = ({ id, title }) => {
     setFullScreen(false);
   };
   if (fullScreen) {
+    return (
+      <Dialog
+        fullScreen
+        open={fullScreen}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar color="primary" sx={{ position: "relative", marginBottom: 2 }}>
+          <Toolbar>
+            <Typography variant="caption">{title}</Typography>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Consommation (Aliment & Eau)
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              fermer
+            </Button>
+          </Toolbar>
+        </AppBar>
+        {error ? <p>error</p> : <ConsoChart data={data} show={fullScreen} />}
+        {loading && <Loader />}
+      </Dialog>
+    );
     return (
       <Modal
         open={fullScreen}

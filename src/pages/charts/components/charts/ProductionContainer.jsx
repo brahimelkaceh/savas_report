@@ -1,12 +1,24 @@
-import React, { useMemo, useState } from "react";
+import React, { forwardRef, useMemo, useState } from "react";
 import ProdChart from "../../../modification/charts/ProdChart";
 import UseFetchData from "../../../../hooks/UseFetchData";
 import Loader from "../../../../components/loader/Loader";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import { Box, Card, Modal, Stack, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  Card,
+  Dialog,
+  Modal,
+  Slide,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
+import { Close } from "@mui/icons-material";
 let base_url = "https://farmdriver.savas.ma/api/";
 const style = {
   position: "absolute",
@@ -19,6 +31,9 @@ const style = {
   p: 3,
   // zIndex: 10000,
 };
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const ProductionContainer = ({ id, title }) => {
   const [fullScreen, setFullScreen] = useState(false);
 
@@ -32,52 +47,26 @@ const ProductionContainer = ({ id, title }) => {
   };
   if (fullScreen) {
     return (
-      <Modal
+      <Dialog
+        fullScreen
         open={fullScreen}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className=""
         onClose={handleClose}
+        TransitionComponent={Transition}
       >
-        <Box sx={style} className="confirm-modal modal " id="chartDiv">
-          <Stack
-            flexDirection={"row"}
-            justifyContent={"center"}
-            gap={2}
-            alignItems={"center"}
-          >
-            <Typography color="primary" variant="h6">
+        <AppBar color="primary" sx={{ position: "relative", marginBottom: 2 }}>
+          <Toolbar>
+            <Typography variant="caption">{title}</Typography>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Production œufs
             </Typography>
-            <Typography color="error" variant="caption">
-              {title}
-            </Typography>{" "}
-          </Stack>
-          <IconButton
-            sx={{
-              margin: 0,
-              position: "absolute",
-              top: "0%",
-              left: "100%",
-              transform: "translate(-100%, -0%)",
-              backgroundColor: "#f44336",
-              color: "#e3f2fd",
-              borderRadius: 0,
-              borderBottomLeftRadius: 4,
-            }}
-            size="small"
-            disableFocusRipple={true}
-            disableRipple={true}
-            onClick={() => {
-              setFullScreen(!fullScreen);
-            }}
-          >
-            <CloseIcon></CloseIcon>
-          </IconButton>
-          {error ? <p>error</p> : <ProdChart data={data} show={fullScreen} />}
-          {loading && <Loader />}
-        </Box>
-      </Modal>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              fermer
+            </Button>
+          </Toolbar>
+        </AppBar>
+        {error ? <p>error</p> : <ProdChart data={data} show={fullScreen} />}
+        {loading && <Loader />}
+      </Dialog>
     );
   }
   return (

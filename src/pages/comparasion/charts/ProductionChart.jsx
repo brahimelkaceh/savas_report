@@ -44,7 +44,7 @@ const ProductionChart = ({ code, i, show }) => {
         title: "Ponte %",
         rangePadding: "None",
         minimum: 0,
-        maximum: 100,
+        maximum: 110,
         interval: 10,
         lineStyle: { width: 0 },
         majorTickLines: { width: 1 },

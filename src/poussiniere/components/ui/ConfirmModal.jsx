@@ -5,6 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { LoadingButton } from "@mui/lab";
 
 export default function ConfirmationModal({
   setOpen,
@@ -12,35 +13,35 @@ export default function ConfirmationModal({
   message,
   onSubmit,
   data,
+  loading,
 }) {
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <React.Fragment>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{message}</DialogTitle>
-        <DialogContent></DialogContent>
         <DialogActions>
-          <Button variant="outlined" color="error" onClick={handleClose}>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => setOpen(false)}
+          >
             Annuler
           </Button>
-          <Button
+          <LoadingButton
+            loading={loading}
+            loadingPosition="start"
             onClick={() => {
               onSubmit(data);
-              handleClose();
             }}
-            autoFocus
-            variant="contained"
+            variant="outlined"
           >
             Accepter
-          </Button>
+          </LoadingButton>
         </DialogActions>
       </Dialog>
     </React.Fragment>

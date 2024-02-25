@@ -135,11 +135,13 @@ const TableDetailModal = ({ open, setOpen, age, lotId }) => {
                     <Typography variant="subtitle1">{d.coloration}</Typography>
                   </Stack>
                 </TableCell>
-                <TableCell align="center">{d.coquille}</TableCell>
+                <TableCell align="center">{d.coquille ?? "--"}</TableCell>
                 <TableCell align="center">{d.dj}</TableCell>
                 <TableCell align="center">{d.blancs}</TableCell>
                 <TableCell align="center">{d.casse}</TableCell>
-                <TableCell align="center">{d.observation ?? "--"}</TableCell>
+                <TableCell align="center">
+                  {d.observation != "NULL" ? d.observation : "--"}
+                </TableCell>
               </TableRow>
             );
           })}

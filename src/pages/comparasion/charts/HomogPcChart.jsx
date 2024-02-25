@@ -22,7 +22,7 @@ import {
 } from "@syncfusion/ej2-react-charts";
 import { Browser } from "@syncfusion/ej2-base";
 
-const HomogPcChart = ({ code, i }) => {
+const HomogPcChart = ({ code, i, show }) => {
   const onChartLoad = (args) => {
     let chart = document.getElementById(`chart${i}`);
     chart.setAttribute("title", "");
@@ -55,6 +55,7 @@ const HomogPcChart = ({ code, i }) => {
       }}
       load={load.bind(this)}
       primaryYAxis={{
+        labelFormat: "{value}%",
         title: "Homogénéité (%)",
         rangePadding: "None",
         minimum: 0,
@@ -71,10 +72,10 @@ const HomogPcChart = ({ code, i }) => {
         },
       }}
       chartArea={{ border: { width: 0 } }}
-      tooltip={{ enable: true }}
+      tooltip={{ enable: true, shared: true }}
       legendSettings={{ enableHighlight: true }}
       width={Browser.isDevice ? "100%" : "100%"}
-      title={`Poids corporel & Homogénéité ${code.lot} `}
+      // title={`Poids corporel & Homogénéité ${code.lot} `}
       titleStyle={{
         textAlignment: "Center",
         size: "12px",
@@ -106,12 +107,40 @@ const HomogPcChart = ({ code, i }) => {
             fontWeight: "400",
             color: "#00668c",
           }}
-          majorGridLines={lines}
-          minorTickLines={lines}
-          lineStyle={lines}
+          majorGridLines={{ width: show ? 3 : 1 }}
+          minorTickLines={{ width: 1 }}
+          lineStyle={{
+            width: 1,
+          }}
           minimum={0}
           maximum={2500}
-          interval={500}
+          interval={250}
+          labelFormat="{value}g"
+        ></AxisDirective>
+        <AxisDirective
+          visible={show}
+          rowIndex={0}
+          name="yAxis2"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "10px",
+            fontWeight: "400",
+            color: "#00668c",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={{ width: 1 }}
+          minorTickLines={{ width: 0 }}
+          majorTickLines={{ width: 0 }}
+          lineStyle={{
+            width: 0,
+          }}
+          minimum={0}
+          maximum={2500}
+          interval={25}
         ></AxisDirective>
       </AxesDirective>
       <SeriesCollectionDirective style={{ background: "red" }}>
@@ -119,9 +148,9 @@ const HomogPcChart = ({ code, i }) => {
           dataSource={code?.homog}
           xName="age"
           yName="homog"
-          name="Homogénéité"
+          name={show ? "Homogénéité" : " "}
           width={1.5}
-          border={{ width: 0.5, color: "rgba(48, 214, 48)" }}
+          border={{ width: show ? 1 : 0.5, color: "rgba(48, 214, 48)" }}
           fill="rgba(48, 214, 48, 0.2)"
           type="SplineArea"
         ></SeriesDirective>
@@ -129,8 +158,8 @@ const HomogPcChart = ({ code, i }) => {
           dataSource={code?.ages}
           xName="age"
           yName="g_pv"
-          name="Guide : Poids corporel"
-          width={2.5}
+          name={show ? "Guide : Poids corporel" : " "}
+          width={show ? 5 : 2.5}
           fill="#7BD3EA"
           opacity={0.5}
           type="Line"
@@ -140,8 +169,8 @@ const HomogPcChart = ({ code, i }) => {
           dataSource={code?.pv}
           xName="age"
           yName="pv"
-          name="Poids corporel"
-          width={1.5}
+          name={show ? "Poids corporel" : " "}
+          width={show ? 3 : 1.5}
           fill="#00668c"
           type="Line"
           yAxisName="yAxis1"
@@ -152,15 +181,8 @@ const HomogPcChart = ({ code, i }) => {
           xName="age"
           yName="y"
           name=""
-          width={1.5}
-          marker={{
-            visible: false,
-            width: 7,
-            height: 7,
-            shape: "Circle",
-            isFilled: true,
-          }}
           type="Line"
+          yAxisName="yAxis2"
         ></SeriesDirective>
       </SeriesCollectionDirective>
     </ChartComponent>

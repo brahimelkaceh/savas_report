@@ -22,7 +22,7 @@ import {
 } from "@syncfusion/ej2-react-charts";
 import { Browser } from "@syncfusion/ej2-base";
 
-const MortaliteChart = ({ code, i }) => {
+const MortaliteChart = ({ code, i, show }) => {
   const onChartLoad = (args) => {
     let chart = document.getElementById(`chart${i}`);
     chart.setAttribute("title", "");
@@ -55,14 +55,16 @@ const MortaliteChart = ({ code, i }) => {
       }}
       load={load.bind(this)}
       primaryYAxis={{
+        labelFormat: "{value}%",
         title: "Mortalité / Semaine (%)",
         rangePadding: "None",
-        minimum: 0,
-        maximum: 1,
-        interval: 0.1,
+        minimum: null,
+        maximum: null,
+        interval: null,
         lineStyle: { width: 0 },
         majorTickLines: { width: 0 },
         minorTickLines: { width: 0 },
+        majorGridLines: { width: 0 },
         titleStyle: {
           textAlignment: "Center",
           size: "10px",
@@ -71,10 +73,10 @@ const MortaliteChart = ({ code, i }) => {
         },
       }}
       chartArea={{ border: { width: 0 } }}
-      tooltip={{ enable: true }}
+      tooltip={{ enable: true, shared: true }}
       legendSettings={{ enableHighlight: true }}
       width={Browser.isDevice ? "100%" : "100%"}
-      title={`Mortalité ${code.lot} `}
+      // title={`Mortalité ${code.lot} `}
       titleStyle={{
         textAlignment: "Center",
         size: "12px",
@@ -106,12 +108,45 @@ const MortaliteChart = ({ code, i }) => {
             fontWeight: "400",
             color: "#005B41",
           }}
-          majorGridLines={lines}
-          minorTickLines={lines}
-          lineStyle={lines}
+          majorGridLines={{
+            width: show ? 0 : 1,
+          }}
+          minorTickLines={{ width: 1 }}
+          lineStyle={{
+            width: 1,
+          }}
+          minimum={null}
+          maximum={null}
+          interval={null}
+          labelFormat="{value}%"
+        ></AxisDirective>
+
+        <AxisDirective
+          visible={show}
+          rowIndex={0}
+          name="yAxis2"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "10px",
+            fontWeight: "400",
+            color: "transparent",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={{
+            width: show ? 1 : 0,
+          }}
+          minorTickLines={{ width: 0 }}
+          majorTickLines={{ width: 0 }}
+          lineStyle={{
+            width: 0,
+          }}
           minimum={0}
-          maximum={15}
-          interval={3}
+          maximum={100}
+          interval={1.5}
         ></AxisDirective>
       </AxesDirective>
       <SeriesCollectionDirective style={{ background: "red" }}>
@@ -119,8 +154,8 @@ const MortaliteChart = ({ code, i }) => {
           dataSource={code?.mort_sem}
           xName="age"
           yName="mort_sem"
-          name="% Mortalité / Semaine"
-          width={1.5}
+          name={show ? "% Mortalité / Semaine" : " "}
+          width={show ? 3 : 1.5}
           fill="rgba(255, 99, 132)"
           type="Line"
         ></SeriesDirective>
@@ -128,8 +163,8 @@ const MortaliteChart = ({ code, i }) => {
           dataSource={code?.ages}
           xName="age"
           yName="g_mort"
-          name="Guide : % Mortalité / Semaine"
-          width={2.5}
+          name={show ? "Guide : % Mortalité / Semaine" : " "}
+          width={show ? 5 : 2.5}
           fill="rgba(255, 99, 132 , 0.5)"
           type="Line"
         ></SeriesDirective>
@@ -137,8 +172,8 @@ const MortaliteChart = ({ code, i }) => {
           dataSource={code?.mort_cuml}
           xName="age"
           yName="mort_sem"
-          name="∑ % moratilité PD"
-          width={1.5}
+          name={show ? "∑ % moratilité PD" : " "}
+          width={show ? 3 : 1.5}
           fill="#005B41"
           type="Line"
           yAxisName="yAxis1"
@@ -147,8 +182,8 @@ const MortaliteChart = ({ code, i }) => {
           dataSource={code?.ages}
           xName="age"
           yName="g_mortCuml"
-          name="Guide : ∑ % moratilité PD"
-          width={2.5}
+          name={show ? "Guide : ∑ % moratilité PD" : " "}
+          width={show ? 5 : 2.5}
           fill="#005B41"
           opacity={0.3}
           type="Line"
@@ -168,6 +203,8 @@ const MortaliteChart = ({ code, i }) => {
             isFilled: true,
           }}
           type="Line"
+          yAxisName={"yAxis2"}
+          // yAxisName={show ? "yAxis2" : ""}
         ></SeriesDirective>
       </SeriesCollectionDirective>
     </ChartComponent>

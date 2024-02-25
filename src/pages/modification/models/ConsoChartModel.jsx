@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 import { useSelector } from "react-redux";
 
 import Box from "@mui/material/Box";
@@ -7,17 +7,20 @@ import ConsoChart from "../charts/ConsoChart";
 import DownloadBtn from "../components/DownloadBtn";
 import UseFetchData from "../../../hooks/UseFetchData";
 import Loader from "../../../components/loader/Loader";
+import {
+  AppBar,
+  Button,
+  Dialog,
+  DialogContent,
+  Slide,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 let base_url = "https://farmdriver.savas.ma/api/";
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 1200,
-  boxShadow: 24,
-  p: 3,
-};
 
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 export default function ConsoChartModel({
   setOpenConsoChartModel,
   openConsoChartModel,
@@ -34,22 +37,38 @@ export default function ConsoChartModel({
   const handleClose = () => {
     setOpenConsoChartModel(false);
   };
-
   return (
-    <div>
-      <Modal
-        open={openConsoChartModel}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className=""
-        onClose={handleClose}
+    <Dialog
+      fullScreen
+      open={openConsoChartModel}
+      onClose={handleClose}
+      TransitionComponent={Transition}
+    >
+      <AppBar
+        color="transparent"
+        sx={{ position: "relative", marginBottom: 1 }}
       >
-        <Box sx={style} className="confirm-modal modal " id="chartDiv">
-          <DownloadBtn pdfname="consommation" />
-          {error ? <p>error</p> : <ConsoChart data={data} show={true} />}
-          {loading && <Loader />}
-        </Box>
-      </Modal>
-    </div>
+        <Toolbar>
+          <DownloadBtn pdfname={"courbe-de-consommation"} />
+          <Typography
+            sx={{ ml: 2, flex: 1 }}
+            variant="h6"
+            component="div"
+          ></Typography>
+          <Button
+            autoFocus
+            color="error"
+            variant="outlined"
+            onClick={handleClose}
+          >
+            Fermer
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <DialogContent className="modal " id="chartDiv">
+        {error ? <p>error</p> : <ConsoChart data={data} show={true} />}
+        {loading && <Loader />}
+      </DialogContent>
+    </Dialog>
   );
 }

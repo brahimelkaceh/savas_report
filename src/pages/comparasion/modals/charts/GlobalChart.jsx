@@ -65,27 +65,27 @@ const GlobalChart = ({ data, i = 1, param }) => {
 
   switch (param) {
     case 0:
-      title = "Ponte (%)";
+      title = "";
       max = null;
       step = null;
       break;
     case 1:
-      title = "∑ NOPPD";
+      title = "";
       max = null;
       step = 25;
       break;
     case 2:
-      title = "PMO";
+      title = "";
       max = null;
       step = 10;
       break;
     case 3:
-      title = "Blancs";
+      title = "";
       max = 10;
       step = 1;
       break;
     case 4:
-      title = "Declassés";
+      title = "";
       max = 20;
       step = 2;
       break;
