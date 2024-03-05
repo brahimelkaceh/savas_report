@@ -58,7 +58,7 @@ const ChooseColumn = ({
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={visibleChildren[header.parent].includes(
+                        checked={visibleChildren[header.parent]?.includes(
                           child.key
                         )}
                         onChange={() =>

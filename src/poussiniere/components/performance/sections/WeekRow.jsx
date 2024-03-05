@@ -85,20 +85,20 @@ const WeekRow = ({ row, tableHeaders, visibleChildren }) => {
       >
         <td>
           {/* Button for the first column in the main row */}
-          <IconButton
+          {/* <IconButton
             size="small"
             color="success"
             onClick={() => handleDetailButtonClick(dayRow.id)}
           >
             <DownloadIcon />
-          </IconButton>
-          <IconButton
+          </IconButton> */}
+          {/* <IconButton
             size="small"
             color="error"
             onClick={() => handleDetailButtonClick(dayRow.id)}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton
             color="primary"
             size="small"

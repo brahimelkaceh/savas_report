@@ -65,27 +65,27 @@ const GlobalChart = ({ data, i = 1, param }) => {
 
   switch (param) {
     case 0:
-      title = "";
+      title = "Ponte %";
       max = null;
       step = null;
       break;
     case 1:
-      title = "";
+      title = "∑ NOPPD";
       max = null;
       step = 25;
       break;
     case 2:
-      title = "";
+      title = "PMO (g)";
       max = null;
       step = 10;
       break;
     case 3:
-      title = "";
+      title = "Blancs";
       max = 10;
       step = 1;
       break;
     case 4:
-      title = "";
+      title = "Declassés";
       max = 20;
       step = 2;
       break;
@@ -120,7 +120,20 @@ const GlobalChart = ({ data, i = 1, param }) => {
         },
       }}
       chartArea={{ border: { width: 0 } }}
-      tooltip={{ enable: true }}
+      tooltip={{
+        enable: true,
+        shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
+      }}
       legendSettings={{ enableHighlight: true }}
       width={Browser.isDevice ? "100%" : "100%"}
       title={title}

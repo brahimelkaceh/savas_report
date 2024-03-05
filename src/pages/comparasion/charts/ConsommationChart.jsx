@@ -72,7 +72,20 @@ const ConsommationChart = ({ code, i, show }) => {
         },
       }}
       chartArea={{ border: { width: 0 } }}
-      tooltip={{ enable: true }}
+      tooltip={{
+        enable: true,
+        shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
+      }}
       legendSettings={{ enableHighlight: true }}
       width={Browser.isDevice ? "100%" : "100%"}
       // title={`Consommation : ${code.lot} `}

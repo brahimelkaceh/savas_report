@@ -82,15 +82,19 @@ const RangeStepArea = ({ data }) => {
       }}
       chartArea={{ border: { width: 0 } }}
       tooltip={{
+        format: "<b>Sem : ${point.x} - ${point.y}</b>",
         enable: true,
-        shared: false,
-        enableAnimation: false,
-        format: "",
-        header: "",
-        location: "Center",
-        displayMode: "Always",
-        opacity: 0.9,
-        textRender: tooltipRender.bind(this),
+        shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
       }}
       width={Browser.isDevice ? "100%" : "100%"}
       // title="Courbe de Lumiére & Intensité"
@@ -126,7 +130,7 @@ const RangeStepArea = ({ data }) => {
           majorGridLines={{ width: 2 }}
           name="yAxis1"
           labelFormat="{value}"
-          title="Intensité (%)"
+          title="Intensité"
         />
         <AxisDirective
           ajorGridLines={{ width: 0 }}
@@ -150,18 +154,6 @@ const RangeStepArea = ({ data }) => {
           dataSource={data}
           border={{ width: 2 }}
           xName="age"
-          yName="intens_bg"
-          name="intens_bg"
-          marker={{ visible: false }}
-          animation={{ enable: true }}
-          type="StepArea"
-          fill="url(#gradient-hart)"
-        />
-
-        <SeriesDirective
-          dataSource={data}
-          border={{ width: 2 }}
-          xName="age"
           high="lightOn"
           yName="lightDur"
           opacity={0.9}
@@ -169,7 +161,7 @@ const RangeStepArea = ({ data }) => {
           low="lightOff"
           fill="#0174BE"
           animation={{ enable: true }}
-          tooltip={{ enable: true, header: "Light Duration" }}
+          tooltipFormat="Lumiere On : ${point.high}<br/>Lumiere Off : ${point.low}"
           type="RangeStepArea"
         />
         <SeriesDirective
@@ -184,7 +176,7 @@ const RangeStepArea = ({ data }) => {
           low="flashOff"
           animation={{ enable: true }}
           type="RangeStepArea"
-          tooltip={{ enable: true, header: "Flash Duration" }}
+          tooltipFormat="Flash On : ${point.high} <br/> Flash Off : ${point.low}"
         />
 
         <SeriesDirective
@@ -205,7 +197,7 @@ const RangeStepArea = ({ data }) => {
           yAxisName="yAxis1"
           width={4}
           border={{ width: 2 }}
-          tooltip={{ enable: true, header: "Intensity" }}
+          tooltipFormat="Intensité : ${point.y}"
         ></SeriesDirective>
       </SeriesCollectionDirective>
     </ChartComponent>

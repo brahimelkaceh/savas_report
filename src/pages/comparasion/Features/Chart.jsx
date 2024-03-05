@@ -21,8 +21,10 @@ import {
   SplineAreaSeries,
 } from "@syncfusion/ej2-react-charts";
 import { Browser } from "@syncfusion/ej2-base";
+import { params } from "../components/ParamsSelected";
 
 const Chart = ({ data, paramId }) => {
+  console.log(paramId);
   const onChartLoad = (args) => {
     let chart = document.getElementById(`chart`);
     chart.setAttribute("title", "");
@@ -44,7 +46,6 @@ const Chart = ({ data, paramId }) => {
   };
 
   let display;
-  const tooltip = { enable: true, shared: true, location, x: 20, y: 10 };
   return (
     <ChartComponent
       id={`chart`}
@@ -71,7 +72,20 @@ const Chart = ({ data, paramId }) => {
         visible: false, // Set the visible property to false to disable the primaryYAxis
       }}
       chartArea={{ border: { width: 0 } }}
-      tooltip={tooltip}
+      tooltip={{
+        enable: true,
+        shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
+      }}
       legendSettings={{ enableHighlight: true }}
       width={Browser.isDevice ? "100%" : "100%"}
       height={"100%"}
@@ -399,13 +413,16 @@ const Chart = ({ data, paramId }) => {
       <SeriesCollectionDirective>
         {data?.map((d) => {
           display = d?.data?.map((data, i) => {
+            const paramName =
+              params.find((param) => param.id === d.param)?.label || "Unknown";
+            console.log(paramName);
             return (
               <SeriesDirective
                 key={data?.bat}
                 dataSource={data?.data}
                 xName="age"
                 yName={"value"}
-                name={`${data.bat}-${data.site}`}
+                name={`${paramName}-( ${data.bat}-${data.site})`}
                 width={3}
                 marker={{
                   visible: false,

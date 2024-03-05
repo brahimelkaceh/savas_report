@@ -61,7 +61,7 @@ const BatimentForm = ({ siteId, batimentId, nextSend }) => {
         -100,
         "La température intérieure maximale doit être supérieure ou égale à -100."
       ),
-    humidty: Yup.number()
+    humidity: Yup.number()
       .typeError("Humidité doit être un nombre.")
       .max(100, "Humidité doit être inférieure ou égale à 100.")
       .min(0, "Humidité doit être supérieure ou égale à 0."),
@@ -87,7 +87,7 @@ const BatimentForm = ({ siteId, batimentId, nextSend }) => {
       intensite: "",
       intensIsLux: "",
       observation: "",
-      humidty: "",
+      humidity: "",
     },
     validationSchema: validationSchema, // pass the Yup schema here
     onSubmit: (values) => {

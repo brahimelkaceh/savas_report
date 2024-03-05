@@ -19,6 +19,7 @@ export const tableHeaders = [
     class: "ambiance",
     children: [
       { key: "lumiere", title: "Lumiére" },
+      { key: "humidity", title: "Humidité" },
       { key: "flash", title: "Flash" },
       { key: "intensite", title: "intensité" },
       { key: "temperature", title: "Temp °C" },
@@ -84,5 +85,10 @@ export const tableHeaders = [
       { key: "proph_nbr_equipe", title: "Nbr Équipe" },
       { key: "proph_equipe", title: "Équipe" },
     ],
+  },
+  {
+    parent: "Observation",
+    class: "observ-header",
+    children: [{ key: "observ", title: "--" }],
   },
 ];

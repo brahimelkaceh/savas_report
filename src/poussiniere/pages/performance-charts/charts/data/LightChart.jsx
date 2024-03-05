@@ -15,6 +15,7 @@ import {
   AxesDirective,
   AxisDirective,
   SplineAreaSeries,
+  Legend,
 } from "@syncfusion/ej2-react-charts";
 import { Browser } from "@syncfusion/ej2-base";
 
@@ -52,21 +53,10 @@ const LightChart = ({ data, show }) => {
         break;
     }
   };
-  const tooltip = {
-    enable: true,
-    shared: true,
-    enableAnimation: false,
-    format: "<b>Sem : ${point.x} - ${point.y}</b>",
-    displayMode: "Always",
-    opacity: 0.9,
-  };
+
   return (
     <ChartComponent
       id="chart_light"
-      style={{
-        textAlign: "center",
-        height: show ? "600px" : "100% !important",
-      }}
       load={load.bind(this)}
       primaryYAxis={{
         labelFormat: "{value}h",
@@ -77,12 +67,32 @@ const LightChart = ({ data, show }) => {
         interval: 2,
         majorTickLines: { width: 0 },
         majorGridLines: { width: 0 },
+        titleStyle: {
+          textAlignment: "Center",
+          size: "12px",
+          color: "#000",
+          fontWeight: "normal",
+        },
       }}
       chartArea={{ border: { width: 0 } }}
-      tooltip={tooltip}
+      tooltip={{
+        format: "<b>Sem : ${point.x} - ${point.y}</b>",
+        enable: true,
+        shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
+      }}
       width={Browser.isDevice ? "100%" : "100%"}
       height="100%"
-      title="Courbe de Lumiére & Intensité"
+      // title="Courbe de Lumiére & Intensité"
       loaded={onChartLoad.bind(this)}
     >
       <Inject
@@ -95,6 +105,7 @@ const LightChart = ({ data, show }) => {
           Highlight,
           LineSeries,
           SplineAreaSeries,
+          Legend,
         ]}
       />
       <AxesDirective>
@@ -110,6 +121,12 @@ const LightChart = ({ data, show }) => {
           name="yAxis1"
           labelFormat="{value}"
           title="Intensité (%)"
+          titleStyle={{
+            textAlignment: "Center",
+            size: "12px",
+            color: "#000",
+            fontWeight: "normal",
+          }}
         />
         <AxisDirective
           ajorGridLines={{ width: 0 }}
@@ -134,12 +151,10 @@ const LightChart = ({ data, show }) => {
           border={{ width: 2 }}
           xName="age"
           yName="intens_bg"
-          name="intens_bg"
-          marker={{ visible: false }}
+          name=""
           animation={{ enable: true }}
           type="StepArea"
           fill="url(#gradient-hart)"
-          // tooltipFormat="Intensité : ${point.y}"
         />
 
         <SeriesDirective
@@ -149,6 +164,7 @@ const LightChart = ({ data, show }) => {
           high="lightOn"
           yName="lightDur"
           low="lightOff"
+          name={show ? "Lumiére" : " "}
           opacity={0.9}
           fill="#0174BE"
           animation={{ enable: true }}
@@ -161,6 +177,7 @@ const LightChart = ({ data, show }) => {
           xName="age"
           high="flashOn"
           yName="flashDur"
+          name={show ? "Flash" : " "}
           fill="#0174BE"
           opacity={0.8}
           marker={{ visible: false }}
@@ -174,7 +191,7 @@ const LightChart = ({ data, show }) => {
           dataSource={data}
           xName="age"
           yName="intensite"
-          name="intensité"
+          name={show ? "Intensité" : " "}
           opacity={1}
           type="StepLine"
           fill="#F8DE22"

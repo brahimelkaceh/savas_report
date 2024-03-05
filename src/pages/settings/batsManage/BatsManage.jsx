@@ -64,7 +64,7 @@ export default function BatsManage({ siteName }) {
           e.preventDefault();
         }}
       >
-        <p className="title">Déclarer une bâtiment</p>
+        <p className="title">Déclarer un bâtiment</p>
         <label>
           <input
             required

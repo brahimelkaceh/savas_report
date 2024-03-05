@@ -1,9 +1,8 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React, { useMemo, useState } from "react";
-import UseFetchData from "../../../../hooks/UseFetchData";
+import { FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
+import React, { useEffect, useMemo, useState } from "react";
 import ChartOptions from "./ChartOptions";
-
-let base_url = "https://farmdriver.savas.ma/api/";
+import api from "../../../../api/api";
+import toast, { Toaster } from "react-hot-toast";
 
 const Header = ({
   setLotId,
@@ -13,24 +12,56 @@ const Header = ({
   setPersonName,
   personName,
 }) => {
-  const [id, setId] = useState("");
-  const lotTitlesApiUrl = useMemo(
-    () => `${base_url}get-pouss-lots/?site=${id}`,
-    [base_url, id]
-  );
-  const sitesTitlesApiUrl = useMemo(
-    () => `${base_url}get-pouss-sites/`,
-    [base_url]
-  );
-  const {
-    data: sitesData,
-    loading: sitesLoading,
-    error: sitesErros,
-  } = UseFetchData(sitesTitlesApiUrl, "GET");
+  const [sites, setSites] = useState([]);
+  const [siteId, setSiteId] = useState("");
+  const [lots, setLots] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const { data, loading, error } = UseFetchData(lotTitlesApiUrl, "GET");
+  const fetchPoussLot = async () => {
+    try {
+      setLoading(true);
+      const result = await api.getPoussSites();
+      if (result.status === 200) {
+        setSites(result?.data);
+      } else {
+        toast.error("Échec de récupération les sites; Veuillez réessayer.");
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      toast.error("Échec de récupération les sites; Veuillez réessayer.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchPoussLot();
+  }, []);
+
+  const fetchLotData = async (id) => {
+    try {
+      if (!id) {
+        return;
+      }
+      setLoading(true);
+      const result = await api.getPoussLotSelect(id);
+      if (result.status === 200) {
+        setLots(result.data);
+      } else {
+        toast.error("Échec de récupération les lots; Veuillez réessayer.");
+      }
+    } catch (error) {
+      toast.error("Échec de récupération les lots; Veuillez réessayer.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchLotData(siteId);
+  }, [siteId]);
+
   const filterTitles = (id) => {
-    const filterTitle = data.filter((title) => title.id === id);
+    const filterTitle = lots.filter((title) => title.id === id);
     setTitle(filterTitle[0].code);
   };
   const handleChange = (event) => {
@@ -39,61 +70,68 @@ const Header = ({
   };
 
   return (
-    <div className="chart-header-container">
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }} controled>
-        <InputLabel id="demo-simple-select-standard-label">
-          Sélectionnez un Site
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={id}
-          disabled={sitesLoading}
-          onChange={(e) => {
-            setId(e.target.value);
-          }}
-          label="Age"
-        >
-          <MenuItem value=""></MenuItem>
-          {sitesData &&
-            sitesData?.map((site) => {
-              return (
-                <MenuItem key={site.id} value={site.id}>
-                  {site.name}
-                </MenuItem>
-              );
-            })}{" "}
-        </Select>
-      </FormControl>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }} controled>
-        <InputLabel id="demo-simple-select-standard-label">
-          Sélectionnez un LOT
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={lotId}
-          disabled={loading}
-          onChange={handleChange}
-          label="Age"
-        >
-          <MenuItem value=""></MenuItem>
-          {data &&
-            data?.map((title) => {
-              return (
-                <MenuItem key={title.id} value={title.id}>
-                  {title.code}
-                </MenuItem>
-              );
-            })}
-        </Select>
-      </FormControl>
-      <ChartOptions
-        checkboxItems={checkboxItems}
-        personName={personName}
-        setPersonName={setPersonName}
-      />
-    </div>
+    <Grid container spacing={1} mb={1}>
+      <Toaster gutter={8} position="bottom-right" reverseOrder={false} />
+      <Grid item xs={6} lg={3}>
+        <FormControl variant="outlined" fullWidth controled={"true"}>
+          <InputLabel id="demo-simple-select-standard-label">
+            Sélectionnez un Site
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={siteId ?? ""}
+            disabled={loading}
+            onChange={(e) => {
+              setSiteId(e.target.value);
+            }}
+            label="Age"
+          >
+            <MenuItem value=""></MenuItem>
+            {sites &&
+              sites?.map((site) => {
+                return (
+                  <MenuItem key={site.id} value={site.id}>
+                    {site.name}
+                  </MenuItem>
+                );
+              })}{" "}
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item xs={6} lg={3}>
+        <FormControl variant="outlined" fullWidth controled={"true"}>
+          <InputLabel id="demo-simple-select-standard-label">
+            Sélectionnez un LOT
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={lotId ?? ""}
+            disabled={loading}
+            onChange={handleChange}
+            label="Age"
+          >
+            <MenuItem value=""></MenuItem>
+            {lots &&
+              lots?.map((title) => {
+                return (
+                  <MenuItem key={title.id} value={title.id}>
+                    {title.code}
+                  </MenuItem>
+                );
+              })}
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item xs={12} lg={6}>
+        <ChartOptions
+          checkboxItems={checkboxItems}
+          personName={personName}
+          setPersonName={setPersonName}
+        />
+      </Grid>
+    </Grid>
   );
 };
 

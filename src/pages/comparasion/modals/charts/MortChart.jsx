@@ -47,7 +47,7 @@ const MortChart = ({ data, param }) => {
   switch (param) {
     case 0:
       title = "Mortalité / Semaine (%)";
-      max = 1;
+      max = null;
       step = 0.05;
       break;
     case 1:
@@ -88,7 +88,20 @@ const MortChart = ({ data, param }) => {
         },
       }}
       chartArea={{ border: { width: 0 } }}
-      tooltip={{ enable: true }}
+      tooltip={{
+        enable: true,
+        shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
+      }}
       legendSettings={{ enableHighlight: true }}
       width={Browser.isDevice ? "100%" : "100%"}
       // height={"100%"}
@@ -131,7 +144,7 @@ const MortChart = ({ data, param }) => {
           minorTickLines={{ width: 1 }}
           lineStyle={{ width: 1 }}
           minimum={0}
-          maximum={100}
+          maximum={110}
           interval={2.5}
         ></AxisDirective>
       </AxesDirective>
@@ -155,7 +168,7 @@ const MortChart = ({ data, param }) => {
                     shape: "Circle",
                     isFilled: true,
                   }}
-                  type="Spline"
+                  type="Line"
                 ></SeriesDirective>
               );
               break;

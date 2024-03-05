@@ -18,7 +18,7 @@ const MenuProps = {
     },
   },
 };
-const params = [
+export const params = [
   { id: 0, label: "Ponte (%)" },
   { id: 1, label: "∑ NOPPD" },
   { id: 2, label: "PMO (g)" },

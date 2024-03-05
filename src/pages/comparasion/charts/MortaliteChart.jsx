@@ -73,7 +73,20 @@ const MortaliteChart = ({ code, i, show }) => {
         },
       }}
       chartArea={{ border: { width: 0 } }}
-      tooltip={{ enable: true, shared: true }}
+      tooltip={{
+        enable: true,
+        shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
+      }}
       legendSettings={{ enableHighlight: true }}
       width={Browser.isDevice ? "100%" : "100%"}
       // title={`Mortalité ${code.lot} `}
@@ -145,7 +158,7 @@ const MortaliteChart = ({ code, i, show }) => {
             width: 0,
           }}
           minimum={0}
-          maximum={100}
+          maximum={110}
           interval={1.5}
         ></AxisDirective>
       </AxesDirective>
@@ -159,7 +172,7 @@ const MortaliteChart = ({ code, i, show }) => {
           fill="rgba(255, 99, 132)"
           type="Line"
         ></SeriesDirective>
-        <SeriesDirective
+        {/* <SeriesDirective
           dataSource={code?.ages}
           xName="age"
           yName="g_mort"
@@ -167,7 +180,8 @@ const MortaliteChart = ({ code, i, show }) => {
           width={show ? 5 : 2.5}
           fill="rgba(255, 99, 132 , 0.5)"
           type="Line"
-        ></SeriesDirective>
+          visible={false}
+        ></SeriesDirective> */}
         <SeriesDirective
           dataSource={code?.mort_cuml}
           xName="age"

@@ -8,6 +8,7 @@ import LightContainer from "../charts/LightContainer";
 import MortaliteContainer from "../charts/MortaliteContainer";
 import ConsommationContainer from "../charts/ConsommationContainer";
 import IcContainer from "../charts/IcContainer";
+import { Card, Divider, Grid } from "@mui/material";
 
 const Container = () => {
   const [seletctedValue, setSelectedValue] = React.useState(2);
@@ -50,14 +51,19 @@ const Container = () => {
 
   const displaySelectedItems = () => {
     return personName.map((itemName) => (
-      <div className="chart-box" key={itemName}>
+      <Grid xs={12} md={6} lg={4} item key={itemName}>
         {checkboxItems[itemName]?.component}
-      </div>
+      </Grid>
     ));
   };
 
   return (
-    <div className="charts-container">
+    <Card
+      sx={{
+        m: 1,
+        p: 1,
+      }}
+    >
       <Header
         setLotId={setLotId}
         lotId={lotId}
@@ -66,24 +72,16 @@ const Container = () => {
         setPersonName={setPersonName}
         checkboxItems={checkboxItems}
       />
-      <div className="chart-body-container">
-        <div
-          className="charts-box-container"
-          style={{
-            display: "grid",
-            gridTemplateColumns: seletctedValue === 1 ? "1fr" : "1fr 1fr 1fr",
-            gridTemplateRows: "0fr 1fr",
-            gap: "5px",
-          }}
-        >
-          {personName?.length > 0 ? (
-            displaySelectedItems()
-          ) : (
-            <p>veuillez choisir une courbe !!</p>
-          )}
-        </div>
-      </div>
-    </div>
+      <Divider
+        variant="middle"
+        sx={{
+          mb: 1,
+        }}
+      />
+      <Grid container spacing={2}>
+        {personName?.length > 0 ? displaySelectedItems() : <p></p>}
+      </Grid>
+    </Card>
   );
 };
 

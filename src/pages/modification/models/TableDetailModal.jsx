@@ -66,7 +66,7 @@ const TableDetailModal = ({ open, setOpen, age, lotId }) => {
       keepMounted
       onClose={handleClose}
       aria-describedby="alert-dialog-slide-description"
-      maxWidth={"xl"}
+      maxWidth={"xxl"}
       p={1}
     >
       <Stack
@@ -86,16 +86,33 @@ const TableDetailModal = ({ open, setOpen, age, lotId }) => {
         <TableHead>
           <TableRow
             sx={{
-              backgroundColor: "#ffc000",
+              backgroundColor: "#eee",
             }}
           >
             <TableCell align="center">Date</TableCell>
-            <TableCell align="center">Jour</TableCell>
             <TableCell align="center">Coloration</TableCell>
             <TableCell align="center">Coquille</TableCell>
             <TableCell align="center">Double jaune</TableCell>
-            <TableCell align="center">blancs</TableCell>
-            <TableCell align="center">Cassé</TableCell>
+            <TableCell align="center">
+              <TableRow>
+                <TableCell colSpan={3} align="center">
+                  Déclassés
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell align="center">blancs</TableCell>
+                <TableCell align="center">Cassé</TableCell>
+                <TableCell align="center">
+                  <Typography color="text.primary" variant="subtitle2">
+                    Liquide kg
+                  </Typography>
+                  <Typography color="text.secondary" variant="caption">
+                    Nombre
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableCell>
+
             <TableCell align="center">Observation</TableCell>
           </TableRow>
         </TableHead>
@@ -103,8 +120,14 @@ const TableDetailModal = ({ open, setOpen, age, lotId }) => {
           {data?.map((d, i) => {
             return (
               <TableRow hover key={i}>
-                <TableCell align="center">{d.date}</TableCell>
-                <TableCell align="center">{d.day}</TableCell>
+                <TableCell align="center">
+                  <Typography color="text.primary" variant="subtitle2">
+                    {d.date}
+                  </Typography>
+                  <Typography color="text.secondary" variant="caption">
+                    {d.day}
+                  </Typography>
+                </TableCell>
                 <TableCell align="center">
                   <Stack direction="row" spacing={0} alignItems={"center"}>
                     <Box
@@ -137,8 +160,18 @@ const TableDetailModal = ({ open, setOpen, age, lotId }) => {
                 </TableCell>
                 <TableCell align="center">{d.coquille ?? "--"}</TableCell>
                 <TableCell align="center">{d.dj}</TableCell>
-                <TableCell align="center">{d.blancs}</TableCell>
-                <TableCell align="center">{d.casse}</TableCell>
+                <TableCell colSpan={0}>
+                  <TableCell align="center">{d.blancs}</TableCell>
+                  <TableCell align="center">{d.casse}</TableCell>
+                  <TableCell align="center">
+                    <Typography color="text.primary" variant="subtitle2">
+                      {d.liquide_kg}
+                    </Typography>
+                    <Typography color="text.secondary" variant="caption">
+                      {d.liquide_egg}
+                    </Typography>
+                  </TableCell>
+                </TableCell>
                 <TableCell align="center">
                   {d.observation != "NULL" ? d.observation : "--"}
                 </TableCell>

@@ -80,7 +80,6 @@ function DataTable({ setLoading, loading, isReform }) {
   const handleWeekPdfClick = async (id, age) => {
     try {
       setPdfLoading(true);
-      setPdfError(null);
       await api.productionWeekPdf(id, age);
       toast.success("PDF téléchargé avec succès !");
     } catch (error) {

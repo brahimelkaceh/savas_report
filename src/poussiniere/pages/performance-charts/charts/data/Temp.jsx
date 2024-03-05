@@ -24,10 +24,7 @@ import { Browser } from "@syncfusion/ej2-base";
 export const color1 = ["#F9D422"];
 export const color2 = ["#F28F3F"];
 export const color3 = ["#E94F53"];
-const SAMPLE_CSS = `
-    .control-fluid {
-        padding: 0px !important;
-    }`;
+
 const TempChart = ({ data, show }) => {
   const onChartLoad = (args) => {
     let chart = document.getElementById("chart_temp");
@@ -46,14 +43,13 @@ const TempChart = ({ data, show }) => {
   return (
     <ChartComponent
       id="chart_temp"
-      style={{ textAlign: "center", height: show ? "600px" : "100%" }}
       highlightMode="Point"
       highlightPattern="DiagonalForward"
       primaryXAxis={{
         valueType: "Category",
-        majorGridLines: { width: 0 },
-        majorTickLines: { width: 0 },
-        minorTickLines: { width: 0 },
+        majorGridLines: { width: 1 },
+        majorTickLines: { width: 1 },
+        minorTickLines: { width: 1 },
       }}
       primaryYAxis={{
         lineStyle: { width: 0 },
@@ -61,7 +57,7 @@ const TempChart = ({ data, show }) => {
         minorTickLines: { width: 0 },
         labelFormat: "{value}°C",
       }}
-      title="Temperature"
+      title=""
       loaded={onChartLoad.bind(this)}
       load={load.bind(this)}
       chartArea={{ border: { width: 0 } }}
@@ -92,7 +88,7 @@ const TempChart = ({ data, show }) => {
           high="tempMax"
           low="tempMin"
           type="RangeColumn"
-          animation={{ enable: false }}
+          animation={{ enable: true }}
           pointColorMapping="color"
           cornerRadius={{
             topLeft: 10,

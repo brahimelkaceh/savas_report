@@ -23,13 +23,13 @@ export default function ChartSelected({ setCourbeId }) {
   return (
     <FormControl fullWidth sx={{ m: 1 }}>
       <InputLabel id="demo-simple-select-label">
-        Sélectionnez un Courbe
+        Sélectionnez une courbe
       </InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={chart}
-        label="Sélectionnez un Courbe"
+        label="Sélectionnez une courbe"
         onChange={handleChange}
       >
         {charts?.map((chart) => (

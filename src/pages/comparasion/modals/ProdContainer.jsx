@@ -23,7 +23,7 @@ import Slide from "@mui/material/Slide";
 
 const params = [
   { id: 0, label: "Ponte (%)" },
-  { id: 1, label: "	∑ NOPPD" },
+  { id: 1, label: "∑ NOPPD" },
   { id: 2, label: "PMO (g)" },
   { id: 3, label: "Blancs" },
   { id: 4, label: "Declassés" },
@@ -73,7 +73,7 @@ const ProdContainer = ({ data, onClose, open }) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={param}
-                label="Sélectionnez un Courbe"
+                label="Sélectionnez une courbe"
                 onChange={handleChange}
                 fullWidth
               >

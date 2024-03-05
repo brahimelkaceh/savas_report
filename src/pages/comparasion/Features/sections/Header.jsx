@@ -43,7 +43,7 @@ const Header = ({
         param={param}
         setParamId={setParamId}
       />
-      <LotList lot={lot} onDeleteItem={handleDeleteItem} />
+      {/* <LotList lot={lot} onDeleteItem={handleDeleteItem} /> */}
     </div>
   );
 };

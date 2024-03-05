@@ -1,6 +1,19 @@
-import React, { useMemo, useState } from "react";
+import React, { forwardRef, useMemo, useState } from "react";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
-import { Box, IconButton, Modal, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  Card,
+  Dialog,
+  IconButton,
+  LinearProgress,
+  Modal,
+  Slide,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import CloseIcon from "@mui/icons-material/Close";
 import MortChart from "../../../../pages/modification/charts/ConsoChart";
@@ -9,16 +22,9 @@ import Loader from "../../../../components/loader/Loader";
 import TempChart from "./data/Temp";
 import LightChart from "./data/LightChart";
 let base_url = "https://farmdriver.savas.ma/api/";
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "90%",
-  height: "80%",
-  boxShadow: 24,
-  p: 3,
-};
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const LightContainer = ({ id, title }) => {
   const [fullScreen, setFullScreen] = useState(false);
@@ -28,103 +34,70 @@ const LightContainer = ({ id, title }) => {
     [base_url, id]
   );
   const { data, loading, error } = UseFetchData(ApiUrl, "GET", id);
-  console.log(data);
   const handleClose = () => {
     setFullScreen(false);
   };
   if (fullScreen) {
     return (
-      <Modal
+      <Dialog
+        fullScreen
         open={fullScreen}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className=""
         onClose={handleClose}
+        TransitionComponent={Transition}
       >
-        <Box sx={style} className="confirm-modal modal " id="chartDiv">
-          <Typography
-            color="primary"
-            sx={{
-              margin: 0,
-              position: "absolute",
-              top: "2%",
-              left: "75%",
-              transform: "translate(-0%, -0%)",
-              fontSize: "14px",
-              fontWeight: "bold",
-            }}
-          >
-            {title}
-          </Typography>
-          <IconButton
-            sx={{
-              margin: 0,
-              position: "absolute",
-              top: "0%",
-              left: "100%",
-              transform: "translate(-100%, -0%)",
-              backgroundColor: "#f44336",
-              color: "#e3f2fd",
-              borderRadius: 0,
-              borderBottomLeftRadius: 4,
-            }}
-            size="small"
-            disableFocusRipple={true}
-            disableRipple={true}
-            onClick={() => {
-              setFullScreen(!fullScreen);
-            }}
-          >
-            <CloseIcon></CloseIcon>
-          </IconButton>
-          {error ? <p>error</p> : <LightChart data={data} show={fullScreen} />}
-
-          {loading && <Loader />}
-        </Box>
-      </Modal>
+        {loading && <LinearProgress color="warning" variant="query" />}
+        <AppBar color="primary" sx={{ position: "relative", marginBottom: 2 }}>
+          <Toolbar>
+            <Typography variant="caption">{title}</Typography>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Courbe de Lumiére & Intensité
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              fermer
+            </Button>
+          </Toolbar>
+        </AppBar>
+        {data?.length && <LightChart data={data} show={fullScreen} />}
+      </Dialog>
     );
   }
   return (
-    <div
-      className="chart-box"
+    <Card
       style={{
-        height: "300px",
+        height: "36vh",
+        paddingBottom: 30,
       }}
     >
-      <Typography
-        color="primary"
-        sx={{
-          margin: 0,
-          position: "absolute",
-          top: "2%",
-          left: "1%",
-          transform: "translate(-0%, -0%)",
-          fontSize: "10px",
-        }}
+      {loading && <LinearProgress />}
+      <Stack
+        flexDirection={"row"}
+        justifyContent={"space-between"}
+        gap={2}
+        alignItems={"center"}
       >
-        {title}
-      </Typography>
-      <IconButton
-        color="primary"
-        sx={{
-          margin: 0,
-          position: "absolute",
-          top: "100%",
-          left: "100%",
-          transform: "translate(-100%, -100%)",
-          zIndex: 10,
-        }}
-        onClick={() => {
-          setFullScreen(!fullScreen);
-        }}
-      >
-        <FullscreenIcon></FullscreenIcon>
-      </IconButton>
-      {data && <LightChart data={data} show={fullScreen} />}
-
-      {loading && <Loader />}
-    </div>
+        <Typography color="error" variant="caption">
+          {title}
+        </Typography>{" "}
+        <Typography color="primary" variant="body2">
+          Courbe de Lumiére & Intensité
+        </Typography>
+        <IconButton
+          color="primary"
+          onClick={() => {
+            setFullScreen(!fullScreen);
+          }}
+        >
+          <FullscreenIcon></FullscreenIcon>
+        </IconButton>
+      </Stack>
+      {data?.length ? (
+        <LightChart data={data} show={fullScreen} />
+      ) : (
+        "pas des donnees"
+      )}
+    </Card>
   );
 };
 
 export default LightContainer;
+// {data && <LightChart data={data} show={fullScreen} />}

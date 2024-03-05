@@ -67,7 +67,7 @@ const MortContainer = ({ data, onClose, open }) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={param}
-                label="Sélectionnez un Courbe"
+                label="Sélectionnez une courbe"
                 onChange={handleChange}
                 fullWidth
               >

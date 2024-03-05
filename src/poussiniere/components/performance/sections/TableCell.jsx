@@ -6,29 +6,29 @@ import NormeToolTip from "../components/NormeToolTip";
 
 const TableCell = ({ value, isWeek }) => {
   if (typeof value === "object") {
-    if (value.period) {
+    if (value?.period) {
       return (
         <td>
           <CustomizedTooltips
-            period={value.period}
-            starts={value.starts_at}
-            ends={value.ends_at}
+            period={value?.period}
+            starts={value?.starts_at}
+            ends={value?.ends_at}
           />
         </td>
       );
-    } else if (value.reel) {
+    } else if (value?.reel) {
       return (
         <td>
           <NormeToolTip
-            reel={value.reel}
-            ecart={value.ecart}
-            guide={value.guide}
-            color={value.color}
+            reel={value?.reel}
+            ecart={value?.ecart}
+            guide={value?.guide}
+            color={value?.color}
           />
         </td>
       );
     } else {
-      return (
+      return value ? (
         <td>
           <span
             style={{
@@ -37,7 +37,7 @@ const TableCell = ({ value, isWeek }) => {
               color: "rgb(82, 114, 242)",
             }}
           >
-            {value.min}°
+            {value?.min}°
           </span>
           /
           <span
@@ -47,9 +47,11 @@ const TableCell = ({ value, isWeek }) => {
               color: "rgb(199, 0, 57)",
             }}
           >
-            {value.max}°
+            {value?.max}°
           </span>
         </td>
+      ) : (
+        <td>--</td>
       );
     }
   } else if (typeof value === "string") {

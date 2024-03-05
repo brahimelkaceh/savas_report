@@ -43,7 +43,7 @@ const BatimentSelection = ({
             );
           })}
         </select>
-        <span> Selectionez une bâtiment*</span>
+        <span> Selectionez un bâtiment*</span>
       </label>
     </div>
   );

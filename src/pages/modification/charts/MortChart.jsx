@@ -74,7 +74,20 @@ const MortChart = ({ data, show }) => {
         },
       }}
       chartArea={{ border: { width: 0 } }}
-      tooltip={{ enable: true, shared: true }}
+      tooltip={{
+        enable: true,
+        shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
+      }}
       width={Browser.isDevice ? "100%" : "100%"}
       // height="100%"
       // title={`Mortalité`}
@@ -185,7 +198,7 @@ const MortChart = ({ data, show }) => {
       </AxesDirective>
       <SeriesCollectionDirective>
         <SeriesDirective
-          dataSource={data?.reel / 100}
+          dataSource={data?.reel}
           xName="age"
           yName={"mortSem"}
           name={show ? "% Mortalité / Semaine" : " "}
@@ -254,7 +267,7 @@ const MortChart = ({ data, show }) => {
           xName="age"
           yName={"mortCuml"}
           name={show ? "∑ % Mortalité PD" : " "}
-          width={3.5}
+          width={show ? 5.5 : 2.5}
           marker={{
             visible: false,
             width: 7,
@@ -270,7 +283,7 @@ const MortChart = ({ data, show }) => {
           xName="age"
           yName={"gMortCuml"}
           name={show ? "Guide: ∑ % Mortalité PD" : " "}
-          width={5.5}
+          width={show ? 5.5 : 2.5}
           marker={{
             visible: false,
             width: 7,

@@ -25,6 +25,7 @@ import { Fragment, useEffect, useMemo, useState } from "react";
 import { useFormik } from "formik";
 import UseFetchData from "../../../hooks/UseFetchData";
 import api from "../api/Index";
+import toast, { Toaster } from "react-hot-toast";
 let base_url = "https://farmdriver.savas.ma/api/";
 
 export default function EditLot({ lot, setRefetchData, site }) {
@@ -137,35 +138,27 @@ export default function EditLot({ lot, setRefetchData, site }) {
       setError("");
 
       const response = await api.UpdateLot(data);
-
-      if (response.ok) {
+      if (response === 200) {
         setLoading(false);
         setOpenSuccessModal(false);
-        setError("");
         formik.handleReset();
         setRefetchData(new Date().getMilliseconds());
         handleClose();
+        toast.success("La modification de ce lot a été effectuée avec succès.");
       } else {
         setLoading(false);
-        setError(
-          "Veuillez réessayer, une erreur est survenue lors de la création ce lot."
-        );
-      }
-      if (response.error) {
-        throw new Error(
-          "Un bâtiment ne peut en aucun cas comporter plus d'un lot."
+        toast.error(
+          "Veuillez réessayer, une erreur est survenue lors de la modification ce lot."
         );
       }
     } catch (err) {
-      console.log(err);
-      setError(
-        "Veuillez réessayer, une erreur est survenue lors de la création ce lot."
+      toast.error(
+        "Veuillez réessayer, une erreur est survenue lors de la modification ce lot."
       );
     } finally {
       setLoading(false);
       setTimeout(() => {
         setOpenSuccessModal(false);
-        setError("");
       }, 3500);
     }
   };
@@ -188,6 +181,8 @@ export default function EditLot({ lot, setRefetchData, site }) {
   }, [lotData]);
   return (
     <Fragment>
+      <Toaster gutter={8} position="bottom-right" reverseOrder={false} />
+
       <IconButton color="warning" onClick={handleClickOpen}>
         <SvgIcon>
           <Edit />

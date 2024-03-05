@@ -74,9 +74,22 @@ const HomogPvChart = ({ reel, guide, show }) => {
       // height={Browser.isDevice ? "100%" : "100%"}
       legendSettings={{ enableHighlight: true }}
       chartArea={{ border: { width: 0 } }}
-      title="Poids corporel & Homogénéité"
+      // title="Poids corporel & Homogénéité"
       loaded={onChartLoad.bind(this)}
-      tooltip={{ enable: true }}
+      tooltip={{
+        enable: true,
+        shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
+      }}
     >
       <Inject
         services={[
@@ -107,6 +120,7 @@ const HomogPvChart = ({ reel, guide, show }) => {
           minimum={0}
           maximum={2500}
           interval={500}
+          labelFormat="{value}g"
           // visible={show}
         ></AxisDirective>
         <AxisDirective
@@ -132,6 +146,7 @@ const HomogPvChart = ({ reel, guide, show }) => {
           maximum={100}
           interval={2.5}
           visible={show}
+          labelFormat="{value}%"
         ></AxisDirective>
       </AxesDirective>
       <SeriesCollectionDirective>
@@ -168,6 +183,7 @@ const HomogPvChart = ({ reel, guide, show }) => {
           yAxisName="yAxis1"
           fill="#5FBDFF"
           border={{ width: 1 }}
+          tooltipFormat="${point.high}~~${point.low}"
         ></SeriesDirective>
         <SeriesDirective
           dataSource={reel}

@@ -19,37 +19,7 @@ import {
   AxisDirective,
 } from "@syncfusion/ej2-react-charts";
 import { Browser } from "@syncfusion/ej2-base";
-export let data1 = [
-  { x: "GBR", y: 27, toolTipMappingName: "Great Britain" },
-  { x: "CHN", y: 26, toolTipMappingName: "China" },
-  { x: "AUS", y: 8, toolTipMappingName: "Australia" },
-  { x: "RUS", y: 19, toolTipMappingName: "Russia" },
-  { x: "GER", y: 17, toolTipMappingName: "Germany" },
-  { x: "UA", y: 2, toolTipMappingName: "Ukraine" },
-  { x: "ES", y: 7, toolTipMappingName: "Spain" },
-  { x: "UZB", y: 4, toolTipMappingName: "Uzbekistan" },
-  { x: "JPN", y: 12, toolTipMappingName: "Japan" },
-  { x: "NL", y: 8, toolTipMappingName: "NetherLand" },
-  { x: "USA", y: 46, toolTipMappingName: "United States" },
-];
-export let data2 = [
-  { x: "GBR", y: 23, toolTipMappingName: "Great Britain" },
-  { x: "CHN", y: 18, toolTipMappingName: "China" },
-  { x: "AUS", y: 11, toolTipMappingName: "Australia" },
-  { x: "RUS", y: 17, toolTipMappingName: "Russia" },
-  { x: "GER", y: 10, toolTipMappingName: "Germany" },
-  { x: "UA", y: 5, toolTipMappingName: "Ukraine" },
-  { x: "ES", y: 4, toolTipMappingName: "Spain" },
-  { x: "UZB", y: 2, toolTipMappingName: "Uzbekistan" },
-  { x: "JPN", y: 8, toolTipMappingName: "Japan" },
-  { x: "NL", y: 7, toolTipMappingName: "NetherLand" },
-  { x: "USA", y: 37, toolTipMappingName: "United States" },
-];
 
-const SAMPLE_CSS = `
-    .control-fluid {
-        padding: 0px !important;
-    }`;
 const MortChart = ({ reel, guide, show }) => {
   const loaded = (args) => {
     let chart = document.getElementById("chart_mort");
@@ -79,31 +49,42 @@ const MortChart = ({ reel, guide, show }) => {
         labelRotation: Browser.isDevice ? -45 : 0,
         valueType: "Category",
         interval: 1,
-        majorGridLines: { width: 0 },
+        majorGridLines: { width: 1 },
         majorTickLines: { width: 1 },
       }}
       primaryYAxis={{
         title: "% Mortalité / Semaine",
         titleStyle: {
           textAlignment: "Center",
-          size: "12px",
-          fontWeight: "bold",
-          color: "#F48FB1",
+          size: "11px",
+          fontWeight: "normal",
         },
         majorTickLines: { width: 0 },
+        majorGridLines: { width: show ? 0 : 1 },
         lineStyle: { width: 1 },
-        maximum: 0.4,
-        interval: 0.05,
+
+        maximum: null,
+        interval: null,
+        labelFormat: "{value}%",
       }}
       chartArea={{ border: { width: 0 } }}
       load={load.bind(this)}
       tooltip={{
         enable: true,
-        header: "<b>% Mortalité</b>",
         shared: true,
+        fill: "#fff",
+        color: "#000",
+        textStyle: {
+          color: "#000",
+        },
+        border: {
+          width: 1,
+          color: "black",
+        },
+        opacity: 0.5,
       }}
       width={Browser.isDevice ? "100%" : "100%"}
-      title="% Mortalité"
+      // title="% Mortalité"
       loaded={loaded.bind(this)}
       titleStyle={{
         textAlignment: "Center",
@@ -131,19 +112,49 @@ const MortChart = ({ reel, guide, show }) => {
           title="∑ % moratilité PD"
           titleStyle={{
             textAlignment: "Center",
-            size: "12px",
-            fontWeight: "bold",
+            size: "11px",
+            fontWeight: "normal",
           }}
           majorGridLines={{ width: 0 }}
           minorTickLines={{ width: 1 }}
           lineStyle={{ width: 1 }}
           minimum={0}
-          maximum={6}
+          maximum={null}
           interval={1}
         ></AxisDirective>
         <AxisDirective
           rowIndex={0}
           name="yAxisA"
+          opposedPosition={true}
+          title=""
+          titleStyle={{
+            textAlignment: "Center",
+            size: "11px",
+            fontWeight: "normal",
+          }}
+          labelStyle={{
+            color: "transparent",
+          }}
+          majorGridLines={{
+            width: 0,
+          }}
+          minorTickLines={{
+            width: 1,
+          }}
+          lineStyle={{
+            width: 0,
+          }}
+          majorTickLines={{
+            width: 0,
+          }}
+          minimum={0}
+          maximum={null}
+          interval={null}
+          // visible={show}
+        ></AxisDirective>
+        <AxisDirective
+          rowIndex={0}
+          name="yAxisB"
           opposedPosition={true}
           title=""
           titleStyle={{
@@ -158,7 +169,7 @@ const MortChart = ({ reel, guide, show }) => {
             width: 1,
           }}
           minorTickLines={{
-            width: 1,
+            width: 0,
           }}
           lineStyle={{
             width: 0,
@@ -167,8 +178,8 @@ const MortChart = ({ reel, guide, show }) => {
             width: 0,
           }}
           minimum={0}
-          maximum={0.4}
-          interval={0.01}
+          maximum={100}
+          interval={1.5}
           visible={show}
         ></AxisDirective>
       </AxesDirective>
@@ -178,7 +189,7 @@ const MortChart = ({ reel, guide, show }) => {
           xName="G_age"
           yName="mort_sem"
           width={2}
-          name="Guide : % Mortalité / Semaine"
+          name={show ? "Guide : % Mortalité / Semaine" : " "}
           type="Column"
           fill="#F48FB1"
         ></SeriesDirective>
@@ -187,27 +198,39 @@ const MortChart = ({ reel, guide, show }) => {
           xName="age"
           columnSpacing={0.1}
           yName="mort_sem"
-          name="% Mortalité / Semaine"
+          name={show ? "% Mortalité / Semaine" : " "}
           fill="#880e4f"
           type="Column"
-          xAxisName="yAxisA"
         />
         <SeriesDirective
           dataSource={reel}
           xName="age"
           yName="mort_cuml"
-          name="∑ Mortalité / PD (%)"
+          name={show ? "∑ Mortalité / PD (%)" : " "}
           type="Line"
+          fill="#79AC78"
+          width={show ? 5 : 2.5}
           yAxisName="yAxis1"
         />
         <SeriesDirective
           dataSource={guide}
           xName="G_age"
-          columnSpacing={0.1}
           yName="G_mortCuml"
-          name="Guide : ∑ % moratilité PD"
+          name={show ? "Guide : ∑ % moratilité PD" : " "}
+          width={show ? 5 : 2.5}
+          fill="#79AC78"
+          opacity={0.5}
           type="Line"
           yAxisName="yAxisA"
+        />
+        <SeriesDirective
+          dataSource={guide}
+          xName="G_age"
+          yName=""
+          name=""
+          opacity={0.5}
+          type="Line"
+          yAxisName="yAxisB"
         />
       </SeriesCollectionDirective>
     </ChartComponent>
